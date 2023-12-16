@@ -1,0 +1,67 @@
+{
+  "name": "frontend",
+  "description": "Slick Telemetry frontend written in typescript with nextjs and vercel",
+  "author": "Slick Telemetry",
+  "license": "GPL-3.0-only",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "next lint",
+    "lint:fix": "eslint src --fix && pnpm format",
+    "lint:strict": "eslint --max-warnings=0 src",
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
+    "prepare": "husky install",
+    "release": "release-it",
+    "release-dry": "release-it --dry-run",
+    "start": "next start",
+    "typecheck": "tsc --pretty --noEmit --incremental false"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-icons": "latest"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "@release-it/conventional-changelog": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "autoprefixer": "latest",
+    "daisyui": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-simple-import-sort": "latest",
+    "eslint-plugin-unused-imports": "latest",
+    "husky": "latest",
+    "lint-staged": "latest",
+    "next-sitemap": "latest",
+    "postcss": "latest",
+    "prettier": "latest",
+    "prettier-plugin-tailwindcss": "latest",
+    "release-it": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --max-warnings=0",
+      "prettier -w"
+    ],
+    "**/*.{json,css,scss,md,webmanifest}": [
+      "prettier -w"
+    ]
+  },
+  "engines": {
+    "node": "21.x"
+  }
+}
