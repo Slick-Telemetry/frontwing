@@ -43,6 +43,7 @@ You can start the server using this command:
 pnpm dev
 ```
 
+csd
 Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 ### Commit Message Convention
