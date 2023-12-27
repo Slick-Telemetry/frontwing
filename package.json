@@ -21,6 +21,8 @@
     "typecheck": "tsc --pretty --noEmit --incremental false"
   },
   "dependencies": {
+    "clsx": "^2.0.0",
+    "jotai": "^2.6.0",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",

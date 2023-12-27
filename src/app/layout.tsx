@@ -17,7 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className='navbar bg-base-100'>
+          <a className='btn btn-ghost text-xl'>Slick Telemetry</a>
+        </div>
+        {children}
+      </body>
     </html>
   );
 }
