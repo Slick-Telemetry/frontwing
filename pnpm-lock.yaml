@@ -32,7 +32,7 @@ devDependencies:
     specifier: latest
     version: 18.4.3
   '@faker-js/faker':
-    specifier: ^8.3.1
+    specifier: latest
     version: 8.3.1
   '@release-it/conventional-changelog':
     specifier: latest
