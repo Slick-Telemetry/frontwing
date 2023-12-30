@@ -19,7 +19,9 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <div className='navbar bg-base-100'>
-          <a className='btn btn-ghost text-xl'>Slick Telemetry</a>
+          <div className='container mx-auto'>
+            <a className='btn btn-ghost text-xl'>Slick Telemetry</a>
+          </div>
         </div>
         {children}
       </body>
