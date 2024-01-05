@@ -23,6 +23,7 @@
   "dependencies": {
     "clsx": "latest",
     "jotai": "latest",
+    "jotai-effect": "^0.2.3",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
