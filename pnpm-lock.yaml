@@ -11,6 +11,9 @@ dependencies:
   jotai:
     specifier: latest
     version: 2.6.1(@types/react@18.2.46)(react@18.2.0)
+  jotai-effect:
+    specifier: ^0.2.3
+    version: 0.2.3(jotai@2.6.1)
   next:
     specifier: latest
     version: 14.0.4(react-dom@18.2.0)(react@18.2.0)
@@ -3515,6 +3518,14 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
     dev: true
+
+  /jotai-effect@0.2.3(jotai@2.6.1):
+    resolution: {integrity: sha512-Ecs40W4Y+SI1EqbvPdoLDvbyic5eMyD5ifJIQrrr+hWz1GEjmijVWyKw6TzmYzO2+++CkYPF+fYsWzsWsR0AAQ==}
+    peerDependencies:
+      jotai: '>=2.4.3'
+    dependencies:
+      jotai: 2.6.1(@types/react@18.2.46)(react@18.2.0)
+    dev: false
 
   /jotai@2.6.1(@types/react@18.2.46)(react@18.2.0):
     resolution: {integrity: sha512-GLQtAnA9iEKRMXnyCjf1azIxfQi5JausX2EI5qSlb59j4i73ZEyV/EXPDEAQj4uQNZYEefi3degv/Pw3+L/Dtg==}
