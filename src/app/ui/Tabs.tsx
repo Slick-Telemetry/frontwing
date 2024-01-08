@@ -37,11 +37,13 @@ export const Tabs = ({ headers, containers }: ITabs) => {
   ));
 
   return (
-    <div className='container mx-auto mt-4 pb-8'>
-      <div role='tablist' className='tabs-boxed tabs my-4'>
-        {TabButtons}
-      </div>
+    <div className='container mx-auto mt-4 pb-24'>
       {TabContainers}
+      <div className='fixed bottom-0 left-0 right-0 mx-auto max-w-screen-md lg:bottom-4'>
+        <div role='tablist' className='tabs-boxed tabs p-4'>
+          {TabButtons}
+        </div>
+      </div>
     </div>
   );
 };
