@@ -68,7 +68,6 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 - **Branches**:
 
   - `main` is the production mainline.
-  - `staging` is the staging line.
   - `dev` is the development line.
 
 - **PR merge strategy on Github**
