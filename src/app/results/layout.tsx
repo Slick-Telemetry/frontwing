@@ -37,7 +37,7 @@ const ResultsNav = () => {
   ];
 
   return (
-    <div className='container navbar mx-auto my-4 rounded-box bg-base-300'>
+    <div className='navbar rounded-box bg-base-300'>
       <h2 className='p-2 text-lg font-bold'>Results:</h2>
       <Dropdown value={seasons[0]} items={seasons} action={() => {}} />
       <Dropdown value={dummyRaces[0]} items={dummyRaces} action={() => {}} />

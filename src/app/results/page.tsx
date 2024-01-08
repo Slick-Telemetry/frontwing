@@ -1,55 +1,22 @@
 'use client';
 
-import { faker } from '@faker-js/faker';
 import { clsx } from 'clsx';
 import { atom, useAtom } from 'jotai';
 
 import { RaceResults } from './RaceResults';
-import { Table } from '../components/Table';
 
-const tabHeaders = ['Races', 'Drivers', 'Constructors'];
-
-const Table1Headings = [
-  faker.database.column(),
-  faker.database.column(),
-  faker.database.column(),
-  faker.database.column(),
+const tabHeaders = [
+  'Race Results',
+  'Drivers Championship',
+  'Constructors Championship',
 ];
-const Table2Headings = [
-  faker.database.column(),
-  faker.database.column(),
-  faker.database.column(),
-  faker.database.column(),
-];
-
 const tabs = [
   <RaceResults key='Race Results' />,
   <div key='Drivers Championship' className='rounded bg-base-100 p-4'>
-    <Table
-      headings={Table1Headings}
-      data={[
-        ...Array(20).fill(
-          Table1Headings.reduce(
-            (obj, value) => ({ ...obj, [value]: faker.lorem.word() }),
-            {},
-          ),
-        ),
-      ]}
-    />
+    Tab 2
   </div>,
   <div key='Constructors Championship' className='rounded bg-base-100 p-4'>
-    <Table
-      headings={Table2Headings}
-      data={[
-        ...Array(10).fill(
-          Table2Headings.reduce(
-            (obj, value) => ({ ...obj, [value]: faker.lorem.word() }),
-            {},
-          ),
-        ),
-      ]}
-    />
-    ,
+    Tab 3
   </div>,
 ];
 const tabView = atom<number>(0);

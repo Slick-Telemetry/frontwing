@@ -23,7 +23,7 @@ const TopThree = () => (
     {TopThreeDummy.map((driver) => (
       <div
         key={driver.name}
-        className='grid grid-cols-2 items-center border-b border-black bg-base-300 px-4 py-2'
+        className='grid grid-cols-2 items-center border-b border-black bg-slate-200 px-4 py-2'
       >
         <div className='flex flex-col'>
           <p>{driver.name}</p>
@@ -37,16 +37,11 @@ const TopThree = () => (
 
 const ResultCard = () => (
   <div className='card overflow-hidden bg-base-100 shadow-xl'>
-    <div className='relative flex min-h-32 items-end p-4 '>
+    <div className='relative flex min-h-32 items-end border-b p-4 '>
       <figure className='absolute inset-0 z-0 bg-gradient-to-tr from-base-100'>
         <Image
-          width={928}
-          height={548}
           className='w-full mix-blend-overlay'
-          loader={() =>
-            'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
-          }
-          src='/shoe.jpg'
+          src='https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
           alt='Shoes'
         />
       </figure>
@@ -72,20 +67,15 @@ const ResultCard = () => (
 );
 
 const WinterTesting = () => (
-  <div className='card relative  min-h-32 justify-center overflow-hidden rounded-2xl p-4'>
+  <div className='relative flex min-h-32 items-center overflow-hidden rounded p-4'>
     <figure className='absolute inset-0 z-0 flex items-center justify-end bg-gradient-to-r from-base-100'>
       <Image
-        width={928}
-        height={548}
         className='w-full mix-blend-overlay'
-        loader={() =>
-          'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
-        }
-        src='/shoe.jpg'
+        src='https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
         alt='Shoes'
       />
     </figure>
-    <div className='relative z-0 flex items-center gap-4'>
+    <div className='relative z-0 flex gap-4'>
       <div>
         <h3>Winter Testing</h3>
         <p>Sakhir, Bahrain</p>
@@ -100,7 +90,7 @@ const WinterTesting = () => (
 export const RaceResults = () => (
   <>
     <WinterTesting />
-    <div className='mt-4 grid gap-4 md:grid-cols-2 2xl:grid-cols-3'>
+    <div className='mt-4 grid grid-cols-2 gap-4'>
       {/* 10 Placeholder Cards */}
       {Array.from(Array(10).keys()).map((item) => (
         <ResultCard key={item} />
