@@ -9,79 +9,45 @@ import { Table } from '../components/Table';
 
 const tabHeaders = ['Races', 'Drivers', 'Constructors'];
 
-const DriverHeadings = [
-  'Position',
-  'Driver',
-  'Constructor',
-  'Points',
-  // Race Starts
-  // Race Finishes
-  // Podiums
+const Table1Headings = [
+  faker.database.column(),
+  faker.database.column(),
+  faker.database.column(),
+  faker.database.column(),
 ];
-const ConstuctorHeadings = [
-  'Position',
-  'Constructor',
-  'Points',
-  'Drivers',
-  // Best Result
-  // DNFs
+const Table2Headings = [
+  faker.database.column(),
+  faker.database.column(),
+  faker.database.column(),
+  faker.database.column(),
 ];
-
-const formatDriver = (key: string, i: number) => {
-  switch (key) {
-    case 'Position':
-      return i + 1;
-    case 'Driver':
-    case 'Constructor':
-      return faker.lorem.word();
-    case 'Points':
-      return faker.number.int(26);
-  }
-};
-const formatConstructor = (key: string, i: number) => {
-  switch (key) {
-    case 'Position':
-      return i + 1;
-    case 'Constructor':
-      return faker.lorem.word();
-    case 'Points':
-      return faker.number.int(51);
-    case 'Drivers':
-      return (
-        <>
-          {faker.lorem.word()} - {faker.number.int(26)}, {faker.lorem.word()} -{' '}
-          {faker.number.int(26)}
-        </>
-      );
-  }
-};
 
 const tabs = [
   <RaceResults key='Race Results' />,
-
   <div key='Drivers Championship' className='rounded bg-base-100 p-4'>
     <Table
-      headings={DriverHeadings}
-      data={Array.from({ length: 20 }, (_v, index) =>
-        DriverHeadings.reduce(
-          (obj, value) => ({ ...obj, [value]: formatDriver(value, index) }),
-          {},
+      headings={Table1Headings}
+      data={[
+        ...Array(20).fill(
+          Table1Headings.reduce(
+            (obj, value) => ({ ...obj, [value]: faker.lorem.word() }),
+            {},
+          ),
         ),
-      )}
+      ]}
     />
   </div>,
   <div key='Constructors Championship' className='rounded bg-base-100 p-4'>
     <Table
-      headings={ConstuctorHeadings}
-      data={Array.from({ length: 20 }, (_v, index) =>
-        ConstuctorHeadings.reduce(
-          (obj, value) => ({
-            ...obj,
-            [value]: formatConstructor(value, index),
-          }),
-          {},
+      headings={Table2Headings}
+      data={[
+        ...Array(10).fill(
+          Table2Headings.reduce(
+            (obj, value) => ({ ...obj, [value]: faker.lorem.word() }),
+            {},
+          ),
         ),
-      )}
+      ]}
     />
     ,
   </div>,
@@ -117,7 +83,7 @@ export default function Page() {
 
   return (
     <main className='min-h-screen'>
-      <div className='container mx-auto mt-4 pb-8'>
+      <div className='container mx-auto my-4'>
         <div role='tablist' className='tabs-boxed tabs my-4'>
           {TabButtons}
         </div>
