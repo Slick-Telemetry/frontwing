@@ -72,7 +72,7 @@ const ResultCard = () => (
 );
 
 const WinterTesting = () => (
-  <div className='card relative min-h-32 justify-center overflow-hidden rounded-2xl p-4'>
+  <div className='card relative  min-h-32 justify-center overflow-hidden rounded-2xl p-4'>
     <figure className='absolute inset-0 z-0 flex items-center justify-end bg-gradient-to-r from-base-100'>
       <Image
         width={928}
@@ -85,7 +85,7 @@ const WinterTesting = () => (
         alt='Shoes'
       />
     </figure>
-    <div className='relative z-0 flex flex-col gap-4 lg:flex-row lg:items-center'>
+    <div className='relative z-0 flex items-center gap-4'>
       <div>
         <h3>Winter Testing</h3>
         <p>Sakhir, Bahrain</p>
@@ -97,57 +97,14 @@ const WinterTesting = () => (
   </div>
 );
 
-// Loading animation
-const shimmer =
-  'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
-
-//   <div className={clsx('card relative min-h-32 justify-center overflow-hidden rounded-2xl p-4', shimmer)}>
-//   <figure className='absolute inset-0 z-0 flex items-center justify-end bg-gradient-to-r from-base-100'>
-//     <Image
-//       width={928}
-//       height={548}
-//       className='w-full mix-blend-overlay'
-//       loader={() =>
-//         'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
-//       }
-//       src='/shoe.jpg'
-//       alt='Shoes'
-//     />
-//   </figure>
-//   <div className='relative z-0 flex flex-col gap-4 lg:flex-row lg:items-center'>
-//     <div>
-//       <h3>Winter Testing</h3>
-//       <p>Sakhir, Bahrain</p>
-//     </div>
-//     <a role='button' className='btn btn-sm'>
-//       Testing Results
-//     </a>
-//   </div>
-// </div>
-const WinterTestingSkeleton = () => (
-  <div className={`${shimmer} relative w-full overflow-hidden md:col-span-4`}>
-    <div className='mb-4 h-8 w-36 rounded-md bg-gray-100' />
-    <div className='rounded-xl bg-gray-100 p-4'>
-      <div className='sm:grid-cols-13 mt-0 grid h-[410px] grid-cols-12 items-end gap-2 rounded-md bg-white p-4 md:gap-4' />
-      <div className='flex items-center pb-2 pt-6'>
-        <div className='h-5 w-5 rounded-full bg-gray-200' />
-        <div className='ml-2 h-4 w-20 rounded-md bg-gray-200' />
-      </div>
+export const RaceResults = () => (
+  <>
+    <WinterTesting />
+    <div className='mt-4 grid gap-4 md:grid-cols-2 2xl:grid-cols-3'>
+      {/* 10 Placeholder Cards */}
+      {Array.from(Array(10).keys()).map((item) => (
+        <ResultCard key={item} />
+      ))}
     </div>
-  </div>
+  </>
 );
-
-export const RaceResults = () => {
-  return (
-    <div className='px-4 lg:px-0'>
-      <WinterTestingSkeleton />
-      <WinterTesting />
-      <div className='mt-4 grid gap-4 md:grid-cols-2 2xl:grid-cols-3'>
-        {/* 10 Placeholder Cards */}
-        {Array.from(Array(10).keys()).map((item) => (
-          <ResultCard key={item} />
-        ))}
-      </div>
-    </div>
-  );
-};
