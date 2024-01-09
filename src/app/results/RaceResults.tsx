@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import Image from 'next/image';
 import { useMemo } from 'react';
 
-import { racesAtom } from '@/atoms/results';
+import { seasonRacesAtom } from '@/atoms/results';
 
 import { ISchedule } from '../lib/utils';
 
@@ -86,7 +86,8 @@ const WinterTesting = ({ data }: { data: ISchedule }) => {
 };
 
 export const RaceSchedule = () => {
-  const [races] = useAtom(racesAtom);
+  const [races] = useAtom(seasonRacesAtom);
+  // console.log('races', races)
 
   const winterTesting = useMemo(
     () => races.find((race) => race.EventFormat === 'testing'),

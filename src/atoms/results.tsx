@@ -4,7 +4,7 @@ import { atomEffect } from 'jotai-effect';
 import { fetchAPI, ISchedule } from '../app/lib/utils';
 
 export const raceAtom = atom('All Races');
-export const racesAtom = atom<ISchedule[]>([]);
+export const seasonRacesAtom = atom<ISchedule[]>([]);
 export const seasonAtom = atom('2023');
 export const seasonsAtom = atom<string[]>([]);
 export const driverAtom = atom('All Drivers');
@@ -14,16 +14,23 @@ export const sessionsAtom = atom<string[]>([]);
 export const telemetryDisableAtom = atom(true);
 export const resultUrlAtom = atom('/results');
 
-export const racesDropdownAtom = atom((get) =>
-  get(racesAtom).map((race) => race.EventName),
-);
+export const raceNamesDropdownAtom = atom((get) => {
+  const data = get(seasonRacesAtom).map((race) => race.EventName);
+  // Add All Races option
+  data.unshift('All Races');
+  return data;
+});
 
 export const fetchSeasons = atomEffect((get, set) => {
-  fetchAPI('seasons').then((data) => set(seasonsAtom, data));
+  if (get(seasonsAtom).length <= 0) {
+    fetchAPI('seasons').then((data) => set(seasonsAtom, data));
+  }
 });
 
 export const fetchRaces = atomEffect((get, set) => {
-  fetchAPI('schedule/' + get(seasonAtom)).then((data) => set(racesAtom, data));
+  fetchAPI('schedule/' + get(seasonAtom)).then((data) => {
+    set(seasonRacesAtom, data);
+  });
 });
 
 export const fetchDriver = atomEffect((get, set) => {
@@ -33,38 +40,47 @@ export const fetchSessions = atomEffect((get, set) => {
   fetchAPI('sessions').then((data) => set(sessionsAtom, data));
 });
 
-export const handleSeasonChangeAtom = atom(null, (get, set, update: string) => {
-  set(seasonAtom, update);
-  set(raceAtom, 'All Races');
-  set(driverAtom, 'All Drivers');
-  set(sessionAtom, 'Race');
-  set(resultUrlAtom, '/results/' + update);
+export const handleSeasonChangeAtom = atom(
+  null,
+  async (get, set, update: string) => {
+    set(seasonAtom, update);
+    set(raceAtom, 'All Races');
+    set(driverAtom, 'All Drivers');
+    set(sessionAtom, 'Race');
+    set(resultUrlAtom, '/results/' + update);
 
-  // Todo: Update RacesAtom
-});
+    return get(resultUrlAtom);
+  },
+);
 
-export const handleRaceChangeAtom = atom(null, (get, set, update: string) => {
-  set(raceAtom, update);
-  set(driverAtom, 'All Drivers');
-  set(resultUrlAtom, '/results/' + get(seasonAtom) + '/' + update);
+export const handleRaceChangeAtom = atom(
+  null,
+  async (get, set, update: string) => {
+    set(raceAtom, update);
+    set(driverAtom, 'All Drivers');
+    set(resultUrlAtom, '/results/' + get(seasonAtom) + '/' + update);
 
-  // Todo: Update DriversAtom
-});
+    return get(resultUrlAtom);
+  },
+);
 
-export const handleDriverChangeAtom = atom(null, (get, set, update: string) => {
-  set(driverAtom, update);
-  set(sessionAtom, 'Race');
-  set(
-    resultUrlAtom,
-    '/results/' + get(seasonAtom) + '/' + get(raceAtom) + '/' + update,
-  );
+export const handleDriverChangeAtom = atom(
+  null,
+  async (get, set, update: string) => {
+    set(driverAtom, update);
+    set(sessionAtom, 'Race');
+    set(
+      resultUrlAtom,
+      '/results/' + get(seasonAtom) + '/' + get(raceAtom) + '/' + update,
+    );
 
-  // Todo: Update SessionsAtom
-});
+    return get(resultUrlAtom);
+  },
+);
 
 export const handleSessionChangeAtom = atom(
   null,
-  (get, set, update: string) => {
+  async (get, set, update: string) => {
     set(sessionAtom, update);
     set(
       resultUrlAtom,
@@ -77,8 +93,14 @@ export const handleSessionChangeAtom = atom(
         '/' +
         update,
     );
+
+    return get(resultUrlAtom);
   },
 );
+
+export const handleResultsAtom = atom(null, (get, set) => {
+  set(seasonRacesAtom, get(seasonRacesAtom));
+});
 
 export const toggleTelemetryDisableAtom = atomEffect((get, set) => {
   // Telemetry is disabled if no race and driver are selected
