@@ -23,7 +23,7 @@ export const Dropdown = ({ value, items, action }: IDropdown) => {
         role='button'
         className='btn btn-ghost btn-sm rounded-btn underline'
       >
-        {value} <BsFillCaretDownFill />
+        {value} {items.length > 0 && <BsFillCaretDownFill />}
       </div>
       <ul
         tabIndex={0}

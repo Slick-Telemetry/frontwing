@@ -82,6 +82,10 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 
 // TODO [cypress](https://www.cypress.io/)
 
+- **Running Cypress**
+
+  - `pnpm run cypress:open`
+
 ## Deployment
 
 // TODO [vercel](https://vercel.com/)

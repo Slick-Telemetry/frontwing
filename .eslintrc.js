@@ -77,6 +77,15 @@ module.exports = {
       },
     ],
     //#endregion  //*======== Import Sort ===========
+
+    // #region   //*========= Cypress files =========
+    '@typescript-eslint/no-namespace': [
+      'error',
+      {
+        allowDeclarations: true,
+      },
+    ],
+    // #endregion   //*========= Cypress files =========
   },
   globals: {
     React: true,

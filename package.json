@@ -18,7 +18,8 @@
     "release": "release-it",
     "release-dry": "release-it --dry-run",
     "start": "next start",
-    "typecheck": "tsc --pretty --noEmit --incremental false"
+    "typecheck": "tsc --pretty --noEmit --incremental false",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "axios": "latest",
@@ -41,6 +42,7 @@
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "autoprefixer": "latest",
+    "cypress": "latest",
     "daisyui": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
