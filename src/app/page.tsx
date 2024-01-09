@@ -12,7 +12,7 @@ export default function Home() {
 }
 
 const Hero = () => (
-  <div className='hero my-16 lg:my-20'>
+  <div className='hero my-16 lg:my-32'>
     <div className='hero-content gap-8  lg:w-4/5 lg:justify-start'>
       <div className='flex flex-col gap-8 '>
         <h1 className='text-5xl font-bold lg:text-7xl'>Slick Telemetry</h1>
