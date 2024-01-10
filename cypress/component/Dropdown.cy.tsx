@@ -1,7 +1,8 @@
-/* eslint-disable simple-import-sort/imports */
+// /* eslint-disable simple-import-sort/imports */
+
+import '@/app/globals.css';
 
 import { Dropdown } from '@/app/ui/Dropdown';
-import '@/app/globals.css';
 
 describe('Dropdown.cy.tsx', () => {
   const initialVal = 'Initial Val';

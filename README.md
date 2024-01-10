@@ -82,6 +82,12 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 
 // TODO [cypress](https://www.cypress.io/)
 
+- **Be aware**
+
+  - Cypress uses a different ts `moduleResolution: node` from Next `bundler`, as a result of the difference the imports don't get formated properly
+  - Appending to top of your test file is the current fix `/* eslint-disable simple-import-sort/imports */`
+  - [Read More](https://github.com/cypress-io/cypress/issues/26308)
+
 - **Running Cypress**
 
   - `pnpm run cypress:open`

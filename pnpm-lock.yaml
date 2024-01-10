@@ -62,7 +62,7 @@ devDependencies:
     specifier: latest
     version: 10.4.16(postcss@8.4.32)
   cypress:
-    specifier: ^13.6.2
+    specifier: latest
     version: 13.6.2
   daisyui:
     specifier: latest
@@ -76,6 +76,9 @@ devDependencies:
   eslint-config-prettier:
     specifier: latest
     version: 9.1.0(eslint@8.56.0)
+  eslint-plugin-cypress:
+    specifier: latest
+    version: 2.15.1(eslint@8.56.0)
   eslint-plugin-simple-import-sort:
     specifier: latest
     version: 10.0.0(eslint@8.56.0)
@@ -2517,6 +2520,15 @@ packages:
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.16.0)(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1)(eslint@8.56.0)
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /eslint-plugin-cypress@2.15.1(eslint@8.56.0):
+    resolution: {integrity: sha512-eLHLWP5Q+I4j2AWepYq0PgFEei9/s5LvjuSqWrxurkg1YZ8ltxdvMNmdSf0drnsNo57CTgYY/NIHHLRSWejR7w==}
+    peerDependencies:
+      eslint: '>= 3.2.1'
+    dependencies:
+      eslint: 8.56.0
+      globals: 13.24.0
     dev: true
 
   /eslint-plugin-import@2.29.1(@typescript-eslint/parser@6.16.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.56.0):
