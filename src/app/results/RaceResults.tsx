@@ -87,7 +87,6 @@ const WinterTesting = ({ data }: { data: ISchedule }) => {
 
 export const RaceSchedule = () => {
   const [races] = useAtom(seasonRacesAtom);
-  // console.log('races', races)
 
   const winterTesting = useMemo(
     () => races.find((race) => race.EventFormat === 'testing'),

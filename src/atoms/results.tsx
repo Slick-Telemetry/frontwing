@@ -1,8 +1,14 @@
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
-import { fetchAPI, ISchedule } from '../app/lib/utils';
+import {
+  fetchAPI,
+  IConstructorStandings,
+  IConstructorStandingsFetch,
+  ISchedule,
+} from '../app/lib/utils';
 
+//
 export const raceAtom = atom('All Races');
 export const seasonRacesAtom = atom<ISchedule[]>([]);
 export const seasonAtom = atom('2023');
@@ -13,7 +19,9 @@ export const sessionAtom = atom('Race');
 export const sessionsAtom = atom<string[]>([]);
 export const telemetryDisableAtom = atom(true);
 export const resultUrlAtom = atom('/results');
+export const constructorStandingsAtom = atom<IConstructorStandings[]>([]);
 
+// Derived Atoms
 export const raceNamesDropdownAtom = atom((get) => {
   const data = get(seasonRacesAtom).map((race) => race.EventName);
   // Add All Races option
@@ -21,6 +29,7 @@ export const raceNamesDropdownAtom = atom((get) => {
   return data;
 });
 
+// Effect Atoms
 export const fetchSeasons = atomEffect((get, set) => {
   if (get(seasonsAtom).length <= 0) {
     fetchAPI('seasons').then((data) => set(seasonsAtom, data));
@@ -40,6 +49,29 @@ export const fetchSessions = atomEffect((get, set) => {
   fetchAPI('sessions').then((data) => set(sessionsAtom, data));
 });
 
+export const fetchStandings = atomEffect((get, set) => {
+  fetchAPI('standings').then((data) => {
+    const constructors = data.constructors.map(
+      (con: IConstructorStandingsFetch) => ({
+        pos: con.position,
+        name: con.Constructor.name,
+        points: con.points,
+        wins: con.wins,
+      }),
+    );
+    set(constructorStandingsAtom, constructors);
+  });
+});
+
+// Telemetry is disabled if no race and driver are selected
+export const toggleTelemetryDisableAtom = atomEffect((get, set) => {
+  set(
+    telemetryDisableAtom,
+    get(raceAtom) === 'All Races' || get(driverAtom) === 'All Drivers',
+  );
+});
+
+// Write only Atoms
 export const handleSeasonChangeAtom = atom(
   null,
   async (get, set, update: string) => {
@@ -100,12 +132,4 @@ export const handleSessionChangeAtom = atom(
 
 export const handleResultsAtom = atom(null, (get, set) => {
   set(seasonRacesAtom, get(seasonRacesAtom));
-});
-
-export const toggleTelemetryDisableAtom = atomEffect((get, set) => {
-  // Telemetry is disabled if no race and driver are selected
-  set(
-    telemetryDisableAtom,
-    get(raceAtom) === 'All Races' || get(driverAtom) === 'All Drivers',
-  );
 });
