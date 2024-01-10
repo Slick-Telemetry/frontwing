@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Dropdown } from './ui/Dropdown';
 import {
+  allSeasonsAtom,
   driverAtom,
   driversAtom,
   fetchDriver,
@@ -22,7 +23,6 @@ import {
   raceNamesDropdownAtom,
   resultUrlAtom,
   seasonAtom,
-  seasonsAtom,
   sessionAtom,
   sessionsAtom,
   telemetryDisableAtom,
@@ -36,7 +36,7 @@ type actionT = {
 const SeasonDropdown = ({ action }: actionT) => {
   const [season] = useAtom(seasonAtom);
   const [, handleSeasonChange] = useAtom(handleSeasonChangeAtom);
-  const [seasons] = useAtom(seasonsAtom);
+  const [seasons] = useAtom(allSeasonsAtom);
 
   const handleAction = (val: string) => {
     handleSeasonChange(val).then((url: string) => {

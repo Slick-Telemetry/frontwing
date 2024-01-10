@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import axios from 'axios';
 
 export const positionEnding = (position: number | string) => {
   // Convert to int
@@ -65,6 +66,7 @@ export interface ISchedule {
   F1ApiSupport: boolean;
 }
 
+// Raw Fetch Format
 export type IConstructorStandingsFetch = {
   [key in 'position' | 'points' | 'wins']: string;
 } & {
@@ -72,6 +74,7 @@ export type IConstructorStandingsFetch = {
     name: string;
   };
 };
+// UI format
 export type IConstructorStandings = {
   [key in 'pos' | 'points' | 'wins' | 'name']: string;
 };
@@ -145,40 +148,48 @@ const dataConfig: IDataConfigs = {
   },
 };
 
-export const fetchAPI = async (endpoint: string) => {
-  const server = document.body.classList.contains('server');
+const serverURL = 'http://0.0.0.0:8081';
+export const fetchAPI = async (
+  endpoint: string,
+  statusCheck: boolean = false,
+) => {
+  const server = statusCheck || document.body.classList.contains('server');
+  // Headers for statusCheck so
+  const options = statusCheck ? { headers: { cache: 'no-store' } } : {};
+
+  // Get dummy data or return false
   const dummy: string[] | ISchedule[] | false =
     dataConfig[
-      endpoint.split('/')[0] as 'seasons' | 'schedule' | 'drivers' | 'sessions'
+      endpoint.split('?')[0] as 'seasons' | 'schedule' | 'drivers' | 'sessions'
     ] || false;
 
+  // If we are not using the server return the dummy data
   if (!server) {
     return dummy;
   } else {
     // Fetch from server
-    // TODO : update to axios
-    const data = await fetch(`http://0.0.0.0:80/${endpoint}`)
+    const data = await axios(`${serverURL}/${endpoint}`, options)
       .then(
         (res) => {
-          if (!res.ok) {
-            return dummy;
+          // Response is not successful
+          if (res.statusText !== 'OK') {
+            throw new Error('Not 2xx response', { cause: res });
           }
-
-          return res.json();
+          // Sucess - parse data
+          return res.data;
         },
-        () => {
-          // console.log('server error');
-
-          return dummy;
+        // Catch initial fetch error
+        (err) => {
+          throw new Error('Server not connecting', { cause: err });
         },
       )
+      // Return parsed data
       .then((data) => data)
+      // Catch errors from above
       .catch(() => {
-        // console.log('catch');
         return dummy;
       });
 
-    // console.log('data', data);
     return data;
   }
 };
