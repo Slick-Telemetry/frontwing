@@ -1,67 +1,42 @@
 import { faker } from '@faker-js/faker';
 
+import { positionEnding } from './utils';
+
 export const DriverHeadings = [
-  'Pos.',
+  'position',
   'Driver',
+  'Constructor',
   'Points',
+  'Wins',
   // Race Starts
   // Race Finishes
   // Podiums
 ];
-export const ConstuctorHeadings = [
-  'Pos.',
-  'Constructor',
-  'Points',
-  'Drivers',
-  // Best Result
-  // DNFs
-];
 
 const formatDriver = (key: string, i: number) => {
   switch (key) {
-    case 'Pos.':
-      return i + 1;
-    case 'Driver':
-      return (
-        <>
-          {faker.lorem.word()}
-          <br />
-          <span className='text-xs' suppressHydrationWarning={true}>
-            {faker.lorem.word()}
-          </span>
-        </>
-      );
-    case 'Points':
-      return faker.number.int(26);
-  }
-};
-const formatConstructor = (key: string, i: number) => {
-  switch (key) {
-    case 'Pos.':
-      return i + 1;
-    case 'Constructor':
+    case 'position':
+      return positionEnding(i + 1);
+    case 'Constructor.name':
       return faker.lorem.word();
-    case 'Points':
-      return faker.number.int(51);
-    case 'Drivers':
-      return (
-        <>
-          {faker.lorem.word()} - {faker.number.int(26)}, {faker.lorem.word()} -{' '}
-          {faker.number.int(26)}
-        </>
-      );
+    // case 'Driver':
+    //   return (
+    //     <>
+    //       {positionEnding(i + 1)}
+    //       {" "}
+    //       {faker.lorem.word()}
+    //       <span className='text-xs md:hidden' suppressHydrationWarning={true}>
+    //         <br />
+    //         {faker.lorem.word()}
+    //       </span>
+    //     </>
+    //   );
+    case 'points':
+      return faker.number.int(26);
+    case 'wins':
+      return faker.number.int(10);
   }
 };
-
-export const constructorsData = Array.from({ length: 20 }, (_v, index) =>
-  ConstuctorHeadings.reduce(
-    (obj, value) => ({
-      ...obj,
-      [value]: formatConstructor(value, index),
-    }),
-    {},
-  ),
-);
 
 export const driverData = Array.from({ length: 20 }, (_v, index) =>
   DriverHeadings.reduce(

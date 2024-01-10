@@ -40,7 +40,11 @@ export default async function RootLayout({
 
   return (
     <html lang='en'>
-      <body className={clsx(inter.className, { server: server })}>
+      <body
+        className={clsx('min-h-screen px-4', inter.className, {
+          server: server,
+        })}
+      >
         <Nav />
         {children}
       </body>

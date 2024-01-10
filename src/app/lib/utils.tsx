@@ -1,5 +1,15 @@
 import { faker } from '@faker-js/faker';
 
+export const positionEnding = (position: number | string) => {
+  // Convert to int
+  position = typeof position === 'string' ? parseInt(position) : position;
+  // Format
+  if ([1, 21].includes(position)) return position + 'st';
+  else if ([2, 22].includes(position)) return position + 'nd';
+  else if ([3, 23].includes(position)) return position + 'rd';
+  else return position + 'th';
+};
+
 /**
  * @description
  * Get all possible seasons/years with results
@@ -55,11 +65,33 @@ export interface ISchedule {
   F1ApiSupport: boolean;
 }
 
+export type IConstructorStandingsFetch = {
+  [key in 'position' | 'points' | 'wins']: string;
+} & {
+  Constructor: {
+    name: string;
+  };
+};
+export type IConstructorStandings = {
+  [key in 'pos' | 'points' | 'wins' | 'name']: string;
+};
+
 interface IDataConfigs {
   seasons: string[];
   schedule: ISchedule[];
   drivers: string[];
   sessions: string[];
+  standings: {
+    // drivers: {
+    //   position: string,
+    //   points: string,
+    //   wins: string,
+    //   Constructor?: {
+    //     name: string,
+    //   }
+    // }[],
+    constructors: IConstructorStandingsFetch[];
+  };
 }
 
 const dataConfig: IDataConfigs = {
@@ -98,6 +130,19 @@ const dataConfig: IDataConfigs = {
     'Drive 5',
   ],
   sessions: ['Practice 1', 'Practice 2', 'Practice 3', 'Qualifying', 'Race'],
+  standings: {
+    // drivers: {
+
+    // },
+    constructors: Array.from(Array(10).keys()).map(() => ({
+      position: faker.number.int(20).toString(),
+      points: faker.number.int(25).toString(),
+      wins: faker.number.int(10).toString(),
+      Constructor: {
+        name: faker.person.middleName(),
+      },
+    })),
+  },
 };
 
 export const fetchAPI = async (endpoint: string) => {
