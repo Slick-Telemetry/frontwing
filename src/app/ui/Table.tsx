@@ -2,10 +2,14 @@
 
 import { Fragment } from 'react';
 
-interface ITable {
-  title?: string;
+export interface IStanding {
   headings: string[];
   data: { [key: string]: React.ReactNode }[];
+}
+
+interface ITable extends IStanding {
+  title?: string;
+  // headings: string[];
 }
 
 export const Table = ({ title, headings, data }: ITable) => {
@@ -14,7 +18,7 @@ export const Table = ({ title, headings, data }: ITable) => {
   const Title = title && <h2 className='text-xl'>{title}</h2>;
 
   return (
-    <>
+    <div className='flex-1 rounded-box bg-base-100 p-4'>
       {Title}
       <div className='overflow-x-auto'>
         <table className='table'>
@@ -45,20 +49,24 @@ export const Table = ({ title, headings, data }: ITable) => {
                     {headings.map(
                       (key) =>
                         row && (
-                          <td key={key} suppressHydrationWarning={true}>
+                          <td
+                            key={key}
+                            suppressHydrationWarning={true}
+                            className='w-fit'
+                          >
                             {row[key]}
                           </td>
                         ),
                     )}
-                    <th>
+                    {/* <th>
                       <button className='btn btn-ghost btn-xs'>details</button>
-                    </th>
+                    </th> */}
                   </tr>
                 </Fragment>
               ))}
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 };
