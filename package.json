@@ -21,9 +21,10 @@
     "typecheck": "tsc --pretty --noEmit --incremental false"
   },
   "dependencies": {
+    "axios": "^1.6.5",
     "clsx": "latest",
     "jotai": "latest",
-    "jotai-effect": "^0.2.3",
+    "jotai-effect": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
