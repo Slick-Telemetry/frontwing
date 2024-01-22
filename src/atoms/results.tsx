@@ -1,15 +1,10 @@
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
-import {
-  fetchAPI,
-  IConstructorStandings,
-  IConstructorStandingsFetch,
-  ISchedule,
-} from '../app/lib/utils';
+import { fetchAPI } from '../app/lib/utils';
 
 export const raceAtom = atom('All Races');
-export const seasonRacesAtom = atom<ISchedule[]>([]);
+export const seasonRacesAtom = atom<ScheduleSchema[]>([]);
 export const seasonAtom = atom('2023');
 export const allSeasonsAtom = atom<string[]>([]);
 export const driverAtom = atom('All Drivers');
@@ -18,7 +13,8 @@ export const sessionAtom = atom('Race');
 export const sessionsAtom = atom<string[]>([]);
 export const telemetryDisableAtom = atom(true);
 export const resultUrlAtom = atom('/results');
-export const constructorStandingsAtom = atom<IConstructorStandings[]>([]);
+export const constructorStandingsAtom = atom<ConstructorStandingSchema[]>([]);
+export const driverStandingsAtom = atom<DriverStandingSchema[]>([]);
 
 // Derived Atoms
 
@@ -50,28 +46,41 @@ export const fetchRaces = atomEffect((get, set) => {
 });
 
 // Get Driver per ...season & race
-export const fetchDriver = atomEffect((get, set) => {
+export const fetchDriver = atomEffect((_get, set) => {
   fetchAPI('drivers').then((data) => set(driversAtom, data));
 });
 // Get sessions per ...season & race
-export const fetchSessions = atomEffect((get, set) => {
+export const fetchSessions = atomEffect((_get, set) => {
   fetchAPI('sessions').then((data) => set(sessionsAtom, data));
 });
 
 // Get Driver & Constructor Standings
 export const fetchStandings = atomEffect((get, set) => {
-  fetchAPI('standings').then((data) => {
-    // Flatten constructor values
-    const constructors = data.constructors.map(
-      (con: IConstructorStandingsFetch) => ({
-        pos: con.position,
-        name: con.Constructor.name,
-        points: con.points,
-        wins: con.wins,
-      }),
-    );
-    set(constructorStandingsAtom, constructors);
-  });
+  fetchAPI('standings').then(
+    ({
+      season,
+      DriverStandings,
+      ConstructorStandings,
+    }: DataConfigSchema['standings']) => {
+      if (season.toString() !== get(seasonAtom)) {
+        // Todo: Resolve error by setting the year with get(seasonAtom) in original fetch
+        return;
+      }
+
+      const constructors = ConstructorStandings.map((cs) => {
+        const { name } = cs.Constructor;
+        return {
+          ...cs,
+          Drivers: DriverStandings.filter((driver) =>
+            driver.Constructors.find((c) => c.name === name),
+          ),
+        };
+      });
+
+      set(constructorStandingsAtom, constructors);
+      set(driverStandingsAtom, DriverStandings);
+    },
+  );
 });
 
 // Telemetry is disabled if no race and driver are selected
