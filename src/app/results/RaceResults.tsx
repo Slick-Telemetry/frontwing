@@ -4,9 +4,7 @@ import { useMemo } from 'react';
 
 import { seasonRacesAtom } from '@/atoms/results';
 
-import { ISchedule } from '../lib/utils';
-
-const ResultCard = ({ data }: { data: ISchedule }) => {
+const ResultCard = ({ data }: { data: ScheduleSchema }) => {
   const eventDate = new Date(data.EventDate);
   const eventPassed = new Date() > eventDate;
 
@@ -49,7 +47,7 @@ const ResultCard = ({ data }: { data: ISchedule }) => {
   );
 };
 
-const WinterTesting = ({ data }: { data: ISchedule }) => {
+const WinterTesting = ({ data }: { data: ScheduleSchema }) => {
   const eventDate = new Date(data.EventDate);
   const eventPassed = new Date() > eventDate;
 
