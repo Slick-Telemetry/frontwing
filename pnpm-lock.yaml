@@ -6,7 +6,7 @@ settings:
 
 dependencies:
   axios:
-    specifier: ^1.6.5
+    specifier: latest
     version: 1.6.5
   clsx:
     specifier: latest

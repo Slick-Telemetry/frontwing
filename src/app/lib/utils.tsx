@@ -40,64 +40,7 @@ export const f1Seasons = (): string[] => {
   );
 };
 
-export interface ISchedule {
-  RoundNumber: number;
-  Country: string;
-  Location: string;
-  OfficialEventName: string;
-  EventDate: string;
-  EventName: string;
-  EventFormat: string;
-  Session1: string;
-  Session1Date: string;
-  Session1DateUtc: string;
-  Session2: string;
-  Session2Date: string;
-  Session2DateUtc: string;
-  Session3: string;
-  Session3Date: string;
-  Session3DateUtc: string;
-  Session4: string;
-  Session4Date: string;
-  Session4DateUtc: string;
-  Session5: string;
-  Session5Date: string;
-  Session5DateUtc: string;
-  F1ApiSupport: boolean;
-}
-
-// Raw Fetch Format
-export type IConstructorStandingsFetch = {
-  [key in 'position' | 'points' | 'wins']: string;
-} & {
-  Constructor: {
-    name: string;
-  };
-};
-// UI format
-export type IConstructorStandings = {
-  [key in 'pos' | 'points' | 'wins' | 'name']: string;
-};
-
-interface IDataConfigs {
-  seasons: string[];
-  schedule: ISchedule[];
-  drivers: string[];
-  sessions: string[];
-  standings: {
-    // drivers: {
-    //   position: string,
-    //   points: string,
-    //   wins: string,
-    //   Constructor?: {
-    //     name: string,
-    //   }
-    // }[],
-    constructors: IConstructorStandingsFetch[];
-  };
-}
-
-const dataConfig: IDataConfigs = {
+const dataConfig: DataConfigSchema = {
   seasons: f1Seasons(),
   schedule: Array.from(Array(3).keys()).map(() => ({
     RoundNumber: 0,
@@ -134,21 +77,48 @@ const dataConfig: IDataConfigs = {
   ],
   sessions: ['Practice 1', 'Practice 2', 'Practice 3', 'Qualifying', 'Race'],
   standings: {
-    // drivers: {
-
-    // },
-    constructors: Array.from(Array(10).keys()).map(() => ({
+    DriverStandings: Array.from(Array(5).keys()).map(() => ({
+      positionText: faker.number.int(20).toString(),
+      position: faker.number.int(20).toString(),
+      points: faker.number.int(25).toString(),
+      wins: faker.number.int(10).toString(),
+      Driver: {
+        driverId: faker.person.middleName(),
+        permanentNumber: faker.number.int(99).toString(),
+        code: faker.word.sample(3),
+        url: faker.internet.domainName(),
+        givenName: faker.person.firstName(),
+        familyName: faker.person.lastName(),
+        dateOfBirth: faker.date.birthdate().toString(),
+        nationality: faker.location.country(),
+      },
+      Constructors: [
+        {
+          constructorId: faker.person.middleName(),
+          url: faker.internet.domainName(),
+          name: faker.person.middleName(),
+          nationality: faker.location.country(),
+        },
+      ],
+    })),
+    ConstructorStandings: Array.from(Array(5).keys()).map(() => ({
+      positionText: faker.number.int(20).toString(),
       position: faker.number.int(20).toString(),
       points: faker.number.int(25).toString(),
       wins: faker.number.int(10).toString(),
       Constructor: {
+        constructorId: faker.person.middleName(),
+        url: faker.internet.domainName(),
         name: faker.person.middleName(),
+        nationality: faker.location.country(),
       },
     })),
+    season: 0,
+    round: 0,
   },
 };
 
-const serverURL = 'http://0.0.0.0:8081';
+const serverURL = 'http://127.0.0.1:8081';
 export const fetchAPI = async (
   endpoint: string,
   statusCheck: boolean = false,
@@ -158,7 +128,7 @@ export const fetchAPI = async (
   const options = statusCheck ? { headers: { cache: 'no-store' } } : {};
 
   // Get dummy data or return false
-  const dummy: string[] | ISchedule[] | false =
+  const dummy: string[] | ScheduleSchema[] | false =
     dataConfig[
       endpoint.split('?')[0] as 'seasons' | 'schedule' | 'drivers' | 'sessions'
     ] || false;
