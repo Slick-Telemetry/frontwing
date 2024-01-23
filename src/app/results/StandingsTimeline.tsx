@@ -19,6 +19,7 @@ export const StandingsTimeline = ({
               (standing as ConstructorStandingSchema)?.Constructor?.name
             }
           >
+            {i !== 0 && <hr />}
             {/* ! Use Flex order ! Yay */}
             <PositionMarker pos={positionEnding(standing.position)} odd={odd} />
             <TimelineMarker />
@@ -127,11 +128,7 @@ const TimelineMarker = () => (
       fill='currentColor'
       className='h-4 w-4'
     >
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75'
-      />
+      <circle cx='10' cy='10' r='6' />
     </svg>
   </div>
 );
