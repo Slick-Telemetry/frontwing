@@ -20,9 +20,9 @@ import {
   handleSeasonChangeAtom,
   handleSessionChangeAtom,
   raceAtom,
-  raceNamesDropdownAtom,
   resultUrlAtom,
   seasonAtom,
+  seasonRacesAtom,
   sessionAtom,
   sessionsAtom,
   telemetryDisableAtom,
@@ -51,16 +51,26 @@ const SeasonDropdown = ({ action }: actionT) => {
 const RaceDropdown = ({ action }: actionT) => {
   const [race] = useAtom(raceAtom);
   const [, handleRaceChange] = useAtom(handleRaceChangeAtom);
-  const [races] = useAtom(raceNamesDropdownAtom);
+  const [races] = useAtom(seasonRacesAtom);
 
   const handleAction = (val: string) => {
-    handleRaceChange(val).then((url: string) => {
-      action(url);
-    });
+    const match = races.find((race) => race.EventName === val);
+    if (match) {
+      handleRaceChange(match).then((url: string) => {
+        action(url);
+      });
+    }
   };
 
   useAtom(fetchRaces);
-  return <Dropdown value={race} items={races} action={handleAction} />;
+
+  return (
+    <Dropdown
+      value={typeof race === 'string' ? race : race.EventName}
+      items={races.map((race) => race.EventName)}
+      action={handleAction}
+    />
+  );
 };
 
 const DriverDropdown = ({ action }: actionT) => {

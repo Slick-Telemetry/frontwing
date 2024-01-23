@@ -3,9 +3,9 @@ import { atomEffect } from 'jotai-effect';
 
 import { fetchAPI } from '../app/lib/utils';
 
-export const raceAtom = atom('All Races');
+export const raceAtom = atom<ScheduleSchema | 'All Races'>('All Races');
 export const seasonRacesAtom = atom<ScheduleSchema[]>([]);
-export const seasonAtom = atom('2023');
+export const seasonAtom = atom<string>('2023');
 export const allSeasonsAtom = atom<string[]>([]);
 export const driverAtom = atom('All Drivers');
 export const driversAtom = atom<string[]>([]);
@@ -15,17 +15,6 @@ export const telemetryDisableAtom = atom(true);
 export const resultUrlAtom = atom('/results');
 export const constructorStandingsAtom = atom<ConstructorStandingSchema[]>([]);
 export const driverStandingsAtom = atom<DriverStandingSchema[]>([]);
-
-// Derived Atoms
-
-// Dropdown values for races
-// Returns string[] of race event names
-export const raceNamesDropdownAtom = atom((get) => {
-  const data = get(seasonRacesAtom).map((race) => race.EventName);
-  // Add All Races option
-  data.unshift('All Races');
-  return data;
-});
 
 // Effect Atoms
 // Get Seasons values, this is done clientside
@@ -40,7 +29,8 @@ export const fetchSeasons = atomEffect((get, set) => {
 // Get Races per year
 // Dependencies: seasonAtom
 export const fetchRaces = atomEffect((get, set) => {
-  fetchAPI('schedule?year=' + get(seasonAtom)).then((data) => {
+  const params = get(seasonAtom) && `?year=${get(seasonAtom)}`;
+  fetchAPI('schedule' + params).then((data) => {
     set(seasonRacesAtom, data);
   });
 });
@@ -56,17 +46,17 @@ export const fetchSessions = atomEffect((_get, set) => {
 
 // Get Driver & Constructor Standings
 export const fetchStandings = atomEffect((get, set) => {
-  fetchAPI('standings').then(
+  const year = get(seasonAtom) && `?year=${get(seasonAtom)}`;
+  const round =
+    typeof get(raceAtom) !== 'string'
+      ? `&round=${(get(raceAtom) as ScheduleSchema).RoundNumber}`
+      : '';
+  fetchAPI('standings' + year + round).then(
     ({
-      season,
       DriverStandings,
       ConstructorStandings,
     }: DataConfigSchema['standings']) => {
-      if (season.toString() !== get(seasonAtom)) {
-        // Todo: Resolve error by setting the year with get(seasonAtom) in original fetch
-        return;
-      }
-
+      // Include Drivers in Constructors Info
       const constructors = ConstructorStandings.map((cs) => {
         const { name } = cs.Constructor;
         return {
@@ -111,10 +101,13 @@ export const handleSeasonChangeAtom = atom(
 // Update Values when a Race changes
 export const handleRaceChangeAtom = atom(
   null,
-  async (get, set, update: string) => {
+  async (get, set, update: ScheduleSchema) => {
     set(raceAtom, update);
     set(driverAtom, 'All Drivers');
-    set(resultUrlAtom, '/results/' + get(seasonAtom) + '/' + update);
+    set(
+      resultUrlAtom,
+      '/results/' + get(seasonAtom) + '/' + update.RoundNumber,
+    );
 
     return get(resultUrlAtom);
   },
@@ -157,6 +150,6 @@ export const handleSessionChangeAtom = atom(
 );
 
 // Handle click of results button in <MainFilters/>
-export const handleResultsAtom = atom(null, (get, set) => {
-  set(seasonRacesAtom, get(seasonRacesAtom));
+export const handleResultsAtom = atom(null, (_get, _set) => {
+  // set(seasonRacesAtom, get(seasonRacesAtom));
 });
