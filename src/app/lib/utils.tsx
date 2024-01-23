@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
-import axios from 'axios';
+
+import { serverUrl } from '../../constants';
 
 export const positionEnding = (position: number | string) => {
   // Convert to int
@@ -118,12 +119,11 @@ const dataConfig: DataConfigSchema = {
   },
 };
 
-const serverURL = 'http://127.0.0.1:8081';
 export const fetchAPI = async (
   endpoint: string,
   statusCheck: boolean = false,
 ) => {
-  const server = statusCheck || document.body.classList.contains('server');
+  const useServer = statusCheck || document.body.classList.contains('server');
   // Headers for statusCheck so
   const options = statusCheck ? { headers: { cache: 'no-store' } } : {};
 
@@ -134,32 +134,38 @@ export const fetchAPI = async (
     ] || false;
 
   // If we are not using the server return the dummy data
-  if (!server) {
+  if (!useServer) {
     return dummy;
-  } else {
-    // Fetch from server
-    const data = await axios(`${serverURL}/${endpoint}`, options)
-      .then(
-        (res) => {
-          // Response is not successful
-          if (res.statusText !== 'OK') {
-            throw new Error('Not 2xx response', { cause: res });
-          }
-          // Sucess - parse data
-          return res.data;
-        },
-        // Catch initial fetch error
-        (err) => {
-          throw new Error('Server not connecting', { cause: err });
-        },
-      )
-      // Return parsed data
-      .then((data) => data)
-      // Catch errors from above
-      .catch(() => {
-        return dummy;
-      });
-
-    return data;
   }
+
+  // Fetch from server
+  const data = await fetch(`${serverUrl}/${endpoint}`, { ...options })
+    .then(
+      (res) => {
+        // Response is not successful
+        if (!res.ok) {
+          throw new Error('Not 2xx response', { cause: res });
+        }
+
+        // Success parse data
+        return res.json();
+      },
+      // Catch initial fetch error
+      (err) => {
+        throw new Error('Server not connecting', { cause: err });
+      },
+    )
+    // Return parsed data
+    .then((data) => data)
+    // Catch errors from above
+    .catch((err) => {
+      if (err === 'Server not connecting') return dummy;
+      if (err.status === 404) return dummy;
+
+      return dummy;
+    });
+
+  // console.log('data', data)
+
+  return data;
 };
