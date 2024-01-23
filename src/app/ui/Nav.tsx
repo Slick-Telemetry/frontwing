@@ -8,7 +8,7 @@ export const Nav = () => (
       </Link>
     </div>
     <div className='navbar-center hidden lg:flex'>
-      <ul className='menu menu-horizontal px-1'>
+      <ul className='menu menu-horizontal gap-2 px-1'>
         <li>
           <a>Schedule</a>
         </li>
