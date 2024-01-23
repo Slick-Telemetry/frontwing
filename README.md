@@ -82,11 +82,12 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 
 // TODO [cypress](https://www.cypress.io/)
 
-- **Be aware**
+> [!WARNING]
+> Cypress does not officially support Next v14. If you enncounter any errors or issues please report them [here](https://github.com/Slick-Telemetry/frontend/issues)
 
-  - Cypress uses a different ts `moduleResolution: node` from Next `bundler`, as a result of the difference the imports don't get formated properly
-  - Appending to top of your test file is the current fix `/* eslint-disable simple-import-sort/imports */`
-  - [Read More](https://github.com/cypress-io/cypress/issues/26308)
+- **Background**
+
+  - Cypress uses chai based assertions
 
 - **Running Cypress**
 
@@ -98,4 +99,4 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 
 ## Resources
 
-Key tools in use: `daisy-ui`, `tailwindcss`, `react`, `nextjs`, `pnpm`
+Key tools in use: `daisy-ui`, `tailwindcss`, `react`, `nextjs`, `pnpm`, `cypress`

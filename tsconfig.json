@@ -1,10 +1,4 @@
 {
-  "ts-node": {
-    "compilerOptions": {
-      "module": "es2015",
-      "moduleResolution": "node"
-    }
-  },
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
