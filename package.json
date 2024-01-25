@@ -22,7 +22,6 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
-    "axios": "latest",
     "clsx": "latest",
     "jotai": "latest",
     "jotai-effect": "latest",
