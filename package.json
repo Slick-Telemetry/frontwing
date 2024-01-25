@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "cypress:open": "cypress open",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "next lint",
@@ -18,8 +19,7 @@
     "release": "release-it",
     "release-dry": "release-it --dry-run",
     "start": "next start",
-    "typecheck": "tsc --pretty --noEmit --incremental false",
-    "cypress:open": "cypress open"
+    "typecheck": "tsc --pretty --noEmit --incremental false"
   },
   "dependencies": {
     "clsx": "latest",
