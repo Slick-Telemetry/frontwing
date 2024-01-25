@@ -82,10 +82,21 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 
 // TODO [cypress](https://www.cypress.io/)
 
+> [!WARNING]
+> Cypress does not officially support Next v14. If you enncounter any errors or issues please report them [here](https://github.com/Slick-Telemetry/frontend/issues)
+
+- **Background**
+
+  - Cypress uses chai based assertions
+
+- **Running Cypress**
+
+  - `pnpm run cypress:open`
+
 ## Deployment
 
 // TODO [vercel](https://vercel.com/)
 
 ## Resources
 
-Key tools in use: `daisy-ui`, `tailwindcss`, `react`, `nextjs`, `pnpm`
+Key tools in use: `daisy-ui`, `tailwindcss`, `react`, `nextjs`, `pnpm`, `cypress`
