@@ -4,7 +4,12 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'unused-imports'],
+  plugins: [
+    '@typescript-eslint',
+    'simple-import-sort',
+    'unused-imports',
+    'cypress',
+  ],
   extends: [
     'eslint:recommended',
     'next',
@@ -77,6 +82,15 @@ module.exports = {
       },
     ],
     //#endregion  //*======== Import Sort ===========
+
+    // #region   //*========= Cypress files =========
+    '@typescript-eslint/no-namespace': [
+      'error',
+      {
+        allowDeclarations: true,
+      },
+    ],
+    // #endregion   //*========= Cypress files =========
   },
   globals: {
     React: true,

@@ -1,4 +1,4 @@
-name: Code Check
+name: Code Lint and Test
 
 on:
   push:
@@ -8,19 +8,19 @@ on:
 
 jobs:
   lint:
-    name: ⬣ ESLint, ʦ TypeScript, 💅 Prettier
+    name: ⬣ ESLint, ʦ TypeScript, 💅 Prettier, ✅ Cypress
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: ⎔ Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8
         with:
           node-version: 21
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598
         with:
           version: 8
           run_install: true
@@ -33,3 +33,12 @@ jobs:
 
       - name: 💅 Prettier check
         run: pnpm format:check
+
+      - name: ✅ Cypress tests
+        uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a
+        with:
+          browser: chrome
+          build: pnpm build
+          component: true
+          start: pnpm start
+          wait-on: 'http://localhost:3000'
