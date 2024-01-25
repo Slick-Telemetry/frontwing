@@ -6,7 +6,6 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
-
   "python.terminal.activateEnvironment": false,
   // Tailwind CSS Autocomplete, add more if used in projects
   "tailwindCSS.classAttributes": [
