@@ -15,7 +15,7 @@
     "lint:fix": "eslint . --fix && pnpm format",
     "lint:strict": "eslint --max-warnings=0",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
-    "prepare": "husky install",
+    "prepare": "husky",
     "release": "release-it",
     "release-dry": "release-it --dry-run",
     "start": "next start",
