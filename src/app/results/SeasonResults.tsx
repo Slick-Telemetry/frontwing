@@ -2,15 +2,11 @@
 
 import { useAtom } from 'jotai';
 
-import {
-  constructorStandingsAtom,
-  driverStandingsAtom,
-  fetchStandings,
-} from '@/atoms/results';
 
 import { RaceSchedule } from './RaceResults';
 import { StandingsTimeline } from './StandingsTimeline';
 import { Tabs } from '../ui/Tabs';
+import { fetchStandings, constructorStandingsAtom, driverStandingsAtom } from '@/atoms/standings';
 
 export default function ResultsPage() {
   useAtom(fetchStandings);

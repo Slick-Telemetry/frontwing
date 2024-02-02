@@ -1,4 +1,5 @@
 // 'use client';
+import clsx from 'clsx';
 import React from 'react';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 
@@ -21,7 +22,7 @@ export const Dropdown = ({ value, items, action }: IDropdown) => {
       <div
         tabIndex={0}
         role='button'
-        className='btn btn-ghost btn-sm rounded-btn underline'
+        className={clsx({'pointer-events-none opacity-50': items.length <= 0}, 'btn btn-ghost btn-sm rounded-btn underline px-0')}
       >
         {value} {items.length > 0 && <BsFillCaretDownFill />}
       </div>
