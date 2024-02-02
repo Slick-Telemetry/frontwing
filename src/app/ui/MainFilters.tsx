@@ -1,25 +1,48 @@
 'use client';
 
 import { useAtom } from 'jotai/react';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
+import {
+  allDriversAtom,
+  driverAtom,
+  handleDriverChangeAtom,
+} from '@/atoms/drivers';
+import {
+  fetchRaces,
+  handleRaceChangeAtom,
+  raceAtom,
+  seasonRacesAtom,
+} from '@/atoms/races';
+import {
+  handleMainFilterSubmit,
+  telemetryDisableAtom,
+  toggleTelemetryDisableAtom,
+} from '@/atoms/results';
+import {
+  allSeasonsAtom,
+  fetchSeasons,
+  handleSeasonChangeAtom,
+  seasonAtom,
+} from '@/atoms/seasons';
+import {
+  allSessionsAtom,
+  fetchSessionResults,
+  handleSessionChangeAtom,
+  sessionAtom,
+} from '@/atoms/sessions';
+
 import { Dropdown } from './Dropdown';
-import { driverAtom, allDriversAtom, handleDriverChangeAtom } from '@/atoms/drivers';
-import { raceAtom, handleRaceChangeAtom, seasonRacesAtom, fetchRaces } from '@/atoms/races';
-import { handleMainFilterSubmit, telemetryDisableAtom, toggleTelemetryDisableAtom } from '@/atoms/results';
-import { fetchSeasons, seasonAtom, handleSeasonChangeAtom, allSeasonsAtom } from '@/atoms/seasons';
-import { fetchSessionResults, sessionAtom, handleSessionChangeAtom, allSessionsAtom } from '@/atoms/sessions';
 
 interface actionT {
-  action: (url: string) => void
-};
-
+  action: (url: string) => void;
+}
 
 export const MainFilters = () => {
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const [telemetryDisable] = useAtom(telemetryDisableAtom);
   // const [resultsUrl] = useAtom(resultUrlAtom);
@@ -27,7 +50,7 @@ export const MainFilters = () => {
 
   useAtom(toggleTelemetryDisableAtom);
   useAtom(fetchSeasons);
-  useAtom(fetchSessionResults)
+  useAtom(fetchSessionResults);
 
   const changePath = (url: string) => {
     // If not home page auto change page
@@ -36,8 +59,8 @@ export const MainFilters = () => {
 
   const handleSubmit = () => {
     const url = handleResultsSubmit();
-    router.push(url)
-  }
+    router.push(url);
+  };
 
   return (
     <div className='flex flex-col gap-2'>
@@ -54,11 +77,12 @@ export const MainFilters = () => {
 
       <div className='flex gap-4'>
         <button className='btn btn-primary btn-sm'>
-          <a onClick={() => handleSubmit()}>
-            Results
-          </a>
+          <a onClick={() => handleSubmit()}>Results</a>
         </button>
-        <button disabled={telemetryDisable} className='btn btn-secondary btn-sm'>
+        <button
+          disabled={telemetryDisable}
+          className='btn btn-secondary btn-sm'
+        >
           Telemetry
         </button>
       </div>
@@ -120,7 +144,11 @@ const DriverDropdown = ({ action }: actionT) => {
 
   // useAtom(fetchDriver);
   return (
-    <Dropdown value={driverName} items={driverList.map(driver => driver.FullName)} action={handleAction} />
+    <Dropdown
+      value={driverName}
+      items={driverList.map((driver) => driver.FullName)}
+      action={handleAction}
+    />
   );
 };
 const SessionDropdown = ({ action }: actionT) => {
@@ -135,6 +163,10 @@ const SessionDropdown = ({ action }: actionT) => {
   };
 
   return (
-    <Dropdown value={sessionName} items={sessionList.reverse()} action={handleAction} />
+    <Dropdown
+      value={sessionName}
+      items={sessionList.reverse()}
+      action={handleAction}
+    />
   );
 };

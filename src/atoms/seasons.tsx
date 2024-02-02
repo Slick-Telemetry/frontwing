@@ -1,9 +1,11 @@
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
+
+import { f1Seasons } from '@/app/lib/fakerData';
+
 import { driverAtom } from './drivers';
 import { raceAtom } from './races';
 import { sessionAtom } from './sessions';
-import { f1Seasons } from '@/app/lib/fakerData';
 
 // Seasons
 export const allSeasonsAtom = atom<string[]>([]);

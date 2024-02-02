@@ -1,6 +1,5 @@
-
-import { serverUrl } from '../../constants';
 import { dataConfig } from './fakerData';
+import { serverUrl } from '../../constants';
 
 export const positionEnding = (position: number | string) => {
   // Convert to int
@@ -12,12 +11,14 @@ export const positionEnding = (position: number | string) => {
   else return position + 'th';
 };
 
-
 export const toFahrenheit = (temp: number) => {
-  return (temp * (9/5)) + 32
-}
+  return temp * (9 / 5) + 32;
+};
 
-export const formatDuration = (durationInMilliseconds: number, timing = "full") => {
+export const formatDuration = (
+  durationInMilliseconds: number,
+  timing = 'full',
+) => {
   // Calculate hours, minutes, seconds, and milliseconds
   const hours = Math.floor(durationInMilliseconds / 3600000);
   const minutes = Math.floor((durationInMilliseconds % 3600000) / 60000);
@@ -26,44 +27,39 @@ export const formatDuration = (durationInMilliseconds: number, timing = "full") 
 
   // Pad single-digit values with leading zeros
   const pad = (value: number) => {
-      return value < 10 ? "0" + value : value;
+    return value < 10 ? '0' + value : value;
   };
 
   if (hours === 0 && minutes === 0 && seconds === 0 && milliseconds === 0)
-      return '-'
+    return '-';
 
   // Format based on timing
-  if (timing === 'seconds' )
-      return seconds + "." + pad(milliseconds);
+  if (timing === 'seconds') return seconds + '.' + pad(milliseconds);
 
-  if (timing === 'minutes' )
-      return minutes + ":" + pad(seconds) + "." + pad(milliseconds);
+  if (timing === 'minutes')
+    return minutes + ':' + pad(seconds) + '.' + pad(milliseconds);
 
   if (timing === 'full')
-      return hours + ":" + pad(minutes) + ":" + pad(seconds) + "." + pad(milliseconds);
-}
+    return (
+      hours + ':' + pad(minutes) + ':' + pad(seconds) + '.' + pad(milliseconds)
+    );
+};
 
 export const sessionTitles = (event: ScheduleSchema) => {
-  console.log('event', event)
   const titles: string[] = [];
   for (let i = 1; i <= 5; i++) {
-    const key = `Session${i}` as keyof ScheduleSchema
-    event[key] && event[key] !== 'None' && titles.push(event[key] as string)
+    const key = `Session${i}` as keyof ScheduleSchema;
+    event[key] && event[key] !== 'None' && titles.push(event[key] as string);
   }
-  console.log('titles', titles)
 
   return titles;
-}
+};
 
 export const lastSession = (event: ScheduleSchema) => {
-  if (event.Session5 !== 'None')
-    return event.Session5;
-  else if (event.Session4 !== 'None')
-    return event.Session4;
-  else
-    return event.Session3;
-}
-
+  if (event.Session5 !== 'None') return event.Session5;
+  else if (event.Session4 !== 'None') return event.Session4;
+  else return event.Session3;
+};
 
 export const fetchAPI = async (
   endpoint: string,

@@ -22,7 +22,10 @@ export const Dropdown = ({ value, items, action }: IDropdown) => {
       <div
         tabIndex={0}
         role='button'
-        className={clsx({'pointer-events-none opacity-50': items.length <= 0}, 'btn btn-ghost btn-sm rounded-btn underline px-0')}
+        className={clsx(
+          { 'pointer-events-none opacity-50': items.length <= 0 },
+          'btn btn-ghost btn-sm rounded-btn px-0 underline',
+        )}
       >
         {value} {items.length > 0 && <BsFillCaretDownFill />}
       </div>

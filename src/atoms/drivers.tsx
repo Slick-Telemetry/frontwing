@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+
 import { raceAtom } from './races';
 import { seasonAtom } from './seasons';
 

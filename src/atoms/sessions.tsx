@@ -1,6 +1,8 @@
-import { fetchAPI } from '@/app/lib/utils';
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
+
+import { fetchAPI } from '@/app/lib/utils';
+
 import { allDriversAtom, driverAtom } from './drivers';
 import { raceAtom } from './races';
 import { seasonAtom } from './seasons';

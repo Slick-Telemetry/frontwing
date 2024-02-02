@@ -8,7 +8,7 @@ export const StandingsTimeline = ({
   data: DriverStandingSchema[] | ConstructorStandingSchema[];
 }) => {
   return (
-    <ul className='timeline timeline-vertical timeline-snap-icon max-md:timeline-compact'>
+    <ul className='timeline timeline-vertical timeline-snap-icon mr-4 max-md:timeline-compact'>
       {data.map((standing, i: number) => {
         const odd = i % 2 === 1;
         return (
@@ -21,12 +21,14 @@ export const StandingsTimeline = ({
           >
             {i !== 0 && <hr />}
             {/* ! Use Flex order ! Yay */}
-            <PositionMarker pos={positionEnding(standing.position)} odd={odd} />
             <TimelineMarker />
             <div
-              className={clsx('timeline-end timeline-box !mb-10', {
-                'md:timeline-start md:text-end': !odd,
-              })}
+              className={clsx(
+                'timeline-end timeline-box !mb-10 !justify-self-stretch',
+                {
+                  'md:timeline-start md:text-end': !odd,
+                },
+              )}
             >
               {Object.prototype.hasOwnProperty.call(standing, 'Driver') && (
                 <DriverStandingInfo driver={standing as DriverStandingSchema} />
@@ -40,7 +42,7 @@ export const StandingsTimeline = ({
                 />
               )}
             </div>
-            <hr />
+            {i !== data.length - 1 && <hr />}
           </li>
         );
       })}
@@ -57,6 +59,10 @@ const DriverStandingInfo = ({
 }) => {
   return (
     <>
+      <p className='font-mono text-2xl italic'>
+        {positionEnding(driver.position)}
+      </p>
+
       {/* Driver Standings */}
       {driver.Driver && (
         <h3
@@ -88,6 +94,10 @@ const ConstructorStandingInfo = ({
 }) => {
   return (
     <>
+      <p className='font-mono text-2xl italic'>
+        {positionEnding(con.position)}
+      </p>
+
       <h3 className='text-4xl font-bold'>{con.Constructor.name}</h3>
       <p>Points: {con.points}</p>
       <p>Wins: {con.wins}</p>
@@ -103,22 +113,6 @@ const ConstructorStandingInfo = ({
     </>
   );
 };
-
-const PositionMarker = ({
-  pos,
-  odd = false,
-}: {
-  pos: string;
-  odd?: boolean;
-}) => (
-  <div
-    className={clsx('timeline-start timeline-box !mb-auto', {
-      'md:timeline-end': !odd,
-    })}
-  >
-    <p className='font-mono text-2xl italic'>{pos}</p>
-  </div>
-);
 
 const TimelineMarker = () => (
   <div className='timeline-middle mx-2'>

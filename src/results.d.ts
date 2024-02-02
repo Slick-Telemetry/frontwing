@@ -85,10 +85,10 @@ interface DriverResult {
 }
 
 interface ConstructorResult {
-  name: string,
-  position: number
-  points: number
-  drivers: DriverResult[]
+  name: string;
+  position: number;
+  points: number;
+  drivers: DriverResult[];
 }
 
 // UI format
@@ -104,7 +104,7 @@ interface DataConfigSchema {
     ConstructorStandings: ConstructorStandingSchema[];
   };
   results: {
-    drivers: DriverResult[]
-    constructors: ConstructorResult[]
-  }
+    drivers: DriverResult[];
+    constructors: ConstructorResult[];
+  };
 }

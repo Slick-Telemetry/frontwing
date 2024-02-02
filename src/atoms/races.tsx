@@ -1,8 +1,10 @@
-import { fetchAPI, lastSession, sessionTitles } from '@/app/lib/utils';
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
-import { seasonAtom } from './seasons';
+
+import { fetchAPI, lastSession, sessionTitles } from '@/app/lib/utils';
+
 import { driverAtom } from './drivers';
+import { seasonAtom } from './seasons';
 import { allSessionsAtom, sessionAtom } from './sessions';
 
 // Races
@@ -14,7 +16,6 @@ export const fetchRaces = atomEffect(
   (get, set) => {
     const params = get(seasonAtom) && `?year=${get(seasonAtom)}`;
     fetchAPI('schedule' + params).then((data) => {
-      console.log('fetched schedule for season')
       // Sync default year with server
       set(seasonAtom, data.year);
       set(seasonRacesAtom, data.EventSchedule);

@@ -1,8 +1,8 @@
-import { seasonRacesAtom } from '@/atoms/races';
 import { useAtom } from 'jotai';
 import Image from 'next/image';
 import { useMemo } from 'react';
 
+import { seasonRacesAtom } from '@/atoms/races';
 
 const ResultCard = ({ data }: { data: ScheduleSchema }) => {
   const eventDate = new Date(data.EventDate);

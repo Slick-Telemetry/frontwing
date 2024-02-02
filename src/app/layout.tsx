@@ -25,7 +25,7 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={clsx('min-h-screen px-4', inter.className, {
+        className={clsx('min-h-screen', inter.className, {
           server: server,
           // noServer: !server,
         })}
