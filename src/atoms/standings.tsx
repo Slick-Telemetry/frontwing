@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
-import { fetchAPI } from '@/app/lib/utils';
+import { fetchAPI } from '@/lib/utils';
 
 import { raceAtom } from './races';
 import { seasonAtom } from './seasons';
@@ -12,6 +12,8 @@ export const driverStandingsAtom = atom<DriverStandingSchema[]>([]);
 
 // Get Driver & Constructor Standings
 export const fetchStandings = atomEffect((get, set) => {
+  set(driverStandingsAtom, []);
+  set(constructorStandingsAtom, []);
   const year = get(seasonAtom) && `?year=${get(seasonAtom)}`;
   const round =
     typeof get(raceAtom) !== 'string'

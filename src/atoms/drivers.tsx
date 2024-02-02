@@ -13,6 +13,6 @@ export const handleDriverChangeAtom = atom(
     set(driverAtom, update);
 
     //   return nagivation url
-    return '/results/' + get(seasonAtom) + '/' + get(raceAtom) + '/' + update;
+    return '/' + get(seasonAtom) + '/' + get(raceAtom) + '/' + update;
   },
 );

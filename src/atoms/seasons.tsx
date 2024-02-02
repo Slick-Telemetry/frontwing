@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
-import { f1Seasons } from '@/app/lib/fakerData';
+import { f1Seasons } from '@/lib/fakerData';
 
 import { driverAtom } from './drivers';
 import { raceAtom } from './races';
@@ -33,6 +33,6 @@ export const handleSeasonChangeAtom = atom(
     set(sessionAtom, 'Race');
 
     // return navigation url
-    return '/results/' + season;
+    return '/' + season;
   },
 );

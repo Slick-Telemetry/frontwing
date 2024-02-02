@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
-import { fetchAPI, lastSession, sessionTitles } from '@/app/lib/utils';
+import { fetchAPI, lastSession, sessionTitles } from '@/lib/utils';
 
 import { driverAtom } from './drivers';
 import { seasonAtom } from './seasons';
@@ -17,6 +17,7 @@ export const fetchRaces = atomEffect(
     const params = get(seasonAtom) && `?year=${get(seasonAtom)}`;
     fetchAPI('schedule' + params).then((data) => {
       // Sync default year with server
+
       set(seasonAtom, data.year);
       set(seasonRacesAtom, data.EventSchedule);
     });
@@ -39,6 +40,6 @@ export const handleRaceChangeAtom = atom(
     set(sessionAtom, lastSession(raceEvent));
 
     // return navigation url
-    return '/results/' + get(seasonAtom) + '/' + raceEvent.Location;
+    return '/' + get(seasonAtom) + '/' + raceEvent.Location;
   },
 );
