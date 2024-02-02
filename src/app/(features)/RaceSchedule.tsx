@@ -2,7 +2,58 @@ import { useAtom } from 'jotai';
 import Image from 'next/image';
 import { useMemo } from 'react';
 
-import { seasonRacesAtom } from '@/atoms/results';
+import { seasonRacesAtom } from '@/atoms/races';
+
+export const RaceSchedule = () => {
+  const [races] = useAtom(seasonRacesAtom);
+
+  const winterTesting = useMemo(
+    () => races.find((race) => race.EventFormat === 'testing'),
+    [races],
+  );
+  const mainEvents = useMemo(
+    () => races.filter((race) => race.EventFormat !== 'testing'),
+    [races],
+  );
+
+  if (races.length === 0)
+    return (
+      <div className='px-4 lg:px-0'>
+        <div className='mt-8 grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-4'>
+          {/* 3 Placeholder Cards */}
+          {Array.from(Array(4).keys()).map((_, i) => (
+            <SkeletonResultCard key={'skeleton result card - ' + i} />
+          ))}
+        </div>
+      </div>
+    );
+
+  return (
+    <div className='px-4 lg:px-0'>
+      {/* If seasonAom === current/upcomming season, then add button to bring user to next event */}
+      {winterTesting && <WinterTesting data={winterTesting} />}
+      <div className='mt-8 grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-4'>
+        {/* 10 Placeholder Cards */}
+        {mainEvents.map((race) => (
+          <ResultCard key={race.EventName} data={race} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const SkeletonResultCard = () => (
+  <div className='card overflow-hidden p-4 shadow-xl'>
+    <div className='skeleton h-32 w-full'></div>
+
+    <div className='card-body p-0 pt-2'>
+      <div className='skeleton h-4 w-full'></div>
+      <div className='skeleton h-4 w-full'></div>
+
+      <div className='skeleton mx-auto h-[32px] w-[222px]'></div>
+    </div>
+  </div>
+);
 
 const ResultCard = ({ data }: { data: ScheduleSchema }) => {
   const eventDate = new Date(data.EventDate);
@@ -78,32 +129,6 @@ const WinterTesting = ({ data }: { data: ScheduleSchema }) => {
             Testing Results
           </a>
         )}
-      </div>
-    </div>
-  );
-};
-
-export const RaceSchedule = () => {
-  const [races] = useAtom(seasonRacesAtom);
-
-  const winterTesting = useMemo(
-    () => races.find((race) => race.EventFormat === 'testing'),
-    [races],
-  );
-  const mainEvents = useMemo(
-    () => races.filter((race) => race.EventFormat !== 'testing'),
-    [races],
-  );
-
-  return (
-    <div className='px-4 lg:px-0'>
-      {/* If seasonAom === current/upcomming season, then add button to bring user to next event */}
-      {winterTesting && <WinterTesting data={winterTesting} />}
-      <div className='mt-8 grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-4'>
-        {/* 10 Placeholder Cards */}
-        {mainEvents.map((race) => (
-          <ResultCard key={race.EventName} data={race} />
-        ))}
       </div>
     </div>
   );
