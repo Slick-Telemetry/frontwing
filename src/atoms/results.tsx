@@ -5,7 +5,6 @@ import { allDriversAtom, driverAtom } from './drivers';
 import { raceAtom } from './races';
 import { seasonAtom } from './seasons';
 import { allSessionsAtom, sessionAtom } from './sessions';
-import { useParams } from 'next/navigation';
 
 // Telemetry Active
 export const telemetryDisableAtom = atom(true);
@@ -41,7 +40,6 @@ export const handleMainFilterSubmit = atom(null, (get) => {
   }
   return url.join('/');
 });
-
 
 // export const handleParams = atomEffect((get, set) => {
 

@@ -43,9 +43,7 @@ export const fastestLap = (position: number, points: number) => {
   }
 };
 
-export const formatDuration = (
-  durationInMilliseconds: number,
-) => {
+export const formatDuration = (durationInMilliseconds: number) => {
   // Pad single-digit values with leading zeros
   const pad = (value: number) => {
     return value < 10 ? '0' + value : value;
@@ -62,11 +60,13 @@ export const formatDuration = (
   else if (hours === 0 && minutes === 0 && seconds === 0)
     return '0.' + pad(milliseconds);
   else if (hours === 0 && minutes === 0)
-    return seconds + '.' + pad(milliseconds)
+    return seconds + '.' + pad(milliseconds);
   else if (hours === 0)
-    return minutes + ':' + pad(seconds) + '.' + pad(milliseconds)
+    return minutes + ':' + pad(seconds) + '.' + pad(milliseconds);
   else
-    return hours + ':' + pad(minutes) + ':' + pad(seconds) + '.' + pad(milliseconds)
+    return (
+      hours + ':' + pad(minutes) + ':' + pad(seconds) + '.' + pad(milliseconds)
+    );
 };
 
 export const sessionTitles = (event: ScheduleSchema) => {

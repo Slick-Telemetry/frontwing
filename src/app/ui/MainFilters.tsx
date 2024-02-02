@@ -16,11 +16,7 @@ import {
   raceAtom,
   seasonRacesAtom,
 } from '@/atoms/races';
-import {
-  handleMainFilterSubmit,
-  telemetryDisableAtom,
-  toggleTelemetryDisableAtom,
-} from '@/atoms/results';
+import { handleMainFilterSubmit, telemetryDisableAtom } from '@/atoms/results';
 import {
   allSeasonsAtom,
   fetchSeasons,
@@ -29,7 +25,6 @@ import {
 } from '@/atoms/seasons';
 import {
   allSessionsAtom,
-  fetchSessionResults,
   handleSessionChangeAtom,
   sessionAtom,
 } from '@/atoms/sessions';
@@ -45,12 +40,11 @@ export const MainFilters = () => {
   const pathname = usePathname();
 
   const [telemetryDisable] = useAtom(telemetryDisableAtom);
-  // const [resultsUrl] = useAtom(resultUrlAtom);
   const [, handleResultsSubmit] = useAtom(handleMainFilterSubmit);
 
-  useAtom(toggleTelemetryDisableAtom);
-  useAtom(fetchSeasons);
-  useAtom(fetchSessionResults);
+  // useAtom(fetchSeasons);
+  // useAtom(toggleTelemetryDisableAtom);
+  // useAtom(fetchSessionResults);
 
   const changePath = (url: string) => {
     // If not home page auto change page
@@ -59,7 +53,7 @@ export const MainFilters = () => {
 
   const handleSubmit = () => {
     const url = handleResultsSubmit();
-    router.push(url);
+    router.push('/' + url);
   };
 
   return (
@@ -75,7 +69,7 @@ export const MainFilters = () => {
         <SessionDropdown action={changePath} />
       </div>
 
-      <div className='flex gap-4'>
+      <div className='flex gap-4 px-2'>
         <button className='btn btn-primary btn-sm'>
           <a onClick={() => handleSubmit()}>Results</a>
         </button>
@@ -103,6 +97,7 @@ const SeasonDropdown = ({ action }: actionT) => {
   };
 
   useAtom(fetchSeasons);
+
   return <Dropdown value={season} items={seasons} action={handleAction} />;
 };
 
@@ -142,7 +137,6 @@ const DriverDropdown = ({ action }: actionT) => {
     });
   };
 
-  // useAtom(fetchDriver);
   return (
     <Dropdown
       value={driverName}

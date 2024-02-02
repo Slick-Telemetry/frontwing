@@ -40,7 +40,9 @@ export const DriverResultsInfo = ({
       </div>
       {!subEl && (
         <h3 className='text-2xl font-bold'>
-          {driver.Time ? durationPlus + formatDuration(driver.Time) : driver.Status}
+          {driver.Time
+            ? durationPlus + formatDuration(driver.Time)
+            : driver.Status}
         </h3>
       )}
     </>

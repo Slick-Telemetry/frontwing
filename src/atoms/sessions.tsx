@@ -3,10 +3,10 @@ import { atomEffect } from 'jotai-effect';
 
 import { fetchAPI } from '@/lib/utils';
 
+import { allConstructorAtom } from './constructors';
 import { allDriversAtom, driverAtom } from './drivers';
 import { raceAtom } from './races';
 import { seasonAtom } from './seasons';
-import { allConstructorAtom } from './constructors';
 
 /**
  * @description Format constructors results based on Driver results from race
@@ -65,16 +65,15 @@ export const sessionAtom = atom('Race');
 // Set allDriversAtom to drivers from session
 export const fetchSessionResults = atomEffect((get, set) => {
   const race = get(raceAtom);
-  console.log('fetch', race)
 
   // Confirm race has been selected
   if (race && race !== 'All Races') {
-    const sessions = get(sessionAtom);
+    const sessions = get(allSessionsAtom);
     let url = `results/${get(seasonAtom)}/${race.RoundNumber}`;
 
     // If sessions available find session round and add to url
     if (sessions.length > 0) {
-      const sessionRound = get(allSessionsAtom).indexOf(get(sessionAtom)) + 1;
+      const sessionRound = sessions.indexOf(get(sessionAtom)) + 1;
       url += `?session=${sessionRound}`;
     }
 

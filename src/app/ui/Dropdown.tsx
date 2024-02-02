@@ -24,7 +24,7 @@ export const Dropdown = ({ value, items, action }: IDropdown) => {
         role='button'
         className={clsx(
           { 'pointer-events-none opacity-50': items.length <= 0 },
-          'btn btn-ghost btn-sm rounded-btn px-0 underline',
+          'btn btn-ghost btn-sm rounded-btn underline',
         )}
       >
         {value} {items.length > 0 && <BsFillCaretDownFill />}

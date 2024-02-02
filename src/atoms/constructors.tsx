@@ -1,4 +1,4 @@
-import { atom } from "jotai";
+import { atom } from 'jotai';
 
 // Constructor Results
 export const allConstructorAtom = atom<ConstructorResult[]>([]);
