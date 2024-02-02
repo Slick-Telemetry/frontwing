@@ -5,8 +5,8 @@ import { Inter } from 'next/font/google';
 
 import './globals.css';
 
-import { fetchAPI } from './lib/utils';
 import { Nav } from './ui/Nav';
+import { fetchAPI } from '../lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
