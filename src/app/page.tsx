@@ -1,4 +1,4 @@
-import { MainFilters } from './MainFilters';
+import { MainFilters } from './ui/MainFilters';
 
 export default function Home() {
   return (

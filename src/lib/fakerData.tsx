@@ -1,39 +1,13 @@
 import { faker } from '@faker-js/faker';
 
-import { serverUrl } from '../../constants';
-
-export const positionEnding = (position: number | string) => {
-  // Convert to int
-  position = typeof position === 'string' ? parseInt(position) : position;
-  // Format
-  if ([1, 21].includes(position)) return position + 'st';
-  else if ([2, 22].includes(position)) return position + 'nd';
-  else if ([3, 23].includes(position)) return position + 'rd';
-  else return position + 'th';
-};
-
 /**
  * @description
  * Get all possible seasons/years with results
  * @return {*}  {string[]}
  */
 export const f1Seasons = (): string[] => {
-  // Discuss : Bump to fetch call to get data
-  // ! Alter to be dynamic
-  // const testingDate = new Date('02/22/2024');
-
   const currDate = new Date();
   const currYear = currDate.getFullYear();
-
-  // Compare curr date to testing date (Feb 22 2024)
-  // If same year as testing and before testing date
-  // Get previous year
-  // if (
-  //   testingDate.getFullYear() === currYear &&
-  //   currDate.getTime() < testingDate.getTime()
-  // ) {
-  //   currYear -= 1;
-  // }
 
   // Fill array with values between range
   return Array.from({ length: currYear - 1950 + 1 }, (_v, index) =>
@@ -41,7 +15,31 @@ export const f1Seasons = (): string[] => {
   );
 };
 
-const dataConfig: DataConfigSchema = {
+const driverResults: DriverResult[] = Array.from(Array(10).keys()).map(() => ({
+  DriverNumber: faker.number.int(99).toString(),
+  BroadcastName: faker.person.middleName('male'),
+  Abbreviation: faker.person.middleName('male').slice(0, 3),
+  DriverId: faker.person.lastName('male'),
+  TeamName: faker.person.firstName(),
+  TeamColor: faker.color.rgb(),
+  TeamId: faker.person.firstName(),
+  FirstName: faker.person.firstName('male'),
+  LastName: faker.person.lastName('male'),
+  FullName: faker.person.fullName(),
+  HeadshotUrl: faker.image.url({ height: 93, width: 93 }),
+  CountryCode: faker.location.countryCode(),
+  Position: faker.number.int(20),
+  ClassifiedPosition: faker.number.int(20).toString(),
+  GridPosition: faker.number.int(20),
+  Q1: null,
+  Q2: null,
+  Q3: null,
+  Time: faker.number.int(5222624),
+  Status: faker.helpers.arrayElement(['Finished', '+1 Lap', 'Retired']),
+  Points: faker.number.int(25),
+}));
+
+export const dataConfig: DataConfigSchema = {
   seasons: f1Seasons(),
   schedule: Array.from(Array(3).keys()).map(() => ({
     RoundNumber: 0,
@@ -76,7 +74,7 @@ const dataConfig: DataConfigSchema = {
     'Drive 4',
     'Drive 5',
   ],
-  sessions: ['Practice 1', 'Practice 2', 'Practice 3', 'Qualifying', 'Race'],
+  sessions: [],
   standings: {
     DriverStandings: Array.from(Array(5).keys()).map(() => ({
       positionText: faker.number.int(20).toString(),
@@ -117,55 +115,14 @@ const dataConfig: DataConfigSchema = {
     season: 0,
     round: 0,
   },
-};
 
-export const fetchAPI = async (
-  endpoint: string,
-  statusCheck: boolean = false,
-) => {
-  const useServer = statusCheck || document.body.classList.contains('server');
-  // Headers for statusCheck so
-  const options = statusCheck ? { headers: { cache: 'no-store' } } : {};
-
-  // Get dummy data or return false
-  const dummy: string[] | ScheduleSchema[] | false =
-    dataConfig[
-      endpoint.split('?')[0] as 'seasons' | 'schedule' | 'drivers' | 'sessions'
-    ] || false;
-
-  // If we are not using the server return the dummy data
-  if (!useServer) {
-    return dummy;
-  }
-
-  // Fetch from server
-  const data = await fetch(`${serverUrl}/${endpoint}`, { ...options })
-    .then(
-      (res) => {
-        // Response is not successful
-        if (!res.ok) {
-          throw new Error('Not 2xx response', { cause: res });
-        }
-
-        // Success parse data
-        return res.json();
-      },
-      // Catch initial fetch error
-      (err) => {
-        throw new Error('Server not connecting', { cause: err });
-      },
-    )
-    // Return parsed data
-    .then((data) => data)
-    // Catch errors from above
-    .catch((err) => {
-      if (err === 'Server not connecting') return dummy;
-      if (err.status === 404) return dummy;
-
-      return dummy;
-    });
-
-  // console.log('data', data)
-
-  return data;
+  results: {
+    drivers: driverResults,
+    constructors: Array.from(Array(5).keys()).map((_, i) => ({
+      name: faker.person.firstName(),
+      points: faker.number.int(44),
+      position: faker.number.int(5),
+      drivers: driverResults.filter((_, filterIndex) => filterIndex % 5 === i),
+    })),
+  },
 };
