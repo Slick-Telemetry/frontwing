@@ -1,5 +1,5 @@
 import { dataConfig } from './fakerData';
-import { serverUrl } from '../../constants';
+import { serverUrl } from '../constants';
 
 export const positionEnding = (position: number | string) => {
   // Convert to int
@@ -15,34 +15,58 @@ export const toFahrenheit = (temp: number) => {
   return temp * (9 / 5) + 32;
 };
 
+export const fastestLap = (position: number, points: number) => {
+  switch (position) {
+    case 1:
+      return points !== 25;
+    case 2:
+      return points !== 18;
+    case 3:
+      return points !== 15;
+    case 4:
+      return points !== 12;
+    case 5:
+      return points !== 10;
+    case 6:
+      return points !== 8;
+    case 7:
+      return points !== 6;
+    case 8:
+      return points !== 4;
+    case 9:
+      return points !== 2;
+    case 10:
+      return points !== 1;
+
+    default:
+      return false;
+  }
+};
+
 export const formatDuration = (
   durationInMilliseconds: number,
-  timing = 'full',
 ) => {
+  // Pad single-digit values with leading zeros
+  const pad = (value: number) => {
+    return value < 10 ? '0' + value : value;
+  };
+
   // Calculate hours, minutes, seconds, and milliseconds
   const hours = Math.floor(durationInMilliseconds / 3600000);
   const minutes = Math.floor((durationInMilliseconds % 3600000) / 60000);
   const seconds = Math.floor((durationInMilliseconds % 60000) / 1000);
   const milliseconds = durationInMilliseconds % 1000;
 
-  // Pad single-digit values with leading zeros
-  const pad = (value: number) => {
-    return value < 10 ? '0' + value : value;
-  };
-
   if (hours === 0 && minutes === 0 && seconds === 0 && milliseconds === 0)
     return '-';
-
-  // Format based on timing
-  if (timing === 'seconds') return seconds + '.' + pad(milliseconds);
-
-  if (timing === 'minutes')
-    return minutes + ':' + pad(seconds) + '.' + pad(milliseconds);
-
-  if (timing === 'full')
-    return (
-      hours + ':' + pad(minutes) + ':' + pad(seconds) + '.' + pad(milliseconds)
-    );
+  else if (hours === 0 && minutes === 0 && seconds === 0)
+    return '0.' + pad(milliseconds);
+  else if (hours === 0 && minutes === 0)
+    return seconds + '.' + pad(milliseconds)
+  else if (hours === 0)
+    return minutes + ':' + pad(seconds) + '.' + pad(milliseconds)
+  else
+    return hours + ':' + pad(minutes) + ':' + pad(seconds) + '.' + pad(milliseconds)
 };
 
 export const sessionTitles = (event: ScheduleSchema) => {
