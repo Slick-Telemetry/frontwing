@@ -1,6 +1,6 @@
-import { faker } from '@faker-js/faker';
 
 import { serverUrl } from '../../constants';
+import { dataConfig } from './fakerData';
 
 export const positionEnding = (position: number | string) => {
   // Convert to int
@@ -12,112 +12,58 @@ export const positionEnding = (position: number | string) => {
   else return position + 'th';
 };
 
-/**
- * @description
- * Get all possible seasons/years with results
- * @return {*}  {string[]}
- */
-export const f1Seasons = (): string[] => {
-  // Discuss : Bump to fetch call to get data
-  // ! Alter to be dynamic
-  // const testingDate = new Date('02/22/2024');
 
-  const currDate = new Date();
-  const currYear = currDate.getFullYear();
+export const toFahrenheit = (temp: number) => {
+  return (temp * (9/5)) + 32
+}
 
-  // Compare curr date to testing date (Feb 22 2024)
-  // If same year as testing and before testing date
-  // Get previous year
-  // if (
-  //   testingDate.getFullYear() === currYear &&
-  //   currDate.getTime() < testingDate.getTime()
-  // ) {
-  //   currYear -= 1;
-  // }
+export const formatDuration = (durationInMilliseconds: number, timing = "full") => {
+  // Calculate hours, minutes, seconds, and milliseconds
+  const hours = Math.floor(durationInMilliseconds / 3600000);
+  const minutes = Math.floor((durationInMilliseconds % 3600000) / 60000);
+  const seconds = Math.floor((durationInMilliseconds % 60000) / 1000);
+  const milliseconds = durationInMilliseconds % 1000;
 
-  // Fill array with values between range
-  return Array.from({ length: currYear - 1950 + 1 }, (_v, index) =>
-    (currYear - index).toString(),
-  );
-};
+  // Pad single-digit values with leading zeros
+  const pad = (value: number) => {
+      return value < 10 ? "0" + value : value;
+  };
 
-const dataConfig: DataConfigSchema = {
-  seasons: f1Seasons(),
-  schedule: Array.from(Array(3).keys()).map(() => ({
-    RoundNumber: 0,
-    Country: faker.location.country(),
-    Location: faker.location.city(),
-    OfficialEventName: faker.word.words(5),
-    EventDate: faker.date.future({ years: 1 }).toString(),
-    EventName: faker.word.words(3),
-    EventFormat: 'string',
-    Session1: 'string',
-    Session1Date: faker.date.future({ years: 1 }).toString(),
-    Session1DateUtc: faker.date.future({ years: 1 }).toString(),
-    Session2: 'string',
-    Session2Date: faker.date.future({ years: 1 }).toString(),
-    Session2DateUtc: faker.date.future({ years: 1 }).toString(),
-    Session3: 'string',
-    Session3Date: faker.date.future({ years: 1 }).toString(),
-    Session3DateUtc: faker.date.future({ years: 1 }).toString(),
-    Session4: 'string',
-    Session4Date: faker.date.future({ years: 1 }).toString(),
-    Session4DateUtc: faker.date.future({ years: 1 }).toString(),
-    Session5: 'string',
-    Session5Date: faker.date.future({ years: 1 }).toString(),
-    Session5DateUtc: faker.date.future({ years: 1 }).toString(),
-    F1ApiSupport: true,
-  })),
-  drivers: [
-    'All Drivers',
-    'Drive 1',
-    'Drive 2',
-    'Drive 3',
-    'Drive 4',
-    'Drive 5',
-  ],
-  sessions: ['Practice 1', 'Practice 2', 'Practice 3', 'Qualifying', 'Race'],
-  standings: {
-    DriverStandings: Array.from(Array(5).keys()).map(() => ({
-      positionText: faker.number.int(20).toString(),
-      position: faker.number.int(20).toString(),
-      points: faker.number.int(25).toString(),
-      wins: faker.number.int(10).toString(),
-      Driver: {
-        driverId: faker.person.middleName(),
-        permanentNumber: faker.number.int(99).toString(),
-        code: faker.word.sample(3),
-        url: faker.internet.domainName(),
-        givenName: faker.person.firstName(),
-        familyName: faker.person.lastName(),
-        dateOfBirth: faker.date.birthdate().toString(),
-        nationality: faker.location.country(),
-      },
-      Constructors: [
-        {
-          constructorId: faker.person.middleName(),
-          url: faker.internet.domainName(),
-          name: faker.person.middleName(),
-          nationality: faker.location.country(),
-        },
-      ],
-    })),
-    ConstructorStandings: Array.from(Array(5).keys()).map(() => ({
-      positionText: faker.number.int(20).toString(),
-      position: faker.number.int(20).toString(),
-      points: faker.number.int(25).toString(),
-      wins: faker.number.int(10).toString(),
-      Constructor: {
-        constructorId: faker.person.middleName(),
-        url: faker.internet.domainName(),
-        name: faker.person.middleName(),
-        nationality: faker.location.country(),
-      },
-    })),
-    season: 0,
-    round: 0,
-  },
-};
+  if (hours === 0 && minutes === 0 && seconds === 0 && milliseconds === 0)
+      return '-'
+
+  // Format based on timing
+  if (timing === 'seconds' )
+      return seconds + "." + pad(milliseconds);
+
+  if (timing === 'minutes' )
+      return minutes + ":" + pad(seconds) + "." + pad(milliseconds);
+
+  if (timing === 'full')
+      return hours + ":" + pad(minutes) + ":" + pad(seconds) + "." + pad(milliseconds);
+}
+
+export const sessionTitles = (event: ScheduleSchema) => {
+  console.log('event', event)
+  const titles: string[] = [];
+  for (let i = 1; i <= 5; i++) {
+    const key = `Session${i}` as keyof ScheduleSchema
+    event[key] && event[key] !== 'None' && titles.push(event[key] as string)
+  }
+  console.log('titles', titles)
+
+  return titles;
+}
+
+export const lastSession = (event: ScheduleSchema) => {
+  if (event.Session5 !== 'None')
+    return event.Session5;
+  else if (event.Session4 !== 'None')
+    return event.Session4;
+  else
+    return event.Session3;
+}
+
 
 export const fetchAPI = async (
   endpoint: string,
