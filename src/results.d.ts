@@ -60,6 +60,37 @@ interface ConstructorStandingSchema extends StandingsSchema {
   Drivers?: DriverStandingSchema[];
 }
 
+interface DriverResult {
+  DriverNumber: string;
+  BroadcastName: string;
+  Abbreviation: string;
+  DriverId: string;
+  TeamName: string;
+  TeamColor: string;
+  TeamId: string;
+  FirstName: string;
+  LastName: string;
+  FullName: string;
+  HeadshotUrl: string;
+  CountryCode: string;
+  Position: number;
+  ClassifiedPosition: string;
+  GridPosition: number;
+  Q1: number | null;
+  Q2: number | null;
+  Q3: number | null;
+  Time: number | null;
+  Status: string;
+  Points: number;
+}
+
+interface ConstructorResult {
+  name: string;
+  position: number;
+  points: number;
+  drivers: DriverResult[];
+}
+
 // UI format
 interface DataConfigSchema {
   seasons: string[];
@@ -71,5 +102,9 @@ interface DataConfigSchema {
     round: number;
     DriverStandings: DriverStandingSchema[];
     ConstructorStandings: ConstructorStandingSchema[];
+  };
+  results: {
+    drivers: DriverResult[];
+    constructors: ConstructorResult[];
   };
 }

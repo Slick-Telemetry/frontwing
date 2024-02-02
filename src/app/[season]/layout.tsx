@@ -1,6 +1,6 @@
 'use client';
 
-import { MainFilters } from '../MainFilters';
+import { MainFilters } from '../ui/MainFilters';
 
 // Default Next Layout
 export default function ResultsLayout({
@@ -10,7 +10,7 @@ export default function ResultsLayout({
 }) {
   return (
     <>
-      <div className='container mx-auto mb-4 rounded-box bg-base-300 p-4 md:my-4'>
+      <div className='container mx-auto mb-4 rounded-box bg-base-300 p-4 px-2 md:my-4'>
         <MainFilters />
       </div>
       {children}

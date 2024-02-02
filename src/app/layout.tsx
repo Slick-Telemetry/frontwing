@@ -5,8 +5,8 @@ import { Inter } from 'next/font/google';
 
 import './globals.css';
 
-import { fetchAPI } from './lib/utils';
 import { Nav } from './ui/Nav';
+import { fetchAPI } from '../lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,7 +25,7 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={clsx('min-h-screen px-4', inter.className, {
+        className={clsx('min-h-screen', inter.className, {
           server: server,
           // noServer: !server,
         })}
