@@ -1,9 +1,7 @@
 'use client';
 
 import { useAtom } from 'jotai/react';
-// import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
 
 import {
   allDriversAtom,
@@ -16,7 +14,11 @@ import {
   raceAtom,
   seasonRacesAtom,
 } from '@/atoms/races';
-import { handleMainFilterSubmit, telemetryDisableAtom } from '@/atoms/results';
+import {
+  handleMainFilterSubmit,
+  telemetryDisableAtom,
+  toggleTelemetryDisableAtom,
+} from '@/atoms/results';
 import {
   allSeasonsAtom,
   fetchSeasons,
@@ -25,6 +27,7 @@ import {
 } from '@/atoms/seasons';
 import {
   allSessionsAtom,
+  fetchSessionResults,
   handleSessionChangeAtom,
   sessionAtom,
 } from '@/atoms/sessions';
@@ -43,7 +46,7 @@ export const MainFilters = () => {
   const [, handleResultsSubmit] = useAtom(handleMainFilterSubmit);
 
   // useAtom(fetchSeasons);
-  // useAtom(toggleTelemetryDisableAtom);
+  useAtom(toggleTelemetryDisableAtom);
   // useAtom(fetchSessionResults);
 
   const changePath = (url: string) => {
@@ -51,9 +54,10 @@ export const MainFilters = () => {
     if (pathname !== '/') router.push(url);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.MouseEvent) => {
+    const telemetry = (e.target as HTMLButtonElement).innerHTML === 'Telemetry';
     const url = handleResultsSubmit();
-    router.push('/' + url);
+    router.push('/' + url + (telemetry && '/telemetry'));
   };
 
   return (
@@ -70,10 +74,11 @@ export const MainFilters = () => {
       </div>
 
       <div className='flex gap-4 px-2'>
-        <button className='btn btn-primary btn-sm'>
-          <a onClick={() => handleSubmit()}>Results</a>
+        <button onClick={handleSubmit} className='btn btn-primary btn-sm'>
+          Results
         </button>
         <button
+          onClick={handleSubmit}
           disabled={telemetryDisable}
           className='btn btn-secondary btn-sm'
         >
@@ -127,7 +132,7 @@ const RaceDropdown = ({ action }: actionT) => {
 };
 
 const DriverDropdown = ({ action }: actionT) => {
-  const [driverName] = useAtom(driverAtom);
+  const [driver] = useAtom(driverAtom);
   const [, handleDriverChange] = useAtom(handleDriverChangeAtom);
   const [driverList] = useAtom(allDriversAtom);
 
@@ -139,7 +144,7 @@ const DriverDropdown = ({ action }: actionT) => {
 
   return (
     <Dropdown
-      value={driverName}
+      value={driver !== 'All Drivers' ? driver.FullName : driver}
       items={driverList.map((driver) => driver.FullName)}
       action={handleAction}
     />
@@ -149,6 +154,8 @@ const SessionDropdown = ({ action }: actionT) => {
   const [sessionName] = useAtom(sessionAtom);
   const [, handleSessionChange] = useAtom(handleSessionChangeAtom);
   const [sessionList] = useAtom(allSessionsAtom);
+
+  useAtom(fetchSessionResults);
 
   const handleAction = (val: string) => {
     handleSessionChange(val).then((url: string) => {

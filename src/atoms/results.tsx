@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
-import { allDriversAtom, driverAtom } from './drivers';
+import { driverAtom } from './drivers';
 import { raceAtom } from './races';
 import { seasonAtom } from './seasons';
 import { allSessionsAtom, sessionAtom } from './sessions';
@@ -17,30 +17,31 @@ export const toggleTelemetryDisableAtom = atomEffect((get, set) => {
 });
 
 export const handleMainFilterSubmit = atom(null, (get) => {
-  const url = [get(seasonAtom)];
+  const season = get(seasonAtom);
   const race = get(raceAtom);
   const driver = get(driverAtom);
+  const session = get(sessionAtom);
+  const url = [];
 
+  // Return if no race specified
+  if (!season) return;
+  // Add season to url
+  else url.push(season);
+
+  // Return if no race specified
   if (race === 'All Races') return url.join('/');
-  else url.push(race.Location);
+  // Add race location to url
+  else url.push(race.Location.toLowerCase());
 
+  // Return if no driver specified
   if (driver === 'All Drivers') return url.join('/');
-  else {
-    const driverInfo = get(allDriversAtom).find(
-      (driver) => driver.FullName === get(driverAtom),
-    );
-    if (driverInfo) url.push(driverInfo.DriverId);
-    else return url.join('/');
-  }
+  // Add driver id to url
+  else url.push(driver.DriverId);
 
+  // Return if no sessions
   if (get(allSessionsAtom).length === 0) return url.join('/');
-  else {
-    const sessionIndex = get(allSessionsAtom).indexOf(get(sessionAtom)) + 1;
-    url.push(sessionIndex.toString());
-  }
+  // Add session to url
+  else url.push(session.toLowerCase());
+
   return url.join('/');
 });
-
-// export const handleParams = atomEffect((get, set) => {
-
-// })
