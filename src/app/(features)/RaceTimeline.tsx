@@ -28,14 +28,16 @@ export const DriverResultsInfo = ({
           >
             {driver.FullName}
           </h3>
-          <h4
-            className={clsx({
-              'text-1xl': subEl,
-              'text-3xl': !subEl,
-            })}
-          >
-            {driver.TeamName}
-          </h4>
+          {!subEl && (
+            <h4
+              className={clsx({
+                'text-1xl': subEl,
+                'text-3xl': !subEl,
+              })}
+            >
+              {driver.TeamName}
+            </h4>
+          )}
         </div>
       </div>
       {!subEl && (
