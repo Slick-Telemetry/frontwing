@@ -24,7 +24,7 @@ export default function ResultsPage() {
   return (
     <main>
       <Tabs
-        headers={['Races', 'Drivers', 'Constructors']}
+        headers={['Schedule', 'Drivers', 'Constructors']}
         containers={[
           <RaceSchedule key='Race Schedule' />,
           <Timeline key='Driver Standings'>
