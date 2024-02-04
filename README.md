@@ -15,6 +15,7 @@ Table of Contents:
   - [Contribution Guidelines](#contribution-guidelines)
 - [Tests](#tests)
 - [Deployment](#deployment)
+- [URL Structure](#url-structure)
 - [Resources](#resources)
 
 ## Setting up the project
@@ -96,6 +97,19 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 ## Deployment
 
 // TODO [vercel](https://vercel.com/)
+
+## URL Structure
+
+```
+`/`
+├── Results of past seasons
+└──`[season]` -> year
+    └── `[location]` -> race location of race in season
+        └── `[session]` -> session of race
+            └── `[driver]` -> driverId in race session
+                ├── `/` -> ???
+                └── `/telemetry` -> ???
+```
 
 ## Resources
 
