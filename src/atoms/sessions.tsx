@@ -59,7 +59,7 @@ const formatConstructorResults = (drivers: DriverResult[]) =>
 
 // Sessions
 export const allSessionsAtom = atom<string[]>([]);
-export const sessionAtom = atom('Race');
+export const sessionAtom = atom<string>('Race');
 
 // Get session results
 // Set allDriversAtom to drivers from session
@@ -95,6 +95,6 @@ export const handleSessionChangeAtom = atom(
 
     // return navigation url
     return `/${get(seasonAtom)}/${get(raceAtom)}/
-    ${get(driverAtom)}/${session}`;
+    ${get(driverAtom)}/${session.toLowerCase()}`;
   },
 );

@@ -40,6 +40,6 @@ export const handleRaceChangeAtom = atom(
     set(sessionAtom, lastSession(raceEvent));
 
     // return navigation url
-    return '/' + get(seasonAtom) + '/' + raceEvent.Location;
+    return '/' + get(seasonAtom) + '/' + raceEvent.Location.toLowerCase();
   },
 );
