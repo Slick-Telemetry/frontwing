@@ -80,9 +80,13 @@ export const sessionTitles = (event: ScheduleSchema) => {
 };
 
 export const lastSession = (event: ScheduleSchema) => {
-  if (event.Session5 !== 'None') return event.Session5;
-  else if (event.Session4 !== 'None') return event.Session4;
-  else return event.Session3;
+  let session = 'None';
+
+  if (event.Session5 !== 'None') session = event.Session5;
+  else if (event.Session4 !== 'None') session = event.Session4;
+  else session = event.Session3;
+
+  return session;
 };
 
 export const fetchAPI = async (

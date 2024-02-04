@@ -25,33 +25,17 @@ export default function ResultsPage({
   const [races] = useAtom(seasonRacesAtom);
   const [_, setRace] = useAtom(raceAtom);
 
+  // On Mount we need to update the race to use the url params
   useEffect(() => {
     setRace(
-      races.find((race) => race.Location === params.location) || 'All Races',
+      races.find((race) => race.Location.toLowerCase() === params.location) ||
+        'All Races',
     );
   }, [races, params.location, setRace]);
-  // useAtom(fetchStandings);
-  // useAtom(fetchSessionResults);
   useAtom(fetchSessionResults);
 
-  // const [constructorStandings] = useAtom(constructorStandingsAtom);
-  // const [driverStandings] = useAtom(driverStandingsAtom);
   const [drivers] = useAtom(allDriversAtom);
   const [constructors] = useAtom(allConstructorAtom);
-
-  // const [driverStandings] = useAtom(driverStandingsAtom);
-
-  // const [, handleRaceChange] = useAtom(handleRaceChangeAtom);
-  // const [allRaces] = useAtom(seasonRacesAtom)
-
-  // if (!params) return <></>;
-  // Get all
-
-  // if (allRaces && allRaces.length > 0) {
-  //   console.log('all races', allRaces[parseInt(params.round) - 1])
-
-  //   handleRaceChange(allRaces[parseInt(params.round) - 1]);
-  // }
 
   return (
     <main>
