@@ -3,9 +3,9 @@ import { atomEffect } from 'jotai-effect';
 
 import { f1Seasons } from '@/lib/fakerData';
 
-import { driverAtom } from './drivers';
-import { raceAtom } from './races';
-import { sessionAtom } from './sessions';
+import { allDriversAtom, driverAtom } from './drivers';
+import { raceAtom, seasonRacesAtom } from './races';
+import { allSessionsAtom, sessionAtom } from './sessions';
 
 // Seasons
 export const allSeasonsAtom = atom<string[]>([]);
@@ -29,10 +29,10 @@ export const handleSeasonChangeAtom = atom(
 
     // Reset other filter values
     set(raceAtom, 'All Races');
+    set(seasonRacesAtom, []);
     set(driverAtom, 'All Drivers');
+    set(allDriversAtom, []);
     set(sessionAtom, 'Race');
-
-    // return navigation url
-    return '/' + season;
+    set(allSessionsAtom, []);
   },
 );

@@ -135,7 +135,5 @@ export const fetchAPI = async (
       return dummy;
     });
 
-  // console.log('data', data)
-
   return data;
 };

@@ -2,10 +2,10 @@
 
 import { useAtom } from 'jotai';
 
+import { seasonAtom } from '@/atoms/seasons';
 import {
   constructorStandingsAtom,
   driverStandingsAtom,
-  fetchStandings,
 } from '@/atoms/standings';
 
 import { RaceSchedule } from '../(features)/RaceSchedule';
@@ -17,12 +17,13 @@ import { Tabs } from '../ui/Tabs';
 import { Timeline, TimelineElement } from '../ui/Timeline';
 
 export default function ResultsPage() {
-  useAtom(fetchStandings);
   const [constructorStandings] = useAtom(constructorStandingsAtom);
   const [driverStandings] = useAtom(driverStandingsAtom);
+  const [season] = useAtom(seasonAtom);
 
   return (
     <main>
+      <h1>{season}</h1>
       <Tabs
         headers={['Schedule', 'Drivers', 'Constructors']}
         containers={[
