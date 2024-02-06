@@ -6,21 +6,16 @@ import { seasonRacesAtom } from '@/atoms/races';
 
 export const RaceSchedule = () => {
   const [races] = useAtom(seasonRacesAtom);
-
-  const winterTesting = useMemo(
-    () => races.find((race) => race.EventFormat === 'testing'),
-    [races],
-  );
   const mainEvents = useMemo(
-    () => races.filter((race) => race.EventFormat !== 'testing'),
+    () => (races ? races.filter((race) => race.EventFormat !== 'testing') : []),
     [races],
   );
 
-  if (races.length === 0)
+  if (races && races.length === 0)
     return (
       <div className='px-4 lg:px-0'>
         <div className='mt-8 grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-4'>
-          {/* 3 Placeholder Cards */}
+          {/* 4 Placeholder Cards */}
           {Array.from(Array(4).keys()).map((_, i) => (
             <SkeletonResultCard key={'skeleton result card - ' + i} />
           ))}
@@ -31,7 +26,6 @@ export const RaceSchedule = () => {
   return (
     <div className='px-4 lg:px-0'>
       {/* If seasonAom === current/upcomming season, then add button to bring user to next event */}
-      {winterTesting && <WinterTesting data={winterTesting} />}
       <div className='mt-8 grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-4'>
         {/* 10 Placeholder Cards */}
         {mainEvents.map((race) => (
@@ -92,42 +86,6 @@ const ResultCard = ({ data }: { data: ScheduleSchema }) => {
           <div className='card-actions justify-center'>
             <button className='btn btn-primary btn-sm btn-wide'>Results</button>
           </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-const WinterTesting = ({ data }: { data: ScheduleSchema }) => {
-  const eventDate = new Date(data.EventDate);
-  const eventPassed = new Date() > eventDate;
-
-  return (
-    <div className='card relative min-h-48 justify-center overflow-hidden rounded-2xl p-4'>
-      <figure className='absolute inset-0 z-0 flex items-center justify-end bg-gradient-to-r from-base-100'>
-        <Image
-          width={928}
-          height={548}
-          className='w-full mix-blend-overlay'
-          loader={() =>
-            'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
-          }
-          src='/shoe.jpg'
-          alt='Shoes'
-        />
-      </figure>
-      <div className='relative z-0 flex flex-col gap-4 lg:items-start'>
-        <div>
-          <h3>{data.OfficialEventName}</h3>
-          <p>
-            {data.Location}, {data.Country}
-          </p>
-          <p>{eventDate.toDateString()}</p>
-        </div>
-        {eventPassed && (
-          <a role='button' className='btn btn-sm'>
-            Testing Results
-          </a>
         )}
       </div>
     </div>
