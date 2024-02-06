@@ -12,13 +12,18 @@ export const driverStandingsAtom = atom<DriverStandingSchema[]>([]);
 
 // Get Driver & Constructor Standings
 export const fetchStandings = atomEffect((get, set) => {
+  // Reset standings
   set(driverStandingsAtom, []);
   set(constructorStandingsAtom, []);
+  const race = get(raceAtom);
+
+  // Year
   const year = get(seasonAtom) && `?year=${get(seasonAtom)}`;
-  const round =
-    typeof get(raceAtom) !== 'string'
-      ? `&round=${(get(raceAtom) as ScheduleSchema).RoundNumber}`
-      : '';
+
+  // Round
+  const round = race === 'All Races' ? '' : `&round=${race.RoundNumber}`;
+
+  // Fetch
   fetchAPI('standings' + year + round).then(
     ({
       DriverStandings,
@@ -35,6 +40,7 @@ export const fetchStandings = atomEffect((get, set) => {
         };
       });
 
+      // Update standings
       set(constructorStandingsAtom, constructors);
       set(driverStandingsAtom, DriverStandings);
     },
