@@ -9,7 +9,7 @@ import {
   handleDriverChangeAtom,
 } from '@/atoms/drivers';
 import {
-  fetchRaces,
+  fetchSchedule,
   handleRaceChangeAtom,
   raceAtom,
   seasonRacesAtom,
@@ -18,6 +18,7 @@ import {
   handleMainFilterSubmit,
   telemetryDisableAtom,
   toggleTelemetryDisableAtom,
+  useParamToSetAtoms,
 } from '@/atoms/results';
 import {
   allSeasonsAtom,
@@ -35,7 +36,7 @@ import {
 import { Dropdown } from './Dropdown';
 
 interface actionT {
-  action: (url: string) => void;
+  action: () => void;
 }
 
 export const MainFilters = () => {
@@ -45,20 +46,26 @@ export const MainFilters = () => {
   const [telemetryDisable] = useAtom(telemetryDisableAtom);
   const [, handleResultsSubmit] = useAtom(handleMainFilterSubmit);
 
-  // useAtom(fetchSeasons);
-  useAtom(toggleTelemetryDisableAtom);
-  // useAtom(fetchSessionResults);
-
-  const changePath = (url: string) => {
+  const changePath = () => {
     // If not home page auto change page
-    if (pathname !== '/') router.push(url);
+    const url = handleResultsSubmit();
+    if (pathname !== '/' && url) router.push('/' + url);
   };
 
   const handleSubmit = (e: React.MouseEvent) => {
     const telemetry = (e.target as HTMLButtonElement).innerHTML === 'Telemetry';
     const url = handleResultsSubmit();
-    router.push('/' + url + (telemetry && '/telemetry'));
+    router.push('/' + url + (telemetry ? '/telemetry' : ''));
   };
+
+  useAtom(fetchSeasons);
+  useAtom(fetchSchedule);
+  useAtom(fetchSessionResults);
+
+  useAtom(toggleTelemetryDisableAtom);
+
+  // Handles hydration on page load
+  useParamToSetAtoms();
 
   return (
     <div className='flex flex-col gap-2'>
@@ -92,39 +99,36 @@ export const MainFilters = () => {
 const SeasonDropdown = ({ action }: actionT) => {
   const [seasons] = useAtom(allSeasonsAtom);
   const [season] = useAtom(seasonAtom);
-  const [, handleSeasonChange] = useAtom(handleSeasonChangeAtom);
+  const [, changeSeason] = useAtom(handleSeasonChangeAtom);
 
   const handleAction = (val: string) => {
-    // Submit new value get endpoint
-    handleSeasonChange(val).then((url: string) => {
-      action(url);
-    });
+    changeSeason(val);
+    action();
   };
 
-  useAtom(fetchSeasons);
+  // Populate seasons
 
   return <Dropdown value={season} items={seasons} action={handleAction} />;
 };
 
 const RaceDropdown = ({ action }: actionT) => {
   const [race] = useAtom(raceAtom);
-  const [, handleRaceChange] = useAtom(handleRaceChangeAtom);
+  const [, changeRace] = useAtom(handleRaceChangeAtom);
   const [races] = useAtom(seasonRacesAtom);
 
   const handleAction = (val: string) => {
     const match = races.find((race) => race.EventName === val);
     if (match) {
-      handleRaceChange(match).then((url: string) => {
-        action(url);
-      });
+      changeRace(match);
+      action();
     }
   };
 
-  useAtom(fetchRaces);
+  // Populate Races
 
   return (
     <Dropdown
-      value={typeof race === 'string' ? race : race.EventName}
+      value={race === 'All Races' ? race : race.EventName}
       items={races.map((race) => race.EventName)}
       action={handleAction}
     />
@@ -137,9 +141,8 @@ const DriverDropdown = ({ action }: actionT) => {
   const [driverList] = useAtom(allDriversAtom);
 
   const handleAction = (val: string) => {
-    handleDriverChange(val).then((url: string) => {
-      action(url);
-    });
+    handleDriverChange(val);
+    action();
   };
 
   return (
@@ -155,12 +158,9 @@ const SessionDropdown = ({ action }: actionT) => {
   const [, handleSessionChange] = useAtom(handleSessionChangeAtom);
   const [sessionList] = useAtom(allSessionsAtom);
 
-  useAtom(fetchSessionResults);
-
   const handleAction = (val: string) => {
-    handleSessionChange(val).then((url: string) => {
-      action(url);
-    });
+    handleSessionChange(val);
+    action();
   };
 
   return (

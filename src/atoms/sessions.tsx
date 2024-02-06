@@ -1,10 +1,10 @@
 import { atom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
-import { fetchAPI } from '@/lib/utils';
+import { fetchAPI, lastSession, sessionTitles } from '@/lib/utils';
 
 import { allConstructorAtom } from './constructors';
-import { allDriversAtom, driverAtom } from './drivers';
+import { allDriversAtom } from './drivers';
 import { raceAtom } from './races';
 import { seasonAtom } from './seasons';
 
@@ -68,12 +68,21 @@ export const fetchSessionResults = atomEffect((get, set) => {
 
   // Confirm race has been selected
   if (race && race !== 'All Races') {
-    const sessions = get(allSessionsAtom);
-    let url = `results/${get(seasonAtom)}/${race.RoundNumber}`;
+    // Make sure sessions match the race
+
+    const sessions = sessionTitles(race);
+    const session = lastSession(race);
+    // Parse race data to get session titles
+    // Set session to last session, ideally race
+    set(sessionAtom, session);
+    set(allSessionsAtom, sessions);
+
+    // const sessions = get(allSessionsAtom);
+    let url = `results/${get(seasonAtom)}/${race.RoundNumber + 1}`;
 
     // If sessions available find session round and add to url
     if (sessions.length > 0) {
-      const sessionRound = sessions.indexOf(get(sessionAtom)) + 1;
+      const sessionRound = sessions.indexOf(session) + 1;
       url += `?session=${sessionRound}`;
     }
 
@@ -92,9 +101,5 @@ export const handleSessionChangeAtom = atom(
   null,
   async (get, set, session: string) => {
     set(sessionAtom, session);
-
-    // return navigation url
-    return `/${get(seasonAtom)}/${get(raceAtom)}/
-    ${get(driverAtom)}/${session.toLowerCase()}`;
   },
 );
