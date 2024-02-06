@@ -24,6 +24,5 @@ export const handleDriverChangeAtom = atom(
     }
     //   return nagivation url
     set(driverAtom, 'All Drivers');
-    return baseUrl + (raceLoc && `/${raceLoc}`);
   },
 );
