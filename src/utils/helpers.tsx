@@ -109,6 +109,7 @@ export const fetchAPI = async (
   }
 
   // Fetch from server
+  // console.log(`making fetch to: ${serverUrl}/${endpoint}`);
   const data = await fetch(`${serverUrl}/${endpoint}`, { ...options })
     .then(
       (res) => {

@@ -24,7 +24,7 @@ export default function ResultsPage() {
         headers={['Drivers', 'Constructors']}
         containers={[
           <Timeline key='Driver Results'>
-            {drivers.map((driver, index, allDrivers) => (
+            {drivers?.map((driver, index, allDrivers) => (
               <TimelineElement
                 key={driver.FullName}
                 first={index === 0}

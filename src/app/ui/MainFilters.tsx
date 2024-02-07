@@ -8,12 +8,8 @@ import {
   driverAtom,
   handleDriverChangeAtom,
 } from '@/atoms/drivers';
-import {
-  fetchSchedule,
-  handleRaceChangeAtom,
-  raceAtom,
-  seasonRacesAtom,
-} from '@/atoms/races';
+import { useMainFiltersAtomFetch } from '@/atoms/fetchCalls';
+import { handleRaceChangeAtom, raceAtom, seasonRacesAtom } from '@/atoms/races';
 import {
   handleMainFilterSubmit,
   telemetryDisableAtom,
@@ -22,13 +18,11 @@ import {
 } from '@/atoms/results';
 import {
   allSeasonsAtom,
-  fetchSeasons,
   handleSeasonChangeAtom,
   seasonAtom,
 } from '@/atoms/seasons';
 import {
   allSessionsAtom,
-  fetchSessionResults,
   handleSessionChangeAtom,
   sessionAtom,
 } from '@/atoms/sessions';
@@ -58,11 +52,11 @@ export const MainFilters = () => {
     router.push('/' + url + (telemetry ? '/telemetry' : ''));
   };
 
-  useAtom(fetchSeasons);
-  useAtom(fetchSchedule);
-  useAtom(fetchSessionResults);
-
+  // hook to trigger if telemetry is disabled or not
   useAtom(toggleTelemetryDisableAtom);
+
+  // Fetch data when atoms change
+  useMainFiltersAtomFetch();
 
   // Handles hydration on page load
   useParamToSetAtoms();
@@ -117,7 +111,7 @@ const RaceDropdown = ({ action }: actionT) => {
   const [races] = useAtom(seasonRacesAtom);
 
   const handleAction = (val: string) => {
-    const match = races.find((race) => race.EventName === val);
+    const match = races && races.find((race) => race.EventName === val);
     if (match) {
       changeRace(match);
       action();
@@ -129,7 +123,7 @@ const RaceDropdown = ({ action }: actionT) => {
   return (
     <Dropdown
       value={race === 'All Races' ? race : race.EventName}
-      items={races.map((race) => race.EventName)}
+      items={races && ['All Races', ...races.map((race) => race.EventName)]}
       action={handleAction}
     />
   );
@@ -148,7 +142,12 @@ const DriverDropdown = ({ action }: actionT) => {
   return (
     <Dropdown
       value={driver !== 'All Drivers' ? driver.FullName : driver}
-      items={driverList.map((driver) => driver.FullName)}
+      items={
+        driverList && [
+          'All Drivers',
+          ...driverList.map((driver) => driver.FullName),
+        ]
+      }
       action={handleAction}
     />
   );
@@ -166,7 +165,7 @@ const SessionDropdown = ({ action }: actionT) => {
   return (
     <Dropdown
       value={sessionName}
-      items={sessionList.reverse()}
+      items={sessionList && sessionList.reverse()}
       action={handleAction}
     />
   );

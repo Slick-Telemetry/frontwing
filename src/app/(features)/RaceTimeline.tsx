@@ -1,7 +1,11 @@
 import clsx from 'clsx';
 import { BsFillStarFill } from 'react-icons/bs';
 
-import { fastestLap, formatDuration, positionEnding } from '../../lib/utils';
+import {
+  fastestLap,
+  formatDuration,
+  positionEnding,
+} from '../../utils/helpers';
 
 export const DriverResultsInfo = ({
   driver,

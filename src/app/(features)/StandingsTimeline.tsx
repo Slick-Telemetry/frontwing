@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { positionEnding } from '../../lib/utils';
+import { positionEnding } from '../../utils/helpers';
 
 export const DriverStandingInfo = ({
   driver,
