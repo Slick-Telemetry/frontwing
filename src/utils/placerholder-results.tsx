@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { positionEnding } from './utils';
+import { positionEnding } from './helpers';
 
 export const DriverHeadings = [
   'position',

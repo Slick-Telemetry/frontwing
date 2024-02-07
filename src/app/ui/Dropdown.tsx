@@ -5,7 +5,7 @@ import { BsFillCaretDownFill } from 'react-icons/bs';
 
 interface IDropdown {
   value: string;
-  items: string[];
+  items: string[] | null;
   action: (item: string) => void;
 }
 
@@ -23,17 +23,23 @@ export const Dropdown = ({ value, items, action }: IDropdown) => {
         tabIndex={0}
         role='button'
         className={clsx(
-          { 'pointer-events-none opacity-50': items.length <= 0 },
+          { 'pointer-events-none opacity-50': items && items.length <= 1 },
           'btn btn-ghost btn-sm rounded-btn underline',
         )}
       >
-        {value} <BsFillCaretDownFill />
+        {items ? (
+          <>
+            {value} <BsFillCaretDownFill />
+          </>
+        ) : (
+          <span className='loading loading-spinner loading-sm text-primary'></span>
+        )}
       </div>
       <ul
         tabIndex={0}
         className='menu dropdown-content z-[1] mt-2 max-h-64 w-52 flex-nowrap overflow-scroll rounded-box bg-base-100 p-2 shadow lg:max-h-96'
       >
-        {items.map((item) => (
+        {items?.map((item) => (
           <li key={item} data-cy='dropdown-item'>
             <a onClick={() => handleClick(item)}>{item}</a>
           </li>
