@@ -1,6 +1,10 @@
 import clsx from 'clsx';
 
-export const Timeline = ({ children }: { children: React.ReactNode[] }) => {
+export const Timeline = ({
+  children,
+}: {
+  children: React.ReactNode | React.ReactNode[];
+}) => {
   return (
     <ul className='timeline timeline-vertical timeline-snap-icon max-md:timeline-compact'>
       {children}
