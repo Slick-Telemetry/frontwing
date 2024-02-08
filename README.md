@@ -79,6 +79,11 @@ This project is using [conventional commits](https://www.conventionalcommits.org
   - `Squash and merge` can be used when the commits _**DON'T**_ need to be individually brought in to the target branch.
   - [More information](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github).
 
+- **Jira issue linking**
+  - Commits and PRs **_must_** be linked to a Jira issue.
+  - To do so, include the Jira issue key in the PR title and/or the commit message after the conventional commit type.
+  - [More information on Jira smart commits](https://support.atlassian.com/jira-software-cloud/docs/process-issues-with-smart-commits/).
+
 ## Tests
 
 // TODO [cypress](https://www.cypress.io/)
