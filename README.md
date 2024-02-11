@@ -104,7 +104,7 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 `/`
 ├── Results of past seasons
 └──`[season]` -> year
-    └── `[location]` -> race location of race in season
+    └── `[event name]` -> event name of race in season
         └── `[session]` -> session of race
             └── `[driver]` -> driverId in race session
                 ├── `/` -> ???
