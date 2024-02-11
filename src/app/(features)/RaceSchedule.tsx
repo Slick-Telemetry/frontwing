@@ -1,15 +1,10 @@
 import { useAtom } from 'jotai';
 import Image from 'next/image';
-import { useMemo } from 'react';
 
 import { seasonRacesAtom } from '@/atoms/races';
 
 export const RaceSchedule = () => {
   const [races] = useAtom(seasonRacesAtom);
-  const mainEvents = useMemo(
-    () => (races ? races.filter((race) => race.EventFormat !== 'testing') : []),
-    [races],
-  );
 
   if (races && races.length === 0)
     return (
@@ -28,9 +23,7 @@ export const RaceSchedule = () => {
       {/* If seasonAom === current/upcomming season, then add button to bring user to next event */}
       <div className='mt-8 grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-4'>
         {/* 10 Placeholder Cards */}
-        {mainEvents.map((race) => (
-          <ResultCard key={race.EventName} data={race} />
-        ))}
+        {races?.map((race) => <ResultCard key={race.EventName} data={race} />)}
       </div>
     </div>
   );

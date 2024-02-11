@@ -30,8 +30,6 @@ export const fetchSeasons = atomEffect(
     }
 
     // This populates to show values are loaded
-    set(allSessionsAtom, []);
-    set(allDriversAtom, []);
   },
   // Dependencies: allSeasonsAtom
 );
