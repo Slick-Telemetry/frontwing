@@ -1,3 +1,22 @@
+import { sessionUrlParams } from '@/constants';
+
+export const formatRaceUrl = (raceName: string) =>
+  raceName.replace(' Grand Prix', '').replace(/ /g, '_').toLowerCase();
+
+export const formatRaceEventName = (val: string) =>
+  val
+    .split('_')
+    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(' ') + ' Grand Prix';
+
+export const formatSessionUrl = (session: string) =>
+  sessionUrlParams[session as keyof typeof sessionUrlParams];
+
+export const formatSessionName = (val: string) =>
+  Object.keys(sessionUrlParams).find(
+    (key) => sessionUrlParams[key as keyof typeof sessionUrlParams] === val,
+  );
+
 export const formatConstructorResults = (drivers: DriverResult[]) =>
   drivers
     .reduce((cons, driver) => {
