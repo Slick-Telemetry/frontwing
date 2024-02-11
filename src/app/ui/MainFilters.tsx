@@ -130,6 +130,8 @@ const RaceDropdown = ({ action }: actionT) => {
 };
 
 const DriverDropdown = ({ action }: actionT) => {
+  const [race] = useAtom(raceAtom);
+  const [races] = useAtom(seasonRacesAtom);
   const [driver] = useAtom(driverAtom);
   const [, handleDriverChange] = useAtom(handleDriverChangeAtom);
   const [driverList] = useAtom(allDriversAtom);
@@ -139,20 +141,30 @@ const DriverDropdown = ({ action }: actionT) => {
     action();
   };
 
+  let items = null;
+
+  // If races it not default we need values
+  if (race === 'All Races' && races && races.length > 0) {
+    items = [];
+  }
+
+  // If race is default we return []
+  if (race !== 'All Races' && driverList) {
+    items = ['All Drivers', ...driverList.map((driver) => driver.FullName)];
+  }
+  // const items = (driverList && driverList.length > 0 && race !== 'All Races') ? [
+
   return (
     <Dropdown
       value={driver !== 'All Drivers' ? driver.FullName : driver}
-      items={
-        driverList && [
-          'All Drivers',
-          ...driverList.map((driver) => driver.FullName),
-        ]
-      }
+      items={items}
       action={handleAction}
     />
   );
 };
 const SessionDropdown = ({ action }: actionT) => {
+  const [race] = useAtom(raceAtom);
+  const [races] = useAtom(seasonRacesAtom);
   const [sessionName] = useAtom(sessionAtom);
   const [, handleSessionChange] = useAtom(handleSessionChangeAtom);
   const [sessionList] = useAtom(allSessionsAtom);
@@ -162,11 +174,17 @@ const SessionDropdown = ({ action }: actionT) => {
     action();
   };
 
-  return (
-    <Dropdown
-      value={sessionName}
-      items={sessionList && sessionList.reverse()}
-      action={handleAction}
-    />
-  );
+  let items = null;
+
+  // If races it not default we need values
+  if (race === 'All Races' && races && races.length > 0) {
+    items = [];
+  }
+
+  // If race is default we return []
+  if (race !== 'All Races' && sessionList) {
+    items = [...sessionList.reverse()];
+  }
+
+  return <Dropdown value={sessionName} items={items} action={handleAction} />;
 };

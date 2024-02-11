@@ -3,6 +3,13 @@ import { atomEffect } from 'jotai-effect';
 import { usePathname } from 'next/navigation';
 import { useRef } from 'react';
 
+import {
+  formatRaceEventName,
+  formatRaceUrl,
+  formatSessionName,
+  formatSessionUrl,
+} from '@/utils/transformers';
+
 import { allDriversAtom, driverAtom } from './drivers';
 import { raceAtom, seasonRacesAtom } from './races';
 import { seasonAtom } from './seasons';
@@ -34,7 +41,7 @@ export const handleMainFilterSubmit = atom(null, (get) => {
   // Return if no race specified
   if (race === 'All Races') return url.join('/');
   // Add race location to url
-  else url.push(race.Location.toLowerCase());
+  else url.push(formatRaceUrl(race.EventName));
 
   // Return if no driver specified
   if (driver === 'All Drivers') return url.join('/');
@@ -45,13 +52,13 @@ export const handleMainFilterSubmit = atom(null, (get) => {
   if ((sessions && sessions.length === 0) || session === 'Race')
     return url.join('/');
   // Add session to url
-  else url.push(session.toLowerCase());
+  else url.push(formatSessionUrl(session));
 
   return url.join('/');
 });
 
 export const useParamToSetAtoms = () => {
-  const [season, location, driverId, sessionParam] = usePathname()
+  const [season, eventParam, driverId, sessionParam] = usePathname()
     .split('/')
     .slice(1);
 
@@ -76,17 +83,15 @@ export const useParamToSetAtoms = () => {
 
   if (!raceLoaded.current) {
     // If no location nothing to load/check
-    if (!location) {
+    if (!eventParam) {
       raceLoaded.current = true;
       return;
     }
-
     // if location and races to compare to
     if (races) {
       raceLoaded.current = true;
-      const raceMatch = races.find(
-        (r) => r.Location.toLowerCase() === location,
-      );
+      const eventName = formatRaceEventName(eventParam);
+      const raceMatch = races.find((r) => r.EventName === eventName);
       if (race === 'All Races' || raceMatch?.EventName !== race?.EventName) {
         setRace(raceMatch || 'All Races');
       }
@@ -102,8 +107,11 @@ export const useParamToSetAtoms = () => {
 
     // if drivers to compare to driverId
     if (drivers) {
+      if (eventParam && drivers.length === 0) return;
+
       driverLoaded.current = true;
       const driverMatch = drivers.find((d) => d.DriverId === driverId);
+
       if (driver === 'All Drivers' || driverMatch?.DriverId !== driver.DriverId)
         setDriver(driverMatch || 'All Drivers');
     }
@@ -116,12 +124,11 @@ export const useParamToSetAtoms = () => {
       return;
     }
 
-    // if dirver and driver to compare to
+    // if driver and driver to compare to
     if (sessions) {
       sessionLoaded.current = true;
-      setSession(
-        sessions.find((s) => s.toLowerCase() === sessionParam) || 'Race',
-      );
+      const session = formatSessionName(sessionParam);
+      setSession(sessions.find((s) => s === session) || 'Race');
     }
   }
 };
