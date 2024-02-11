@@ -1,3 +1,4 @@
+import { LandingNextEvent } from './(features)/LandingNextEvent';
 import { MainFilters } from './ui/MainFilters';
 
 export default function Home() {
@@ -6,7 +7,7 @@ export default function Home() {
       <Hero />
 
       {/* Suspense */}
-      <NextRace />
+      <LandingNextEvent />
     </main>
   );
 }
@@ -25,12 +26,3 @@ const Hero = () => (
     </div>
   </div>
 );
-
-const NextRace = () => {
-  return (
-    <div className='bg-base-300 px-4 py-8'>
-      <h2 className='text-2xl'>Winter Testing</h2>
-      Bahrain Feb 21, 2024
-    </div>
-  );
-};

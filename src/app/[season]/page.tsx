@@ -2,6 +2,7 @@
 
 import { useAtom } from 'jotai';
 
+import { fetchStandings } from '@/atoms/fetchCalls';
 import { seasonAtom } from '@/atoms/seasons';
 import {
   constructorStandingsAtom,
@@ -20,6 +21,7 @@ export default function ResultsPage() {
   const [constructorStandings] = useAtom(constructorStandingsAtom);
   const [driverStandings] = useAtom(driverStandingsAtom);
   const [season] = useAtom(seasonAtom);
+  useAtom(fetchStandings);
 
   return (
     <main>
