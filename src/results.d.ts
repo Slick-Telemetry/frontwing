@@ -108,3 +108,11 @@ interface DataConfigSchema {
     constructors: ConstructorResult[];
   };
 }
+
+// UI Format Next Event
+interface NextEventProps {
+  name: string;
+  session: string;
+  time: number;
+  endTime: number;
+}
