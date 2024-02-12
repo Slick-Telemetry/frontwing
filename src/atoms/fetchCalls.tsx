@@ -5,10 +5,18 @@ import { atomEffect } from 'jotai-effect';
 
 import { f1Seasons } from '@/utils/fakerData';
 import { fetchAPI, lastSession, sessionTitles } from '@/utils/helpers';
-import { formatConstructorResults } from '@/utils/transformers';
+import {
+  formatConstructorResults,
+  formatNextEvent,
+} from '@/utils/transformers';
 
 import { allConstructorAtom } from './constructors';
 import { allDriversAtom } from './drivers';
+import {
+  nextEventAtom,
+  nextEventLiveAtom,
+  nextEventTimeAtom,
+} from './nextEvent';
 import { raceAtom, seasonRacesAtom } from './races';
 import { allSeasonsAtom, seasonAtom } from './seasons';
 import { allSessionsAtom, sessionAtom } from './sessions';
@@ -133,3 +141,29 @@ export const fetchStandings = atomEffect((get, set) => {
   // seasonAtom
   // raceAtom
 });
+
+// Get upcoming event this should be done once
+export const fetchNextEvent = atomEffect(
+  (get, set) => {
+    // Next event do not change, only fetch if null
+    if (!get(nextEventAtom)) {
+      fetchAPI('next-event').then((data: ScheduleSchema) => {
+        // Get session times
+        const now = Date.now();
+        const nextEvent = formatNextEvent(data);
+
+        if (nextEvent === 'No session') return;
+
+        set(nextEventAtom, nextEvent);
+
+        if (nextEvent.time < now) {
+          set(nextEventLiveAtom, true);
+          set(nextEventTimeAtom, now - nextEvent.endTime);
+        } else {
+          set(nextEventTimeAtom, nextEvent.time - now);
+        }
+      });
+    }
+  },
+  // Dependencies: nextEventAtom
+);

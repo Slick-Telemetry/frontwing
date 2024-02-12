@@ -1,10 +1,43 @@
 'use client';
 
+import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { fetchNextEvent } from '@/atoms/fetchCalls';
+import {
+  nextEventAtom,
+  nextEventEffect,
+  nextEventLiveAtom,
+} from '@/atoms/nextEvent';
 import { seasonAtom } from '@/atoms/seasons';
+
+import { EventCountDown } from './EventCountdown';
+
+export const NextEvent = () => {
+  const [nextEvent] = useAtom(nextEventAtom);
+  const [liveEvent] = useAtom(nextEventLiveAtom);
+
+  useAtom(fetchNextEvent);
+  useAtom(nextEventEffect);
+
+  if (!nextEvent) return <></>;
+  return (
+    <>
+      <div
+        className={clsx('h-3 w-3 rounded-full', {
+          'bg-info': !liveEvent,
+          'bg-success': liveEvent,
+        })}
+      ></div>
+      <p className='text-sm font-bold'>
+        <span className='underline'>{nextEvent.name}</span> <br />
+        in <EventCountDown />
+      </p>
+    </>
+  );
+};
 
 export const Nav = () => {
   const router = useRouter();
@@ -72,11 +105,8 @@ export const Nav = () => {
             </li>
           </ul>
         </div>
-        <div className='hidden items-center gap-2 lg:flex'>
-          <div className='h-3 w-3 rounded-full bg-amber-300'></div>
-          <p className='text-sm font-bold'>
-            53 days until <span className='underline'>Winter Testing</span>
-          </p>
+        <div className='hidden min-w-48 items-center gap-2 lg:flex'>
+          <NextEvent />
         </div>
       </div>
     </div>
