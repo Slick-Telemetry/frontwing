@@ -5,7 +5,7 @@ import { useAtom } from 'jotai';
 import { nextEventAtom, nextEventLiveAtom } from '@/atoms/nextEvent';
 import { formatSessionUrl } from '@/utils/transformers';
 
-import { EventCountDown } from '../ui/EventCountdown';
+import { EventCountDown } from './EventCountdown';
 
 export const LandingNextEvent = () => {
   const [nextEvent] = useAtom(nextEventAtom);
