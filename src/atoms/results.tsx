@@ -15,6 +15,9 @@ import { raceAtom, seasonRacesAtom } from './races';
 import { seasonAtom } from './seasons';
 import { allSessionsAtom, sessionAtom } from './sessions';
 
+// Server Error Atom
+export const serverErrorAtom = atom('');
+
 // Telemetry Active
 export const telemetryDisableAtom = atom(true);
 // Telemetry is disabled if no race and driver are selected
