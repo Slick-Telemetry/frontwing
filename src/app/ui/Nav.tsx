@@ -13,7 +13,7 @@ import {
 } from '@/atoms/nextEvent';
 import { seasonAtom } from '@/atoms/seasons';
 
-import { EventCountDown } from './EventCountdown';
+import { EventCountDown } from '../(features)/EventCountdown';
 
 export const NextEvent = () => {
   const [nextEvent] = useAtom(nextEventAtom);
