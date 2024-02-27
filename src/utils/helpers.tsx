@@ -122,7 +122,7 @@ export const fetchAPI = async (
   const options = statusCheck ? { headers: { cache: 'no-store' } } : {};
 
   // Get dummy data or return false
-  const dummy: string[] | ScheduleSchema[] | false =
+  const dummy: string[] | DataConfigSchema['schedule'] | false =
     dataConfig[
       endpoint.split('?')[0] as 'seasons' | 'schedule' | 'drivers' | 'sessions'
     ] || false;
@@ -154,8 +154,13 @@ export const fetchAPI = async (
     .then((data) => data)
     // Catch errors from above
     .catch((err) => {
+      // Handle server not connecting error
       if (err === 'Server not connecting') return dummy;
-      if (err.status === 404) return dummy;
+
+      // Handle api errors
+      if (err.cause.status === 422) {
+        return err.cause.json();
+      }
 
       return dummy;
     });
