@@ -94,7 +94,10 @@ interface ConstructorResult {
 // UI format
 interface DataConfigSchema {
   seasons: string[];
-  schedule: ScheduleSchema[];
+  schedule: {
+    year: string;
+    EventSchedule: ScheduleSchema[];
+  };
   drivers: string[];
   sessions: string[];
   standings: {
@@ -107,6 +110,16 @@ interface DataConfigSchema {
     drivers: DriverResult[];
     constructors: ConstructorResult[];
   };
+}
+
+interface ServerErrorResponse {
+  detail: [
+    {
+      loc: string[];
+      msg: string;
+      input: string;
+    },
+  ];
 }
 
 // UI Format Next Event

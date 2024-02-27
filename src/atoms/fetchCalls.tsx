@@ -18,6 +18,7 @@ import {
   nextEventTimeAtom,
 } from './nextEvent';
 import { raceAtom, seasonRacesAtom } from './races';
+import { serverErrorAtom } from './results';
 import { allSeasonsAtom, seasonAtom } from './seasons';
 import { allSessionsAtom, sessionAtom } from './sessions';
 import { constructorStandingsAtom, driverStandingsAtom } from './standings';
@@ -50,12 +51,22 @@ export const fetchSchedule = atomEffect(
     set(seasonRacesAtom, null);
     const params = get(seasonAtom) && `?year=${get(seasonAtom)}`;
 
-    fetchAPI('schedule' + params).then((data) => {
-      set(seasonRacesAtom, data.EventSchedule);
+    fetchAPI('schedule' + params).then(
+      (res: DataConfigSchema['schedule'] | ServerErrorResponse) => {
+        const schedule = res as DataConfigSchema['schedule'];
 
-      // Sync default year with server
-      set(seasonAtom, data.year);
-    });
+        const error = res as ServerErrorResponse;
+        if (error.detail) {
+          set(serverErrorAtom, error.detail[0].msg);
+          return;
+        }
+
+        set(seasonRacesAtom, schedule.EventSchedule);
+
+        // Sync default year with server
+        set(seasonAtom, schedule.year);
+      },
+    );
   },
   // Dependencies:
   // seasonAtom
@@ -87,7 +98,14 @@ export const fetchSessionResults = atomEffect((get, set) => {
       url += `?session=${sessionRound}`;
     }
 
-    fetchAPI(url).then((drivers: DriverResult[]) => {
+    fetchAPI(url).then((res: DriverResult[] | ServerErrorResponse) => {
+      const drivers = res as DriverResult[];
+
+      const error = res as ServerErrorResponse;
+      if (error.detail) {
+        set(serverErrorAtom, error.detail[0].msg);
+        return;
+      }
       // Formulate Constructors
       const constructors = formatConstructorResults(drivers);
 
@@ -115,12 +133,21 @@ export const fetchStandings = atomEffect((get, set) => {
   const round = race === 'All Races' ? '' : `&round=${race.RoundNumber}`;
 
   // Fetch
-  fetchAPI('standings' + year + round).then(
-    ({
-      DriverStandings,
-      ConstructorStandings,
-    }: DataConfigSchema['standings']) => {
+  fetchAPI('standings' + year + round)
+    .then((res: DataConfigSchema['standings'] | ServerErrorResponse) => {
+      const { DriverStandings, ConstructorStandings } =
+        res as DataConfigSchema['standings'];
+
+      const error = res as ServerErrorResponse;
+      if (error.detail) {
+        set(serverErrorAtom, error.detail[0].msg);
+
+        // setDefault('standings')
+        return;
+      }
+
       // Include Drivers in Constructors Info
+
       const constructors = ConstructorStandings.map((cs) => {
         const { name } = cs.Constructor;
         return {
@@ -134,8 +161,8 @@ export const fetchStandings = atomEffect((get, set) => {
       // Update standings
       set(constructorStandingsAtom, constructors);
       set(driverStandingsAtom, DriverStandings);
-    },
-  );
+    })
+    .catch((err) => err);
 
   // dependencies
   // seasonAtom
@@ -147,22 +174,30 @@ export const fetchNextEvent = atomEffect(
   (get, set) => {
     // Next event do not change, only fetch if null
     if (!get(nextEventAtom)) {
-      fetchAPI('next-event').then((data: ScheduleSchema) => {
-        // Get session times
-        const now = Date.now();
-        const nextEvent = formatNextEvent(data);
+      fetchAPI('next-event').then(
+        (res: ScheduleSchema | ServerErrorResponse) => {
+          const data = res as ScheduleSchema;
+          const error = res as ServerErrorResponse;
+          if (error.detail) {
+            set(serverErrorAtom, error.detail[0].msg);
+            return;
+          }
+          // Get session times
+          const now = Date.now();
+          const nextEvent = formatNextEvent(data);
 
-        if (nextEvent === 'No session') return;
+          if (nextEvent === 'No session') return;
 
-        set(nextEventAtom, nextEvent);
+          set(nextEventAtom, nextEvent);
 
-        if (nextEvent.time < now) {
-          set(nextEventLiveAtom, true);
-          set(nextEventTimeAtom, now - nextEvent.endTime);
-        } else {
-          set(nextEventTimeAtom, nextEvent.time - now);
-        }
-      });
+          if (nextEvent.time < now) {
+            set(nextEventLiveAtom, true);
+            set(nextEventTimeAtom, now - nextEvent.endTime);
+          } else {
+            set(nextEventTimeAtom, nextEvent.time - now);
+          }
+        },
+      );
     }
   },
   // Dependencies: nextEventAtom
