@@ -61,6 +61,9 @@ export const MainFilters = () => {
   // Handles hydration on page load
   useParamToSetAtoms();
 
+  //! Handle Server Error to stop spinning
+  // useAtom(serverErrorAtom)
+
   return (
     <div className='flex flex-col gap-2'>
       <div className='flex gap-2 lg:gap-4'>
