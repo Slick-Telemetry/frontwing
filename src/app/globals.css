@@ -21,3 +21,9 @@ body {
   background: linear-gradient(to top, transparent, oklch(var(--b1)))
     oklch(var(--b2));
 }
+
+@layer components {
+  .container {
+    padding-inline: 2rem;
+  }
+}
