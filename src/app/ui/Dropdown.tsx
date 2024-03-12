@@ -37,7 +37,7 @@ export const Dropdown = ({ value, items, action }: IDropdown) => {
       </div>
       <ul
         tabIndex={0}
-        className='menu dropdown-content z-[1] mt-2 max-h-64 w-52 flex-nowrap overflow-scroll rounded-box bg-base-100 p-2 shadow lg:max-h-96'
+        className='menu dropdown-content rounded-box bg-base-100 z-[1] mt-2 max-h-64 w-52 flex-nowrap overflow-scroll p-2 shadow lg:max-h-96'
       >
         {items?.map((item) => (
           <li key={item} data-cy='dropdown-item'>
