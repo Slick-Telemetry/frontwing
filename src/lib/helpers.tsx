@@ -119,7 +119,12 @@ export const fetchAPI = async (
 ) => {
   const useServer = statusCheck || document.body.classList.contains('server');
   // Headers for statusCheck so
-  const options = statusCheck ? { headers: { cache: 'no-store' } } : {};
+  const options = {
+    headers: {
+      Authorization: 'Bearer my-secret-token',
+      cache: statusCheck ? 'no-store' : 'force-cache',
+    },
+  };
 
   // Get dummy data or return false
   const dummy: string[] | DataConfigSchema['schedule'] | false =
