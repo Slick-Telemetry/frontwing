@@ -3,12 +3,9 @@
 import { useAtom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
-import { f1Seasons } from '@/utils/fakerData';
-import { fetchAPI, lastSession, sessionTitles } from '@/utils/helpers';
-import {
-  formatConstructorResults,
-  formatNextEvent,
-} from '@/utils/transformers';
+import { f1Seasons } from '@/lib/fakerData';
+import { fetchAPI, lastSession, sessionTitles } from '@/lib/helpers';
+import { formatConstructorResults, formatNextEvent } from '@/lib/transformers';
 
 import { allConstructorAtom } from './constructors';
 import { allDriversAtom } from './drivers';

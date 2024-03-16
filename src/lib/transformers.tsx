@@ -1,4 +1,4 @@
-import { sessionUrlParams } from '@/constants';
+import { sessionUrlParams } from '@/lib/constants';
 
 export const formatRaceUrl = (raceName: string) =>
   raceName.replace(' Grand Prix', '').replace(/ /g, '_').toLowerCase();
