@@ -5,8 +5,10 @@ import { Inter } from 'next/font/google';
 
 import './globals.css';
 
-import { Nav } from './ui/Nav';
-import { fetchAPI } from '../utils/helpers';
+import { Footer } from '@/components/Footer';
+import { TopNav } from '@/components/TopNav';
+
+import { fetchAPI } from '../lib/helpers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,13 +29,13 @@ export default async function RootLayout({
       <body
         className={clsx('min-h-screen', inter.className, {
           server: server,
-          // noServer: !server,
         })}
       >
         <Provider>
-          <Nav />
+          <TopNav />
           {children}
         </Provider>
+        <Footer />
       </body>
     </html>
   );

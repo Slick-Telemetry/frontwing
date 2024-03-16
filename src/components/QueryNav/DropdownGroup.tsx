@@ -1,7 +1,6 @@
 'use client';
 
 import { useAtom } from 'jotai/react';
-import { usePathname, useRouter } from 'next/navigation';
 
 import {
   allDriversAtom,
@@ -10,12 +9,7 @@ import {
 } from '@/atoms/drivers';
 import { useMainFiltersAtomFetch } from '@/atoms/fetchCalls';
 import { handleRaceChangeAtom, raceAtom, seasonRacesAtom } from '@/atoms/races';
-import {
-  handleMainFilterSubmit,
-  telemetryDisableAtom,
-  toggleTelemetryDisableAtom,
-  useParamToSetAtoms,
-} from '@/atoms/results';
+import { useParamToSetAtoms } from '@/atoms/results';
 import {
   allSeasonsAtom,
   handleSeasonChangeAtom,
@@ -29,78 +23,30 @@ import {
 
 import { Dropdown } from './Dropdown';
 
-interface actionT {
-  action: () => void;
-}
-
-export const MainFilters = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const [telemetryDisable] = useAtom(telemetryDisableAtom);
-  const [, handleResultsSubmit] = useAtom(handleMainFilterSubmit);
-
-  const changePath = () => {
-    // If not home page auto change page
-    const url = handleResultsSubmit();
-    if (pathname !== '/' && url) router.push('/' + url);
-  };
-
-  const handleSubmit = (e: React.MouseEvent) => {
-    const telemetry = (e.target as HTMLButtonElement).innerHTML === 'Telemetry';
-    const url = handleResultsSubmit();
-    router.push('/' + url + (telemetry ? '/telemetry' : ''));
-  };
-
-  // hook to trigger if telemetry is disabled or not
-  useAtom(toggleTelemetryDisableAtom);
-
+export const DropdownGroup = () => {
   // Fetch data when atoms change
   useMainFiltersAtomFetch();
 
   // Handles hydration on page load
   useParamToSetAtoms();
 
-  //! Handle Server Error to stop spinning
-  // useAtom(serverErrorAtom)
-
   return (
-    <div className='flex flex-col gap-2'>
-      <div className='flex gap-2 lg:gap-4'>
-        <SeasonDropdown action={changePath} />
-        <RaceDropdown action={changePath} />
-      </div>
-
-      <div className='flex items-center gap-2 lg:gap-4'>
-        <DriverDropdown action={changePath} />
-        in
-        <SessionDropdown action={changePath} />
-      </div>
-
-      <div className='flex gap-4 px-2'>
-        <button onClick={handleSubmit} className='btn btn-primary btn-sm'>
-          Results
-        </button>
-        <button
-          onClick={handleSubmit}
-          disabled={telemetryDisable}
-          className='btn btn-secondary btn-sm'
-        >
-          Telemetry
-        </button>
-      </div>
+    <div className='container flex gap-2 lg:gap-4'>
+      <SeasonDropdown />
+      <RaceDropdown />
+      <SessionDropdown />
+      <DriverDropdown />
     </div>
   );
 };
 
-const SeasonDropdown = ({ action }: actionT) => {
+const SeasonDropdown = () => {
   const [seasons] = useAtom(allSeasonsAtom);
   const [season] = useAtom(seasonAtom);
   const [, changeSeason] = useAtom(handleSeasonChangeAtom);
 
   const handleAction = (val: string) => {
     changeSeason(val);
-    action();
   };
 
   // Populate seasons
@@ -108,7 +54,7 @@ const SeasonDropdown = ({ action }: actionT) => {
   return <Dropdown value={season} items={seasons} action={handleAction} />;
 };
 
-const RaceDropdown = ({ action }: actionT) => {
+const RaceDropdown = () => {
   const [race] = useAtom(raceAtom);
   const [, changeRace] = useAtom(handleRaceChangeAtom);
   const [races] = useAtom(seasonRacesAtom);
@@ -117,7 +63,6 @@ const RaceDropdown = ({ action }: actionT) => {
     const match = races && races.find((race) => race.EventName === val);
     if (match) {
       changeRace(match);
-      action();
     }
   };
 
@@ -132,7 +77,7 @@ const RaceDropdown = ({ action }: actionT) => {
   );
 };
 
-const DriverDropdown = ({ action }: actionT) => {
+const DriverDropdown = () => {
   const [race] = useAtom(raceAtom);
   const [races] = useAtom(seasonRacesAtom);
   const [driver] = useAtom(driverAtom);
@@ -141,7 +86,6 @@ const DriverDropdown = ({ action }: actionT) => {
 
   const handleAction = (val: string) => {
     handleDriverChange(val);
-    action();
   };
 
   let items = null;
@@ -165,7 +109,7 @@ const DriverDropdown = ({ action }: actionT) => {
     />
   );
 };
-const SessionDropdown = ({ action }: actionT) => {
+const SessionDropdown = () => {
   const [race] = useAtom(raceAtom);
   const [races] = useAtom(seasonRacesAtom);
   const [sessionName] = useAtom(sessionAtom);
@@ -174,7 +118,6 @@ const SessionDropdown = ({ action }: actionT) => {
 
   const handleAction = (val: string) => {
     handleSessionChange(val);
-    action();
   };
 
   let items = null;

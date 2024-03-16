@@ -1,5 +1,5 @@
+import { serverUrl } from './constants';
 import { dataConfig } from './fakerData';
-import { serverUrl } from '../constants';
 
 export const positionEnding = (position: number | string) => {
   // Convert to int

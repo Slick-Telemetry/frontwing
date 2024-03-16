@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { BsPlusCircle } from 'react-icons/bs';
 
-import { LandingNextEvent } from './(features)/LandingNextEvent';
+import { NextEvent } from '../components/SelectionData/NextEvent';
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
       <Hero />
 
       {/* Suspense */}
-      <LandingNextEvent />
+      <NextEvent />
     </main>
   );
 }

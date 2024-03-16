@@ -8,7 +8,7 @@ import {
   formatRaceUrl,
   formatSessionName,
   formatSessionUrl,
-} from '@/utils/transformers';
+} from '@/lib/transformers';
 
 import { allDriversAtom, driverAtom } from './drivers';
 import { raceAtom, seasonRacesAtom } from './races';

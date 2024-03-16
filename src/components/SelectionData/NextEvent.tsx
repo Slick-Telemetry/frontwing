@@ -2,14 +2,19 @@
 
 import { useAtom } from 'jotai';
 
-import { nextEventAtom, nextEventLiveAtom } from '@/atoms/nextEvent';
-import { formatSessionUrl } from '@/utils/transformers';
+import { formatDuration } from '@/lib/helpers';
+import { formatSessionUrl } from '@/lib/transformers';
 
-import { EventCountDown } from './EventCountdown';
+import {
+  nextEventAtom,
+  nextEventLiveAtom,
+  nextEventTimeAtom,
+} from '@/atoms/nextEvent';
 
-export const LandingNextEvent = () => {
+export const NextEvent = () => {
   const [nextEvent] = useAtom(nextEventAtom);
   const [liveEvent] = useAtom(nextEventLiveAtom);
+  const [nextEventCountdown] = useAtom(nextEventTimeAtom);
 
   return (
     <div className='bg-base-300 flex px-4 py-8'>
@@ -22,7 +27,8 @@ export const LandingNextEvent = () => {
             ) : (
               <>
                 {formatSessionUrl(nextEvent.session).toUpperCase()} in{' '}
-                <EventCountDown />
+                {/* Remove last 4 characters which as milliseconds */}
+                {formatDuration(nextEventCountdown).slice(0, -4)}
               </>
             )}
           </p>
