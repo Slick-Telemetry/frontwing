@@ -47,9 +47,9 @@ const ResultCard = ({ data }: { data: ScheduleSchema }) => {
   const eventPassed = new Date() > eventDate;
 
   return (
-    <div className='card overflow-hidden bg-base-100 shadow-xl'>
+    <div className='card bg-base-100 overflow-hidden shadow-xl'>
       <div className='relative flex min-h-32 items-end p-4 '>
-        <figure className='absolute inset-0 z-0 bg-gradient-to-tr from-base-100'>
+        <figure className='from-base-100 absolute inset-0 z-0 bg-gradient-to-tr'>
           <Image
             width={928}
             height={548}
