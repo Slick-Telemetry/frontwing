@@ -22,7 +22,7 @@ export const Tabs = ({ headers, containers }: ITabs) => {
       <a
         key={header}
         role='tab'
-        className={clsx('tab mx-2 border  bg-base-100 hover:bg-base-300', {
+        className={clsx('tab bg-base-100 hover:bg-base-300  mx-2 border', {
           'tab-active': i === tabIndex,
         })}
         onClick={switchTabs}

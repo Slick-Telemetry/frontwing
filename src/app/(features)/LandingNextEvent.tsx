@@ -12,7 +12,7 @@ export const LandingNextEvent = () => {
   const [liveEvent] = useAtom(nextEventLiveAtom);
 
   return (
-    <div className='flex bg-base-300 px-4 py-8'>
+    <div className='bg-base-300 flex px-4 py-8'>
       {nextEvent && (
         <div className='mx-auto'>
           <h2 className='text-4xl font-bold'>{nextEvent.name}</h2>
