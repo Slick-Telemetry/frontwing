@@ -5,8 +5,10 @@ import { useAtom } from 'jotai';
 import { formatDuration } from '@/lib/helpers';
 import { formatSessionUrl } from '@/lib/transformers';
 
+import { fetchNextEvent } from '@/atoms/fetchCalls';
 import {
   nextEventAtom,
+  nextEventEffect,
   nextEventLiveAtom,
   nextEventTimeAtom,
 } from '@/atoms/nextEvent';
@@ -15,6 +17,8 @@ export const NextEvent = () => {
   const [nextEvent] = useAtom(nextEventAtom);
   const [liveEvent] = useAtom(nextEventLiveAtom);
   const [nextEventCountdown] = useAtom(nextEventTimeAtom);
+  useAtom(fetchNextEvent);
+  useAtom(nextEventEffect);
 
   return (
     <div className='bg-base-300 flex px-4 py-8'>

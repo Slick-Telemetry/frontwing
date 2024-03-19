@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { BsPlusCircle } from 'react-icons/bs';
 
-import { NextEvent } from '../components/SelectionData/NextEvent';
+import { NextEvent } from '@/components/SelectionData';
 
 export default function Home() {
   return (
