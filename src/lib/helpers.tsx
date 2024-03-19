@@ -117,9 +117,14 @@ export const fetchAPI = async (
   endpoint: string,
   statusCheck: boolean = false,
 ) => {
-  const useServer = statusCheck || document.body.classList.contains('server');
+  // const useServer = statusCheck || document.body.classList.contains('server');
   // Headers for statusCheck so
-  const options = statusCheck ? { headers: { cache: 'no-store' } } : {};
+  const options = {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+      cache: statusCheck ? 'no-store' : 'force-cache',
+    },
+  };
 
   // Get dummy data or return false
   const dummy: string[] | DataConfigSchema['schedule'] | false =
@@ -128,12 +133,11 @@ export const fetchAPI = async (
     ] || false;
 
   // If we are not using the server return the dummy data
-  if (!useServer) {
-    return dummy;
-  }
+  // if (!useServer) {
+  //   return dummy;
+  // }
 
   // Fetch from server
-  // console.log(`making fetch to: ${serverUrl}/${endpoint}`);
   const data = await fetch(`${serverUrl}/${endpoint}`, { ...options })
     .then(
       (res) => {

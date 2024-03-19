@@ -11,6 +11,7 @@ Table of Contents:
 - [Getting Started](#getting-started)
   - [Install dependencies](#install-dependencies)
   - [Run the development server](#run-the-development-server)
+  - [Connecting to the server](#connecting-to-the-server)
   - [Commit Message Convention](#commit-message-convention)
   - [Contribution Guidelines](#contribution-guidelines)
 - [Tests](#tests)
@@ -44,8 +45,13 @@ You can start the server using this command:
 pnpm dev
 ```
 
-csd
 Open [http://localhost:3000](http://localhost:3000) with your browser.
+
+### Connecting to the server
+
+Currently the standard is to run the backend locally. Follow instructions [here](https://github.com/Slick-Telemetry/backend/blob/dev/README.md) for setup.
+
+To make calls to API you need to duplicate the `.env.example` file to define a client-side bearer token
 
 ### Commit Message Convention
 
