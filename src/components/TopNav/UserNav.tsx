@@ -1,19 +1,69 @@
-const UserNav = () => {
-  return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      width='32'
-      height='32'
-      fill='currentColor'
-      viewBox='0 0 16 16'
-    >
-      <path d='M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0' />
-      <path
-        fillRule='evenodd'
-        d='M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1'
-      />
-    </svg>
-  );
-};
+import { BsPersonCircle } from 'react-icons/bs';
 
-export { UserNav };
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Button } from '../ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+
+export function UserNav() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
+          <Avatar className='h-8 w-8'>
+            <AvatarImage src='/avatars/01.png' alt='@shadcn' />
+            <AvatarFallback>
+              <BsPersonCircle />
+            </AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className='w-56' align='end' forceMount>
+        <DropdownMenuLabel className='font-normal'>
+          <div className='flex flex-col space-y-1'>
+            <p className='text-sm font-medium leading-none'>
+              Save and share your queries
+            </p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Sign In</DropdownMenuItem>
+          <DropdownMenuItem>Create Account</DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+// Signed In Menu
+{
+  /* <DropdownMenuLabel className='font-normal'>
+  <div className='flex flex-col space-y-1'>
+    <p className='text-sm font-medium leading-none'>shadcn</p>
+    <p className='text-xs leading-none text-muted-foreground'>
+      m@example.com
+    </p>
+  </div>
+</DropdownMenuLabel>
+<DropdownMenuSeparator />
+<DropdownMenuGroup>
+  <DropdownMenuItem>
+    Profile
+  </DropdownMenuItem>
+  <DropdownMenuItem>
+    Settings
+  </DropdownMenuItem>
+</DropdownMenuGroup>
+<DropdownMenuSeparator />
+<DropdownMenuItem>
+  Log out
+</DropdownMenuItem> */
+}
