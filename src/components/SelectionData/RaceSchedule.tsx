@@ -1,10 +1,10 @@
 import { useAtom } from 'jotai';
 import Image from 'next/image';
 
-import { seasonRacesAtom } from '@/atoms/races';
+import { EventListState } from '@/state-mgmt/atoms';
 
 export const RaceSchedule = () => {
-  const [races] = useAtom(seasonRacesAtom);
+  const [races] = useAtom(EventListState);
 
   if (races && races.length === 0)
     return (

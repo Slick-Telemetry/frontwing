@@ -113,16 +113,12 @@ export const lastSession = (event: ScheduleSchema) => {
   return session;
 };
 
-export const fetchAPI = async (
-  endpoint: string,
-  statusCheck: boolean = false,
-) => {
+export const fetchAPI = async (endpoint: string) => {
   // const useServer = statusCheck || document.body.classList.contains('server');
   // Headers for statusCheck so
   const options = {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-      cache: statusCheck ? 'no-store' : 'force-cache',
     },
   };
 

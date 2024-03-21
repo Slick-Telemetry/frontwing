@@ -1,136 +1,195 @@
 'use client';
 
 import { useAtom } from 'jotai/react';
+import { useHydrateAtoms } from 'jotai/utils';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 
+import { driverDefault, eventDefault, sessionDefault } from '@/lib/constants';
+
+// State values
 import {
-  allDriversAtom,
-  driverAtom,
-  handleDriverChangeAtom,
-} from '@/atoms/drivers';
-import { useMainFiltersAtomFetch } from '@/atoms/fetchCalls';
-import { handleRaceChangeAtom, raceAtom, seasonRacesAtom } from '@/atoms/races';
-import { useParamToSetAtoms } from '@/atoms/results';
+  DriverListState,
+  DriverState,
+  EventListState,
+  EventState,
+  SeasonListState,
+  SeasonState,
+  serverErrorState,
+  SessionListState,
+  SessionState,
+} from '@/state-mgmt/atoms';
+// State effects/hooks
 import {
-  allSeasonsAtom,
-  handleSeasonChangeAtom,
-  seasonAtom,
-} from '@/atoms/seasons';
-import {
-  allSessionsAtom,
-  handleSessionChangeAtom,
-  sessionAtom,
-} from '@/atoms/sessions';
+  fetchDriverList,
+  fetchEventList,
+  fetchSeasonList,
+} from '@/state-mgmt/fetchCalls';
 
 import { Dropdown } from './Dropdown';
 
 export const DropdownGroup = () => {
-  // Fetch data when atoms change
-  useMainFiltersAtomFetch();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  // Handles hydration on page load
-  useParamToSetAtoms();
+  // *** Param variables
+  const seasonParam =
+    searchParams.get('season') || new Date().getFullYear().toString();
+  const eventParam = searchParams.get('event') || eventDefault;
+  const sessionParam = searchParams.get('session') || sessionDefault;
+  const driversParam = searchParams.get('drivers') || driverDefault;
 
-  return (
-    <div className='container flex gap-2 lg:gap-4'>
-      <SeasonDropdown />
-      <RaceDropdown />
-      <SessionDropdown />
-      <DriverDropdown />
-    </div>
-  );
-};
+  // *** Handles hydration on page load
+  // Populate state from params
+  useHydrateAtoms([
+    [SeasonState, seasonParam],
+    [EventState, eventParam],
+    [SessionState, sessionParam],
+    [DriverState, driversParam],
+  ]);
 
-const SeasonDropdown = () => {
-  const [seasons] = useAtom(allSeasonsAtom);
-  const [season] = useAtom(seasonAtom);
-  const [, changeSeason] = useAtom(handleSeasonChangeAtom);
+  // Bring in effect that fetch list data now that atoms are hydrated
+  // TODO: Migrate to one fetch that updates List atoms values now that they are hydrated
+  useAtom(fetchSeasonList);
+  useAtom(fetchEventList);
+  useAtom(fetchDriverList);
 
-  const handleAction = (val: string) => {
-    changeSeason(val);
+  const [season, setSeason] = useAtom(SeasonState);
+  const [seasonList] = useAtom(SeasonListState);
+  const [event, setEvent] = useAtom(EventState);
+  const [eventList, setEventList] = useAtom(EventListState);
+  const [session, setSession] = useAtom(SessionState);
+  const [sessionList, setSessionList] = useAtom(SessionListState);
+  const [driver, setDriver] = useAtom(DriverState);
+  const [driverList, setDriverList] = useAtom(DriverListState);
+
+  // Todo: Migrate to Selection Query List
+  const [serverError] = useAtom(serverErrorState);
+
+  const resetEvent = () => {
+    setEvent(eventDefault);
+    setEventList([]);
   };
 
-  // Populate seasons
+  const resetSession = () => {
+    setSession(sessionDefault);
+    setSessionList([]);
+  };
 
-  return <Dropdown value={season} items={seasons} action={handleAction} />;
-};
+  const resetDriver = () => {
+    setDriver(driverDefault);
+    setDriverList([]);
+  };
 
-const RaceDropdown = () => {
-  const [race] = useAtom(raceAtom);
-  const [, changeRace] = useAtom(handleRaceChangeAtom);
-  const [races] = useAtom(seasonRacesAtom);
+  const updateState = (name: string, value: string) => {
+    // if season remove all params
+    switch (name) {
+      case 'season':
+        setSeason(value);
 
-  const handleAction = (val: string) => {
-    const match = races && races.find((race) => race.EventName === val);
-    if (match) {
-      changeRace(match);
+        // Reset All but season List States
+        resetEvent();
+        resetSession();
+        resetDriver();
+        break;
+      case 'event':
+        setEvent(value);
+
+        // Reset Session & DriverList States
+        resetSession();
+        resetDriver();
+        break;
+
+      case 'session':
+        setSession(value);
+
+        // Reset Driver List States
+        resetDriver();
+        break;
+
+      case 'driver':
+        setDriver(value);
     }
   };
 
-  // Populate Races
+  /// Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
 
-  return (
-    <Dropdown
-      value={race === 'All Races' ? race : race.EventName}
-      items={races && ['All Races', ...races.map((race) => race.EventName)]}
-      action={handleAction}
-    />
+      // *** Remove extra parameters
+      switch (name) {
+        case 'season':
+          params.delete('event');
+          params.delete('session');
+          params.delete('driver');
+          break;
+
+        case 'event':
+          if (season) {
+            params.set('season', season);
+          }
+          params.delete('session');
+          params.delete('driver');
+          break;
+
+        case 'session':
+          params.delete('driver');
+          break;
+
+        case 'driver':
+          if (session) {
+            params.set('session', session);
+          }
+      }
+
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams, session, season],
   );
-};
 
-const DriverDropdown = () => {
-  const [race] = useAtom(raceAtom);
-  const [races] = useAtom(seasonRacesAtom);
-  const [driver] = useAtom(driverAtom);
-  const [, handleDriverChange] = useAtom(handleDriverChangeAtom);
-  const [driverList] = useAtom(allDriversAtom);
-
-  const handleAction = (val: string) => {
-    handleDriverChange(val);
+  const dropdownAction = (name: string, value: string) => {
+    updateState(name, value);
+    router.push(pathname + '?' + createQueryString(name, value));
   };
 
-  let items = null;
-
-  // If races it not default we need values
-  if (race === 'All Races' && races && races.length > 0) {
-    items = [];
-  }
-
-  // If race is default we return []
-  if (race !== 'All Races' && driverList) {
-    items = ['All Drivers', ...driverList.map((driver) => driver.FullName)];
-  }
-  // const items = (driverList && driverList.length > 0 && race !== 'All Races') ? [
-
   return (
-    <Dropdown
-      value={driver !== 'All Drivers' ? driver.FullName : driver}
-      items={items}
-      action={handleAction}
-    />
+    <div className='container flex gap-2 py-8 lg:gap-4'>
+      <Dropdown
+        value={season}
+        items={seasonList}
+        action={(value) => dropdownAction('season', value)}
+      />
+      <Dropdown
+        value={event}
+        items={
+          // Todo remove logic from jsx
+          eventList.length <= 0
+            ? []
+            : [eventDefault, ...eventList.map((event) => event.EventName)]
+        }
+        action={(value) => dropdownAction('event', value)}
+      />
+      <Dropdown
+        value={session}
+        items={sessionList}
+        action={(value) => dropdownAction('session', value)}
+      />
+      <Dropdown
+        value={driver}
+        items={
+          driverList.length <= 0
+            ? []
+            : ['All Drivers', ...driverList.map((driver) => driver.FullName)]
+        }
+        action={(value) => dropdownAction('driver', value)}
+      />
+
+      {serverError && <p className='text-destructive'>{serverError}</p>}
+    </div>
   );
-};
-const SessionDropdown = () => {
-  const [race] = useAtom(raceAtom);
-  const [races] = useAtom(seasonRacesAtom);
-  const [sessionName] = useAtom(sessionAtom);
-  const [, handleSessionChange] = useAtom(handleSessionChangeAtom);
-  const [sessionList] = useAtom(allSessionsAtom);
-
-  const handleAction = (val: string) => {
-    handleSessionChange(val);
-  };
-
-  let items = null;
-
-  // If races it not default we need values
-  if (race === 'All Races' && races && races.length > 0) {
-    items = [];
-  }
-
-  // If race is default we return []
-  if (race !== 'All Races' && sessionList) {
-    items = [...sessionList.reverse()];
-  }
-
-  return <Dropdown value={sessionName} items={items} action={handleAction} />;
 };
