@@ -5,13 +5,13 @@ import { useAtom } from 'jotai';
 import { formatDuration } from '@/lib/helpers';
 import { formatSessionUrl } from '@/lib/transformers';
 
-import { fetchNextEvent } from '@/atoms/fetchCalls';
+import { fetchNextEvent } from '@/state-mgmt/fetchCalls';
 import {
   nextEventAtom,
   nextEventEffect,
   nextEventLiveAtom,
   nextEventTimeAtom,
-} from '@/atoms/nextEvent';
+} from '@/state-mgmt/nextEvent';
 
 export const NextEvent = () => {
   const [nextEvent] = useAtom(nextEventAtom);

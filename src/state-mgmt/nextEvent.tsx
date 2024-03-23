@@ -3,6 +3,7 @@ import { atomEffect } from 'jotai-effect';
 
 // Next Event
 export const nextEventLiveAtom = atom(false);
+
 export const nextEventAtom = atom<NextEventProps | null>(null);
 export const nextEventTimeAtom = atom(0);
 export const nextEventEffect = atomEffect((get, set) => {

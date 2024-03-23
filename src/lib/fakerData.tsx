@@ -6,8 +6,7 @@ import { faker } from '@faker-js/faker';
  * @return {*}  {string[]}
  */
 export const f1Seasons = (): string[] => {
-  const currDate = new Date();
-  const currYear = currDate.getFullYear();
+  const currYear = new Date().getFullYear();
 
   // Fill array with values between range
   return Array.from({ length: currYear - 1950 + 1 }, (_v, index) =>

@@ -22,7 +22,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const server = await fetchAPI('', true);
+  const server = await fetchAPI('health');
 
   return (
     <html lang='en'>
