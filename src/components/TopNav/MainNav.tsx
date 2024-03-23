@@ -2,13 +2,19 @@ import Link from 'next/link';
 
 export const MainNav = () => {
   return (
-    <ul className='flex gap-2'>
-      <li>
-        <Link href='/dashboard'>Dashboard</Link>
-      </li>
-      <li>
-        <Link href='/schedule'>Schedule</Link>
-      </li>
-    </ul>
+    <nav className='mx-8 flex items-center space-x-4 lg:mx-8 lg:space-x-6'>
+      <Link
+        className='font-medium transition-colors hover:text-primary'
+        href='/dashboard'
+      >
+        Dashboard
+      </Link>
+      <Link
+        className='font-medium transition-colors hover:text-primary'
+        href='/schedule'
+      >
+        Schedule
+      </Link>
+    </nav>
   );
 };
