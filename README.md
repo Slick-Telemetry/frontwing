@@ -11,12 +11,12 @@ Table of Contents:
 - [Getting Started](#getting-started)
   - [Install dependencies](#install-dependencies)
   - [Run the development server](#run-the-development-server)
-  - [Connecting to the server](#connecting-to-the-server)
+  - [Connecting to the backend server](#connecting-to-the-backend-server)
   - [Commit Message Convention](#commit-message-convention)
   - [Contribution Guidelines](#contribution-guidelines)
 - [Tests](#tests)
 - [Deployment](#deployment)
-- [URL Structure](#url-structure)
+- [Project Structure](#project-structure)
 - [Resources](#resources)
 
 ## Setting up the project
@@ -47,7 +47,7 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-### Connecting to the server
+### Connecting to the backend server
 
 Currently the standard is to run the backend locally. Follow instructions [here](https://github.com/Slick-Telemetry/backend/blob/dev/README.md) for setup.
 
@@ -79,12 +79,17 @@ This project is using [conventional commits](https://www.conventionalcommits.org
   - `dev` is the development line.
 
 - **PR merge strategy on Github**
-
-  - We'll be keeping a clean commit history and so only using `Rebase and merge` and `Squash and merge` merge strategies.
-  - Opt for `Rebase and merge` as the _**default**_ one to ensure all commits from the branch to be merged are brought in individually to the target branch.
-  - `Squash and merge` can be used when the commits _**DON'T**_ need to be individually brought in to the target branch.
-  - [More information](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github).
-
+  - Code should flow in the following direction through branches:
+    ```
+    feature/bug fix -> dev -> staging -> main
+    ```
+  - We'll be keeping a linear commit history and so using a combination of `Rebase and merge` and `Squash and merge` merge strategies.
+  - Use `Rebase and merge` as **_default_** to ensure all commits from the branch to be merged are brought in individually to the target branch.
+  - `Squash and merge` may be used **_ONLY_** when bringing in changes from a feature/bug fix branch into `dev`.
+  - To maintain linear commit history, ensure to use `push force` when:
+    - Bringing `dev` on the same commit as `main` (ie rebasing `dev` onto `main`).
+  - [More information on git rebase](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase).
+  - [More information on PR merge strategies](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github).
 - **Jira issue linking**
   - Commits and PRs **_must_** be linked to a Jira issue.
   - To do so, include the Jira issue key in the PR title and/or the commit message after the conventional commit type.
@@ -109,19 +114,30 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 
 // TODO [vercel](https://vercel.com/)
 
-## URL Structure
+## Project Structure
+
+We are using NextJs [App Router](https://nextjs.org/docs/app) for our project.
+
+[In Figma](https://www.figma.com/file/rIYiXNVUyJ6xDo1dhzrnuE/Data-%26-Telemetry-Flow?type=whiteboard&t=3mTQQn5vi5qZrZw3-1), you can view both the data flow as well as the component mapping.
 
 ```
-`/`
-├── Results of past seasons
-└──`[season]` -> year
-    └── `[event name]` -> event name of race in season
-        └── `[session]` -> session of race
-            └── `[driver]` -> driverId in race session
-                ├── `/` -> ???
-                └── `/telemetry` -> ???
+`src/`
+├── app/
+    ├── api/ -> hub for api calls
+    ├── dashboard/ -> telemetry home
+    ├── schedule/ -> simple schedule for current/upcoming season
+    └── ...landing page and layout content
+├── components
+    ├── Footer/ -> Generic Footer
+    ├── QueryNav/ -> Search param nav
+    ├── SelectionData/ -> Hub for main data view
+    ├── Sidebar/ -> Top level query pages and sub query
+    ├── TopNav/ -> Generic navigation Bar
+    └── ui/ -> Components imported from shadcn
+├── lib/ -> helpers, constants, & other utils
+├── state-mgmt/
 ```
 
 ## Resources
 
-Key tools in use: `daisy-ui`, `tailwindcss`, `react`, `nextjs`, `pnpm`, `cypress`
+Key tools in use: `shadcn`, `tailwindcss`, `react`, `nextjs`, `pnpm`, `cypress`
