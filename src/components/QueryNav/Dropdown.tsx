@@ -1,50 +1,51 @@
-// 'use client';
-import clsx from 'clsx';
 import React from 'react';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+
 interface IDropdown {
   value: string;
-  items: string[] | null;
+  label?: string;
+  items: string[];
   action: (item: string) => void;
 }
 
-export const Dropdown = ({ value, items, action }: IDropdown) => {
+export const Dropdown = ({ value, label, items, action }: IDropdown) => {
   const handleClick = (item: string) => {
     action(item);
-
-    const activeEl = document.activeElement as HTMLElement;
-    activeEl && activeEl.blur();
   };
 
   return (
-    <div className='dropdown' data-cy='dropdown'>
-      <div
-        tabIndex={0}
-        role='button'
-        className={clsx(
-          { 'pointer-events-none opacity-50': items && items.length <= 1 },
-          'btn btn-ghost btn-sm rounded-btn underline',
-        )}
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        disabled={items.length <= 0}
+        className='flex items-center gap-x-2 rounded-full px-4 py-2 disabled:text-muted-foreground'
       >
-        {items ? (
+        {value} <BsFillCaretDownFill />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className='max-h-56 overflow-scroll'>
+        {label && (
           <>
-            {value} <BsFillCaretDownFill />
+            <DropdownMenuLabel>{label}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
           </>
-        ) : (
-          <span className='loading loading-spinner loading-sm text-primary'></span>
         )}
-      </div>
-      <ul
-        tabIndex={0}
-        className='menu dropdown-content rounded-box bg-base-100 z-[1] mt-2 max-h-64 w-52 flex-nowrap overflow-scroll p-2 shadow lg:max-h-96'
-      >
-        {items?.map((item) => (
-          <li key={item} data-cy='dropdown-item'>
-            <a onClick={() => handleClick(item)}>{item}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
+        <DropdownMenuRadioGroup value={value} onValueChange={handleClick}>
+          {items?.map((item) => (
+            <DropdownMenuRadioItem key={item} value={item}>
+              {item}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };

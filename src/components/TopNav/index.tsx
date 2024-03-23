@@ -8,7 +8,7 @@ export * from './UserNav';
 
 export const TopNav = () => {
   return (
-    <div className='container flex h-16 items-center px-4'>
+    <div className='container flex h-16 items-center'>
       <Link
         href='/'
         className='btn btn-ghost flex items-center gap-x-2 text-xl font-extrabold tracking-tight '

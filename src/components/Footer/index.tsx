@@ -1,7 +1,7 @@
 import { fetchAPI } from '@/lib/helpers';
 
 async function Footer() {
-  const serverStatus = await fetchAPI('health', true);
+  const serverStatus = await fetchAPI('health');
 
   return (
     <div className='container min-h-24'>

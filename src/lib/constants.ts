@@ -10,4 +10,21 @@ const sessionUrlParams = {
   Race: 'race',
 };
 
-export { serverUrl, sessionUrlParams };
+// Error Messages to pass onto Pratik
+const eventErrorMsg = 'Invalid event name';
+const sessionErrorMsg = 'Invalid session name for event';
+
+// Dropdown defaults
+const eventDefault = 'All Events';
+const driverDefault = 'All Drivers';
+const sessionDefault = 'Race';
+
+export {
+  driverDefault,
+  eventDefault,
+  eventErrorMsg,
+  serverUrl,
+  sessionDefault,
+  sessionErrorMsg,
+  sessionUrlParams,
+};
