@@ -36,9 +36,9 @@ export const DropdownGroup = () => {
   // *** Param variables
   const seasonParam =
     searchParams.get('season') || new Date().getFullYear().toString();
-  const eventParam = searchParams.get('event') || eventDefault;
-  const sessionParam = searchParams.get('session') || sessionDefault;
-  const driversParam = searchParams.get('drivers') || driverDefault;
+  const eventParam = searchParams.get('event') || '';
+  const sessionParam = searchParams.get('session') || '';
+  const driversParam = searchParams.get('drivers') || '';
 
   // *** Handles hydration on page load
   // Populate state from params
@@ -165,7 +165,7 @@ export const DropdownGroup = () => {
         action={(value) => dropdownAction('season', value)}
       />
       <Dropdown
-        value={event}
+        value={event || eventDefault}
         items={
           // Todo remove logic from jsx
           eventList.length <= 0
@@ -175,12 +175,12 @@ export const DropdownGroup = () => {
         action={(value) => dropdownAction('event', value)}
       />
       <Dropdown
-        value={session}
+        value={session || sessionDefault}
         items={sessionList}
         action={(value) => dropdownAction('session', value)}
       />
       <Dropdown
-        value={driver}
+        value={driver || driverDefault}
         items={
           driverList.length <= 0
             ? []
