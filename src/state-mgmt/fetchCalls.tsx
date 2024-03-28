@@ -86,16 +86,18 @@ export const fetchDriverList = atomEffect((get, set) => {
   const eventList = get(EventListState);
 
   // This indicated eventList has not been fetched has not loaded
-  if (eventName && eventList.length <= 0) {
+  // Or that no event has been input
+  if (!eventName || (eventName && eventList.length <= 0)) {
     return;
   }
 
+  // Find specfic event from event states
   const event = eventList.find((evt) => evt.EventName === eventName);
 
   // Set error if no matching event && there is an event specified
   if (!event && eventName !== eventDefault) {
     set(serverErrorState, eventErrorMsg);
-    return;
+    // return;
   }
 
   // Confirm event exists
