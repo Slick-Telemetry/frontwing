@@ -92,9 +92,10 @@ export const fetchDriverList = atomEffect((get, set) => {
 
   const event = eventList.find((evt) => evt.EventName === eventName);
 
-  // Set error if no matching event && event specified
+  // Set error if no matching event && there is an event specified
   if (!event && eventName !== eventDefault) {
     set(serverErrorState, eventErrorMsg);
+    return;
   }
 
   // Confirm event exists
@@ -134,7 +135,6 @@ export const fetchDriverList = atomEffect((get, set) => {
       // *** If errors specific prop, detail, update serverErrorState
       if (error.detail) {
         set(serverErrorState, sessionErrorMsg);
-        // set(serverErrorState, error.detail[0].msg);
         return;
       }
 

@@ -10,7 +10,6 @@ const sessionUrlParams = {
   Race: 'race',
 };
 
-// Error Messages to pass onto Pratik
 const eventErrorMsg = 'Invalid event name';
 const sessionErrorMsg = 'Invalid session name for event';
 
