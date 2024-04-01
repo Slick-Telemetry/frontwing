@@ -1,6 +1,3 @@
-import { serverUrl } from './constants';
-import { dataConfig } from './fakerData';
-
 export const positionEnding = (position: number | string) => {
   // Convert to int
   position = typeof position === 'string' ? parseInt(position) : position;
@@ -111,59 +108,4 @@ export const lastSession = (event: ScheduleSchema) => {
   else session = event.Session3;
 
   return session;
-};
-
-export const fetchAPI = async (endpoint: string) => {
-  // const useServer = statusCheck || document.body.classList.contains('server');
-  // Headers for statusCheck so
-  const options = {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-    },
-  };
-
-  // Get dummy data or return false
-  const dummy: string[] | DataConfigSchema['schedule'] | false =
-    dataConfig[
-      endpoint.split('?')[0] as 'seasons' | 'schedule' | 'drivers' | 'sessions'
-    ] || false;
-
-  // If we are not using the server return the dummy data
-  // if (!useServer) {
-  //   return dummy;
-  // }
-
-  // Fetch from server
-  const data = await fetch(`${serverUrl}/${endpoint}`, { ...options })
-    .then(
-      (res) => {
-        // Response is not successful
-        if (!res.ok) {
-          throw new Error('Not 2xx response', { cause: res });
-        }
-
-        // Success parse data
-        return res.json();
-      },
-      // Catch initial fetch error
-      (err) => {
-        throw new Error('Server not connecting', { cause: err });
-      },
-    )
-    // Return parsed data
-    .then((data) => data)
-    // Catch errors from above
-    .catch((err) => {
-      // Handle server not connecting error
-      if (err === 'Server not connecting') return dummy;
-
-      // Handle api errors
-      if (err.cause.status === 422) {
-        return err.cause.json();
-      }
-
-      return dummy;
-    });
-
-  return data;
 };
