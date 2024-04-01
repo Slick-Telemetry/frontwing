@@ -16,7 +16,7 @@ const ConstructorListState = atom<ConstructorResult[]>((get) => {
   const drivers = get(DriverListState);
   return formatConstructorResults(drivers) || [];
 });
-const LapListState = atom<string[]>([]);
+const LapListState = atom<LapData[]>([]);
 
 // Customize to be derived, can have multiple driver states and multiple lap states
 // Possible AtomFamily https://jotai.org/docs/utilities/family
