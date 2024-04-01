@@ -29,6 +29,7 @@ const DriverStandingState = atom<DriverStandingSchema[]>([]);
 
 // Server Error
 export const serverErrorState = atom('');
+export const serverConnectedState = atom(false);
 
 export {
   ConstructorListState,

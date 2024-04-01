@@ -8,8 +8,6 @@ import './globals.css';
 import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
 
-import { fetchAPI } from '../lib/helpers';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -22,15 +20,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const server = await fetchAPI('health');
-
   return (
     <html lang='en'>
-      <body
-        className={clsx('min-h-screen', inter.className, {
-          server: server,
-        })}
-      >
+      <body className={clsx('min-h-screen', inter.className)}>
         <Provider>
           <TopNav />
           {children}
