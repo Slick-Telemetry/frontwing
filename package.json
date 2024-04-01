@@ -41,7 +41,6 @@
   "devDependencies": {
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
-    "@faker-js/faker": "latest",
     "@release-it/conventional-changelog": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
