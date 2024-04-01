@@ -9,6 +9,7 @@ import { driverDefault, eventDefault, sessionDefault } from '@/lib/constants';
 
 import { fetchDriverList } from '@/app/api/fetchDriversAndSessions';
 import { fetchEventList } from '@/app/api/fetchEvents';
+import { fetchLapData } from '@/app/api/fetchLaps';
 import { fetchSeasonList } from '@/app/api/fetchSeasons';
 // State values
 import {
@@ -52,6 +53,7 @@ export const DropdownGroup = () => {
   useAtom(fetchSeasonList);
   useAtom(fetchEventList);
   useAtom(fetchDriverList);
+  useAtom(fetchLapData);
 
   const [season, setSeason] = useAtom(SeasonState);
   const [seasonList] = useAtom(SeasonListState);

@@ -84,6 +84,40 @@ interface DriverResult {
   Points: number;
 }
 
+interface LapData {
+  Time: number;
+  Driver: string;
+  DriverNumber: string;
+  LapTime: number;
+  LapNumber: number;
+  Stint: number;
+  PitOutTime: number;
+  PitInTime: number;
+  Sector1Time: number;
+  Sector2Time: number;
+  Sector3Time: number;
+  Sector1SessionTime: number;
+  Sector2SessionTime: number;
+  Sector3SessionTime: number;
+  SpeedI1: number;
+  SpeedI2: number;
+  SpeedFL: number;
+  SpeedST: number;
+  IsPersonalBest: boolean;
+  Compound: string;
+  TyreLife: number;
+  FreshTyre: boolean;
+  Team: string;
+  LapStartTime: number;
+  LapStartDate: string;
+  TrackStatus: string;
+  Position: number;
+  Deleted: boolean;
+  DeletedReason: string;
+  FastF1Generated: boolean;
+  IsAccurate: boolean;
+}
+
 interface ConstructorResult {
   name: string;
   position: number;
