@@ -15,7 +15,7 @@ export default function DashboardLayout({
         <DropdownGroup />
       </Suspense>
 
-      <div className='container grid grid-cols-4 items-start gap-x-8'>
+      <div className='container flex gap-x-8'>
         <Suspense fallback={<div className='container h-48 animate-pulse' />}>
           <Sidebar />
         </Suspense>
