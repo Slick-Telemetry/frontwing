@@ -7,6 +7,9 @@ import { useCallback } from 'react';
 
 import { driverDefault, eventDefault, sessionDefault } from '@/lib/constants';
 
+import { fetchDriverList } from '@/app/api/fetchDriversAndSessions';
+import { fetchEventList } from '@/app/api/fetchEvents';
+import { fetchSeasonList } from '@/app/api/fetchSeasons';
 // State values
 import {
   DriverListState,
@@ -19,13 +22,8 @@ import {
   SessionListState,
   SessionState,
 } from '@/state-mgmt/atoms';
-// State effects/hooks
-import {
-  fetchDriverList,
-  fetchEventList,
-  fetchSeasonList,
-} from '@/state-mgmt/fetchCalls';
 
+// State effects/hooks
 import { Dropdown } from './Dropdown';
 
 export const DropdownGroup = () => {
