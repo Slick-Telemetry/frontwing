@@ -18,6 +18,13 @@ export const fetchEventList = atomEffect(
     const season = get(SeasonState);
     const params = season && `?year=${season}`;
 
+    // TODO: Prevent fetch if not connected
+    // ! Bug with serverConnectedState not updating
+    // const connected = get(serverConnectedState);
+    // if (!connected) {
+    //   return;
+    // }
+
     // Fetch event list from api
     fetchAPI('schedule' + params).then(
       (res: DataConfigSchema['schedule'] | ServerErrorResponse) => {
@@ -25,7 +32,8 @@ export const fetchEventList = atomEffect(
         const error = res as ServerErrorResponse;
 
         // *** If errors specific prop, detail, update serverErrorState
-        if (error.detail) {
+        if (!schedule) return;
+        if (error && error.detail) {
           set(serverErrorState, error.detail[0].msg);
           return;
         }
@@ -43,7 +51,7 @@ export const fetchEventList = atomEffect(
 
         set(EventListState, completedEvents);
 
-        // *** If no season sync default year with server provided season
+        // *** If no season, sync default year with server provided season
         if (!season) {
           set(SeasonState, schedule.year);
         }
