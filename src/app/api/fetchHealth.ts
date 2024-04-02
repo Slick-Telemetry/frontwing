@@ -14,15 +14,16 @@ export const fetchHealth = atomEffect(
 
     // Fetch event list from api
     fetchAPI('health').then((res: { status: string } | ServerErrorResponse) => {
+      const success = res as { status: string };
       const error = res as ServerErrorResponse;
 
-      if ('status' in res) {
+      if (success && success.status) {
         set(serverConnectedState, true);
         return;
       }
 
       // *** If errors specific prop, detail, update serverErrorState
-      if (error.detail) {
+      if (error && error.detail) {
         set(serverErrorState, error.detail[0].msg);
         return;
       }
