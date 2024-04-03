@@ -19,7 +19,7 @@ export default function DashboardLayout({
         <Suspense fallback={<div className='container h-48 animate-pulse' />}>
           <Sidebar />
         </Suspense>
-        <main className='col-span-3 min-h-96'>{children}</main>
+        <main className='col-span-3 w-full'>{children}</main>
       </div>
     </>
   );
