@@ -109,3 +109,13 @@ export const lastSession = (event: ScheduleSchema) => {
 
   return session;
 };
+
+export const updateSearchParams = (
+  urlParams: URLSearchParams,
+  key: string,
+  value: string,
+) => {
+  const params = new URLSearchParams(urlParams);
+  params.set(key, value);
+  return params.toString();
+};

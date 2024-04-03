@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 
+import { updateSearchParams } from '@/lib/helpers';
 import { cn } from '@/lib/utils';
 
 import { buttonVariants } from '../ui/button';
@@ -21,9 +23,15 @@ export const Selection = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
+  const params = useSearchParams();
+  const pathname = usePathname();
   return (
     <Link
-      href={disabled ? '#' : `dashboard?view=${title}`}
+      href={
+        disabled
+          ? '#'
+          : `${pathname}?${updateSearchParams(params, 'view', title)}`
+      }
       className={cn(
         buttonVariants({ variant: 'ghost', size: 'sm' }),
         active &&
@@ -32,6 +40,7 @@ export const Selection = ({
         disabled && 'text-muted-foreground',
         className,
       )}
+      tabIndex={disabled ? -1 : undefined}
     >
       {title}
       {label && (
