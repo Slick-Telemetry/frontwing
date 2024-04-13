@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
 import { driverDefault, eventDefault, sessionDefault } from '@/lib/constants';
+import { updateSearchParams } from '@/lib/helpers';
 
 import { fetchDriverList } from '@/app/api/fetchDriversAndSessions';
 import { fetchEventList } from '@/app/api/fetchEvents';
@@ -33,8 +34,7 @@ export const DropdownGroup = () => {
   const searchParams = useSearchParams();
 
   // *** Param variables
-  const seasonParam =
-    searchParams.get('season') || new Date().getFullYear().toString();
+  const seasonParam = searchParams.get('season') || '';
   const eventParam = searchParams.get('event') || '';
   const sessionParam = searchParams.get('session') || '';
   const driversParam = searchParams.get('drivers') || '';
@@ -147,14 +147,17 @@ export const DropdownGroup = () => {
 
       params.set(name, value);
 
-      return params.toString();
+      return params;
+      // .toString();
     },
     [searchParams, session, season],
   );
 
   const dropdownAction = (name: string, value: string) => {
     updateState(name, value);
-    router.push(pathname + '?' + createQueryString(name, value));
+    const newQueryString = createQueryString(name, value);
+    const newQueryView = updateSearchParams(newQueryString, 'view', name);
+    router.push(pathname + '?' + newQueryView);
   };
 
   return (
