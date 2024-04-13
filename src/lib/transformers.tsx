@@ -12,10 +12,10 @@ export const formatRaceEventName = (val: string) =>
 export const formatSessionUrl = (session: string) =>
   sessionUrlParams[session as keyof typeof sessionUrlParams];
 
-export const formatSessionName = (val: string) =>
-  Object.keys(sessionUrlParams).find(
-    (key) => sessionUrlParams[key as keyof typeof sessionUrlParams] === val,
-  );
+// export const formatSessionName = (val: string) =>
+//   Object.keys(sessionUrlParams).find(
+//     (key) => sessionUrlParams[key as keyof typeof sessionUrlParams] === val,
+//   );
 
 export const formatConstructorResults = (drivers: DriverResult[]) =>
   drivers
@@ -69,7 +69,7 @@ export const formatNextEvent = (data: ScheduleSchema) => {
     key.match(/Session[1-5]DateUtc/g),
   );
 
-  // Find the next session
+  // Find the Next Session Time
   const nextSessionTime = sessionTimes.find((session) => {
     const sessionName = data[
       session.slice(0, 8) as keyof ScheduleSchema

@@ -32,6 +32,7 @@ export const Selection = ({
           ? '#'
           : `${pathname}?${updateSearchParams(params, 'view', title)}`
       }
+      tabIndex={disabled ? -1 : undefined}
       className={cn(
         buttonVariants({ variant: 'ghost', size: 'sm' }),
         active &&
@@ -40,7 +41,6 @@ export const Selection = ({
         disabled && 'text-muted-foreground',
         className,
       )}
-      tabIndex={disabled ? -1 : undefined}
     >
       {title}
       {label && (
