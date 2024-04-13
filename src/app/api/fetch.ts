@@ -8,6 +8,12 @@ export const fetchAPI = async (endpoint: string) => {
     },
   };
 
+  // Check if any fetching is in queue
+
+  // If so add to queue
+
+  // Need mechanism to tell code to go to next fetch
+
   // Fetch from server
   const data = await fetch(`${serverUrl}/${endpoint}`, { ...options })
     .then(
