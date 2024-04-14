@@ -6,6 +6,11 @@ describe('Dropdown.cy.tsx', () => {
   const initialVal = 'Initial Val';
   const options = ['Option 1', 'Options2'];
 
+  it('renders', () => {
+    const action = cy.spy().as('onDropdownChange');
+    cy.mount(<Dropdown value={initialVal} items={options} action={action} />);
+  });
+
   it('dropdown selects first option', () => {
     const action = cy.spy().as('onDropdownChange');
     cy.mount(<Dropdown value={initialVal} items={options} action={action} />);
@@ -22,11 +27,20 @@ describe('Dropdown.cy.tsx', () => {
     cy.get('@onDropdownChange').should('have.been.calledWith', options[1]);
   });
 
-  it('dropdown with no items and close dropdown', () => {
+  it('dropdown with no items', () => {
     const action = cy.spy().as('onDropdownChange');
     cy.mount(<Dropdown value={initialVal} items={[]} action={action} />);
     cy.get('button').should('have.attr', 'disabled');
     cy.get('[role="menuitemradio"]').should('not.exist');
+    cy.get('@onDropdownChange').should('not.have.been.calledWith', options[0]);
+    cy.get('@onDropdownChange').should('not.have.been.calledWith', options[1]);
+  });
+
+  it('dropdown open then click away', () => {
+    const action = cy.spy().as('onDropdownChange');
+    cy.mount(<Dropdown value={initialVal} items={options} action={action} />);
+    cy.get('button').click();
+    cy.get('body').click({ force: true });
     cy.get('@onDropdownChange').should('not.have.been.calledWith', options[0]);
     cy.get('@onDropdownChange').should('not.have.been.calledWith', options[1]);
   });
