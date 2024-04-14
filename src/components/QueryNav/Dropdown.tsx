@@ -4,10 +4,10 @@ import { BsFillCaretDownFill } from 'react-icons/bs';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
+  // DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
+  // DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 
@@ -18,7 +18,7 @@ interface IDropdown {
   action: (item: string) => void;
 }
 
-export const Dropdown = ({ value, label, items, action }: IDropdown) => {
+export const Dropdown = ({ value, items, action }: IDropdown) => {
   const handleClick = (item: string) => {
     action(item);
   };
@@ -29,15 +29,10 @@ export const Dropdown = ({ value, label, items, action }: IDropdown) => {
         disabled={items.length <= 0}
         className='flex items-center gap-x-2 rounded-full px-4 py-2 disabled:text-muted-foreground'
       >
-        {value} <BsFillCaretDownFill />
+        <span data-cy='dropdown'>{value}</span>
+        <BsFillCaretDownFill />
       </DropdownMenuTrigger>
       <DropdownMenuContent className='max-h-56 overflow-scroll'>
-        {label && (
-          <>
-            <DropdownMenuLabel>{label}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-          </>
-        )}
         <DropdownMenuRadioGroup value={value} onValueChange={handleClick}>
           {items?.map((item) => (
             <DropdownMenuRadioItem key={item} value={item}>

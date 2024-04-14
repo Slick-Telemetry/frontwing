@@ -7,4 +7,10 @@ export default defineConfig({
       bundler: 'webpack',
     },
   },
+
+  e2e: {
+    setupNodeEvents(_on, _config) {
+      // implement node event listeners here
+    },
+  },
 });

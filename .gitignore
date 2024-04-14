@@ -38,3 +38,6 @@ next-env.d.ts
 
 # turbo
 .turbo
+
+#cypress example
+cypress/e2e/example
