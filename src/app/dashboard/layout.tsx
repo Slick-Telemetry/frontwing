@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import { Sidebar } from '@/components/Sidebar';
 
 import { DropdownGroup } from '../../components/QueryNav';
@@ -11,14 +9,14 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <Suspense fallback={<div className='container h-16 animate-pulse' />}>
-        <DropdownGroup />
-      </Suspense>
+      {/* <Suspense fallback={<div className='container h-16 animate-pulse' />}> */}
+      <DropdownGroup />
+      {/* </Suspense> */}
 
       <div className='container flex gap-x-8'>
-        <Suspense fallback={<div className='container h-48 animate-pulse' />}>
-          <Sidebar />
-        </Suspense>
+        {/* <Suspense fallback={<div className='container h-48 animate-pulse' />}> */}
+        <Sidebar />
+        {/* </Suspense> */}
         <main className='col-span-3 w-full'>{children}</main>
       </div>
     </>

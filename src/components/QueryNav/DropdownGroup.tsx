@@ -64,7 +64,7 @@ export const DropdownGroup = () => {
   const [driver, setDriver] = useAtom(DriverState);
   const [driverList, setDriverList] = useAtom(DriverListState);
 
-  // Todo: Migrate to Selection Query List
+  // Todo: Migrate to Toast
   const [serverError] = useAtom(serverErrorState);
 
   const resetEvent = () => {
@@ -161,7 +161,7 @@ export const DropdownGroup = () => {
   };
 
   return (
-    <div className='container flex gap-2 py-8 lg:gap-4'>
+    <div id='queryNav' className='container flex gap-2 py-8 lg:gap-4'>
       <Dropdown
         value={season}
         items={seasonList}
