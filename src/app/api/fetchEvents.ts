@@ -1,6 +1,7 @@
 // Based off season data
 // If season value set fetch that seasons schedule
 
+import { Getter, Setter } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
 import {
@@ -13,7 +14,7 @@ import { fetchAPI } from './fetch';
 
 // otherwise get the default schedule
 export const fetchEventList = atomEffect(
-  (get, set) => {
+  (get: Getter, set: Setter) => {
     // *** if SeasonState, set api season param
     const season = get(SeasonState);
     const params = season && `?year=${season}`;

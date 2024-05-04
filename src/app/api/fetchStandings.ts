@@ -1,3 +1,4 @@
+import { Getter, Setter } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
 import {
@@ -12,7 +13,7 @@ import {
 import { fetchAPI } from './fetch';
 
 // Get Driver & Constructor Standings
-export const fetchStandings = atomEffect((get, set) => {
+export const fetchStandings = atomEffect((get: Getter, set: Setter) => {
   const season = get(SeasonState);
   const race = get(EventListState).find(
     (event) => event.EventName === get(EventState),
