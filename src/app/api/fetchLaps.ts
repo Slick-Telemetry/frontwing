@@ -1,6 +1,7 @@
 // Based off race data
 // Set session and sessions from race sessions
 
+import { Getter, Setter } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
 import {
@@ -16,7 +17,7 @@ import {
 import { fetchAPI } from './fetch';
 
 // Fetch race results to get drivers in the session
-export const fetchLapData = atomEffect((get, set) => {
+export const fetchLapData = atomEffect((get: Getter, set: Setter) => {
   // We need to see if there is an event from params
   // We need to confirm eventlist loaded
   const season = get(SeasonState);

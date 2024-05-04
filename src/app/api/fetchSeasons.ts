@@ -1,3 +1,4 @@
+import { Getter, Setter } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
 import { SeasonListState } from '@/state-mgmt/atoms';
@@ -13,7 +14,7 @@ const f1Seasons = (): string[] => {
 
 // Get Seasons values, this should be done once
 export const fetchSeasonList = atomEffect(
-  (get, set) => {
+  (get: Getter, set: Setter) => {
     // *** if seasons is an empty array, overwise seasons do not change
     if (get(SeasonListState).length <= 0) {
       set(SeasonListState, f1Seasons());

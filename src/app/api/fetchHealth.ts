@@ -1,3 +1,4 @@
+import { Getter, Setter } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
 import { serverConnectedState, serverErrorState } from '@/state-mgmt/atoms';
@@ -6,7 +7,7 @@ import { fetchAPI } from './fetch';
 
 // otherwise get the default schedule
 export const fetchHealth = atomEffect(
-  (get, set) => {
+  (get: Getter, set: Setter) => {
     const serverError = get(serverErrorState);
     if (serverError) {
       return;

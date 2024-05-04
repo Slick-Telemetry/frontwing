@@ -1,3 +1,4 @@
+import { Getter, Setter } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
 import { formatNextEvent } from '@/lib/transformers';
@@ -13,7 +14,7 @@ import { fetchAPI } from './fetch';
 
 // Get upcoming event this should be done once
 export const fetchNextEvent = atomEffect(
-  (get, set) => {
+  (get: Getter, set: Setter) => {
     // Next event do not change, only fetch if null
     if (!get(nextEventAtom)) {
       fetchAPI('next-event').then(
