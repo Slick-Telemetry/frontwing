@@ -1,4 +1,5 @@
-const serverUrl = 'http://127.0.0.1:8081';
+const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+const bearerToken = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
 const sessionUrlParams = {
   'Practice 1': 'fp1',
@@ -19,6 +20,7 @@ const driverDefault = 'All Drivers';
 const sessionDefault = 'Race';
 
 export {
+  bearerToken,
   driverDefault,
   eventDefault,
   eventErrorMsg,

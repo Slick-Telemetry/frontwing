@@ -1,10 +1,10 @@
-import { serverUrl } from '@/lib/constants';
+import { bearerToken, serverUrl } from '@/lib/constants';
 
 export const fetchAPI = async (endpoint: string) => {
   // Headers for authorization
   const options = {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   };
 
