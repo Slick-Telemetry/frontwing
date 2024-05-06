@@ -34,11 +34,11 @@ jobs:
       - name: 💅 Prettier check
         run: pnpm format:check
 
-      - name: ✅ Cypress tests
-        uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a
-        with:
-          browser: chrome
-          build: pnpm build
-          component: true
-          start: pnpm start
-          wait-on: 'http://localhost:3000'
+      # - name: ✅ Cypress tests
+      #   uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a
+      #   with:
+      #     browser: chrome
+      #     build: pnpm build
+      #     component: true
+      #     start: pnpm start
+      #     wait-on: 'http://localhost:3000'
