@@ -1,9 +1,10 @@
 'use client';
 
 import { atom, useAtom } from 'jotai';
-import { FaChevronLeft } from 'react-icons/fa';
 
 import { cn } from '@/lib/utils';
+
+import { ChevronLeft } from '@/components/icons/ChevronLeft';
 
 import {
   DriverState,
@@ -46,7 +47,7 @@ export const Sidebar = () => {
         className='absolute right-0 top-0 h-6 w-6 translate-x-2/4 rounded-full'
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
-        <FaChevronLeft
+        <ChevronLeft
           className={cn('h-2 w-2 transition-transform duration-200', {
             '-rotate-180': sidebarOpen,
           })}

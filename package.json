@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "frontwing",
   "description": "Slick Telemetry frontend written in typescript with nextjs and vercel",
   "author": "Slick Telemetry",
   "license": "GPL-3.0-only",
@@ -31,10 +31,10 @@
     "jotai": "latest",
     "jotai-effect": "latest",
     "lucide-react": "latest",
+    "moment": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-icons": "latest",
     "tailwind-merge": "latest",
     "tailwindcss-animate": "latest"
   },
@@ -49,7 +49,7 @@
     "@typescript-eslint/parser": "latest",
     "autoprefixer": "latest",
     "cypress": "latest",
-    "eslint": "latest",
+    "eslint": "8.56.0",
     "eslint-config-next": "latest",
     "eslint-config-prettier": "latest",
     "eslint-plugin-cypress": "latest",

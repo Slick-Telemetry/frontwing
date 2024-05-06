@@ -17,7 +17,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8
         with:
-          node-version: 21
+          node-version: 22
 
       - name: Install pnpm
         uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d
@@ -34,11 +34,11 @@ jobs:
       - name: 💅 Prettier check
         run: pnpm format:check
 
-      # - name: ✅ Cypress tests
-      #   uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a
-      #   with:
-      #     browser: chrome
-      #     build: pnpm build
-      #     component: true
-      #     start: pnpm start
-      #     wait-on: 'http://localhost:3000'
+      - name: ✅ Cypress tests
+        uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a
+        with:
+          browser: chrome
+          build: pnpm build
+          component: true
+          start: pnpm start
+          wait-on: 'http://localhost:3000'

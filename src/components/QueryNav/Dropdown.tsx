@@ -1,5 +1,6 @@
 import React from 'react';
-import { BsFillCaretDownFill } from 'react-icons/bs';
+
+import { CaretDownFill } from '@/components/icons/CaretDownFill';
 
 import {
   DropdownMenu,
@@ -30,7 +31,7 @@ export const Dropdown = ({ value, items, action }: IDropdown) => {
         className='flex items-center gap-x-2 rounded-full px-4 py-2 disabled:text-muted-foreground'
       >
         <span data-cy='dropdown'>{value}</span>
-        <BsFillCaretDownFill />
+        <CaretDownFill />
       </DropdownMenuTrigger>
       <DropdownMenuContent className='max-h-56 overflow-scroll'>
         <DropdownMenuRadioGroup value={value} onValueChange={handleClick}>

@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { BsPlusCircle } from 'react-icons/bs';
 
+import { PlusCircle } from '@/components/icons/PlusCircle';
 import { NextEvent } from '@/components/SelectionData';
 
 export default function Home() {
@@ -25,7 +25,7 @@ const Hero = () => (
         </p>
       </div>
 
-      <BsPlusCircle className='h-8 w-8 lg:h-16 lg:w-16 ' />
+      <PlusCircle className='h-8 w-8 lg:h-16 lg:w-16 ' />
 
       {/* Formula */}
       <div className='grid flex-1 gap-2 text-center'>

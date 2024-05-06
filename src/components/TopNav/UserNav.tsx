@@ -1,4 +1,4 @@
-import { BsPersonCircle } from 'react-icons/bs';
+import { PersonCircle } from '@/components/icons/PersonCircle';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -20,7 +20,7 @@ export function UserNav() {
           <Avatar className='h-8 w-8'>
             <AvatarImage src='/avatars/01.png' alt='@shadcn' />
             <AvatarFallback>
-              <BsPersonCircle />
+              <PersonCircle />
             </AvatarFallback>
           </Avatar>
         </Button>
