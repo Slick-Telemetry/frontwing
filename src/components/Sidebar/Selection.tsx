@@ -23,15 +23,19 @@ export const Selection = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
-  const params = useSearchParams();
+  const searchParams = useSearchParams();
   const pathname = usePathname();
+
+  // Updated params with new view value
+  const linkParams = updateSearchParams(
+    new URLSearchParams(searchParams),
+    'view',
+    title.toLowerCase(),
+  );
+
   return (
     <Link
-      href={
-        disabled
-          ? '#'
-          : `${pathname}?${updateSearchParams(params, 'view', title)}`
-      }
+      href={disabled ? '#' : `${pathname}?${linkParams.toString()}`}
       tabIndex={disabled ? -1 : undefined}
       className={cn(
         buttonVariants({ variant: 'ghost', size: 'sm' }),

@@ -6,7 +6,8 @@ import { atomEffect } from 'jotai-effect';
 
 import {
   EventListState,
-  SeasonState,
+  QueryAtom,
+  // SeasonState,
   serverErrorState,
 } from '@/state-mgmt/atoms';
 
@@ -16,8 +17,10 @@ import { fetchAPI } from './fetch';
 export const fetchEventList = atomEffect(
   (get: Getter, set: Setter) => {
     // *** if SeasonState, set api season param
-    const season = get(SeasonState);
+    const season = get(QueryAtom).season;
     const params = season && `?year=${season}`;
+
+    // console.log('fetch schedule', params);
 
     // TODO: Prevent fetch if not connected
     // ! Bug with serverConnectedState not updating
@@ -54,7 +57,7 @@ export const fetchEventList = atomEffect(
 
         // *** If no season, sync default year with server provided season
         if (!season) {
-          set(SeasonState, schedule.year);
+          set(QueryAtom, { ...get(QueryAtom), season: schedule.year });
         }
       },
     );

@@ -1,21 +1,79 @@
 'use client';
 
 import { useAtom } from 'jotai';
+import moment from 'moment';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useMemo } from 'react';
+
+import { updateSearchParams } from '@/lib/helpers';
 
 import {
+  DriverListState,
+  // DriverState,
   EventListState,
-  EventState,
+  // LapListState,
+  QueryAtom,
+  // EventState,
   SessionListState,
-  SessionState,
+  // SessionState,
 } from '@/state-mgmt/atoms';
 
 import { SelectionItem } from './SelectionItem';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '../ui/accordion';
+// import { Slider } from '../ui/slider';
 
 const titles: { [key: string]: string } = {
-  Season: 'Season Events',
-  Event: 'Event Sessions',
+  season: 'Season Events',
+  event: 'Event Sessions',
+  session: 'Session Drivers',
+  driver: 'Driver Laps',
 };
+
+// const LapRangePicker = ({lapCount, bestLap = 1}: {lapCount:number, bestLap: number}) => {
+//   const [isRange, setIsRange] = useState(false);
+//   const [range, setRange] = useState([0, lapCount]);
+//   const [lap, setLap] = useState([bestLap]);
+
+//   const handleRange = (value: number[]) => {
+//     setRange(value);
+//   }
+
+//   const handleDefault = (value: number[]) => {
+//     setLap(value);
+//   }
+
+//   return (
+//     <div className='grid gap-4 p-4'>
+//       <div>
+//         <input
+//           type='checkbox'
+//           id='isRange'
+//           checked={isRange}
+//           onChange={() => setIsRange(!isRange)}
+//         />
+//         <label htmlFor='isRange'>Use Range</label>
+//       </div>
+//       <div className="min-h-12">
+
+//       {isRange ? <Slider
+//         onValueChange={(value) => handleRange(value)}
+//         value={range}
+//         max={lapCount}
+//         minStepsBetweenThumbs={1}
+//         /> : <Slider
+//         onValueChange={(value) => handleDefault(value)}
+//         value={lap}
+//         max={lapCount}
+//         />}
+//       </div>
+//     </div>
+//   );
+// }
 
 export const SelectionList = () => {
   const searchParams = useSearchParams();
@@ -23,63 +81,151 @@ export const SelectionList = () => {
   const pathname = usePathname();
 
   // Default view is Season
-  const view = searchParams.get('view') || 'Season';
+  const view = searchParams.get('view') || 'season';
+
+  const [query, setQuery] = useAtom(QueryAtom);
 
   // Event atoms
-  const [, setEvent] = useAtom(EventState);
   const [eventList] = useAtom(EventListState);
 
   // Session atoms
-  const [, setSession] = useAtom(SessionState);
   const [sessionList] = useAtom(SessionListState);
 
-  const handleSelection = (value: string) => {
-    const params = new URLSearchParams(searchParams);
+  // Driver atoms
+  const [driverList] = useAtom(DriverListState);
 
-    if (view === 'Season') {
-      params.set('view', 'Event');
-      setEvent(value);
-    }
+  // Lap atom
+  // const [lapList] = useAtom(LapListState);
 
-    if (view === 'Event') {
-      params.set('view', 'Session');
-      setSession(value);
-    }
+  // Action based on view
+  // Derive with params are going to change
+  const handleSelection = useCallback(
+    (value: string) => {
+      let params = new URLSearchParams(searchParams);
+      let queryKey = '';
+      // const view = params.get('view') || 'season';
 
-    router.push(`${pathname}?${params.toString()}`);
-  };
+      if (view === 'season') {
+        queryKey = 'event';
+        setQuery({ ...query, event: value });
+      }
 
-  const dataListComponents: { [key: string]: React.ReactNode[] } = {
+      if (view === 'event') {
+        queryKey = 'session';
+        setQuery({ ...query, session: value });
+      }
+
+      if (view === 'session') {
+        queryKey = 'driver';
+        setQuery({ ...query, driver: value });
+      }
+
+      if (queryKey) {
+        // Update query params
+        params = updateSearchParams(params, queryKey, value);
+
+        // Update view
+        params = updateSearchParams(params, 'view', queryKey);
+      }
+
+      router.push(pathname + '?' + params.toString());
+    },
+    [searchParams, query, setQuery, view, pathname, router],
+  );
+
+  // Component list based on view
+  const dataListComponents: React.ReactNode[] = useMemo(() => {
     // Season view
-    Season: eventList.map((event, i) => (
+    const seasonView = eventList.map((event, i) => (
       <SelectionItem
         key={event.EventDate}
         clickHandler={() => handleSelection(event.EventName)}
       >
+        {/* <p>{event.EventDate}</p> */}
         <h2>
           {i + 1}. {event.EventName}
         </h2>
-        {/* <p>{event.EventDate}</p> */}
+
+        <Accordion type='single' collapsible className='w-full'>
+          <AccordionItem value='tst'>
+            <AccordionTrigger
+              className='gap-4 py-0'
+              onClick={(e) => e.stopPropagation()}
+            >
+              Weekend Schedule
+            </AccordionTrigger>
+            <AccordionContent>
+              <p>
+                {event.Session1} -{' '}
+                {moment.utc(event.Session1DateUtc).local().format('LLL')}
+              </p>
+              <p>
+                {event.Session2} -{' '}
+                {moment.utc(event.Session2DateUtc).local().format('LLL')}
+              </p>
+              <p>
+                {event.Session3} -{' '}
+                {moment.utc(event.Session3DateUtc).local().format('LLL')}
+              </p>
+              <p>
+                {event.Session4} -{' '}
+                {moment.utc(event.Session4DateUtc).local().format('LLL')}
+              </p>
+              <p>
+                {event.Session5} -{' '}
+                {moment.utc(event.Session5DateUtc).local().format('LLL')}
+              </p>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </SelectionItem>
-    )),
+    ));
+
     // Event view
-    Event: sessionList.map((session) => (
+    const eventView = sessionList.map((session) => (
       <SelectionItem
         key={session}
         clickHandler={() => handleSelection(session)}
       >
         <h2>{session}</h2>
       </SelectionItem>
-    )),
-  };
+    ));
 
+    // Session view
+    const sessionView = driverList.map((driver) => (
+      <SelectionItem
+        key={driver.DriverId}
+        clickHandler={() => handleSelection(driver.DriverId)}
+      >
+        <h2>{driver.FullName}</h2>
+      </SelectionItem>
+    ));
+
+    // const driverView = (
+    //   <LapRangePicker lapCount={lapList.length} bestLap={lapList.find(lap => lap.IsPersonalBest)?.LapNumber || 1} />
+    // );
+
+    const componentList: { [key: string]: React.ReactNode[] } = {
+      season: seasonView,
+      event: eventView,
+      session: sessionView,
+      // laps: [driverView],
+    };
+
+    return componentList[view];
+  }, [eventList, sessionList, driverList, view, handleSelection]);
+  // }, [eventList, sessionList, driverList, lapList, view, handleSelection]);
+
+  // console.log('dataListComponents', dataListComponents)
   return (
     <>
       <h1 className='px-4 text-2xl font-extrabold tracking-tight lg:text-3xl'>
         {titles[view] || 'Invalid view selected'}
       </h1>
       <div className='my-2 grid overflow-hidden rounded-xl border shadow'>
-        {dataListComponents[view] || 'No data available'}
+        {dataListComponents && dataListComponents.length > 0
+          ? dataListComponents
+          : 'No data available'}
       </div>
     </>
   );

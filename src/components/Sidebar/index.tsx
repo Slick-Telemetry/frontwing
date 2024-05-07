@@ -6,12 +6,7 @@ import { cn } from '@/lib/utils';
 
 import { ChevronLeft } from '@/components/icons/ChevronLeft';
 
-import {
-  DriverState,
-  EventState,
-  SeasonState,
-  SessionState,
-} from '@/state-mgmt/atoms';
+import { QueryAtom } from '@/state-mgmt/atoms';
 
 import { SelectionGroup } from './SelectionGroup';
 import { Button } from '../ui/button';
@@ -19,15 +14,23 @@ import { Button } from '../ui/button';
 export * from './Selection';
 export * from './SelectionGroup';
 
+// This component is the left sidebar of the application.
+// It's primary function is to change views and navigate between different data sets.
+// We use the SelectionGroup component to render the different views options.
+// - Season -> Events during a season
+// - Event -> Sessions during an event
+// - Session -> Drivers during a session
+// - Laps -> Lap data for a driver
+
+// There is also a button to collapse the sidebar.
+
 const sidebarOpenAtom = atom(false);
+
 export const Sidebar = () => {
-  const [season] = useAtom(SeasonState);
-  const [event] = useAtom(EventState);
-  const [session] = useAtom(SessionState);
-  const [driver] = useAtom(DriverState);
   const [sidebarOpen, setSidebarOpen] = useAtom(sidebarOpenAtom);
 
-  // Use state values to define which groups are active
+  // *** Use state values to define which groups are active
+  const [{ season, event, session, driver }] = useAtom(QueryAtom);
 
   return (
     <aside
@@ -38,9 +41,11 @@ export const Sidebar = () => {
       <div className='grid gap-2 overflow-hidden'>
         <SelectionGroup title='Season' disabled={!season} />
         <SelectionGroup title='Event' disabled={!event} />
-        <SelectionGroup title='Drivers' disabled={!session} />
+        <SelectionGroup title='Session' disabled={!session} />
         <SelectionGroup title='Laps' disabled={!driver} />
       </div>
+
+      {/* Collapsible button */}
       <Button
         variant='outline'
         size='icon'
