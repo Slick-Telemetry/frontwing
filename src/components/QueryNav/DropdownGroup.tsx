@@ -3,26 +3,33 @@
 import { useAtom } from 'jotai/react';
 import { useHydrateAtoms } from 'jotai/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
 
+// import { useCallback } from 'react';
 import { driverDefault, eventDefault, sessionDefault } from '@/lib/constants';
 import { updateSearchParams } from '@/lib/helpers';
 
-import { fetchDriverList } from '@/app/api/fetchDriversAndSessions';
-import { fetchEventList } from '@/app/api/fetchEvents';
-import { fetchLapData } from '@/app/api/fetchLaps';
-import { fetchSeasonList } from '@/app/api/fetchSeasons';
+// import { fetchDriverList } from '@/app/api/fetchDriversAndSessions';
+// import { fetchEventList } from '@/app/api/fetchEvents';
+// import { fetchLapData } from '@/app/api/fetchLaps';
+// import { fetchSeasonList } from '@/app/api/fetchSeasons';
 // State values
 import {
+  DataFetchAtom,
+  DriverAtom,
   DriverListState,
-  DriverState,
+  // DriverState,
+  EventAtom,
   EventListState,
-  EventState,
+  // EventState,
+  QueryAtom,
+  SeasonAtom,
   SeasonListState,
-  SeasonState,
+  // SeasonState,
   serverErrorState,
+  SessionAtom,
   SessionListState,
-  SessionState,
+  updateQueryAndResetLists,
+  // SessionState,
 } from '@/state-mgmt/atoms';
 
 // State effects/hooks
@@ -37,128 +44,104 @@ export const DropdownGroup = () => {
   const seasonParam = searchParams.get('season') || '';
   const eventParam = searchParams.get('event') || '';
   const sessionParam = searchParams.get('session') || '';
-  const driversParam = searchParams.get('drivers') || '';
+  const driversParam = searchParams.get('driver') || '';
 
   // *** Handles hydration on page load
   // Populate state from params
   useHydrateAtoms([
-    [SeasonState, seasonParam],
-    [EventState, eventParam],
-    [SessionState, sessionParam],
-    [DriverState, driversParam],
+    [
+      QueryAtom,
+      {
+        season: seasonParam,
+        event: eventParam,
+        session: sessionParam,
+        driver: driversParam,
+        lap: '',
+      },
+    ],
+    // [SeasonState, seasonParam],
+    // [EventState, eventParam],
+    // [SessionState, sessionParam],
+    // [DriverState, driversParam],
   ]);
 
   // Bring in effect that fetch list data now that atoms are hydrated
   // TODO: Migrate to one fetch that updates List atoms values now that they are hydrated
-  useAtom(fetchSeasonList);
-  useAtom(fetchEventList);
-  useAtom(fetchDriverList);
-  useAtom(fetchLapData);
+  // useAtom(fetchSeasonList);
+  // useAtom(fetchEventList);
+  // useAtom(fetchDriverList);
+  // useAtom(fetchLapData);
+  useAtom(DataFetchAtom);
 
-  const [season, setSeason] = useAtom(SeasonState);
   const [seasonList] = useAtom(SeasonListState);
-  const [event, setEvent] = useAtom(EventState);
   const [eventList, setEventList] = useAtom(EventListState);
-  const [session, setSession] = useAtom(SessionState);
   const [sessionList, setSessionList] = useAtom(SessionListState);
-  const [driver, setDriver] = useAtom(DriverState);
   const [driverList, setDriverList] = useAtom(DriverListState);
+
+  // Use hydrated attoms
+  const [, setQuery] = useAtom(QueryAtom);
+  const [season] = useAtom(SeasonAtom);
+  const [event] = useAtom(EventAtom);
+  const [session] = useAtom(SessionAtom);
+  const [driver] = useAtom(DriverAtom);
 
   // Todo: Migrate to Toast
   const [serverError] = useAtom(serverErrorState);
 
-  const resetEvent = () => {
-    setEvent(eventDefault);
-    setEventList([]);
-  };
-
-  const resetSession = () => {
-    setSession(sessionDefault);
-    setSessionList([]);
-  };
-
-  const resetDriver = () => {
-    setDriver(driverDefault);
-    setDriverList([]);
-  };
+  const updateQuery = updateQueryAndResetLists(
+    setQuery,
+    setEventList,
+    setSessionList,
+    setDriverList,
+  );
 
   const updateState = (name: string, value: string) => {
     // if season remove all params
+    // console.log('updateState', name, value);
     switch (name) {
       case 'season':
-        setSeason(value);
-
-        // Reset All but season List States
-        resetEvent();
-        resetSession();
-        resetDriver();
+        updateQuery({
+          season: value,
+        });
         break;
       case 'event':
-        setEvent(value);
-
-        // Reset Session & DriverList States
-        resetSession();
-        resetDriver();
+        updateQuery({
+          event: value,
+        });
         break;
 
       case 'session':
-        setSession(value);
-
-        // Reset Driver List States
-        resetDriver();
+        updateQuery({
+          session: value,
+        });
         break;
 
       case 'driver':
-        setDriver(value);
+        updateQuery({
+          driver: value,
+        });
     }
   };
 
-  /// Get a new searchParams string by merging the current
-  // searchParams with a provided key/value pair
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      // *** Remove extra parameters
-      switch (name) {
-        case 'season':
-          params.delete('event');
-          params.delete('session');
-          params.delete('driver');
-          break;
-
-        case 'event':
-          if (season) {
-            params.set('season', season);
-          }
-          params.delete('session');
-          params.delete('driver');
-          break;
-
-        case 'session':
-          params.delete('driver');
-          break;
-
-        case 'driver':
-          if (session) {
-            params.set('session', session);
-          }
-      }
-
-      params.set(name, value);
-
-      return params;
-      // .toString();
-    },
-    [searchParams, session, season],
-  );
-
   const dropdownAction = (name: string, value: string) => {
+    // Update state
     updateState(name, value);
-    const newQueryString = createQueryString(name, value);
-    const newQueryView = updateSearchParams(newQueryString, 'view', name);
-    router.push(pathname + '?' + newQueryView);
+
+    // Initialize url params without readonly
+    let params = new URLSearchParams(searchParams);
+
+    // Update Query Params
+    params = updateSearchParams(params, name, value, season, session);
+
+    // Update View Params
+    params = updateSearchParams(params, 'view', name);
+
+    // Update URL
+    router.push(pathname + '?' + params.toString());
   };
+
+  // console.log('query', query);
+  // console.log('lists', eventList, sessionList, driverList);
 
   return (
     <div id='queryNav' className='container flex gap-2 py-8 lg:gap-4'>

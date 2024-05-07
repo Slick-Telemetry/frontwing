@@ -22,7 +22,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d
         with:
-          version: 9
+          version: 8
           run_install: true
 
       - name: 🔬 Lint
