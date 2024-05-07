@@ -5,8 +5,9 @@ import {
   ConstructorStandingState,
   DriverStandingState,
   EventListState,
-  EventState,
-  SeasonState,
+  QueryAtom,
+  // EventState,
+  // SeasonState,
   serverErrorState,
 } from '@/state-mgmt/atoms';
 
@@ -14,9 +15,10 @@ import { fetchAPI } from './fetch';
 
 // Get Driver & Constructor Standings
 export const fetchStandings = atomEffect((get: Getter, set: Setter) => {
-  const season = get(SeasonState);
+  const season = get(QueryAtom).season;
+  const eventAtom = get(QueryAtom).event;
   const race = get(EventListState).find(
-    (event) => event.EventName === get(EventState),
+    (event) => event.EventName === eventAtom,
   );
 
   // Year

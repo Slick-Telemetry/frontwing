@@ -10,11 +10,12 @@ import { lastSession, sessionTitles } from '@/lib/helpers';
 import {
   DriverListState,
   EventListState,
-  EventState,
-  SeasonState,
+  // EventState,
+  QueryAtom,
+  // SeasonState,
   serverErrorState,
   SessionListState,
-  SessionState,
+  // SessionState,
 } from '@/state-mgmt/atoms';
 
 import { fetchAPI } from './fetch';
@@ -23,7 +24,7 @@ import { fetchAPI } from './fetch';
 export const fetchDriverList = atomEffect((get: Getter, set: Setter) => {
   // We need to see if there is an event from params
   // We need to confirm eventlist loaded
-  const eventName = get(EventState);
+  const eventName = get(QueryAtom).event;
   const eventList = get(EventListState);
 
   // This indicated eventList has not been fetched has not loaded
@@ -44,13 +45,13 @@ export const fetchDriverList = atomEffect((get: Getter, set: Setter) => {
   // Confirm event exists
   if (event) {
     // *** Base url for fetch
-    let url = `results/${get(SeasonState)}/${event.RoundNumber}`;
+    let url = `results/${get(QueryAtom).season}/${event.RoundNumber}`;
 
     // *** Get all session titles of event
     const sessions = sessionTitles(event);
     set(SessionListState, sessions);
 
-    let session = get(SessionState);
+    let session = get(QueryAtom).session;
 
     // *** If no session update update session variable and session state
     // *** Use last session from event as the default value
@@ -59,7 +60,7 @@ export const fetchDriverList = atomEffect((get: Getter, set: Setter) => {
       session = lastSession(event);
 
       // Update Session state
-      set(SessionState, session);
+      set(QueryAtom, { ...get(QueryAtom), session: session });
     }
 
     // *** If sessions available find session round and add to url

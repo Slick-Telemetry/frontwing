@@ -5,13 +5,16 @@ import { Getter, Setter } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
 import {
+  // DriverAtom,
+  DriverListState,
   EventListState,
-  EventState,
+  // EventState,
   LapListState,
-  SeasonState,
+  QueryAtom,
+  // SeasonState,
   serverErrorState,
   SessionListState,
-  SessionState,
+  // SessionState,
 } from '@/state-mgmt/atoms';
 
 import { fetchAPI } from './fetch';
@@ -20,25 +23,35 @@ import { fetchAPI } from './fetch';
 export const fetchLapData = atomEffect((get: Getter, set: Setter) => {
   // We need to see if there is an event from params
   // We need to confirm eventlist loaded
-  const season = get(SeasonState);
+  const { season, event, session: sessionName, driver } = get(QueryAtom);
+  // const season = get(SeasonState);
 
-  const event = get(EventState);
+  // const event = get(EventState);
   const eventList = get(EventListState);
   const eventRound = eventList.find(
     (evt) => evt.EventName === event,
   )?.RoundNumber;
 
-  const sessionName = get(SessionState);
+  // const sessionName = get(SessionState);
   const sessionList = get(SessionListState);
   const sessionRound = sessionList.indexOf(sessionName) + 1;
 
-  //   TODO: Get driver index from driver list
-  //   const drivers = get(DriverListState);
+  // Get driver number from driver list
+  const driverList = get(DriverListState);
+  const driverNumber = driverList.find(
+    (d) => d.DriverId === driver,
+  )?.DriverNumber;
 
   let url = `laps/${season}/${eventRound}`;
 
   if (sessionRound) {
     url += `?session=${sessionRound}`;
+  }
+  if (driverNumber) {
+    url += `${sessionRound ? '&' : '?'}driver_number=${driverNumber}`;
+  } else {
+    // To prevent fetching too much data we require driver number
+    return;
   }
 
   if (season && eventRound) {

@@ -110,12 +110,64 @@ export const lastSession = (event: ScheduleSchema) => {
   return session;
 };
 
+// export const updateSearchParams = (
+//   urlParams: URLSearchParams,
+//   key: string,
+//   value: string,
+// ) => {
+//   const params = new URLSearchParams(urlParams);
+//   params.set(key, value);
+//   return params;
+// };
+
+/// Get a new searchParams string by merging the current
+// searchParams with a provided key/value pair
 export const updateSearchParams = (
-  urlParams: URLSearchParams,
+  params: URLSearchParams,
   key: string,
   value: string,
+  season?: string,
+  session?: string,
 ) => {
-  const params = new URLSearchParams(urlParams);
+  // *** Remove extra parameters
+  switch (key) {
+    //  If view skip extra steps
+    case 'view':
+      break;
+
+    // If season is set, remove all other params
+    case 'season':
+      params.delete('event');
+      params.delete('session');
+      params.delete('driver');
+      break;
+
+    // If event is set, remove session and driver
+    case 'event':
+      // Make sure season is set
+      if (season) {
+        params.set('season', season);
+      }
+      params.delete('session');
+      params.delete('driver');
+      break;
+
+    // If session is set, remove driver
+    case 'session':
+      params.delete('driver');
+      break;
+
+    case 'driver':
+      // Make sure session is set
+      if (session) {
+        params.set('session', session);
+      }
+      break;
+  }
+
+  // Update specified param
   params.set(key, value);
-  return params.toString();
+
+  // Update View
+  return params;
 };
