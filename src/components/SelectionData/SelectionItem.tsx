@@ -9,7 +9,7 @@ export const SelectionItem = ({
     <a
       onClick={clickHandler}
       tabIndex={0}
-      className='cursor-pointer border-b bg-card px-4 py-2 text-card-foreground hover:bg-accent hover:text-accent-foreground'
+      className='cursor-pointer bg-card px-4 py-2 text-card-foreground hover:bg-accent hover:text-accent-foreground'
     >
       {children}
     </a>
