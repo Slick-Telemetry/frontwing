@@ -69,6 +69,14 @@ describe('visit dashboard', () => {
       .should('have.text', 'All Drivers')
       .parent()
       .should('have.attr', 'disabled');
+
+    // Change the event
+    cy.get('#queryNav [data-cy="dropdown"]').eq(1).click();
+    cy.get('[role="menuitemradio"]')
+      .last()
+      .should('have.text', 'Abu Dhabi Grand Prix');
+    cy.get('[role="menuitemradio"]').last().click(); // Bahrain
+    cy.url().should('include', '?season=2023&event=Abu+Dhabi+Grand+Prix');
   });
 
   it('change the event', () => {

@@ -25,6 +25,7 @@
     "@radix-ui/react-accordion": "latest",
     "@radix-ui/react-avatar": "latest",
     "@radix-ui/react-dropdown-menu": "latest",
+    "@radix-ui/react-slider": "latest",
     "@radix-ui/react-slot": "latest",
     "class-variance-authority": "latest",
     "clsx": "latest",

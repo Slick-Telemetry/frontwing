@@ -1,8 +1,7 @@
 import { Suspense } from 'react';
 
+import { DropdownGroup } from '@/components/QueryNav';
 import { Sidebar } from '@/components/Sidebar';
-
-import { DropdownGroup } from '../../components/QueryNav';
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
