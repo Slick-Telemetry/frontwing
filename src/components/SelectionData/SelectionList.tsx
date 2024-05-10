@@ -8,9 +8,10 @@ import { useCallback, useMemo } from 'react';
 import { updateSearchParams } from '@/lib/helpers';
 
 import {
+  CompletedEventsList,
   DriverListState,
   // DriverState,
-  EventListState,
+  // EventListState,
   // LapListState,
   QueryAtom,
   // EventState,
@@ -86,7 +87,7 @@ export const SelectionList = () => {
   const [query, setQuery] = useAtom(QueryAtom);
 
   // Event atoms
-  const [eventList] = useAtom(EventListState);
+  const [eventList] = useAtom(CompletedEventsList);
 
   // Session atoms
   const [sessionList] = useAtom(SessionListState);

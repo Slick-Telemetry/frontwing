@@ -14,12 +14,13 @@ import { updateSearchParams } from '@/lib/helpers';
 // import { fetchSeasonList } from '@/app/api/fetchSeasons';
 // State values
 import {
+  CompletedEventsList,
   DataFetchAtom,
   DriverAtom,
   DriverListState,
   // DriverState,
   EventAtom,
-  EventListState,
+  // EventListState,
   // EventState,
   QueryAtom,
   SeasonAtom,
@@ -74,7 +75,7 @@ export const DropdownGroup = () => {
   useAtom(DataFetchAtom);
 
   const [seasonList] = useAtom(SeasonListState);
-  const [eventList, setEventList] = useAtom(EventListState);
+  const [eventList, setEventList] = useAtom(CompletedEventsList);
   const [sessionList, setSessionList] = useAtom(SessionListState);
   const [driverList, setDriverList] = useAtom(DriverListState);
 

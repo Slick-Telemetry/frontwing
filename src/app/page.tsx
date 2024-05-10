@@ -5,44 +5,43 @@ import { NextEvent } from '@/components/SelectionData';
 
 export default function Home() {
   return (
-    <main className='grid min-h-dvh'>
+    <main className='flex min-h-[80vh] flex-col'>
       <Hero />
 
-      {/* Suspense */}
-      <NextEvent />
+      <div className='mx-auto my-4'>
+        <NextEvent />
+      </div>
     </main>
   );
 }
 
 const Hero = () => (
-  <div className='hero min-h-[80dvh] lg:min-h-[60dvh]'>
-    <div className='container my-12 flex flex-col flex-wrap items-center gap-x-6 gap-y-4 md:flex-row'>
-      {/* Slick Telemetry */}
-      <div className='grid flex-1 text-center lg:gap-2'>
-        <h1 className='text-2xl font-bold lg:text-5xl'>Slick Telemetry</h1>
-        <p className='font-semi-boldl lg:text-2xl'>
-          Your home for Formula 1 insights
-        </p>
-      </div>
+  <div className='container my-auto flex flex-col flex-wrap items-center justify-center gap-y-6 md:flex-row md:gap-x-12'>
+    {/* Slick Telemetry */}
+    <div className='grid text-center md:flex-1 lg:gap-2'>
+      <h1 className='text-4xl font-bold lg:text-6xl'>Slick Telemetry</h1>
+      <p className='font-semi-boldl text-lg  lg:text-3xl'>
+        Your home for Formula 1 insights
+      </p>
+    </div>
 
-      <PlusCircle className='h-8 w-8 lg:h-16 lg:w-16 ' />
+    <PlusCircle className='h-8 w-8 lg:h-16 lg:w-16' />
 
-      {/* Formula */}
-      <div className='grid flex-1 gap-2 text-center'>
-        <h2 className='text-2xl font-bold lg:text-5xl'>Formula 1</h2>
-        <p className='font-semi-bold lg:text-2xl'>
-          The world largest science contest
-        </p>
-      </div>
+    {/* Formula */}
+    <div className='grid gap-2 text-center md:flex-1'>
+      <h2 className='text-4xl font-bold lg:text-6xl'>Formula 1</h2>
+      <p className='font-semi-bold text-lg lg:text-3xl'>
+        The world largest science contest
+      </p>
+    </div>
 
-      {/* Call to Action  */}
-      <div className='my-8 w-full text-center'>
-        <Link href='/telemetry'>
-          <button className='btn btn-primary lg:text-xl'>
-            Telemetry Time!
-          </button>
-        </Link>
-      </div>
+    {/* Call to Action  */}
+    <div className='my-8 w-full text-center'>
+      <Link href='/dashboard'>
+        <button className='btn rounded border border-current px-3 py-1 text-2xl md:border-2 md:px-5 md:py-2 md:text-3xl'>
+          Dashboard
+        </button>
+      </Link>
     </div>
   </div>
 );
