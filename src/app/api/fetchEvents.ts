@@ -5,6 +5,7 @@ import { Getter, Setter } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 
 import {
+  CompletedEventsList,
   EventListState,
   QueryAtom,
   // SeasonState,
@@ -53,7 +54,8 @@ export const fetchEventList = atomEffect(
             new Date(event.Session5DateUtc).getTime() + threeHrs <= currDate,
         );
 
-        set(EventListState, completedEvents);
+        set(EventListState, schedule.EventSchedule);
+        set(CompletedEventsList, completedEvents);
 
         // *** If no season, sync default year with server provided season
         if (!season) {

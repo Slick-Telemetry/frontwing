@@ -11,7 +11,7 @@ function Footer() {
   const [serverStatus] = useAtom(serverConnectedState);
 
   return (
-    <div className='container min-h-24'>
+    <div className='container mt-8 min-h-24'>
       <p>Footer</p>
       <p>
         <b>Server Status:</b>{' '}

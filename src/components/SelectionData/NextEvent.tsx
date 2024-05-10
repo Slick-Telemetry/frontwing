@@ -20,11 +20,14 @@ export const NextEvent = () => {
   useAtom(fetchNextEvent);
   useAtom(nextEventTimerEffect);
 
+  if (!nextEvent) return null;
+
   return (
-    <div className='bg-base-300 flex px-4 py-8'>
+    <>
       {nextEvent && (
-        <div className='mx-auto'>
-          <h2 className='text-4xl font-bold'>{nextEvent.name}</h2>
+        <div className='w-fit rounded border border-current p-4'>
+          <h2>Next Event</h2>
+          <h2 className='text-3xl font-bold'>{nextEvent.name}</h2>
           <p className='text-2xl'>
             {liveEvent ? (
               nextEvent.session + ' Live Now'
@@ -36,11 +39,8 @@ export const NextEvent = () => {
               </>
             )}
           </p>
-          <button className='btn btn-secondary btn-sm my-2'>
-            Previous Results
-          </button>
         </div>
       )}
-    </div>
+    </>
   );
 };

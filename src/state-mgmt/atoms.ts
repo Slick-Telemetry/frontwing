@@ -16,7 +16,7 @@ type QueryAtomType = {
 };
 
 const QueryAtom = atom<QueryAtomType>({
-  season: '',
+  season: '2024',
   event: '',
   session: '',
   driver: '',
@@ -42,6 +42,7 @@ const SeasonListState = atom<string[]>([]);
 
 // const EventState = atom<string>('');
 const EventListState = atom<ScheduleSchema[]>([]);
+const CompletedEventsList = atom<ScheduleSchema[]>([]);
 
 // const SessionState = atom<string>('');
 const SessionListState = atom<string[]>([]);
@@ -118,6 +119,7 @@ export const updateQueryAndResetLists =
   };
 
 export {
+  CompletedEventsList,
   ConstructorListState,
   ConstructorStandingState,
   DataFetchAtom,
