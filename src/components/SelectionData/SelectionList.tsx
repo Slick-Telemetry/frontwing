@@ -3,16 +3,16 @@
 import { useAtom } from 'jotai';
 import moment from 'moment';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { updateSearchParams } from '@/lib/helpers';
 
 import {
   CompletedEventsList,
   DriverListState,
+  LapListState,
   // DriverState,
   // EventListState,
-  // LapListState,
   QueryAtom,
   // EventState,
   SessionListState,
@@ -26,6 +26,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '../ui/accordion';
+import { Slider } from '../ui/slider';
 // import { Slider } from '../ui/slider';
 
 const titles: { [key: string]: string } = {
@@ -35,46 +36,55 @@ const titles: { [key: string]: string } = {
   driver: 'Driver Laps',
 };
 
-// const LapRangePicker = ({lapCount, bestLap = 1}: {lapCount:number, bestLap: number}) => {
-//   const [isRange, setIsRange] = useState(false);
-//   const [range, setRange] = useState([0, lapCount]);
-//   const [lap, setLap] = useState([bestLap]);
+const LapRangePicker = ({
+  lapCount,
+  bestLap = 1,
+}: {
+  lapCount: number;
+  bestLap: number;
+}) => {
+  const [isRange, setIsRange] = useState(false);
+  const [range, setRange] = useState([0, lapCount]);
+  const [lap, setLap] = useState([bestLap]);
 
-//   const handleRange = (value: number[]) => {
-//     setRange(value);
-//   }
+  const handleRange = (value: number[]) => {
+    setRange(value);
+  };
 
-//   const handleDefault = (value: number[]) => {
-//     setLap(value);
-//   }
+  const handleDefault = (value: number[]) => {
+    setLap(value);
+  };
 
-//   return (
-//     <div className='grid gap-4 p-4'>
-//       <div>
-//         <input
-//           type='checkbox'
-//           id='isRange'
-//           checked={isRange}
-//           onChange={() => setIsRange(!isRange)}
-//         />
-//         <label htmlFor='isRange'>Use Range</label>
-//       </div>
-//       <div className="min-h-12">
-
-//       {isRange ? <Slider
-//         onValueChange={(value) => handleRange(value)}
-//         value={range}
-//         max={lapCount}
-//         minStepsBetweenThumbs={1}
-//         /> : <Slider
-//         onValueChange={(value) => handleDefault(value)}
-//         value={lap}
-//         max={lapCount}
-//         />}
-//       </div>
-//     </div>
-//   );
-// }
+  return (
+    <div className='grid gap-4 p-4'>
+      <div>
+        <input
+          type='checkbox'
+          id='isRange'
+          checked={isRange}
+          onChange={() => setIsRange(!isRange)}
+        />
+        <label htmlFor='isRange'>Use Range</label>
+      </div>
+      <div className='min-h-12'>
+        {isRange ? (
+          <Slider
+            onValueChange={(value) => handleRange(value)}
+            value={range}
+            max={lapCount}
+            minStepsBetweenThumbs={1}
+          />
+        ) : (
+          <Slider
+            onValueChange={(value) => handleDefault(value)}
+            value={lap}
+            max={lapCount}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
 
 export const SelectionList = () => {
   const searchParams = useSearchParams();
@@ -96,7 +106,7 @@ export const SelectionList = () => {
   const [driverList] = useAtom(DriverListState);
 
   // Lap atom
-  // const [lapList] = useAtom(LapListState);
+  const [lapList] = useAtom(LapListState);
 
   // Action based on view
   // Derive with params are going to change
@@ -202,20 +212,23 @@ export const SelectionList = () => {
       </SelectionItem>
     ));
 
-    // const driverView = (
-    //   <LapRangePicker lapCount={lapList.length} bestLap={lapList.find(lap => lap.IsPersonalBest)?.LapNumber || 1} />
-    // );
+    const driverView = (
+      <LapRangePicker
+        lapCount={lapList.length}
+        bestLap={lapList.find((lap) => lap.IsPersonalBest)?.LapNumber || 1}
+      />
+    );
 
     const componentList: { [key: string]: React.ReactNode[] } = {
       season: seasonView,
       event: eventView,
       session: sessionView,
-      // laps: [driverView],
+      driver: [driverView],
     };
 
     return componentList[view];
-  }, [eventList, sessionList, driverList, view, handleSelection]);
-  // }, [eventList, sessionList, driverList, lapList, view, handleSelection]);
+    // }, [eventList, sessionList, driverList, view, handleSelection]);
+  }, [eventList, sessionList, driverList, lapList, view, handleSelection]);
 
   // console.log('dataListComponents', dataListComponents)
   return (

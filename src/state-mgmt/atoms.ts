@@ -77,6 +77,7 @@ export const updateQueryAndResetLists =
     setEventList: (value: ScheduleSchema[]) => void,
     setSessionList: (value: string[]) => void,
     setDriverList: (value: DriverResult[]) => void,
+    setLapList: (value: LapData[]) => void,
   ) =>
   // Callback to update query and reset lists
   (query: { [key: string]: string }) => {
@@ -90,6 +91,7 @@ export const updateQueryAndResetLists =
     if (query.session) {
       setQuery((prev) => ({ ...prev, ...query, driver: '' }));
       setDriverList([]);
+      setLapList([]);
       return;
     }
 
@@ -99,6 +101,8 @@ export const updateQueryAndResetLists =
       // setQuery((prevQuery) => ({ ...prevQuery, event, session, driver }));
       setSessionList([]);
       setDriverList([]);
+      setLapList([]);
+
       return;
     }
 
@@ -114,6 +118,8 @@ export const updateQueryAndResetLists =
       setEventList([]);
       setSessionList([]);
       setDriverList([]);
+      setLapList([]);
+
       return;
     }
   };
