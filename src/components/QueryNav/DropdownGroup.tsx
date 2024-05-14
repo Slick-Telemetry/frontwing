@@ -4,28 +4,20 @@ import { useAtom } from 'jotai/react';
 import { useHydrateAtoms } from 'jotai/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-// import { useCallback } from 'react';
 import { driverDefault, eventDefault, sessionDefault } from '@/lib/constants';
 import { updateSearchParams } from '@/lib/helpers';
 
-// import { fetchDriverList } from '@/app/api/fetchDriversAndSessions';
-// import { fetchEventList } from '@/app/api/fetchEvents';
-// import { fetchLapData } from '@/app/api/fetchLaps';
-// import { fetchSeasonList } from '@/app/api/fetchSeasons';
 // State values
 import {
   CompletedEventsList,
   DataFetchAtom,
   DriverAtom,
   DriverListState,
-  // DriverState,
   EventAtom,
-  // EventListState,
-  // EventState,
+  LapListState,
   QueryAtom,
   SeasonAtom,
   SeasonListState,
-  // SeasonState,
   serverErrorState,
   SessionAtom,
   SessionListState,
@@ -60,24 +52,15 @@ export const DropdownGroup = () => {
         lap: '',
       },
     ],
-    // [SeasonState, seasonParam],
-    // [EventState, eventParam],
-    // [SessionState, sessionParam],
-    // [DriverState, driversParam],
   ]);
 
-  // Bring in effect that fetch list data now that atoms are hydrated
-  // TODO: Migrate to one fetch that updates List atoms values now that they are hydrated
-  // useAtom(fetchSeasonList);
-  // useAtom(fetchEventList);
-  // useAtom(fetchDriverList);
-  // useAtom(fetchLapData);
   useAtom(DataFetchAtom);
 
   const [seasonList] = useAtom(SeasonListState);
   const [eventList, setEventList] = useAtom(CompletedEventsList);
   const [sessionList, setSessionList] = useAtom(SessionListState);
   const [driverList, setDriverList] = useAtom(DriverListState);
+  const [, setLapList] = useAtom(LapListState);
 
   // Use hydrated attoms
   const [, setQuery] = useAtom(QueryAtom);
@@ -94,6 +77,7 @@ export const DropdownGroup = () => {
     setEventList,
     setSessionList,
     setDriverList,
+    setLapList,
   );
 
   const updateState = (name: string, value: string) => {
@@ -140,9 +124,6 @@ export const DropdownGroup = () => {
     // Update URL
     router.push(pathname + '?' + params.toString());
   };
-
-  // console.log('query', query);
-  // console.log('lists', eventList, sessionList, driverList);
 
   return (
     <div id='queryNav' className='container flex gap-2 py-8 lg:gap-4'>
