@@ -23,6 +23,7 @@
   "dependencies": {
     "@apollo/client": "latest",
     "@graphql-typed-document-node/core": "latest",
+    "@microsoft/signalr": "^8.0.0",
     "@radix-ui/react-avatar": "latest",
     "@radix-ui/react-dropdown-menu": "latest",
     "@radix-ui/react-navigation-menu": "latest",
