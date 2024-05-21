@@ -24,12 +24,12 @@ export default function SchedulePage() {
         {events.map((event) => (
           <div
             key={event.OfficialEventName}
-            className='flex items-center justify-between gap-x-4 border border-current p-4'
+            className='flex flex-col justify-between gap-x-4 gap-y-2 border border-current p-4'
           >
             {/* {Show completed if event is in the past} */}
             <div>
               <h2>{event.EventName}</h2>
-              <p>{moment.utc(event.EventDate).local().format('LLL')}</p>
+              <p>{moment(event.EventDate).local().format('LL')}</p>
             </div>
             {new Date(event.EventDate) < new Date() ? (
               <p className='w-fit rounded-full border bg-accent px-3 py-1'>

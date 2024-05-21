@@ -84,7 +84,7 @@ export const formatNextEvent = (data: ScheduleSchema) => {
   if (!nextSessionTime) return 'No session';
 
   const sessionStartTime = new Date(
-    data[nextSessionTime as keyof ScheduleSchema] as string,
+    (data[nextSessionTime as keyof ScheduleSchema] as string) + ' UTC',
   ).getTime();
   const sessionName = data[
     nextSessionTime.slice(0, 8) as keyof ScheduleSchema
