@@ -5,8 +5,10 @@ import { Inter } from 'next/font/google';
 
 import './globals.css';
 
+import { ErrorToast } from '@/components/ErrorToast';
 import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,7 +27,9 @@ export default async function RootLayout({
       <body className={clsx('min-h-screen', inter.className)}>
         <TopNav />
         <Provider>{children}</Provider>
+        <ErrorToast />
         <Footer />
+        <Toaster />
       </body>
     </html>
   );
