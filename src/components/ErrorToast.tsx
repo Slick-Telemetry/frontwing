@@ -34,7 +34,7 @@ export const ErrorToast = () => {
         });
       }
     }
-  }, [error, toast]);
+  }, [error.type, toast]);
 
   return null;
 };
