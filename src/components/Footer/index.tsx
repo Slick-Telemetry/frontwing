@@ -2,21 +2,14 @@
 
 import { useAtom } from 'jotai';
 
-import { fetchHealth } from '@/app/api/fetchHealth';
-import { serverConnectedState, serverErrorState } from '@/state-mgmt/atoms';
+import { incrementalHealthCheck } from '@/state-mgmt/store';
 
 function Footer() {
-  useAtom(fetchHealth);
-  const [serverError] = useAtom(serverErrorState);
-  const [serverStatus] = useAtom(serverConnectedState);
+  useAtom(incrementalHealthCheck);
 
   return (
     <div className='container mt-8 min-h-24'>
       <p>Footer</p>
-      <p>
-        <b>Server Status:</b>{' '}
-        {serverError || (serverStatus ? 'Connected' : 'Connecting')}
-      </p>
     </div>
   );
 }

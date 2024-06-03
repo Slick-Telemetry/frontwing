@@ -5,28 +5,23 @@ import { useHydrateAtoms } from 'jotai/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { driverDefault, eventDefault, sessionDefault } from '@/lib/constants';
-import { updateSearchParams } from '@/lib/helpers';
+import { updateQueryState, updateSearchParams } from '@/lib/helpers';
 
-// State values
+import { INITIAL_SEASON } from '@/state-mgmt/constants';
 import {
-  CompletedEventsList,
-  DataFetchAtom,
-  DriverAtom,
-  DriverListState,
-  EventAtom,
-  LapListState,
-  QueryAtom,
-  SeasonAtom,
-  SeasonListState,
-  serverErrorState,
-  SessionAtom,
-  SessionListState,
-  updateQueryAndResetLists,
-  // SessionState,
-} from '@/state-mgmt/atoms';
+  driverDataLoadable,
+  driverListLoadable,
+  eventDataLoadable,
+  eventListLoadable,
+  queryState,
+  seasonId,
+  seasonList,
+  sessionId,
+  sessionListLoadable,
+} from '@/state-mgmt/store';
 
 // State effects/hooks
-import { Dropdown } from './Dropdown';
+import { Dropdown, DropdownItem } from './Dropdown';
 
 export const DropdownGroup = () => {
   const router = useRouter();
@@ -34,7 +29,7 @@ export const DropdownGroup = () => {
   const searchParams = useSearchParams();
 
   // *** Param variables
-  const seasonParam = searchParams.get('season') || '';
+  const seasonParam = searchParams.get('season') || INITIAL_SEASON;
   const eventParam = searchParams.get('event') || '';
   const sessionParam = searchParams.get('session') || '';
   const driversParam = searchParams.get('driver') || '';
@@ -43,83 +38,39 @@ export const DropdownGroup = () => {
   // Populate state from params
   useHydrateAtoms([
     [
-      QueryAtom,
+      queryState,
       {
         season: seasonParam,
         event: eventParam,
         session: sessionParam,
         driver: driversParam,
-        lap: '',
       },
     ],
   ]);
 
-  useAtom(DataFetchAtom);
-
-  const [seasonList] = useAtom(SeasonListState);
-  const [eventList, setEventList] = useAtom(CompletedEventsList);
-  const [sessionList, setSessionList] = useAtom(SessionListState);
-  const [driverList, setDriverList] = useAtom(DriverListState);
-  const [, setLapList] = useAtom(LapListState);
-
-  // Use hydrated attoms
-  const [, setQuery] = useAtom(QueryAtom);
-  const [season] = useAtom(SeasonAtom);
-  const [event] = useAtom(EventAtom);
-  const [session] = useAtom(SessionAtom);
-  const [driver] = useAtom(DriverAtom);
-
-  // Todo: Migrate to Toast
-  const [serverError] = useAtom(serverErrorState);
-
-  const updateQuery = updateQueryAndResetLists(
-    setQuery,
-    setEventList,
-    setSessionList,
-    setDriverList,
-    setLapList,
-  );
-
-  const updateState = (name: string, value: string) => {
-    // if season remove all params
-    // console.log('updateState', name, value);
-    switch (name) {
-      case 'season':
-        updateQuery({
-          season: value,
-        });
-        break;
-      case 'event':
-        updateQuery({
-          event: value,
-        });
-        break;
-
-      case 'session':
-        updateQuery({
-          session: value,
-        });
-        break;
-
-      case 'driver':
-        updateQuery({
-          driver: value,
-        });
-    }
-  };
+  const [query, setQuery] = useAtom(queryState);
+  const [season] = useAtom(seasonId);
+  const [seasons] = useAtom(seasonList);
+  const [event] = useAtom(eventDataLoadable);
+  const [events] = useAtom(eventListLoadable);
+  const [session] = useAtom(sessionId);
+  const [sessions] = useAtom(sessionListLoadable);
+  const [driver] = useAtom(driverDataLoadable);
+  const [drivers] = useAtom(driverListLoadable);
 
   const dropdownAction = (name: string, value: string) => {
     // Update state
-    updateState(name, value);
+    // *** Possibly look into atomWithRest -> will rest to intial value
+    setQuery(updateQueryState(query, name, value, true));
 
     // Initialize url params without readonly
     let params = new URLSearchParams(searchParams);
 
-    // Update Query Params
-    params = updateSearchParams(params, name, value, season, session);
-
     // Update View Params
     params = updateSearchParams(params, 'view', name);
+
+    // Update Query Params
+    params = updateSearchParams(params, name, value, season, session);
 
     // Update URL
     router.push(pathname + '?' + params.toString());
@@ -129,35 +80,47 @@ export const DropdownGroup = () => {
     <div id='queryNav' className='container flex gap-2 py-8 lg:gap-4'>
       <Dropdown
         value={season}
-        items={seasonList}
         action={(value) => dropdownAction('season', value)}
-      />
+      >
+        {seasons.map((season) => (
+          <DropdownItem key={season} item={season} />
+        ))}
+      </Dropdown>
       <Dropdown
-        value={event || eventDefault}
-        items={
-          // Todo remove logic from jsx
-          eventList.length <= 0
-            ? []
-            : [eventDefault, ...eventList.map((event) => event.EventName)]
+        value={
+          (events.state === 'loading' && 'Loading') ||
+          (event.state === 'hasData' && event.data.EventName) ||
+          eventDefault
         }
         action={(value) => dropdownAction('event', value)}
-      />
+      >
+        {events.state === 'hasData' &&
+          events.data.map((event: EventSchedule) => (
+            <DropdownItem key={event.RoundNumber} item={event.EventName} />
+          ))}
+      </Dropdown>
       <Dropdown
         value={session || sessionDefault}
-        items={sessionList}
         action={(value) => dropdownAction('session', value)}
-      />
+      >
+        {sessions.state === 'hasData' &&
+          sessions.data.map((session) => (
+            <DropdownItem key={session.index} item={session.name} />
+          ))}
+      </Dropdown>
       <Dropdown
-        value={driver || driverDefault}
-        items={
-          driverList.length <= 0
-            ? []
-            : ['All Drivers', ...driverList.map((driver) => driver.FullName)]
+        value={
+          (drivers.state === 'loading' && 'Loading') ||
+          (driver.state === 'hasData' && driver.data.FullName) ||
+          driverDefault
         }
         action={(value) => dropdownAction('driver', value)}
-      />
-
-      {serverError && <p className='text-destructive'>{serverError}</p>}
+      >
+        {drivers.state === 'hasData' &&
+          drivers.data.map((driver: DriverResult) => (
+            <DropdownItem key={driver.FullName} item={driver.FullName} />
+          ))}
+      </Dropdown>
     </div>
   );
 };
