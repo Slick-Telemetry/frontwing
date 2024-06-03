@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { MainNav } from './MainNav';
 import { ServerStatus } from './ServerStatus';
+import { ThemeSwitcher } from '../ThemeToggler';
 
 export * from './MainNav';
 export * from './UserNav';
@@ -27,6 +28,7 @@ export const TopNav = () => {
       {/* Sidelined for v2 */}
       <div className='ml-auto flex items-center space-x-4'>
         <ServerStatus />
+        <ThemeSwitcher />
         {/* <UserNav /> */}
       </div>
     </div>
