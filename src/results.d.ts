@@ -1,4 +1,11 @@
-interface ScheduleSchema {
+interface QueryProps {
+  season: string;
+  event: string;
+  session: string;
+  driver: string;
+}
+
+interface EventSchedule {
   RoundNumber: number;
   Country: string;
   Location: string;
@@ -24,40 +31,11 @@ interface ScheduleSchema {
   F1ApiSupport: boolean;
 }
 
-// Raw Fetch Format
-interface DriverSchema {
-  driverId: string;
-  permanentNumber: string;
-  code: string;
-  url: string;
-  givenName: string;
-  familyName: string;
-  dateOfBirth: string;
-  nationality: string;
-}
-
-interface ConstructorSchema {
-  constructorId: string;
-  url: string;
+interface SessionBasics {
+  index: number;
   name: string;
-  nationality: string;
-}
-
-interface StandingsSchema {
-  position: string;
-  positionText: string;
-  points: string;
-  wins: string;
-}
-
-interface DriverStandingSchema extends StandingsSchema {
-  Constructors: ConstructorSchema[];
-  Driver: DriverSchema;
-}
-
-interface ConstructorStandingSchema extends StandingsSchema {
-  Constructor: ConstructorSchema;
-  Drivers?: DriverStandingSchema[];
+  date: string;
+  dateUtc: string;
 }
 
 interface DriverResult {
@@ -118,33 +96,69 @@ interface LapData {
   IsAccurate: boolean;
 }
 
-interface ConstructorResult {
-  name: string;
-  position: number;
-  points: number;
-  drivers: DriverResult[];
-}
+// Raw Fetch Format
+// interface DriverSchema {
+//   driverId: string;
+//   permanentNumber: string;
+//   code: string;
+//   url: string;
+//   givenName: string;
+//   familyName: string;
+//   dateOfBirth: string;
+//   nationality: string;
+// }
+
+// interface ConstructorSchema {
+//   constructorId: string;
+//   url: string;
+//   name: string;
+//   nationality: string;
+// }
+
+// interface StandingsSchema {
+//   position: string;
+//   positionText: string;
+//   points: string;
+//   wins: string;
+// }
+
+// interface DriverStandingSchema extends StandingsSchema {
+//   Constructors: ConstructorSchema[];
+//   Driver: DriverSchema;
+// }
+
+// interface ConstructorStandingSchema extends StandingsSchema {
+//   Constructor: ConstructorSchema;
+//   Drivers?: DriverStandingSchema[];
+// }
+
+// interface ConstructorResult {
+//   name: string;
+//   position: number;
+//   points: number;
+//   drivers: DriverResult[];
+// }
 
 // UI format
-interface DataConfigSchema {
-  seasons: string[];
-  schedule: {
-    year: string;
-    EventSchedule: ScheduleSchema[];
-  };
-  drivers: string[];
-  sessions: string[];
-  standings: {
-    season: number;
-    round: number;
-    DriverStandings: DriverStandingSchema[];
-    ConstructorStandings: ConstructorStandingSchema[];
-  };
-  results: {
-    drivers: DriverResult[];
-    constructors: ConstructorResult[];
-  };
-}
+// interface DataConfigSchema {
+//   seasons: string[];
+//   schedule: {
+//     year: string;
+//     EventSchedule: EventSchedule[];
+//   };
+//   drivers: string[];
+//   sessions: string[];
+//   standings: {
+//     season: number;
+//     round: number;
+//     DriverStandings: DriverStandingSchema[];
+//     ConstructorStandings: ConstructorStandingSchema[];
+//   };
+//   results: {
+//     drivers: DriverResult[];
+//     constructors: ConstructorResult[];
+//   };
+// }
 
 interface ServerErrorResponse {
   detail: [

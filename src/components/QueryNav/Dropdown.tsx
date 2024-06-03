@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { CaretDownFill } from '@/components/icons/CaretDownFill';
 
 import {
@@ -15,11 +13,16 @@ import {
 interface IDropdown {
   value: string;
   label?: string;
-  items: string[];
+  // items: string[];
   action: (item: string) => void;
+  children: false | React.JSX.Element[];
 }
 
-export const Dropdown = ({ value, items, action }: IDropdown) => {
+export const DropdownItem = ({ item }: { item: string }) => {
+  return <DropdownMenuRadioItem value={item}>{item}</DropdownMenuRadioItem>;
+};
+
+export const Dropdown = ({ value, action, children }: IDropdown) => {
   const handleClick = (item: string) => {
     action(item);
   };
@@ -27,7 +30,7 @@ export const Dropdown = ({ value, items, action }: IDropdown) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        disabled={items.length <= 0}
+        disabled={value === 'Loading' || (children && children.length === 0)}
         className='flex items-center gap-x-2 rounded-full px-4 py-2 disabled:text-muted-foreground'
       >
         <span data-cy='dropdown'>{value}</span>
@@ -35,11 +38,7 @@ export const Dropdown = ({ value, items, action }: IDropdown) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className='max-h-56 overflow-scroll'>
         <DropdownMenuRadioGroup value={value} onValueChange={handleClick}>
-          {items?.map((item) => (
-            <DropdownMenuRadioItem key={item} value={item}>
-              {item}
-            </DropdownMenuRadioItem>
-          ))}
+          {children}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
