@@ -1,9 +1,4 @@
-import { Getter, Setter } from 'jotai';
-import { atomEffect } from 'jotai-effect';
-
-import { SeasonListState } from '@/state-mgmt/atoms';
-
-const f1Seasons = (): string[] => {
+export const f1Seasons = (): string[] => {
   const currYear = new Date().getFullYear();
 
   // Fill array with values between range
@@ -11,14 +6,3 @@ const f1Seasons = (): string[] => {
     (currYear - index).toString(),
   );
 };
-
-// Get Seasons values, this should be done once
-export const fetchSeasonList = atomEffect(
-  (get: Getter, set: Setter) => {
-    // *** if seasons is an empty array, overwise seasons do not change
-    if (get(SeasonListState).length <= 0) {
-      set(SeasonListState, f1Seasons());
-    }
-  },
-  // Dependencies: SeasonListState
-);

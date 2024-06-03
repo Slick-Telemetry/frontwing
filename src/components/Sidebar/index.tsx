@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 import { ChevronLeft } from '@/components/icons/ChevronLeft';
 
-import { QueryAtom } from '@/state-mgmt/atoms';
+import { queryState } from '@/state-mgmt/store';
 
 import { SelectionGroup } from './SelectionGroup';
 import { Button } from '../ui/button';
@@ -30,7 +30,7 @@ export const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useAtom(sidebarOpenAtom);
 
   // *** Use state values to define which groups are active
-  const [{ season, event, session, driver }] = useAtom(QueryAtom);
+  const [{ season, event, session, driver }] = useAtom(queryState);
 
   return (
     <aside

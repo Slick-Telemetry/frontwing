@@ -3,7 +3,7 @@ import { atomEffect } from 'jotai-effect';
 
 import { formatNextEvent } from '@/lib/transformers';
 
-import { serverErrorState } from '@/state-mgmt/atoms';
+import { serverConnectedState, serverErrorState } from '@/state-mgmt/atoms';
 import {
   nextEventAtom,
   nextEventLiveAtom,
@@ -15,11 +15,14 @@ import { fetchAPI } from './fetch';
 // Get upcoming event this should be done once
 export const fetchNextEvent = atomEffect(
   (get: Getter, set: Setter) => {
+    // console.log('get(serverConnectedState)', get(serverConnectedState))
+
+    if (!get(serverConnectedState)) return;
     // Next event do not change, only fetch if null
     if (!get(nextEventAtom)) {
       fetchAPI('next-event').then(
-        (res: ScheduleSchema | ServerErrorResponse) => {
-          const data = res as ScheduleSchema;
+        (res: EventSchedule | ServerErrorResponse) => {
+          const data = res as EventSchedule;
           const error = res as ServerErrorResponse;
           if (error.detail) {
             set(serverErrorState, error.detail[0].msg);

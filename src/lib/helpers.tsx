@@ -1,44 +1,40 @@
-export const positionEnding = (position: number | string) => {
-  // Convert to int
-  position = typeof position === 'string' ? parseInt(position) : position;
-  // Format
-  if ([1, 21].includes(position)) return position + 'st';
-  else if ([2, 22].includes(position)) return position + 'nd';
-  else if ([3, 23].includes(position)) return position + 'rd';
-  else return position + 'th';
-};
+export const updateQueryState = (
+  query: QueryProps,
+  name: string,
+  value: string,
+  clear?: boolean,
+) => {
+  switch (name) {
+    case 'season':
+      return { season: value, event: '', session: '', driver: '' };
+    case 'event':
+      if (clear) return { ...query, event: value, session: '', driver: '' };
+      return { ...query, event: value };
 
-export const toFahrenheit = (temp: number) => {
-  return temp * (9 / 5) + 32;
-};
+    case 'session':
+      if (clear) return { ...query, session: value, driver: '' };
+      return { ...query, session: value };
 
-export const fastestLap = (position: number, points: number) => {
-  switch (position) {
-    case 1:
-      return points !== 25;
-    case 2:
-      return points !== 18;
-    case 3:
-      return points !== 15;
-    case 4:
-      return points !== 12;
-    case 5:
-      return points !== 10;
-    case 6:
-      return points !== 8;
-    case 7:
-      return points !== 6;
-    case 8:
-      return points !== 4;
-    case 9:
-      return points !== 2;
-    case 10:
-      return points !== 1;
-
+    case 'driver':
+      return { ...query, driver: value };
     default:
-      return false;
+      return query;
   }
 };
+
+// export const positionEnding = (position: number | string) => {
+//   // Convert to int
+//   position = typeof position === 'string' ? parseInt(position) : position;
+//   // Format
+//   if ([1, 21].includes(position)) return position + 'st';
+//   else if ([2, 22].includes(position)) return position + 'nd';
+//   else if ([3, 23].includes(position)) return position + 'rd';
+//   else return position + 'th';
+// };
+
+// export const toFahrenheit = (temp: number) => {
+//   return temp * (9 / 5) + 32;
+// };
 
 const _second = 1000;
 const _minute = _second * 60;
@@ -89,36 +85,6 @@ export const formatDuration = (timeInterval: number) => {
       pad(milliseconds)
     );
 };
-
-export const sessionTitles = (event: ScheduleSchema) => {
-  const titles: string[] = [];
-  for (let i = 1; i <= 5; i++) {
-    const key = `Session${i}` as keyof ScheduleSchema;
-    event[key] && event[key] !== 'None' && titles.push(event[key] as string);
-  }
-
-  return titles;
-};
-
-export const lastSession = (event: ScheduleSchema) => {
-  let session = 'None';
-
-  if (event.Session5 !== 'None') session = event.Session5;
-  else if (event.Session4 !== 'None') session = event.Session4;
-  else session = event.Session3;
-
-  return session;
-};
-
-// export const updateSearchParams = (
-//   urlParams: URLSearchParams,
-//   key: string,
-//   value: string,
-// ) => {
-//   const params = new URLSearchParams(urlParams);
-//   params.set(key, value);
-//   return params;
-// };
 
 /// Get a new searchParams string by merging the current
 // searchParams with a provided key/value pair
