@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { MainNav } from './MainNav';
+import { ServerStatus } from './ServerStatus';
 
 export * from './MainNav';
 export * from './UserNav';
@@ -22,11 +23,12 @@ export const TopNav = () => {
         Slick Telemetry
       </Link>
       <MainNav />
-      {/*
-      Sidelined for v2
-      <div className='flex items-center ml-auto space-x-4'>
-        <UserNav />
-      </div> */}
+
+      {/* Sidelined for v2 */}
+      <div className='ml-auto flex items-center space-x-4'>
+        <ServerStatus />
+        {/* <UserNav /> */}
+      </div>
     </div>
   );
 };
