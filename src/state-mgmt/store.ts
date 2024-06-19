@@ -59,7 +59,7 @@ export const eventData = atom(async (get) => {
 });
 export const eventList = atomWithCache(
   async (get): Promise<EventSchedule[]> => {
-    if (!get(healthStatus)) return [];
+    // ! if (!get(healthStatus)) return [];
 
     const id = get(seasonId);
 
