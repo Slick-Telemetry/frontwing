@@ -79,6 +79,6 @@
   },
   "engines": {
     "node": "20.x",
-    "pnpm": "8.x"
+    "pnpm": "9.x"
   }
 }
