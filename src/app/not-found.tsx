@@ -13,7 +13,7 @@ export default function NotFound() {
         </div>
 
         <Link href='/dashboard'>
-          <button className='rounded border border-current px-3 py-1 '>
+          <button className='rounded border border-current px-3 py-1'>
             Return to Dashboard
           </button>
         </Link>
