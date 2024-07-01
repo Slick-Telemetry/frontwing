@@ -10,7 +10,7 @@
     "build": "next build",
     "cypress:open": "cypress open",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format:check": "prettier --check --debug-check .",
     "lint": "next lint",
     "lint:fix": "eslint . --fix && pnpm format",
     "lint:strict": "eslint --max-warnings=0",
