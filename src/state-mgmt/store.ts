@@ -57,16 +57,14 @@ export const eventData = atom(async (get) => {
   const events = await get(eventList);
   return events.find((event) => event.EventName === id) || EMPTY_EVENT_DATA;
 });
-export const eventList = atomWithCache(
-  async (get): Promise<EventSchedule[]> => {
-    // ! if (!get(healthStatus)) return [];
+export const eventList = atom(async (get): Promise<EventSchedule[]> => {
+  // ! if (!get(healthStatus)) return [];
 
-    const id = get(seasonId);
+  const id = get(seasonId);
 
-    const eventsFetched = await fetchEvents(id);
-    return eventsFetched;
-  },
-);
+  const eventsFetched = await fetchEvents(id);
+  return eventsFetched;
+});
 // End Event
 
 // *** Start Session
@@ -118,7 +116,7 @@ export const driverData = atom(async (get) => {
 
 export const driverList = atomWithCache(
   async (get): Promise<DriverResult[]> => {
-    if (!get(healthStatus)) return [];
+    // ! if (!get(healthStatus)) return [];
 
     const event = await get(eventData);
     const session = await get(sessionData);
@@ -135,6 +133,10 @@ export const driverList = atomWithCache(
   },
 );
 // End Driver
+
+// *** Start Laps
+
+// End Laps
 
 // *** Add loadable state to fetch calls, similar to react query
 // Return a state, loading, data, or error
