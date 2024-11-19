@@ -1,6 +1,7 @@
 // 'use client';
 
-// import Map from 'react-map-gl';
+import { useState } from 'react';
+import Map from 'react-map-gl';
 
 // import 'mapbox-gl/dist/mapbox-gl.css';
 
