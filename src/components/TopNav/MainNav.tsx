@@ -15,6 +15,12 @@ export const MainNav = () => {
       >
         Schedule
       </Link>
+      <Link
+        className='font-medium transition-colors hover:text-primary'
+        href='/mapbox'
+      >
+        Map
+      </Link>
     </nav>
   );
 };

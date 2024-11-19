@@ -34,10 +34,12 @@
     "jotai-cache": "latest",
     "jotai-effect": "latest",
     "lucide-react": "latest",
+    "mapbox-gl": "^3.6.0",
     "moment": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-map-gl": "^7.1.7",
     "tailwind-merge": "latest",
     "tailwindcss-animate": "latest"
   },
