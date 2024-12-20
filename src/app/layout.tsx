@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { Provider } from 'jotai';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
@@ -9,6 +8,9 @@ import { ErrorToast } from '@/components/ErrorToast';
 import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
 import { Toaster } from '@/components/ui/toaster';
+
+// import { Provider } from 'jotai';
+import Providers from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,7 +28,7 @@ export default async function RootLayout({
     <html lang='en' className='dark'>
       <body className={clsx('min-h-screen', inter.className)}>
         <TopNav />
-        <Provider>{children}</Provider>
+        <Providers>{children}</Providers>
         <ErrorToast />
         <Footer />
         <Toaster />
