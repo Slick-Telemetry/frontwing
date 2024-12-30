@@ -20,7 +20,7 @@ const Hero = () => (
     {/* Slick Telemetry */}
     <div className='grid text-center md:flex-1 lg:gap-2'>
       <h1 className='text-4xl font-bold lg:text-6xl'>Slick Telemetry</h1>
-      <p className='font-semi-boldl text-lg  lg:text-3xl'>
+      <p className='font-semi-boldl text-lg lg:text-3xl'>
         Your home for Formula 1 insights
       </p>
     </div>

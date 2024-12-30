@@ -16,7 +16,7 @@ export const ServerStatus = () => {
         'Unknown Error'
       }
     >
-      {error.type === 'server' && <ServerOffIcon />}
+      {error.type === 'server' && <ServerOffIcon stroke='red' />}
       {!health && !error.type && <ServerCogIcon />}
       {health && !error.type && <RouterIcon />}
     </span>

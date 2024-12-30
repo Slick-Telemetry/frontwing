@@ -37,7 +37,7 @@ export const fetchAPI = async (endpoint: string) => {
     .catch((err) => {
       if (typeof err.cause.json === 'function') return err.cause.json();
 
-      err.cause;
+      return err.cause;
     });
 
   return data;

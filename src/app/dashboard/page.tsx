@@ -27,7 +27,7 @@ export default function Page() {
               alt='placeholder'
             />
           </div>
-          <div className='rounded border border-primary  p-4'>
+          <div className='rounded border border-primary p-4'>
             <h3>Driver Standings</h3>
             <Image
               width={400}

@@ -1,39 +1,67 @@
-module.exports = [
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import unusedImports from 'eslint-plugin-unused-imports';
+import cypress from 'eslint-plugin-cypress';
+import globals from 'globals';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import js from '@eslint/js';
+import { FlatCompat } from '@eslint/eslintrc';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
+});
+
+export default [
   {
-    env: {
-      browser: true,
-      es2021: true,
-      node: true,
-    },
+    ignores: ['!**/.prettierrc.js'],
+  },
+  ...compat.extends(
+    'eslint:recommended',
+    'next',
+    'next/core-web-vitals',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+  ),
+  {
     plugins: {
-      '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
-      'simple-import-sort': import('eslint-plugin-simple-import-sort'),
-      'unused-imports': require('eslint-plugin-unused-imports'),
-      cypress: require('eslint-plugin-cypress'),
+      '@typescript-eslint': typescriptEslint,
+      'simple-import-sort': simpleImportSort,
+      'unused-imports': unusedImports,
+      cypress,
     },
-    extends: [
-      'eslint:recommended',
-      'next',
-      'next/core-web-vitals',
-      'plugin:@typescript-eslint/recommended',
-      'prettier',
-    ],
-    ignorePatterns: ['!.prettierrc.js'],
+
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        React: true,
+        JSX: true,
+      },
+    },
+
     rules: {
       'no-unused-vars': 'off',
       'no-console': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       'react/no-unescaped-entities': 'off',
-
       'react/display-name': 'off',
+
       'react/jsx-curly-brace-presence': [
         'warn',
-        { props: 'never', children: 'never' },
+        {
+          props: 'never',
+          children: 'never',
+        },
       ],
 
-      //#region  //*=========== Unused Import ===========
       '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'warn',
+
       'unused-imports/no-unused-vars': [
         'warn',
         {
@@ -43,29 +71,20 @@ module.exports = [
           argsIgnorePattern: '^_',
         },
       ],
-      //#endregion  //*======== Unused Import ===========
 
-      //#region  //*=========== Import Sort ===========
       'simple-import-sort/exports': 'warn',
+
       'simple-import-sort/imports': [
         'warn',
         {
           groups: [
-            // ext library & side effect imports
             ['^@?\\w', '^\\u0000'],
-            // {s}css files
             ['^.+\\.s?css$'],
-            // Lib and hooks
             ['^@/lib', '^@/hooks'],
-            // static data
             ['^@/data'],
-            // components
             ['^@/components', '^@/container'],
-            // zustand store
             ['^@/store'],
-            // Other imports
             ['^@/'],
-            // relative paths up until 3 level
             [
               '^\\./?$',
               '^\\.(?!/?$)',
@@ -77,25 +96,17 @@ module.exports = [
               '^\\.\\./\\.\\./\\.\\.(?!/?$)',
             ],
             ['^@/types'],
-            // other that didnt fit in
             ['^'],
           ],
         },
       ],
-      //#endregion  //*======== Import Sort ===========
 
-      // #region   //*========= Cypress files =========
       '@typescript-eslint/no-namespace': [
         'error',
         {
           allowDeclarations: true,
         },
       ],
-      // #endregion   //*========= Cypress files =========
-    },
-    globals: {
-      React: true,
-      JSX: true,
     },
   },
 ];

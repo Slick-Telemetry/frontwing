@@ -17,7 +17,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
-  ignorePatterns: ['!.prettierrc.js'],
+  ignorePatterns: ['!**/.prettierrc.js'],
   rules: {
     'no-unused-vars': 'off',
     'no-console': 'warn',
