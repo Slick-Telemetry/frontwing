@@ -11,7 +11,8 @@ Table of Contents:
 - [Getting Started](#getting-started)
   - [Install dependencies](#install-dependencies)
   - [Run the development server](#run-the-development-server)
-  - [Connecting to the backend server](#connecting-to-the-backend-server)
+  - [Connecting to the backend](#connecting-to-the-backend)
+  - [Working with Hasura and GraphQL](#working-with-hasura-and-graphql)
   - [Commit Message Convention](#commit-message-convention)
   - [Contribution Guidelines](#contribution-guidelines)
 - [Tests](#tests)
@@ -47,11 +48,24 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-### Connecting to the backend server
+### Connecting to the backend
 
-Currently the standard is to run the backend locally. Follow instructions [here](https://github.com/Slick-Telemetry/backend/blob/dev/README.md) for setup.
+Currently the standard is to run the backend locally. Follow instructions [here](https://github.com/Slick-Telemetry/pu-es/blob/main/README.md) for setup.
 
-To make calls to API you need to duplicate the `.env.example` file to define a client-side bearer token
+**To make calls to API you need to:**
+
+- Run the docker from the PU-ES project
+- Follow steps to login to the Hasura console
+- Populate your db with data from at least one session, either through the Reflex UI or the CLI tool
+- In this repository, duplicate the `.env.example` file to define a graph parameters
+
+### Working with Hasura and GraphQL
+
+All queries can be found and should be added in [`./src/lib/*.ts`](./src/lib) to allow all proper typing to be compiled.
+This will prevent typesript errors when using queries.
+
+**Query Support**
+By running hasura with docker you can access the [hasura console](http://localhost:8080/console) which will help visualize the data you will return without the slowdown of overflowing graphql queries
 
 ### Commit Message Convention
 
@@ -133,7 +147,7 @@ We are using NextJs [App Router](https://nextjs.org/docs/app) for our project.
     ├── Sidebar/ -> Top level query pages and sub query
     ├── TopNav/ -> Generic navigation Bar
     └── ui/ -> Components imported from shadcn
-├── lib/ -> helpers, constants, & other utils
+├── lib/ -> graphql, helpers, constants, & other utils
 ├── state-mgmt/
 ```
 
