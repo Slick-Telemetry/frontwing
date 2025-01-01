@@ -8,3 +8,12 @@ export const GET_CONSTRUCTORS = gql`
     }
   }
 `;
+
+export const GET_CONSTRUCTOR = gql`
+  query GetConstructor($name: String!) {
+    constructors(where: { name: { _eq: $name } }) {
+      name
+      color
+    }
+  }
+`;
