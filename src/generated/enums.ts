@@ -7,14 +7,14 @@ export enum race_control_messages_categories {
 }
 
 export enum race_control_messages_flags {
-  Green = 'Green',
-  Red = 'Red',
-  Yellow = 'Yellow',
-  Blue = 'Blue',
-  BlackAndWhite = 'BlackAndWhite',
-  DoubleYellow = 'DoubleYellow',
-  Clear = 'Clear',
-  Chequered = 'Chequered',
+  GREEN = 'GREEN',
+  RED = 'RED',
+  YELLOW = 'YELLOW',
+  BLUE = 'BLUE',
+  BLACK_AND_WHITE = 'BLACK_AND_WHITE',
+  DOUBLE_YELLOW = 'DOUBLE_YELLOW',
+  CLEAR = 'CLEAR',
+  CHEQUERED = 'CHEQUERED',
 }
 export enum race_control_messages_scopes {
   Track = 'Track',
