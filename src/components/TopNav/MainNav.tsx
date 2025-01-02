@@ -1,20 +1,76 @@
-import Link from 'next/link';
+'use client';
 
-export const MainNav = () => {
+import React from 'react';
+
+import { cn } from '@/lib/utils';
+
+import { DisplayConstructors } from '../DisplayConstructors';
+import { DisplayDrivers } from '../DisplayDrivers';
+import { DisplaySeasons } from '../DisplaySeasons';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '../ui/navigation-menu';
+
+export function MainNav() {
   return (
-    <nav className='mx-8 flex items-center space-x-4 lg:mx-8 lg:space-x-6'>
-      <Link
-        className='font-medium transition-colors hover:text-primary'
-        href='/dashboard'
-      >
-        Dashboard
-      </Link>
-      <Link
-        className='font-medium transition-colors hover:text-primary'
-        href='/schedule'
-      >
-        Schedule
-      </Link>
-    </nav>
+    <NavigationMenu className='px-4'>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Seasons</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className='grid gap-3 p-4 md:w-[200px] lg:w-[300px] lg:grid-cols-2'>
+              <DisplaySeasons />
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Constructors</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
+              <DisplayConstructors />
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Drivers</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] lg:grid-cols-3'>
+              <DisplayDrivers />
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
-};
+}
+
+const ListItem = React.forwardRef<
+  React.ElementRef<'a'>,
+  React.ComponentPropsWithoutRef<'a'>
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+            className,
+          )}
+          {...props}
+        >
+          <div className='text-sm font-medium leading-none'>{title}</div>
+          <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = 'ListItem';
