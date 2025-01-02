@@ -8245,6 +8245,7 @@ export type GetConstructorsQuery = {
   constructors: Array<{
     __typename?: 'constructors';
     name?: string | null;
+    ergast_id?: string | null;
     color?: string | null;
   }>;
 };
@@ -8262,10 +8263,101 @@ export type GetConstructorQuery = {
   }>;
 };
 
+export type GetDriversQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetDriversQuery = {
+  __typename?: 'query_root';
+  drivers: Array<{
+    __typename?: 'drivers';
+    full_name?: string | null;
+    ergast_id?: string | null;
+    number?: string | null;
+  }>;
+};
+
+export type GetSeasonsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetSeasonsQuery = {
+  __typename?: 'query_root';
+  events: Array<{ __typename?: 'events'; year?: number | null }>;
+};
+
+export type GetSeasonEventsQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+}>;
+
+export type GetSeasonEventsQuery = {
+  __typename?: 'query_root';
+  events: Array<{
+    __typename?: 'events';
+    year?: number | null;
+    id: string;
+    round_number?: number | null;
+    name?: string | null;
+    location?: string | null;
+    date?: string | null;
+    country?: string | null;
+    sessions: Array<{
+      __typename?: 'sessions';
+      name?: string | null;
+      id: string;
+      scheduled_start_time_utc?: string | null;
+    }>;
+  }>;
+};
+
+export type GetEventDetailsQueryVariables = Exact<{
+  _id: Scalars['String']['input'];
+}>;
+
+export type GetEventDetailsQuery = {
+  __typename?: 'query_root';
+  events: Array<{
+    __typename?: 'events';
+    round_number?: number | null;
+    id: string;
+    official_name?: string | null;
+    location?: string | null;
+    country?: string | null;
+    sessions: Array<{
+      __typename?: 'sessions';
+      scheduled_start_time_utc?: string | null;
+      name?: string | null;
+      race_control_messages: Array<{
+        __typename?: 'race_control_messages';
+        flag?: race_control_messages_flags | null;
+        message?: string | null;
+        time?: string | null;
+      }>;
+      driver_sessions: Array<{
+        __typename?: 'driver_sessions';
+        driver?: {
+          __typename?: 'drivers';
+          full_name?: string | null;
+          number?: string | null;
+          headshot_url?: string | null;
+        } | null;
+        results: Array<{
+          __typename?: 'results';
+          grid_position?: number | null;
+          finishing_position?: number | null;
+          classified_position?: string | null;
+        }>;
+        laps: Array<{
+          __typename?: 'laps';
+          lap_time?: number | null;
+          lap_number?: number | null;
+        }>;
+      }>;
+    }>;
+  }>;
+};
+
 export const GetConstructorsDocument = gql`
   query GetConstructors {
-    constructors(distinct_on: name) {
+    constructors(distinct_on: name, where: { ergast_id: { _neq: "" } }) {
       name
+      ergast_id
       color
     }
   }
@@ -8422,4 +8514,374 @@ export type GetConstructorSuspenseQueryHookResult = ReturnType<
 export type GetConstructorQueryResult = Apollo.QueryResult<
   GetConstructorQuery,
   GetConstructorQueryVariables
+>;
+export const GetDriversDocument = gql`
+  query GetDrivers {
+    drivers(
+      where: { driver_sessions: { session: { date: { _iregex: "2024" } } } }
+      distinct_on: full_name
+      order_by: { full_name: asc }
+    ) {
+      full_name
+      ergast_id
+      number
+    }
+  }
+`;
+
+/**
+ * __useGetDriversQuery__
+ *
+ * To run a query within a React component, call `useGetDriversQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDriversQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDriversQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetDriversQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetDriversQuery,
+    GetDriversQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetDriversQuery, GetDriversQueryVariables>(
+    GetDriversDocument,
+    options,
+  );
+}
+export function useGetDriversLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetDriversQuery,
+    GetDriversQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetDriversQuery, GetDriversQueryVariables>(
+    GetDriversDocument,
+    options,
+  );
+}
+export function useGetDriversSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetDriversQuery,
+        GetDriversQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetDriversQuery, GetDriversQueryVariables>(
+    GetDriversDocument,
+    options,
+  );
+}
+export type GetDriversQueryHookResult = ReturnType<typeof useGetDriversQuery>;
+export type GetDriversLazyQueryHookResult = ReturnType<
+  typeof useGetDriversLazyQuery
+>;
+export type GetDriversSuspenseQueryHookResult = ReturnType<
+  typeof useGetDriversSuspenseQuery
+>;
+export type GetDriversQueryResult = Apollo.QueryResult<
+  GetDriversQuery,
+  GetDriversQueryVariables
+>;
+export const GetSeasonsDocument = gql`
+  query GetSeasons {
+    events(distinct_on: year) {
+      year
+    }
+  }
+`;
+
+/**
+ * __useGetSeasonsQuery__
+ *
+ * To run a query within a React component, call `useGetSeasonsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSeasonsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSeasonsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSeasonsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetSeasonsQuery,
+    GetSeasonsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetSeasonsQuery, GetSeasonsQueryVariables>(
+    GetSeasonsDocument,
+    options,
+  );
+}
+export function useGetSeasonsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSeasonsQuery,
+    GetSeasonsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetSeasonsQuery, GetSeasonsQueryVariables>(
+    GetSeasonsDocument,
+    options,
+  );
+}
+export function useGetSeasonsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetSeasonsQuery,
+        GetSeasonsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetSeasonsQuery, GetSeasonsQueryVariables>(
+    GetSeasonsDocument,
+    options,
+  );
+}
+export type GetSeasonsQueryHookResult = ReturnType<typeof useGetSeasonsQuery>;
+export type GetSeasonsLazyQueryHookResult = ReturnType<
+  typeof useGetSeasonsLazyQuery
+>;
+export type GetSeasonsSuspenseQueryHookResult = ReturnType<
+  typeof useGetSeasonsSuspenseQuery
+>;
+export type GetSeasonsQueryResult = Apollo.QueryResult<
+  GetSeasonsQuery,
+  GetSeasonsQueryVariables
+>;
+export const GetSeasonEventsDocument = gql`
+  query GetSeasonEvents($year: Int!) {
+    events(where: { year: { _eq: $year } }) {
+      year
+      id
+      round_number
+      name
+      location
+      date
+      country
+      sessions {
+        name
+        id
+        scheduled_start_time_utc
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetSeasonEventsQuery__
+ *
+ * To run a query within a React component, call `useGetSeasonEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSeasonEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSeasonEventsQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetSeasonEventsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetSeasonEventsQuery,
+    GetSeasonEventsQueryVariables
+  > &
+    (
+      | { variables: GetSeasonEventsQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetSeasonEventsQuery, GetSeasonEventsQueryVariables>(
+    GetSeasonEventsDocument,
+    options,
+  );
+}
+export function useGetSeasonEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSeasonEventsQuery,
+    GetSeasonEventsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetSeasonEventsQuery,
+    GetSeasonEventsQueryVariables
+  >(GetSeasonEventsDocument, options);
+}
+export function useGetSeasonEventsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetSeasonEventsQuery,
+        GetSeasonEventsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetSeasonEventsQuery,
+    GetSeasonEventsQueryVariables
+  >(GetSeasonEventsDocument, options);
+}
+export type GetSeasonEventsQueryHookResult = ReturnType<
+  typeof useGetSeasonEventsQuery
+>;
+export type GetSeasonEventsLazyQueryHookResult = ReturnType<
+  typeof useGetSeasonEventsLazyQuery
+>;
+export type GetSeasonEventsSuspenseQueryHookResult = ReturnType<
+  typeof useGetSeasonEventsSuspenseQuery
+>;
+export type GetSeasonEventsQueryResult = Apollo.QueryResult<
+  GetSeasonEventsQuery,
+  GetSeasonEventsQueryVariables
+>;
+export const GetEventDetailsDocument = gql`
+  query GetEventDetails($_id: String!) {
+    events(where: { id: { _eq: $_id } }) {
+      round_number
+      id
+      official_name
+      location
+      country
+      sessions {
+        scheduled_start_time_utc
+        name
+        race_control_messages(
+          where: {
+            _or: [{ flag: { _eq: "GREEN" } }, { flag: { _eq: "CHEQUERED" } }]
+          }
+        ) {
+          flag
+          message
+          time
+        }
+        driver_sessions {
+          driver {
+            full_name
+            number
+            headshot_url
+          }
+          results {
+            grid_position
+            finishing_position
+            classified_position
+          }
+          laps(
+            where: {
+              is_personal_best: { _eq: true }
+              is_accurate: { _eq: true }
+            }
+            order_by: { lap_time: asc }
+          ) {
+            lap_time
+            lap_number
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetEventDetailsQuery__
+ *
+ * To run a query within a React component, call `useGetEventDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventDetailsQuery({
+ *   variables: {
+ *      _id: // value for '_id'
+ *   },
+ * });
+ */
+export function useGetEventDetailsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetEventDetailsQuery,
+    GetEventDetailsQueryVariables
+  > &
+    (
+      | { variables: GetEventDetailsQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetEventDetailsQuery, GetEventDetailsQueryVariables>(
+    GetEventDetailsDocument,
+    options,
+  );
+}
+export function useGetEventDetailsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetEventDetailsQuery,
+    GetEventDetailsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetEventDetailsQuery,
+    GetEventDetailsQueryVariables
+  >(GetEventDetailsDocument, options);
+}
+export function useGetEventDetailsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetEventDetailsQuery,
+        GetEventDetailsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetEventDetailsQuery,
+    GetEventDetailsQueryVariables
+  >(GetEventDetailsDocument, options);
+}
+export type GetEventDetailsQueryHookResult = ReturnType<
+  typeof useGetEventDetailsQuery
+>;
+export type GetEventDetailsLazyQueryHookResult = ReturnType<
+  typeof useGetEventDetailsLazyQuery
+>;
+export type GetEventDetailsSuspenseQueryHookResult = ReturnType<
+  typeof useGetEventDetailsSuspenseQuery
+>;
+export type GetEventDetailsQueryResult = Apollo.QueryResult<
+  GetEventDetailsQuery,
+  GetEventDetailsQueryVariables
 >;

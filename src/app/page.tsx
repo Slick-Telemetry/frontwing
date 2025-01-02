@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import { DisplayConstructors } from '@/components/DisplayConstructors';
 import { PlusCircle } from '@/components/icons/PlusCircle';
 import { NextEvent } from '@/components/SelectionData';
 
@@ -44,7 +43,5 @@ const Hero = () => (
         </button>
       </Link>
     </div>
-
-    <DisplayConstructors />
   </div>
 );

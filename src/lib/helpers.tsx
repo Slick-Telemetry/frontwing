@@ -22,6 +22,28 @@ export const updateQueryState = (
   }
 };
 
+// const compareEventTime = (a, b = Date.now()) => {
+//   const eventTime = moment(a).local().format();
+//   const compareTime = moment(b).local().format();
+//   if (eventTime < compareTime) {
+//     return false;
+//   }
+//   if (eventTime > compareTime) {
+//     return true;
+//   }
+//   return true;
+// }
+
+// Helper function to convert HEX to RGBA
+export const hexToRgba = (hex: string, opacity: number) => {
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `rgba(${r},${g},${b},${opacity})`;
+};
+
 // export const positionEnding = (position: number | string) => {
 //   // Convert to int
 //   position = typeof position === 'string' ? parseInt(position) : position;

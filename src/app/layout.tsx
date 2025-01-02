@@ -27,8 +27,10 @@ export default async function RootLayout({
   return (
     <html lang='en' className='dark'>
       <body className={clsx('min-h-screen', inter.className)}>
-        <TopNav />
-        <Providers>{children}</Providers>
+        <Providers>
+          <TopNav />
+          {children}
+        </Providers>
         <ErrorToast />
         <Footer />
         <Toaster />
