@@ -7,7 +7,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:graphql": "concurrently \"next dev\" \"pnpm generate\"",
     "build": "next build",
     "cypress:open": "cypress open",
     "format": "prettier --write .",
@@ -28,6 +27,7 @@
     "@radix-ui/react-avatar": "latest",
     "@radix-ui/react-dropdown-menu": "latest",
     "@radix-ui/react-navigation-menu": "latest",
+    "@radix-ui/react-select": "latest",
     "@radix-ui/react-slider": "latest",
     "@radix-ui/react-slot": "latest",
     "@radix-ui/react-toast": "latest",
