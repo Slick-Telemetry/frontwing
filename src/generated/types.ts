@@ -44,7 +44,7 @@ export type Scalars = {
     input: event_format_choices;
     output: event_format_choices;
   };
-  numeric: { input: number; output: number };
+  numeric: { input: number | bigint; output: number | bigint };
   race_control_messages_categories: {
     input: race_control_messages_categories;
     output: race_control_messages_categories;
@@ -8251,7 +8251,7 @@ export type GetConstructorsQuery = {
 };
 
 export type GetConstructorQueryVariables = Exact<{
-  name: Scalars['String']['input'];
+  _id: Scalars['String']['input'];
 }>;
 
 export type GetConstructorQuery = {
@@ -8260,6 +8260,26 @@ export type GetConstructorQuery = {
     __typename?: 'constructors';
     name?: string | null;
     color?: string | null;
+    driver_sessions: Array<{
+      __typename?: 'driver_sessions';
+      driver?: { __typename?: 'drivers'; full_name?: string | null } | null;
+      session?: {
+        __typename?: 'sessions';
+        id: string;
+        name?: session_name_choices | null;
+        event?: {
+          __typename?: 'events';
+          name?: string | null;
+          year?: number | null;
+        } | null;
+      } | null;
+      results: Array<{
+        __typename?: 'results';
+        points?: number | null;
+        classified_position?: string | null;
+        grid_position?: number | null;
+      }>;
+    }>;
   }>;
 };
 
@@ -8299,7 +8319,7 @@ export type GetSeasonEventsQuery = {
     country?: string | null;
     sessions: Array<{
       __typename?: 'sessions';
-      name?: string | null;
+      name?: session_name_choices | null;
       id: string;
       scheduled_start_time_utc?: string | null;
     }>;
@@ -8322,7 +8342,7 @@ export type GetEventDetailsQuery = {
     sessions: Array<{
       __typename?: 'sessions';
       scheduled_start_time_utc?: string | null;
-      name?: string | null;
+      name?: session_name_choices | null;
       race_control_messages: Array<{
         __typename?: 'race_control_messages';
         flag?: race_control_messages_flags | null;
@@ -8433,10 +8453,31 @@ export type GetConstructorsQueryResult = Apollo.QueryResult<
   GetConstructorsQueryVariables
 >;
 export const GetConstructorDocument = gql`
-  query GetConstructor($name: String!) {
-    constructors(where: { name: { _eq: $name } }) {
+  query GetConstructor($_id: String!) {
+    constructors(where: { ergast_id: { _eq: $_id } }) {
       name
       color
+      driver_sessions(
+        order_by: { session: { event: { year: asc } } }
+        where: { session: { total_laps: { _is_null: false } } }
+      ) {
+        driver {
+          full_name
+        }
+        session {
+          id
+          name
+          event {
+            name
+            year
+          }
+        }
+        results {
+          points
+          classified_position
+          grid_position
+        }
+      }
     }
   }
 `;
@@ -8453,7 +8494,7 @@ export const GetConstructorDocument = gql`
  * @example
  * const { data, loading, error } = useGetConstructorQuery({
  *   variables: {
- *      name: // value for 'name'
+ *      _id: // value for '_id'
  *   },
  * });
  */
