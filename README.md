@@ -64,8 +64,11 @@ Currently the standard is to run the backend locally. Follow instructions [here]
 All queries can be found and should be added in [`./src/lib/*.ts`](./src/lib) to allow all proper typing to be compiled.
 This will prevent typesript errors when using queries.
 
-**Query Support**
-By running hasura with docker you can access the [hasura console](http://localhost:8080/console) which will help visualize the data you will return without the slowdown of overflowing graphql queries
+- **GraphQL Codegen**
+  To generate proper graphql types run `pnpm generate`
+
+- **Query Support**
+  By running hasura with docker you can access the [hasura console](http://localhost:8080/console) which will help visualize the data you will return without the slowdown of overflowing graphql queries
 
 ### Commit Message Convention
 

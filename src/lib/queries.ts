@@ -11,10 +11,31 @@ export const GET_CONSTRUCTORS = gql`
 `;
 
 export const GET_CONSTRUCTOR = gql`
-  query GetConstructor($name: String!) {
-    constructors(where: { name: { _eq: $name } }) {
+  query GetConstructor($_id: String!) {
+    constructors(where: { ergast_id: { _eq: $_id } }) {
       name
       color
+      driver_sessions(
+        order_by: { session: { event: { year: asc } } }
+        where: { session: { total_laps: { _is_null: false } } }
+      ) {
+        driver {
+          full_name
+        }
+        session {
+          id
+          name
+          event {
+            name
+            year
+          }
+        }
+        results {
+          points
+          classified_position
+          grid_position
+        }
+      }
     }
   }
 `;

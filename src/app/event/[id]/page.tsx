@@ -34,7 +34,7 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
       {event && (
         <>
           <div className='relative mb-4 flex items-end justify-between'>
-            <div className='absolute right-2 text-6xl font-bold italic opacity-25 group-hover:text-white dark:group-hover:text-black'>
+            <div className='absolute bottom-2 right-2 text-6xl font-bold italic opacity-25 group-hover:text-white dark:group-hover:text-black'>
               ROUND {event.round_number}
             </div>
 
@@ -49,7 +49,7 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
           {event.sessions.map((session) => (
             <div
               className='mt-4 flex items-center justify-between gap-4 divide-x divide-current overflow-hidden rounded-xl border pr-4 hover:border-current'
-              key={session.name}
+              key={session.scheduled_start_time_utc}
               // onClick={() => router.push('/session/' + session.id)}
             >
               <div className='flex items-center gap-4'>
