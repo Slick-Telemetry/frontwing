@@ -17,8 +17,6 @@
     "lint:strict": "eslint --max-warnings=0",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "prepare": "husky",
-    "release": "release-it",
-    "release-dry": "release-it --dry-run",
     "start": "next start",
     "typecheck": "tsc --pretty --noEmit --incremental false",
     "generate": "graphql-codegen --config codegen.ts"
@@ -59,7 +57,6 @@
     "@graphql-codegen/typescript-operations": "latest",
     "@graphql-codegen/typescript-react-apollo": "latest",
     "@parcel/watcher": "latest",
-    "@release-it/conventional-changelog": "latest",
     "@types/graphql": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
@@ -81,7 +78,6 @@
     "postcss": "latest",
     "prettier": "latest",
     "prettier-plugin-tailwindcss": "latest",
-    "release-it": "latest",
     "tailwindcss": "latest",
     "typescript": "latest"
   },
