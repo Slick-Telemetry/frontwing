@@ -21,11 +21,15 @@ export const GET_CONSTRUCTOR = gql`
       ) {
         driver {
           full_name
+          number
+          headshot_url
+          country_code
         }
         session {
           id
           name
           event {
+            round_number
             name
             year
           }
@@ -90,19 +94,17 @@ export const GET_EVENT_DETAILS = gql`
       location
       country
       sessions {
+        id
         scheduled_start_time_utc
         name
-        race_control_messages(
-          where: {
-            _or: [{ flag: { _eq: "GREEN" } }, { flag: { _eq: "CHEQUERED" } }]
-          }
-        ) {
+        race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
           flag
           message
           time
         }
         driver_sessions {
           driver {
+            abbreviation
             full_name
             number
             headshot_url

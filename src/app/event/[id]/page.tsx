@@ -2,11 +2,13 @@
 
 import { useQuery } from '@apollo/client';
 import moment from 'moment';
+import Image from 'next/image';
+import Link from 'next/link';
 import { use } from 'react';
 
 import { GET_EVENT_DETAILS } from '@/lib/queries';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 import {
   GetEventDetailsQuery,
@@ -48,7 +50,7 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
           {event.sessions.map((session) => (
             <div
-              className='mt-4 flex items-center justify-between gap-4 divide-x divide-current overflow-hidden rounded-xl border pr-4 hover:border-current'
+              className='mt-4 flex flex-wrap items-center justify-between gap-x-4 overflow-hidden rounded-xl border hover:border-current'
               key={session.scheduled_start_time_utc}
               // onClick={() => router.push('/session/' + session.id)}
             >
@@ -76,10 +78,15 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
                       .utc()
                       .format('LT')}
                   </p>
-                  <p className='text-2xl font-semibold'>{session.name}</p>
+                  <Link
+                    href={`/session/${session.id}`}
+                    className='text-2xl font-semibold hover:underline'
+                  >
+                    {session.name}
+                  </Link>
                 </div>
               </div>
-              <div className='pl-4'>
+              <div className='px-4'>
                 <p className='text-sm'>Chequered Flag:</p>
                 <p className='text-xl'>
                   {formatTime(
@@ -89,9 +96,33 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
                   )}
                 </p>
               </div>
-              <div className='flex gap-4 pl-4'>
-                <Button variant='outline'>Results</Button>
+              <div className='flex gap-4 px-4'>
+                <Link
+                  href={`/session/${session.id}`}
+                  className={buttonVariants({ variant: 'outline' })}
+                >
+                  Results
+                </Link>
                 <Button variant='outline'>Lap Charts</Button>
+              </div>
+
+              <div className='grid basis-full grid-cols-10 gap-2 border-t p-2'>
+                {session.driver_sessions.map((ds) => (
+                  <div
+                    key={ds.driver?.full_name}
+                    className='flex flex-col items-center justify-between text-center'
+                  >
+                    {ds.driver?.headshot_url && (
+                      <Image
+                        src={ds.driver?.headshot_url}
+                        width={60}
+                        height={60}
+                        alt={ds.driver?.full_name || ''}
+                      />
+                    )}
+                    <h3 className='font-semibold'>{ds.driver?.abbreviation}</h3>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
