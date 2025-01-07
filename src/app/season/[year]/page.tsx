@@ -47,7 +47,7 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
           Show Sessions
         </label>
       </div>
-      <div className='my-4 grid grid-cols-2 gap-4 lg:grid-cols-3'>
+      <div className='my-4 grid grid-cols-2 gap-4 xl:grid-cols-3'>
         {data?.events.map((event) => (
           <div
             key={event.name}
