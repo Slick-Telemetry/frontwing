@@ -1,16 +1,5 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
-
-import {
-  event_format_choices,
-  race_control_messages_categories,
-  race_control_messages_flags,
-  race_control_messages_scopes,
-  session_name_choices,
-  telemetry_car_status,
-  telemetry_sources,
-  tyre_compounds,
-} from './enums';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -40,33 +29,7 @@ export type Scalars = {
   Int: { input: number; output: number };
   Float: { input: number; output: number };
   bigint: { input: bigint; output: bigint };
-  event_format_choices: {
-    input: event_format_choices;
-    output: event_format_choices;
-  };
   numeric: { input: number | bigint; output: number | bigint };
-  race_control_messages_categories: {
-    input: race_control_messages_categories;
-    output: race_control_messages_categories;
-  };
-  race_control_messages_flags: {
-    input: race_control_messages_flags;
-    output: race_control_messages_flags;
-  };
-  race_control_messages_scopes: {
-    input: race_control_messages_scopes;
-    output: race_control_messages_scopes;
-  };
-  session_name_choices: {
-    input: session_name_choices;
-    output: session_name_choices;
-  };
-  telemetry_car_status: {
-    input: telemetry_car_status;
-    output: telemetry_car_status;
-  };
-  telemetry_sources: { input: telemetry_sources; output: telemetry_sources };
-  tyre_compounds: { input: tyre_compounds; output: tyre_compounds };
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -2153,17 +2116,190 @@ export type Drivers_Updates = {
   where: Drivers_Bool_Exp;
 };
 
-/** Boolean expression to compare columns of type "event_format_choices". All fields are combined with logical 'AND'. */
-export type Event_Format_Choices_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['event_format_choices']['input']>;
-  _gt?: InputMaybe<Scalars['event_format_choices']['input']>;
-  _gte?: InputMaybe<Scalars['event_format_choices']['input']>;
-  _in?: InputMaybe<Array<Scalars['event_format_choices']['input']>>;
+/** columns and relationships of "event_format_choices" */
+export type Event_Format_Choices = {
+  __typename?: 'event_format_choices';
+  comment?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  events: Array<Events>;
+  /** An aggregate relationship */
+  events_aggregate: Events_Aggregate;
+  value: Scalars['String']['output'];
+};
+
+/** columns and relationships of "event_format_choices" */
+export type Event_Format_ChoicesEventsArgs = {
+  distinct_on?: InputMaybe<Array<Events_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Events_Order_By>>;
+  where?: InputMaybe<Events_Bool_Exp>;
+};
+
+/** columns and relationships of "event_format_choices" */
+export type Event_Format_ChoicesEvents_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Events_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Events_Order_By>>;
+  where?: InputMaybe<Events_Bool_Exp>;
+};
+
+/** aggregated selection of "event_format_choices" */
+export type Event_Format_Choices_Aggregate = {
+  __typename?: 'event_format_choices_aggregate';
+  aggregate?: Maybe<Event_Format_Choices_Aggregate_Fields>;
+  nodes: Array<Event_Format_Choices>;
+};
+
+/** aggregate fields of "event_format_choices" */
+export type Event_Format_Choices_Aggregate_Fields = {
+  __typename?: 'event_format_choices_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Event_Format_Choices_Max_Fields>;
+  min?: Maybe<Event_Format_Choices_Min_Fields>;
+};
+
+/** aggregate fields of "event_format_choices" */
+export type Event_Format_Choices_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Event_Format_Choices_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "event_format_choices". All fields are combined with a logical 'AND'. */
+export type Event_Format_Choices_Bool_Exp = {
+  _and?: InputMaybe<Array<Event_Format_Choices_Bool_Exp>>;
+  _not?: InputMaybe<Event_Format_Choices_Bool_Exp>;
+  _or?: InputMaybe<Array<Event_Format_Choices_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  events?: InputMaybe<Events_Bool_Exp>;
+  events_aggregate?: InputMaybe<Events_Aggregate_Bool_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "event_format_choices" */
+export enum Event_Format_Choices_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  EventFormatChoicesPkey = 'event_format_choices_pkey',
+}
+
+export enum Event_Format_Choices_Enum {
+  /** Conventional event format */
+  Conventional = 'conventional',
+  /** Sprint qualifying event format */
+  SprintQualifying = 'sprint_qualifying',
+  /** Sprint shootout event format */
+  SprintShootout = 'sprint_shootout',
+  /** Testing event format */
+  Testing = 'testing',
+}
+
+/** Boolean expression to compare columns of type "event_format_choices_enum". All fields are combined with logical 'AND'. */
+export type Event_Format_Choices_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Event_Format_Choices_Enum>;
+  _in?: InputMaybe<Array<Event_Format_Choices_Enum>>;
   _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['event_format_choices']['input']>;
-  _lte?: InputMaybe<Scalars['event_format_choices']['input']>;
-  _neq?: InputMaybe<Scalars['event_format_choices']['input']>;
-  _nin?: InputMaybe<Array<Scalars['event_format_choices']['input']>>;
+  _neq?: InputMaybe<Event_Format_Choices_Enum>;
+  _nin?: InputMaybe<Array<Event_Format_Choices_Enum>>;
+};
+
+/** input type for inserting data into table "event_format_choices" */
+export type Event_Format_Choices_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  events?: InputMaybe<Events_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Event_Format_Choices_Max_Fields = {
+  __typename?: 'event_format_choices_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Event_Format_Choices_Min_Fields = {
+  __typename?: 'event_format_choices_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "event_format_choices" */
+export type Event_Format_Choices_Mutation_Response = {
+  __typename?: 'event_format_choices_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Event_Format_Choices>;
+};
+
+/** input type for inserting object relation for remote table "event_format_choices" */
+export type Event_Format_Choices_Obj_Rel_Insert_Input = {
+  data: Event_Format_Choices_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Event_Format_Choices_On_Conflict>;
+};
+
+/** on_conflict condition type for table "event_format_choices" */
+export type Event_Format_Choices_On_Conflict = {
+  constraint: Event_Format_Choices_Constraint;
+  update_columns?: Array<Event_Format_Choices_Update_Column>;
+  where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "event_format_choices". */
+export type Event_Format_Choices_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  events_aggregate?: InputMaybe<Events_Aggregate_Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: event_format_choices */
+export type Event_Format_Choices_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "event_format_choices" */
+export enum Event_Format_Choices_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+/** input type for updating data in table "event_format_choices" */
+export type Event_Format_Choices_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "event_format_choices" */
+export type Event_Format_Choices_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Event_Format_Choices_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Event_Format_Choices_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "event_format_choices" */
+export enum Event_Format_Choices_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Event_Format_Choices_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Event_Format_Choices_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Event_Format_Choices_Bool_Exp;
 };
 
 /** columns and relationships of "events" */
@@ -2171,8 +2307,10 @@ export type Events = {
   __typename?: 'events';
   country?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['String']['output']>;
+  /** An object relationship */
+  event_format_choice?: Maybe<Event_Format_Choices>;
   f1_api_support?: Maybe<Scalars['Boolean']['output']>;
-  format?: Maybe<Scalars['event_format_choices']['output']>;
+  format?: Maybe<Event_Format_Choices_Enum>;
   id: Scalars['String']['output'];
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
@@ -2211,6 +2349,33 @@ export type Events_Aggregate = {
   nodes: Array<Events>;
 };
 
+export type Events_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Events_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Events_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Events_Aggregate_Bool_Exp_Count>;
+};
+
+export type Events_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Events_Select_Column_Events_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Events_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Events_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Events_Select_Column_Events_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Events_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Events_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Events_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Events_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "events" */
 export type Events_Aggregate_Fields = {
   __typename?: 'events_aggregate_fields';
@@ -2233,12 +2398,41 @@ export type Events_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "events" */
+export type Events_Aggregate_Order_By = {
+  avg?: InputMaybe<Events_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Events_Max_Order_By>;
+  min?: InputMaybe<Events_Min_Order_By>;
+  stddev?: InputMaybe<Events_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Events_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Events_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Events_Sum_Order_By>;
+  var_pop?: InputMaybe<Events_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Events_Var_Samp_Order_By>;
+  variance?: InputMaybe<Events_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "events" */
+export type Events_Arr_Rel_Insert_Input = {
+  data: Array<Events_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Events_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Events_Avg_Fields = {
   __typename?: 'events_avg_fields';
   /** All test sessions = 0 */
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "events" */
+export type Events_Avg_Order_By = {
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "events". All fields are combined with a logical 'AND'. */
@@ -2248,8 +2442,9 @@ export type Events_Bool_Exp = {
   _or?: InputMaybe<Array<Events_Bool_Exp>>;
   country?: InputMaybe<String_Comparison_Exp>;
   date?: InputMaybe<String_Comparison_Exp>;
+  event_format_choice?: InputMaybe<Event_Format_Choices_Bool_Exp>;
   f1_api_support?: InputMaybe<Boolean_Comparison_Exp>;
-  format?: InputMaybe<Event_Format_Choices_Comparison_Exp>;
+  format?: InputMaybe<Event_Format_Choices_Enum_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
   location?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
@@ -2277,8 +2472,9 @@ export type Events_Inc_Input = {
 export type Events_Insert_Input = {
   country?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
+  event_format_choice?: InputMaybe<Event_Format_Choices_Obj_Rel_Insert_Input>;
   f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
-  format?: InputMaybe<Scalars['event_format_choices']['input']>;
+  format?: InputMaybe<Event_Format_Choices_Enum>;
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -2294,7 +2490,6 @@ export type Events_Max_Fields = {
   __typename?: 'events_max_fields';
   country?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['String']['output']>;
-  format?: Maybe<Scalars['event_format_choices']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
@@ -2304,12 +2499,24 @@ export type Events_Max_Fields = {
   year?: Maybe<Scalars['Int']['output']>;
 };
 
+/** order by max() on columns of table "events" */
+export type Events_Max_Order_By = {
+  country?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  location?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  official_name?: InputMaybe<Order_By>;
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Events_Min_Fields = {
   __typename?: 'events_min_fields';
   country?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['String']['output']>;
-  format?: Maybe<Scalars['event_format_choices']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
@@ -2317,6 +2524,19 @@ export type Events_Min_Fields = {
   /** All test sessions = 0 */
   round_number?: Maybe<Scalars['Int']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by min() on columns of table "events" */
+export type Events_Min_Order_By = {
+  country?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  location?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  official_name?: InputMaybe<Order_By>;
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "events" */
@@ -2346,6 +2566,7 @@ export type Events_On_Conflict = {
 export type Events_Order_By = {
   country?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
+  event_format_choice?: InputMaybe<Event_Format_Choices_Order_By>;
   f1_api_support?: InputMaybe<Order_By>;
   format?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -2386,12 +2607,24 @@ export enum Events_Select_Column {
   Year = 'year',
 }
 
+/** select "events_aggregate_bool_exp_bool_and_arguments_columns" columns of table "events" */
+export enum Events_Select_Column_Events_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  F1ApiSupport = 'f1_api_support',
+}
+
+/** select "events_aggregate_bool_exp_bool_or_arguments_columns" columns of table "events" */
+export enum Events_Select_Column_Events_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  F1ApiSupport = 'f1_api_support',
+}
+
 /** input type for updating data in table "events" */
 export type Events_Set_Input = {
   country?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
   f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
-  format?: InputMaybe<Scalars['event_format_choices']['input']>;
+  format?: InputMaybe<Event_Format_Choices_Enum>;
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -2409,6 +2642,13 @@ export type Events_Stddev_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev() on columns of table "events" */
+export type Events_Stddev_Order_By = {
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Events_Stddev_Pop_Fields = {
   __typename?: 'events_stddev_pop_fields';
@@ -2417,12 +2657,26 @@ export type Events_Stddev_Pop_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev_pop() on columns of table "events" */
+export type Events_Stddev_Pop_Order_By = {
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_samp on columns */
 export type Events_Stddev_Samp_Fields = {
   __typename?: 'events_stddev_samp_fields';
   /** All test sessions = 0 */
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "events" */
+export type Events_Stddev_Samp_Order_By = {
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "events" */
@@ -2438,7 +2692,7 @@ export type Events_Stream_Cursor_Value_Input = {
   country?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
   f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
-  format?: InputMaybe<Scalars['event_format_choices']['input']>;
+  format?: InputMaybe<Event_Format_Choices_Enum>;
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -2454,6 +2708,13 @@ export type Events_Sum_Fields = {
   /** All test sessions = 0 */
   round_number?: Maybe<Scalars['Int']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "events" */
+export type Events_Sum_Order_By = {
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "events" */
@@ -2497,12 +2758,26 @@ export type Events_Var_Pop_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_pop() on columns of table "events" */
+export type Events_Var_Pop_Order_By = {
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Events_Var_Samp_Fields = {
   __typename?: 'events_var_samp_fields';
   /** All test sessions = 0 */
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "events" */
+export type Events_Var_Samp_Order_By = {
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -2513,10 +2788,17 @@ export type Events_Variance_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by variance() on columns of table "events" */
+export type Events_Variance_Order_By = {
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
 /** columns and relationships of "laps" */
 export type Laps = {
   __typename?: 'laps';
-  compound?: Maybe<Scalars['tyre_compounds']['output']>;
+  compound?: Maybe<Tyre_Compounds_Enum>;
   /** An object relationship */
   driver_session?: Maybe<Driver_Sessions>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
@@ -2540,6 +2822,8 @@ export type Laps = {
   speed_trap_sector2?: Maybe<Scalars['numeric']['output']>;
   speed_trap_straight?: Maybe<Scalars['numeric']['output']>;
   stint?: Maybe<Scalars['Int']['output']>;
+  /** An object relationship */
+  tyre_compound?: Maybe<Tyre_Compounds>;
   tyre_life?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -2669,7 +2953,7 @@ export type Laps_Bool_Exp = {
   _and?: InputMaybe<Array<Laps_Bool_Exp>>;
   _not?: InputMaybe<Laps_Bool_Exp>;
   _or?: InputMaybe<Array<Laps_Bool_Exp>>;
-  compound?: InputMaybe<Tyre_Compounds_Comparison_Exp>;
+  compound?: InputMaybe<Tyre_Compounds_Enum_Comparison_Exp>;
   driver_session?: InputMaybe<Driver_Sessions_Bool_Exp>;
   driver_session_id?: InputMaybe<String_Comparison_Exp>;
   fresh_tyre?: InputMaybe<Boolean_Comparison_Exp>;
@@ -2692,6 +2976,7 @@ export type Laps_Bool_Exp = {
   speed_trap_sector2?: InputMaybe<Numeric_Comparison_Exp>;
   speed_trap_straight?: InputMaybe<Numeric_Comparison_Exp>;
   stint?: InputMaybe<Int_Comparison_Exp>;
+  tyre_compound?: InputMaybe<Tyre_Compounds_Bool_Exp>;
   tyre_life?: InputMaybe<Int_Comparison_Exp>;
 };
 
@@ -2724,7 +3009,7 @@ export type Laps_Inc_Input = {
 
 /** input type for inserting data into table "laps" */
 export type Laps_Insert_Input = {
-  compound?: InputMaybe<Scalars['tyre_compounds']['input']>;
+  compound?: InputMaybe<Tyre_Compounds_Enum>;
   driver_session?: InputMaybe<Driver_Sessions_Obj_Rel_Insert_Input>;
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
   fresh_tyre?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2747,13 +3032,13 @@ export type Laps_Insert_Input = {
   speed_trap_sector2?: InputMaybe<Scalars['numeric']['input']>;
   speed_trap_straight?: InputMaybe<Scalars['numeric']['input']>;
   stint?: InputMaybe<Scalars['Int']['input']>;
+  tyre_compound?: InputMaybe<Tyre_Compounds_Obj_Rel_Insert_Input>;
   tyre_life?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate max on columns */
 export type Laps_Max_Fields = {
   __typename?: 'laps_max_fields';
-  compound?: Maybe<Scalars['tyre_compounds']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   lap_number?: Maybe<Scalars['Int']['output']>;
@@ -2777,7 +3062,6 @@ export type Laps_Max_Fields = {
 
 /** order by max() on columns of table "laps" */
 export type Laps_Max_Order_By = {
-  compound?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   lap_number?: InputMaybe<Order_By>;
@@ -2802,7 +3086,6 @@ export type Laps_Max_Order_By = {
 /** aggregate min on columns */
 export type Laps_Min_Fields = {
   __typename?: 'laps_min_fields';
-  compound?: Maybe<Scalars['tyre_compounds']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   lap_number?: Maybe<Scalars['Int']['output']>;
@@ -2826,7 +3109,6 @@ export type Laps_Min_Fields = {
 
 /** order by min() on columns of table "laps" */
 export type Laps_Min_Order_By = {
-  compound?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   lap_number?: InputMaybe<Order_By>;
@@ -2889,6 +3171,7 @@ export type Laps_Order_By = {
   speed_trap_sector2?: InputMaybe<Order_By>;
   speed_trap_straight?: InputMaybe<Order_By>;
   stint?: InputMaybe<Order_By>;
+  tyre_compound?: InputMaybe<Tyre_Compounds_Order_By>;
   tyre_life?: InputMaybe<Order_By>;
 };
 
@@ -2969,7 +3252,7 @@ export enum Laps_Select_Column_Laps_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns
 
 /** input type for updating data in table "laps" */
 export type Laps_Set_Input = {
-  compound?: InputMaybe<Scalars['tyre_compounds']['input']>;
+  compound?: InputMaybe<Tyre_Compounds_Enum>;
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
   fresh_tyre?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
@@ -3133,7 +3416,7 @@ export type Laps_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Laps_Stream_Cursor_Value_Input = {
-  compound?: InputMaybe<Scalars['tyre_compounds']['input']>;
+  compound?: InputMaybe<Tyre_Compounds_Enum>;
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
   fresh_tyre?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
@@ -3416,6 +3699,10 @@ export type Mutation_Root = {
   delete_drivers?: Maybe<Drivers_Mutation_Response>;
   /** delete single row from the table: "drivers" */
   delete_drivers_by_pk?: Maybe<Drivers>;
+  /** delete data from the table: "event_format_choices" */
+  delete_event_format_choices?: Maybe<Event_Format_Choices_Mutation_Response>;
+  /** delete single row from the table: "event_format_choices" */
+  delete_event_format_choices_by_pk?: Maybe<Event_Format_Choices>;
   /** delete data from the table: "events" */
   delete_events?: Maybe<Events_Mutation_Response>;
   /** delete single row from the table: "events" */
@@ -3428,10 +3715,26 @@ export type Mutation_Root = {
   delete_race_control_messages?: Maybe<Race_Control_Messages_Mutation_Response>;
   /** delete single row from the table: "race_control_messages" */
   delete_race_control_messages_by_pk?: Maybe<Race_Control_Messages>;
+  /** delete data from the table: "race_control_messages_categories" */
+  delete_race_control_messages_categories?: Maybe<Race_Control_Messages_Categories_Mutation_Response>;
+  /** delete single row from the table: "race_control_messages_categories" */
+  delete_race_control_messages_categories_by_pk?: Maybe<Race_Control_Messages_Categories>;
+  /** delete data from the table: "race_control_messages_flags" */
+  delete_race_control_messages_flags?: Maybe<Race_Control_Messages_Flags_Mutation_Response>;
+  /** delete single row from the table: "race_control_messages_flags" */
+  delete_race_control_messages_flags_by_pk?: Maybe<Race_Control_Messages_Flags>;
+  /** delete data from the table: "race_control_messages_scopes" */
+  delete_race_control_messages_scopes?: Maybe<Race_Control_Messages_Scopes_Mutation_Response>;
+  /** delete single row from the table: "race_control_messages_scopes" */
+  delete_race_control_messages_scopes_by_pk?: Maybe<Race_Control_Messages_Scopes>;
   /** delete data from the table: "results" */
   delete_results?: Maybe<Results_Mutation_Response>;
   /** delete single row from the table: "results" */
   delete_results_by_pk?: Maybe<Results>;
+  /** delete data from the table: "session_name_choices" */
+  delete_session_name_choices?: Maybe<Session_Name_Choices_Mutation_Response>;
+  /** delete single row from the table: "session_name_choices" */
+  delete_session_name_choices_by_pk?: Maybe<Session_Name_Choices>;
   /** delete data from the table: "sessions" */
   delete_sessions?: Maybe<Sessions_Mutation_Response>;
   /** delete single row from the table: "sessions" */
@@ -3440,10 +3743,22 @@ export type Mutation_Root = {
   delete_telemetry?: Maybe<Telemetry_Mutation_Response>;
   /** delete single row from the table: "telemetry" */
   delete_telemetry_by_pk?: Maybe<Telemetry>;
+  /** delete data from the table: "telemetry_car_status" */
+  delete_telemetry_car_status?: Maybe<Telemetry_Car_Status_Mutation_Response>;
+  /** delete single row from the table: "telemetry_car_status" */
+  delete_telemetry_car_status_by_pk?: Maybe<Telemetry_Car_Status>;
+  /** delete data from the table: "telemetry_sources" */
+  delete_telemetry_sources?: Maybe<Telemetry_Sources_Mutation_Response>;
+  /** delete single row from the table: "telemetry_sources" */
+  delete_telemetry_sources_by_pk?: Maybe<Telemetry_Sources>;
   /** delete data from the table: "track_status" */
   delete_track_status?: Maybe<Track_Status_Mutation_Response>;
   /** delete single row from the table: "track_status" */
   delete_track_status_by_pk?: Maybe<Track_Status>;
+  /** delete data from the table: "tyre_compounds" */
+  delete_tyre_compounds?: Maybe<Tyre_Compounds_Mutation_Response>;
+  /** delete single row from the table: "tyre_compounds" */
+  delete_tyre_compounds_by_pk?: Maybe<Tyre_Compounds>;
   /** delete data from the table: "weather_data" */
   delete_weather_data?: Maybe<Weather_Data_Mutation_Response>;
   /** delete single row from the table: "weather_data" */
@@ -3472,6 +3787,10 @@ export type Mutation_Root = {
   insert_drivers?: Maybe<Drivers_Mutation_Response>;
   /** insert a single row into the table: "drivers" */
   insert_drivers_one?: Maybe<Drivers>;
+  /** insert data into the table: "event_format_choices" */
+  insert_event_format_choices?: Maybe<Event_Format_Choices_Mutation_Response>;
+  /** insert a single row into the table: "event_format_choices" */
+  insert_event_format_choices_one?: Maybe<Event_Format_Choices>;
   /** insert data into the table: "events" */
   insert_events?: Maybe<Events_Mutation_Response>;
   /** insert a single row into the table: "events" */
@@ -3482,24 +3801,52 @@ export type Mutation_Root = {
   insert_laps_one?: Maybe<Laps>;
   /** insert data into the table: "race_control_messages" */
   insert_race_control_messages?: Maybe<Race_Control_Messages_Mutation_Response>;
+  /** insert data into the table: "race_control_messages_categories" */
+  insert_race_control_messages_categories?: Maybe<Race_Control_Messages_Categories_Mutation_Response>;
+  /** insert a single row into the table: "race_control_messages_categories" */
+  insert_race_control_messages_categories_one?: Maybe<Race_Control_Messages_Categories>;
+  /** insert data into the table: "race_control_messages_flags" */
+  insert_race_control_messages_flags?: Maybe<Race_Control_Messages_Flags_Mutation_Response>;
+  /** insert a single row into the table: "race_control_messages_flags" */
+  insert_race_control_messages_flags_one?: Maybe<Race_Control_Messages_Flags>;
   /** insert a single row into the table: "race_control_messages" */
   insert_race_control_messages_one?: Maybe<Race_Control_Messages>;
+  /** insert data into the table: "race_control_messages_scopes" */
+  insert_race_control_messages_scopes?: Maybe<Race_Control_Messages_Scopes_Mutation_Response>;
+  /** insert a single row into the table: "race_control_messages_scopes" */
+  insert_race_control_messages_scopes_one?: Maybe<Race_Control_Messages_Scopes>;
   /** insert data into the table: "results" */
   insert_results?: Maybe<Results_Mutation_Response>;
   /** insert a single row into the table: "results" */
   insert_results_one?: Maybe<Results>;
+  /** insert data into the table: "session_name_choices" */
+  insert_session_name_choices?: Maybe<Session_Name_Choices_Mutation_Response>;
+  /** insert a single row into the table: "session_name_choices" */
+  insert_session_name_choices_one?: Maybe<Session_Name_Choices>;
   /** insert data into the table: "sessions" */
   insert_sessions?: Maybe<Sessions_Mutation_Response>;
   /** insert a single row into the table: "sessions" */
   insert_sessions_one?: Maybe<Sessions>;
   /** insert data into the table: "telemetry" */
   insert_telemetry?: Maybe<Telemetry_Mutation_Response>;
+  /** insert data into the table: "telemetry_car_status" */
+  insert_telemetry_car_status?: Maybe<Telemetry_Car_Status_Mutation_Response>;
+  /** insert a single row into the table: "telemetry_car_status" */
+  insert_telemetry_car_status_one?: Maybe<Telemetry_Car_Status>;
   /** insert a single row into the table: "telemetry" */
   insert_telemetry_one?: Maybe<Telemetry>;
+  /** insert data into the table: "telemetry_sources" */
+  insert_telemetry_sources?: Maybe<Telemetry_Sources_Mutation_Response>;
+  /** insert a single row into the table: "telemetry_sources" */
+  insert_telemetry_sources_one?: Maybe<Telemetry_Sources>;
   /** insert data into the table: "track_status" */
   insert_track_status?: Maybe<Track_Status_Mutation_Response>;
   /** insert a single row into the table: "track_status" */
   insert_track_status_one?: Maybe<Track_Status>;
+  /** insert data into the table: "tyre_compounds" */
+  insert_tyre_compounds?: Maybe<Tyre_Compounds_Mutation_Response>;
+  /** insert a single row into the table: "tyre_compounds" */
+  insert_tyre_compounds_one?: Maybe<Tyre_Compounds>;
   /** insert data into the table: "weather_data" */
   insert_weather_data?: Maybe<Weather_Data_Mutation_Response>;
   /** insert a single row into the table: "weather_data" */
@@ -3548,6 +3895,14 @@ export type Mutation_Root = {
   update_drivers_by_pk?: Maybe<Drivers>;
   /** update multiples rows of table: "drivers" */
   update_drivers_many?: Maybe<Array<Maybe<Drivers_Mutation_Response>>>;
+  /** update data of the table: "event_format_choices" */
+  update_event_format_choices?: Maybe<Event_Format_Choices_Mutation_Response>;
+  /** update single row of the table: "event_format_choices" */
+  update_event_format_choices_by_pk?: Maybe<Event_Format_Choices>;
+  /** update multiples rows of table: "event_format_choices" */
+  update_event_format_choices_many?: Maybe<
+    Array<Maybe<Event_Format_Choices_Mutation_Response>>
+  >;
   /** update data of the table: "events" */
   update_events?: Maybe<Events_Mutation_Response>;
   /** update single row of the table: "events" */
@@ -3564,9 +3919,33 @@ export type Mutation_Root = {
   update_race_control_messages?: Maybe<Race_Control_Messages_Mutation_Response>;
   /** update single row of the table: "race_control_messages" */
   update_race_control_messages_by_pk?: Maybe<Race_Control_Messages>;
+  /** update data of the table: "race_control_messages_categories" */
+  update_race_control_messages_categories?: Maybe<Race_Control_Messages_Categories_Mutation_Response>;
+  /** update single row of the table: "race_control_messages_categories" */
+  update_race_control_messages_categories_by_pk?: Maybe<Race_Control_Messages_Categories>;
+  /** update multiples rows of table: "race_control_messages_categories" */
+  update_race_control_messages_categories_many?: Maybe<
+    Array<Maybe<Race_Control_Messages_Categories_Mutation_Response>>
+  >;
+  /** update data of the table: "race_control_messages_flags" */
+  update_race_control_messages_flags?: Maybe<Race_Control_Messages_Flags_Mutation_Response>;
+  /** update single row of the table: "race_control_messages_flags" */
+  update_race_control_messages_flags_by_pk?: Maybe<Race_Control_Messages_Flags>;
+  /** update multiples rows of table: "race_control_messages_flags" */
+  update_race_control_messages_flags_many?: Maybe<
+    Array<Maybe<Race_Control_Messages_Flags_Mutation_Response>>
+  >;
   /** update multiples rows of table: "race_control_messages" */
   update_race_control_messages_many?: Maybe<
     Array<Maybe<Race_Control_Messages_Mutation_Response>>
+  >;
+  /** update data of the table: "race_control_messages_scopes" */
+  update_race_control_messages_scopes?: Maybe<Race_Control_Messages_Scopes_Mutation_Response>;
+  /** update single row of the table: "race_control_messages_scopes" */
+  update_race_control_messages_scopes_by_pk?: Maybe<Race_Control_Messages_Scopes>;
+  /** update multiples rows of table: "race_control_messages_scopes" */
+  update_race_control_messages_scopes_many?: Maybe<
+    Array<Maybe<Race_Control_Messages_Scopes_Mutation_Response>>
   >;
   /** update data of the table: "results" */
   update_results?: Maybe<Results_Mutation_Response>;
@@ -3574,6 +3953,14 @@ export type Mutation_Root = {
   update_results_by_pk?: Maybe<Results>;
   /** update multiples rows of table: "results" */
   update_results_many?: Maybe<Array<Maybe<Results_Mutation_Response>>>;
+  /** update data of the table: "session_name_choices" */
+  update_session_name_choices?: Maybe<Session_Name_Choices_Mutation_Response>;
+  /** update single row of the table: "session_name_choices" */
+  update_session_name_choices_by_pk?: Maybe<Session_Name_Choices>;
+  /** update multiples rows of table: "session_name_choices" */
+  update_session_name_choices_many?: Maybe<
+    Array<Maybe<Session_Name_Choices_Mutation_Response>>
+  >;
   /** update data of the table: "sessions" */
   update_sessions?: Maybe<Sessions_Mutation_Response>;
   /** update single row of the table: "sessions" */
@@ -3584,8 +3971,24 @@ export type Mutation_Root = {
   update_telemetry?: Maybe<Telemetry_Mutation_Response>;
   /** update single row of the table: "telemetry" */
   update_telemetry_by_pk?: Maybe<Telemetry>;
+  /** update data of the table: "telemetry_car_status" */
+  update_telemetry_car_status?: Maybe<Telemetry_Car_Status_Mutation_Response>;
+  /** update single row of the table: "telemetry_car_status" */
+  update_telemetry_car_status_by_pk?: Maybe<Telemetry_Car_Status>;
+  /** update multiples rows of table: "telemetry_car_status" */
+  update_telemetry_car_status_many?: Maybe<
+    Array<Maybe<Telemetry_Car_Status_Mutation_Response>>
+  >;
   /** update multiples rows of table: "telemetry" */
   update_telemetry_many?: Maybe<Array<Maybe<Telemetry_Mutation_Response>>>;
+  /** update data of the table: "telemetry_sources" */
+  update_telemetry_sources?: Maybe<Telemetry_Sources_Mutation_Response>;
+  /** update single row of the table: "telemetry_sources" */
+  update_telemetry_sources_by_pk?: Maybe<Telemetry_Sources>;
+  /** update multiples rows of table: "telemetry_sources" */
+  update_telemetry_sources_many?: Maybe<
+    Array<Maybe<Telemetry_Sources_Mutation_Response>>
+  >;
   /** update data of the table: "track_status" */
   update_track_status?: Maybe<Track_Status_Mutation_Response>;
   /** update single row of the table: "track_status" */
@@ -3593,6 +3996,14 @@ export type Mutation_Root = {
   /** update multiples rows of table: "track_status" */
   update_track_status_many?: Maybe<
     Array<Maybe<Track_Status_Mutation_Response>>
+  >;
+  /** update data of the table: "tyre_compounds" */
+  update_tyre_compounds?: Maybe<Tyre_Compounds_Mutation_Response>;
+  /** update single row of the table: "tyre_compounds" */
+  update_tyre_compounds_by_pk?: Maybe<Tyre_Compounds>;
+  /** update multiples rows of table: "tyre_compounds" */
+  update_tyre_compounds_many?: Maybe<
+    Array<Maybe<Tyre_Compounds_Mutation_Response>>
   >;
   /** update data of the table: "weather_data" */
   update_weather_data?: Maybe<Weather_Data_Mutation_Response>;
@@ -3665,6 +4076,16 @@ export type Mutation_RootDelete_Drivers_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootDelete_Event_Format_ChoicesArgs = {
+  where: Event_Format_Choices_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Event_Format_Choices_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
 export type Mutation_RootDelete_EventsArgs = {
   where: Events_Bool_Exp;
 };
@@ -3695,6 +4116,36 @@ export type Mutation_RootDelete_Race_Control_Messages_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_CategoriesArgs = {
+  where: Race_Control_Messages_Categories_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_Categories_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_FlagsArgs = {
+  where: Race_Control_Messages_Flags_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_Flags_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_ScopesArgs = {
+  where: Race_Control_Messages_Scopes_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_Scopes_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
 export type Mutation_RootDelete_ResultsArgs = {
   where: Results_Bool_Exp;
 };
@@ -3702,6 +4153,16 @@ export type Mutation_RootDelete_ResultsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Results_By_PkArgs = {
   id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Session_Name_ChoicesArgs = {
+  where: Session_Name_Choices_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Session_Name_Choices_By_PkArgs = {
+  value: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -3725,6 +4186,26 @@ export type Mutation_RootDelete_Telemetry_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootDelete_Telemetry_Car_StatusArgs = {
+  where: Telemetry_Car_Status_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Telemetry_Car_Status_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Telemetry_SourcesArgs = {
+  where: Telemetry_Sources_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Telemetry_Sources_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
 export type Mutation_RootDelete_Track_StatusArgs = {
   where: Track_Status_Bool_Exp;
 };
@@ -3732,6 +4213,16 @@ export type Mutation_RootDelete_Track_StatusArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Track_Status_By_PkArgs = {
   id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Tyre_CompoundsArgs = {
+  where: Tyre_Compounds_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Tyre_Compounds_By_PkArgs = {
+  value: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -3817,6 +4308,18 @@ export type Mutation_RootInsert_Drivers_OneArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootInsert_Event_Format_ChoicesArgs = {
+  objects: Array<Event_Format_Choices_Insert_Input>;
+  on_conflict?: InputMaybe<Event_Format_Choices_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Event_Format_Choices_OneArgs = {
+  object: Event_Format_Choices_Insert_Input;
+  on_conflict?: InputMaybe<Event_Format_Choices_On_Conflict>;
+};
+
+/** mutation root */
 export type Mutation_RootInsert_EventsArgs = {
   objects: Array<Events_Insert_Input>;
   on_conflict?: InputMaybe<Events_On_Conflict>;
@@ -3847,9 +4350,45 @@ export type Mutation_RootInsert_Race_Control_MessagesArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_CategoriesArgs = {
+  objects: Array<Race_Control_Messages_Categories_Insert_Input>;
+  on_conflict?: InputMaybe<Race_Control_Messages_Categories_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_Categories_OneArgs = {
+  object: Race_Control_Messages_Categories_Insert_Input;
+  on_conflict?: InputMaybe<Race_Control_Messages_Categories_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_FlagsArgs = {
+  objects: Array<Race_Control_Messages_Flags_Insert_Input>;
+  on_conflict?: InputMaybe<Race_Control_Messages_Flags_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_Flags_OneArgs = {
+  object: Race_Control_Messages_Flags_Insert_Input;
+  on_conflict?: InputMaybe<Race_Control_Messages_Flags_On_Conflict>;
+};
+
+/** mutation root */
 export type Mutation_RootInsert_Race_Control_Messages_OneArgs = {
   object: Race_Control_Messages_Insert_Input;
   on_conflict?: InputMaybe<Race_Control_Messages_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_ScopesArgs = {
+  objects: Array<Race_Control_Messages_Scopes_Insert_Input>;
+  on_conflict?: InputMaybe<Race_Control_Messages_Scopes_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_Scopes_OneArgs = {
+  object: Race_Control_Messages_Scopes_Insert_Input;
+  on_conflict?: InputMaybe<Race_Control_Messages_Scopes_On_Conflict>;
 };
 
 /** mutation root */
@@ -3862,6 +4401,18 @@ export type Mutation_RootInsert_ResultsArgs = {
 export type Mutation_RootInsert_Results_OneArgs = {
   object: Results_Insert_Input;
   on_conflict?: InputMaybe<Results_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Session_Name_ChoicesArgs = {
+  objects: Array<Session_Name_Choices_Insert_Input>;
+  on_conflict?: InputMaybe<Session_Name_Choices_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Session_Name_Choices_OneArgs = {
+  object: Session_Name_Choices_Insert_Input;
+  on_conflict?: InputMaybe<Session_Name_Choices_On_Conflict>;
 };
 
 /** mutation root */
@@ -3883,9 +4434,33 @@ export type Mutation_RootInsert_TelemetryArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootInsert_Telemetry_Car_StatusArgs = {
+  objects: Array<Telemetry_Car_Status_Insert_Input>;
+  on_conflict?: InputMaybe<Telemetry_Car_Status_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Telemetry_Car_Status_OneArgs = {
+  object: Telemetry_Car_Status_Insert_Input;
+  on_conflict?: InputMaybe<Telemetry_Car_Status_On_Conflict>;
+};
+
+/** mutation root */
 export type Mutation_RootInsert_Telemetry_OneArgs = {
   object: Telemetry_Insert_Input;
   on_conflict?: InputMaybe<Telemetry_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Telemetry_SourcesArgs = {
+  objects: Array<Telemetry_Sources_Insert_Input>;
+  on_conflict?: InputMaybe<Telemetry_Sources_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Telemetry_Sources_OneArgs = {
+  object: Telemetry_Sources_Insert_Input;
+  on_conflict?: InputMaybe<Telemetry_Sources_On_Conflict>;
 };
 
 /** mutation root */
@@ -3898,6 +4473,18 @@ export type Mutation_RootInsert_Track_StatusArgs = {
 export type Mutation_RootInsert_Track_Status_OneArgs = {
   object: Track_Status_Insert_Input;
   on_conflict?: InputMaybe<Track_Status_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Tyre_CompoundsArgs = {
+  objects: Array<Tyre_Compounds_Insert_Input>;
+  on_conflict?: InputMaybe<Tyre_Compounds_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Tyre_Compounds_OneArgs = {
+  object: Tyre_Compounds_Insert_Input;
+  on_conflict?: InputMaybe<Tyre_Compounds_On_Conflict>;
 };
 
 /** mutation root */
@@ -4023,6 +4610,23 @@ export type Mutation_RootUpdate_Drivers_ManyArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_Event_Format_ChoicesArgs = {
+  _set?: InputMaybe<Event_Format_Choices_Set_Input>;
+  where: Event_Format_Choices_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Event_Format_Choices_By_PkArgs = {
+  _set?: InputMaybe<Event_Format_Choices_Set_Input>;
+  pk_columns: Event_Format_Choices_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Event_Format_Choices_ManyArgs = {
+  updates: Array<Event_Format_Choices_Updates>;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_EventsArgs = {
   _inc?: InputMaybe<Events_Inc_Input>;
   _set?: InputMaybe<Events_Set_Input>;
@@ -4075,8 +4679,59 @@ export type Mutation_RootUpdate_Race_Control_Messages_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_CategoriesArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Categories_Set_Input>;
+  where: Race_Control_Messages_Categories_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Categories_By_PkArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Categories_Set_Input>;
+  pk_columns: Race_Control_Messages_Categories_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Categories_ManyArgs = {
+  updates: Array<Race_Control_Messages_Categories_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_FlagsArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Flags_Set_Input>;
+  where: Race_Control_Messages_Flags_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Flags_By_PkArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Flags_Set_Input>;
+  pk_columns: Race_Control_Messages_Flags_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Flags_ManyArgs = {
+  updates: Array<Race_Control_Messages_Flags_Updates>;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_Race_Control_Messages_ManyArgs = {
   updates: Array<Race_Control_Messages_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_ScopesArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Scopes_Set_Input>;
+  where: Race_Control_Messages_Scopes_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Scopes_By_PkArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Scopes_Set_Input>;
+  pk_columns: Race_Control_Messages_Scopes_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Scopes_ManyArgs = {
+  updates: Array<Race_Control_Messages_Scopes_Updates>;
 };
 
 /** mutation root */
@@ -4096,6 +4751,23 @@ export type Mutation_RootUpdate_Results_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Results_ManyArgs = {
   updates: Array<Results_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Session_Name_ChoicesArgs = {
+  _set?: InputMaybe<Session_Name_Choices_Set_Input>;
+  where: Session_Name_Choices_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Session_Name_Choices_By_PkArgs = {
+  _set?: InputMaybe<Session_Name_Choices_Set_Input>;
+  pk_columns: Session_Name_Choices_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Session_Name_Choices_ManyArgs = {
+  updates: Array<Session_Name_Choices_Updates>;
 };
 
 /** mutation root */
@@ -4132,8 +4804,42 @@ export type Mutation_RootUpdate_Telemetry_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_Telemetry_Car_StatusArgs = {
+  _set?: InputMaybe<Telemetry_Car_Status_Set_Input>;
+  where: Telemetry_Car_Status_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_Car_Status_By_PkArgs = {
+  _set?: InputMaybe<Telemetry_Car_Status_Set_Input>;
+  pk_columns: Telemetry_Car_Status_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_Car_Status_ManyArgs = {
+  updates: Array<Telemetry_Car_Status_Updates>;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_Telemetry_ManyArgs = {
   updates: Array<Telemetry_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_SourcesArgs = {
+  _set?: InputMaybe<Telemetry_Sources_Set_Input>;
+  where: Telemetry_Sources_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_Sources_By_PkArgs = {
+  _set?: InputMaybe<Telemetry_Sources_Set_Input>;
+  pk_columns: Telemetry_Sources_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_Sources_ManyArgs = {
+  updates: Array<Telemetry_Sources_Updates>;
 };
 
 /** mutation root */
@@ -4153,6 +4859,23 @@ export type Mutation_RootUpdate_Track_Status_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Track_Status_ManyArgs = {
   updates: Array<Track_Status_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Tyre_CompoundsArgs = {
+  _set?: InputMaybe<Tyre_Compounds_Set_Input>;
+  where: Tyre_Compounds_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Tyre_Compounds_By_PkArgs = {
+  _set?: InputMaybe<Tyre_Compounds_Set_Input>;
+  pk_columns: Tyre_Compounds_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Tyre_Compounds_ManyArgs = {
+  updates: Array<Tyre_Compounds_Updates>;
 };
 
 /** mutation root */
@@ -4241,9 +4964,15 @@ export type Query_Root = {
   drivers_aggregate: Drivers_Aggregate;
   /** fetch data from the table: "drivers" using primary key columns */
   drivers_by_pk?: Maybe<Drivers>;
-  /** fetch data from the table: "events" */
+  /** fetch data from the table: "event_format_choices" */
+  event_format_choices: Array<Event_Format_Choices>;
+  /** fetch aggregated fields from the table: "event_format_choices" */
+  event_format_choices_aggregate: Event_Format_Choices_Aggregate;
+  /** fetch data from the table: "event_format_choices" using primary key columns */
+  event_format_choices_by_pk?: Maybe<Event_Format_Choices>;
+  /** An array relationship */
   events: Array<Events>;
-  /** fetch aggregated fields from the table: "events" */
+  /** An aggregate relationship */
   events_aggregate: Events_Aggregate;
   /** fetch data from the table: "events" using primary key columns */
   events_by_pk?: Maybe<Events>;
@@ -4259,12 +4988,36 @@ export type Query_Root = {
   race_control_messages_aggregate: Race_Control_Messages_Aggregate;
   /** fetch data from the table: "race_control_messages" using primary key columns */
   race_control_messages_by_pk?: Maybe<Race_Control_Messages>;
+  /** fetch data from the table: "race_control_messages_categories" */
+  race_control_messages_categories: Array<Race_Control_Messages_Categories>;
+  /** fetch aggregated fields from the table: "race_control_messages_categories" */
+  race_control_messages_categories_aggregate: Race_Control_Messages_Categories_Aggregate;
+  /** fetch data from the table: "race_control_messages_categories" using primary key columns */
+  race_control_messages_categories_by_pk?: Maybe<Race_Control_Messages_Categories>;
+  /** fetch data from the table: "race_control_messages_flags" */
+  race_control_messages_flags: Array<Race_Control_Messages_Flags>;
+  /** fetch aggregated fields from the table: "race_control_messages_flags" */
+  race_control_messages_flags_aggregate: Race_Control_Messages_Flags_Aggregate;
+  /** fetch data from the table: "race_control_messages_flags" using primary key columns */
+  race_control_messages_flags_by_pk?: Maybe<Race_Control_Messages_Flags>;
+  /** fetch data from the table: "race_control_messages_scopes" */
+  race_control_messages_scopes: Array<Race_Control_Messages_Scopes>;
+  /** fetch aggregated fields from the table: "race_control_messages_scopes" */
+  race_control_messages_scopes_aggregate: Race_Control_Messages_Scopes_Aggregate;
+  /** fetch data from the table: "race_control_messages_scopes" using primary key columns */
+  race_control_messages_scopes_by_pk?: Maybe<Race_Control_Messages_Scopes>;
   /** An array relationship */
   results: Array<Results>;
   /** An aggregate relationship */
   results_aggregate: Results_Aggregate;
   /** fetch data from the table: "results" using primary key columns */
   results_by_pk?: Maybe<Results>;
+  /** fetch data from the table: "session_name_choices" */
+  session_name_choices: Array<Session_Name_Choices>;
+  /** fetch aggregated fields from the table: "session_name_choices" */
+  session_name_choices_aggregate: Session_Name_Choices_Aggregate;
+  /** fetch data from the table: "session_name_choices" using primary key columns */
+  session_name_choices_by_pk?: Maybe<Session_Name_Choices>;
   /** An array relationship */
   sessions: Array<Sessions>;
   /** An aggregate relationship */
@@ -4277,12 +5030,30 @@ export type Query_Root = {
   telemetry_aggregate: Telemetry_Aggregate;
   /** fetch data from the table: "telemetry" using primary key columns */
   telemetry_by_pk?: Maybe<Telemetry>;
+  /** fetch data from the table: "telemetry_car_status" */
+  telemetry_car_status: Array<Telemetry_Car_Status>;
+  /** fetch aggregated fields from the table: "telemetry_car_status" */
+  telemetry_car_status_aggregate: Telemetry_Car_Status_Aggregate;
+  /** fetch data from the table: "telemetry_car_status" using primary key columns */
+  telemetry_car_status_by_pk?: Maybe<Telemetry_Car_Status>;
+  /** fetch data from the table: "telemetry_sources" */
+  telemetry_sources: Array<Telemetry_Sources>;
+  /** fetch aggregated fields from the table: "telemetry_sources" */
+  telemetry_sources_aggregate: Telemetry_Sources_Aggregate;
+  /** fetch data from the table: "telemetry_sources" using primary key columns */
+  telemetry_sources_by_pk?: Maybe<Telemetry_Sources>;
   /** fetch data from the table: "track_status" */
   track_status: Array<Track_Status>;
   /** fetch aggregated fields from the table: "track_status" */
   track_status_aggregate: Track_Status_Aggregate;
   /** fetch data from the table: "track_status" using primary key columns */
   track_status_by_pk?: Maybe<Track_Status>;
+  /** fetch data from the table: "tyre_compounds" */
+  tyre_compounds: Array<Tyre_Compounds>;
+  /** fetch aggregated fields from the table: "tyre_compounds" */
+  tyre_compounds_aggregate: Tyre_Compounds_Aggregate;
+  /** fetch data from the table: "tyre_compounds" using primary key columns */
+  tyre_compounds_by_pk?: Maybe<Tyre_Compounds>;
   /** An array relationship */
   weather_data: Array<Weather_Data>;
   /** An aggregate relationship */
@@ -4411,6 +5182,26 @@ export type Query_RootDrivers_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
+export type Query_RootEvent_Format_ChoicesArgs = {
+  distinct_on?: InputMaybe<Array<Event_Format_Choices_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Event_Format_Choices_Order_By>>;
+  where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
+};
+
+export type Query_RootEvent_Format_Choices_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Event_Format_Choices_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Event_Format_Choices_Order_By>>;
+  where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
+};
+
+export type Query_RootEvent_Format_Choices_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
 export type Query_RootEventsArgs = {
   distinct_on?: InputMaybe<Array<Events_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -4471,6 +5262,70 @@ export type Query_RootRace_Control_Messages_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
+export type Query_RootRace_Control_Messages_CategoriesArgs = {
+  distinct_on?: InputMaybe<
+    Array<Race_Control_Messages_Categories_Select_Column>
+  >;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Categories_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
+};
+
+export type Query_RootRace_Control_Messages_Categories_AggregateArgs = {
+  distinct_on?: InputMaybe<
+    Array<Race_Control_Messages_Categories_Select_Column>
+  >;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Categories_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
+};
+
+export type Query_RootRace_Control_Messages_Categories_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Query_RootRace_Control_Messages_FlagsArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Flags_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Flags_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
+};
+
+export type Query_RootRace_Control_Messages_Flags_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Flags_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Flags_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
+};
+
+export type Query_RootRace_Control_Messages_Flags_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Query_RootRace_Control_Messages_ScopesArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Scopes_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
+};
+
+export type Query_RootRace_Control_Messages_Scopes_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Scopes_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
+};
+
+export type Query_RootRace_Control_Messages_Scopes_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
 export type Query_RootResultsArgs = {
   distinct_on?: InputMaybe<Array<Results_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -4489,6 +5344,26 @@ export type Query_RootResults_AggregateArgs = {
 
 export type Query_RootResults_By_PkArgs = {
   id: Scalars['String']['input'];
+};
+
+export type Query_RootSession_Name_ChoicesArgs = {
+  distinct_on?: InputMaybe<Array<Session_Name_Choices_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Session_Name_Choices_Order_By>>;
+  where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+};
+
+export type Query_RootSession_Name_Choices_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Session_Name_Choices_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Session_Name_Choices_Order_By>>;
+  where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+};
+
+export type Query_RootSession_Name_Choices_By_PkArgs = {
+  value: Scalars['String']['input'];
 };
 
 export type Query_RootSessionsArgs = {
@@ -4531,6 +5406,46 @@ export type Query_RootTelemetry_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
+export type Query_RootTelemetry_Car_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Car_Status_Order_By>>;
+  where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
+};
+
+export type Query_RootTelemetry_Car_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Car_Status_Order_By>>;
+  where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
+};
+
+export type Query_RootTelemetry_Car_Status_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Query_RootTelemetry_SourcesArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Sources_Order_By>>;
+  where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
+};
+
+export type Query_RootTelemetry_Sources_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Sources_Order_By>>;
+  where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
+};
+
+export type Query_RootTelemetry_Sources_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
 export type Query_RootTrack_StatusArgs = {
   distinct_on?: InputMaybe<Array<Track_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -4549,6 +5464,26 @@ export type Query_RootTrack_Status_AggregateArgs = {
 
 export type Query_RootTrack_Status_By_PkArgs = {
   id: Scalars['String']['input'];
+};
+
+export type Query_RootTyre_CompoundsArgs = {
+  distinct_on?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Tyre_Compounds_Order_By>>;
+  where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
+};
+
+export type Query_RootTyre_Compounds_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Tyre_Compounds_Order_By>>;
+  where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
+};
+
+export type Query_RootTyre_Compounds_By_PkArgs = {
+  value: Scalars['String']['input'];
 };
 
 export type Query_RootWeather_DataArgs = {
@@ -4574,12 +5509,18 @@ export type Query_RootWeather_Data_By_PkArgs = {
 /** columns and relationships of "race_control_messages" */
 export type Race_Control_Messages = {
   __typename?: 'race_control_messages';
-  category?: Maybe<Scalars['race_control_messages_categories']['output']>;
-  flag?: Maybe<Scalars['race_control_messages_flags']['output']>;
+  category?: Maybe<Race_Control_Messages_Categories_Enum>;
+  flag?: Maybe<Race_Control_Messages_Flags_Enum>;
   id: Scalars['String']['output'];
   message?: Maybe<Scalars['String']['output']>;
+  /** An object relationship */
+  race_control_messages_category?: Maybe<Race_Control_Messages_Categories>;
+  /** An object relationship */
+  race_control_messages_flag?: Maybe<Race_Control_Messages_Flags>;
+  /** An object relationship */
+  race_control_messages_scope?: Maybe<Race_Control_Messages_Scopes>;
   racing_number?: Maybe<Scalars['String']['output']>;
-  scope?: Maybe<Scalars['race_control_messages_scopes']['output']>;
+  scope?: Maybe<Race_Control_Messages_Scopes_Enum>;
   sector?: Maybe<Scalars['numeric']['output']>;
   /** An object relationship */
   session?: Maybe<Sessions>;
@@ -4666,12 +5607,15 @@ export type Race_Control_Messages_Bool_Exp = {
   _and?: InputMaybe<Array<Race_Control_Messages_Bool_Exp>>;
   _not?: InputMaybe<Race_Control_Messages_Bool_Exp>;
   _or?: InputMaybe<Array<Race_Control_Messages_Bool_Exp>>;
-  category?: InputMaybe<Race_Control_Messages_Categories_Comparison_Exp>;
-  flag?: InputMaybe<Race_Control_Messages_Flags_Comparison_Exp>;
+  category?: InputMaybe<Race_Control_Messages_Categories_Enum_Comparison_Exp>;
+  flag?: InputMaybe<Race_Control_Messages_Flags_Enum_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
   message?: InputMaybe<String_Comparison_Exp>;
+  race_control_messages_category?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
+  race_control_messages_flag?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
+  race_control_messages_scope?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
   racing_number?: InputMaybe<String_Comparison_Exp>;
-  scope?: InputMaybe<Race_Control_Messages_Scopes_Comparison_Exp>;
+  scope?: InputMaybe<Race_Control_Messages_Scopes_Enum_Comparison_Exp>;
   sector?: InputMaybe<Numeric_Comparison_Exp>;
   session?: InputMaybe<Sessions_Bool_Exp>;
   session_id?: InputMaybe<String_Comparison_Exp>;
@@ -4679,19 +5623,193 @@ export type Race_Control_Messages_Bool_Exp = {
   time?: InputMaybe<String_Comparison_Exp>;
 };
 
-/** Boolean expression to compare columns of type "race_control_messages_categories". All fields are combined with logical 'AND'. */
-export type Race_Control_Messages_Categories_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['race_control_messages_categories']['input']>;
-  _gt?: InputMaybe<Scalars['race_control_messages_categories']['input']>;
-  _gte?: InputMaybe<Scalars['race_control_messages_categories']['input']>;
-  _in?: InputMaybe<Array<Scalars['race_control_messages_categories']['input']>>;
+/** columns and relationships of "race_control_messages_categories" */
+export type Race_Control_Messages_Categories = {
+  __typename?: 'race_control_messages_categories';
+  comment?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  race_control_messages: Array<Race_Control_Messages>;
+  /** An aggregate relationship */
+  race_control_messages_aggregate: Race_Control_Messages_Aggregate;
+  value: Scalars['String']['output'];
+};
+
+/** columns and relationships of "race_control_messages_categories" */
+export type Race_Control_Messages_CategoriesRace_Control_MessagesArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+};
+
+/** columns and relationships of "race_control_messages_categories" */
+export type Race_Control_Messages_CategoriesRace_Control_Messages_AggregateArgs =
+  {
+    distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
+    limit?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
+    where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+  };
+
+/** aggregated selection of "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Aggregate = {
+  __typename?: 'race_control_messages_categories_aggregate';
+  aggregate?: Maybe<Race_Control_Messages_Categories_Aggregate_Fields>;
+  nodes: Array<Race_Control_Messages_Categories>;
+};
+
+/** aggregate fields of "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Aggregate_Fields = {
+  __typename?: 'race_control_messages_categories_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Race_Control_Messages_Categories_Max_Fields>;
+  min?: Maybe<Race_Control_Messages_Categories_Min_Fields>;
+};
+
+/** aggregate fields of "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Race_Control_Messages_Categories_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "race_control_messages_categories". All fields are combined with a logical 'AND'. */
+export type Race_Control_Messages_Categories_Bool_Exp = {
+  _and?: InputMaybe<Array<Race_Control_Messages_Categories_Bool_Exp>>;
+  _not?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
+  _or?: InputMaybe<Array<Race_Control_Messages_Categories_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+  race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Bool_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "race_control_messages_categories" */
+export enum Race_Control_Messages_Categories_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  RaceControlMessagesCategoriesPkey = 'race_control_messages_categories_pkey',
+}
+
+export enum Race_Control_Messages_Categories_Enum {
+  /** Car event category */
+  CarEvent = 'CarEvent',
+  /** DRS category */
+  Drs = 'Drs',
+  /** Flag category */
+  Flag = 'Flag',
+  /** Other category */
+  Other = 'Other',
+  /** Safety car category */
+  SafetyCar = 'SafetyCar',
+}
+
+/** Boolean expression to compare columns of type "race_control_messages_categories_enum". All fields are combined with logical 'AND'. */
+export type Race_Control_Messages_Categories_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Race_Control_Messages_Categories_Enum>;
+  _in?: InputMaybe<Array<Race_Control_Messages_Categories_Enum>>;
   _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['race_control_messages_categories']['input']>;
-  _lte?: InputMaybe<Scalars['race_control_messages_categories']['input']>;
-  _neq?: InputMaybe<Scalars['race_control_messages_categories']['input']>;
-  _nin?: InputMaybe<
-    Array<Scalars['race_control_messages_categories']['input']>
-  >;
+  _neq?: InputMaybe<Race_Control_Messages_Categories_Enum>;
+  _nin?: InputMaybe<Array<Race_Control_Messages_Categories_Enum>>;
+};
+
+/** input type for inserting data into table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Race_Control_Messages_Categories_Max_Fields = {
+  __typename?: 'race_control_messages_categories_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Race_Control_Messages_Categories_Min_Fields = {
+  __typename?: 'race_control_messages_categories_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Mutation_Response = {
+  __typename?: 'race_control_messages_categories_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Race_Control_Messages_Categories>;
+};
+
+/** input type for inserting object relation for remote table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Obj_Rel_Insert_Input = {
+  data: Race_Control_Messages_Categories_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Race_Control_Messages_Categories_On_Conflict>;
+};
+
+/** on_conflict condition type for table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_On_Conflict = {
+  constraint: Race_Control_Messages_Categories_Constraint;
+  update_columns?: Array<Race_Control_Messages_Categories_Update_Column>;
+  where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "race_control_messages_categories". */
+export type Race_Control_Messages_Categories_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: race_control_messages_categories */
+export type Race_Control_Messages_Categories_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "race_control_messages_categories" */
+export enum Race_Control_Messages_Categories_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+/** input type for updating data in table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Race_Control_Messages_Categories_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Race_Control_Messages_Categories_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "race_control_messages_categories" */
+export enum Race_Control_Messages_Categories_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Race_Control_Messages_Categories_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Race_Control_Messages_Categories_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Race_Control_Messages_Categories_Bool_Exp;
 };
 
 /** unique or primary key constraints on table "race_control_messages" */
@@ -4700,17 +5818,200 @@ export enum Race_Control_Messages_Constraint {
   RaceControlMessagesPkey = 'race_control_messages_pkey',
 }
 
-/** Boolean expression to compare columns of type "race_control_messages_flags". All fields are combined with logical 'AND'. */
-export type Race_Control_Messages_Flags_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['race_control_messages_flags']['input']>;
-  _gt?: InputMaybe<Scalars['race_control_messages_flags']['input']>;
-  _gte?: InputMaybe<Scalars['race_control_messages_flags']['input']>;
-  _in?: InputMaybe<Array<Scalars['race_control_messages_flags']['input']>>;
+/** columns and relationships of "race_control_messages_flags" */
+export type Race_Control_Messages_Flags = {
+  __typename?: 'race_control_messages_flags';
+  comment?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  race_control_messages: Array<Race_Control_Messages>;
+  /** An aggregate relationship */
+  race_control_messages_aggregate: Race_Control_Messages_Aggregate;
+  value: Scalars['String']['output'];
+};
+
+/** columns and relationships of "race_control_messages_flags" */
+export type Race_Control_Messages_FlagsRace_Control_MessagesArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+};
+
+/** columns and relationships of "race_control_messages_flags" */
+export type Race_Control_Messages_FlagsRace_Control_Messages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+};
+
+/** aggregated selection of "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Aggregate = {
+  __typename?: 'race_control_messages_flags_aggregate';
+  aggregate?: Maybe<Race_Control_Messages_Flags_Aggregate_Fields>;
+  nodes: Array<Race_Control_Messages_Flags>;
+};
+
+/** aggregate fields of "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Aggregate_Fields = {
+  __typename?: 'race_control_messages_flags_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Race_Control_Messages_Flags_Max_Fields>;
+  min?: Maybe<Race_Control_Messages_Flags_Min_Fields>;
+};
+
+/** aggregate fields of "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Race_Control_Messages_Flags_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "race_control_messages_flags". All fields are combined with a logical 'AND'. */
+export type Race_Control_Messages_Flags_Bool_Exp = {
+  _and?: InputMaybe<Array<Race_Control_Messages_Flags_Bool_Exp>>;
+  _not?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
+  _or?: InputMaybe<Array<Race_Control_Messages_Flags_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+  race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Bool_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "race_control_messages_flags" */
+export enum Race_Control_Messages_Flags_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  RaceControlMessagesFlagsPkey = 'race_control_messages_flags_pkey',
+}
+
+export enum Race_Control_Messages_Flags_Enum {
+  /** Black flag */
+  Black = 'BLACK',
+  /** Black and white flag */
+  BlackAndWhite = 'BLACK_AND_WHITE',
+  /** Blue flag */
+  Blue = 'BLUE',
+  /** Chequered flag */
+  Chequered = 'CHEQUERED',
+  /** Clear flag */
+  Clear = 'CLEAR',
+  /** Double yellow flag */
+  DoubleYellow = 'DOUBLE_YELLOW',
+  /** Green flag */
+  Green = 'GREEN',
+  /** Red flag */
+  Red = 'RED',
+  /** Yellow flag */
+  Yellow = 'YELLOW',
+}
+
+/** Boolean expression to compare columns of type "race_control_messages_flags_enum". All fields are combined with logical 'AND'. */
+export type Race_Control_Messages_Flags_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Race_Control_Messages_Flags_Enum>;
+  _in?: InputMaybe<Array<Race_Control_Messages_Flags_Enum>>;
   _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['race_control_messages_flags']['input']>;
-  _lte?: InputMaybe<Scalars['race_control_messages_flags']['input']>;
-  _neq?: InputMaybe<Scalars['race_control_messages_flags']['input']>;
-  _nin?: InputMaybe<Array<Scalars['race_control_messages_flags']['input']>>;
+  _neq?: InputMaybe<Race_Control_Messages_Flags_Enum>;
+  _nin?: InputMaybe<Array<Race_Control_Messages_Flags_Enum>>;
+};
+
+/** input type for inserting data into table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Race_Control_Messages_Flags_Max_Fields = {
+  __typename?: 'race_control_messages_flags_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Race_Control_Messages_Flags_Min_Fields = {
+  __typename?: 'race_control_messages_flags_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Mutation_Response = {
+  __typename?: 'race_control_messages_flags_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Race_Control_Messages_Flags>;
+};
+
+/** input type for inserting object relation for remote table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Obj_Rel_Insert_Input = {
+  data: Race_Control_Messages_Flags_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Race_Control_Messages_Flags_On_Conflict>;
+};
+
+/** on_conflict condition type for table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_On_Conflict = {
+  constraint: Race_Control_Messages_Flags_Constraint;
+  update_columns?: Array<Race_Control_Messages_Flags_Update_Column>;
+  where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "race_control_messages_flags". */
+export type Race_Control_Messages_Flags_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: race_control_messages_flags */
+export type Race_Control_Messages_Flags_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "race_control_messages_flags" */
+export enum Race_Control_Messages_Flags_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+/** input type for updating data in table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Race_Control_Messages_Flags_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Race_Control_Messages_Flags_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "race_control_messages_flags" */
+export enum Race_Control_Messages_Flags_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Race_Control_Messages_Flags_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Race_Control_Messages_Flags_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Race_Control_Messages_Flags_Bool_Exp;
 };
 
 /** input type for incrementing numeric columns in table "race_control_messages" */
@@ -4720,12 +6021,15 @@ export type Race_Control_Messages_Inc_Input = {
 
 /** input type for inserting data into table "race_control_messages" */
 export type Race_Control_Messages_Insert_Input = {
-  category?: InputMaybe<Scalars['race_control_messages_categories']['input']>;
-  flag?: InputMaybe<Scalars['race_control_messages_flags']['input']>;
+  category?: InputMaybe<Race_Control_Messages_Categories_Enum>;
+  flag?: InputMaybe<Race_Control_Messages_Flags_Enum>;
   id?: InputMaybe<Scalars['String']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
+  race_control_messages_category?: InputMaybe<Race_Control_Messages_Categories_Obj_Rel_Insert_Input>;
+  race_control_messages_flag?: InputMaybe<Race_Control_Messages_Flags_Obj_Rel_Insert_Input>;
+  race_control_messages_scope?: InputMaybe<Race_Control_Messages_Scopes_Obj_Rel_Insert_Input>;
   racing_number?: InputMaybe<Scalars['String']['input']>;
-  scope?: InputMaybe<Scalars['race_control_messages_scopes']['input']>;
+  scope?: InputMaybe<Race_Control_Messages_Scopes_Enum>;
   sector?: InputMaybe<Scalars['numeric']['input']>;
   session?: InputMaybe<Sessions_Obj_Rel_Insert_Input>;
   session_id?: InputMaybe<Scalars['String']['input']>;
@@ -4736,12 +6040,9 @@ export type Race_Control_Messages_Insert_Input = {
 /** aggregate max on columns */
 export type Race_Control_Messages_Max_Fields = {
   __typename?: 'race_control_messages_max_fields';
-  category?: Maybe<Scalars['race_control_messages_categories']['output']>;
-  flag?: Maybe<Scalars['race_control_messages_flags']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
   racing_number?: Maybe<Scalars['String']['output']>;
-  scope?: Maybe<Scalars['race_control_messages_scopes']['output']>;
   sector?: Maybe<Scalars['numeric']['output']>;
   session_id?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
@@ -4750,12 +6051,9 @@ export type Race_Control_Messages_Max_Fields = {
 
 /** order by max() on columns of table "race_control_messages" */
 export type Race_Control_Messages_Max_Order_By = {
-  category?: InputMaybe<Order_By>;
-  flag?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
   racing_number?: InputMaybe<Order_By>;
-  scope?: InputMaybe<Order_By>;
   sector?: InputMaybe<Order_By>;
   session_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
@@ -4765,12 +6063,9 @@ export type Race_Control_Messages_Max_Order_By = {
 /** aggregate min on columns */
 export type Race_Control_Messages_Min_Fields = {
   __typename?: 'race_control_messages_min_fields';
-  category?: Maybe<Scalars['race_control_messages_categories']['output']>;
-  flag?: Maybe<Scalars['race_control_messages_flags']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
   racing_number?: Maybe<Scalars['String']['output']>;
-  scope?: Maybe<Scalars['race_control_messages_scopes']['output']>;
   sector?: Maybe<Scalars['numeric']['output']>;
   session_id?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
@@ -4779,12 +6074,9 @@ export type Race_Control_Messages_Min_Fields = {
 
 /** order by min() on columns of table "race_control_messages" */
 export type Race_Control_Messages_Min_Order_By = {
-  category?: InputMaybe<Order_By>;
-  flag?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
   racing_number?: InputMaybe<Order_By>;
-  scope?: InputMaybe<Order_By>;
   sector?: InputMaybe<Order_By>;
   session_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
@@ -4813,6 +6105,9 @@ export type Race_Control_Messages_Order_By = {
   flag?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
+  race_control_messages_category?: InputMaybe<Race_Control_Messages_Categories_Order_By>;
+  race_control_messages_flag?: InputMaybe<Race_Control_Messages_Flags_Order_By>;
+  race_control_messages_scope?: InputMaybe<Race_Control_Messages_Scopes_Order_By>;
   racing_number?: InputMaybe<Order_By>;
   scope?: InputMaybe<Order_By>;
   sector?: InputMaybe<Order_By>;
@@ -4827,17 +6122,188 @@ export type Race_Control_Messages_Pk_Columns_Input = {
   id: Scalars['String']['input'];
 };
 
-/** Boolean expression to compare columns of type "race_control_messages_scopes". All fields are combined with logical 'AND'. */
-export type Race_Control_Messages_Scopes_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['race_control_messages_scopes']['input']>;
-  _gt?: InputMaybe<Scalars['race_control_messages_scopes']['input']>;
-  _gte?: InputMaybe<Scalars['race_control_messages_scopes']['input']>;
-  _in?: InputMaybe<Array<Scalars['race_control_messages_scopes']['input']>>;
+/** columns and relationships of "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes = {
+  __typename?: 'race_control_messages_scopes';
+  comment?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  race_control_messages: Array<Race_Control_Messages>;
+  /** An aggregate relationship */
+  race_control_messages_aggregate: Race_Control_Messages_Aggregate;
+  value: Scalars['String']['output'];
+};
+
+/** columns and relationships of "race_control_messages_scopes" */
+export type Race_Control_Messages_ScopesRace_Control_MessagesArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+};
+
+/** columns and relationships of "race_control_messages_scopes" */
+export type Race_Control_Messages_ScopesRace_Control_Messages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+};
+
+/** aggregated selection of "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Aggregate = {
+  __typename?: 'race_control_messages_scopes_aggregate';
+  aggregate?: Maybe<Race_Control_Messages_Scopes_Aggregate_Fields>;
+  nodes: Array<Race_Control_Messages_Scopes>;
+};
+
+/** aggregate fields of "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Aggregate_Fields = {
+  __typename?: 'race_control_messages_scopes_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Race_Control_Messages_Scopes_Max_Fields>;
+  min?: Maybe<Race_Control_Messages_Scopes_Min_Fields>;
+};
+
+/** aggregate fields of "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "race_control_messages_scopes". All fields are combined with a logical 'AND'. */
+export type Race_Control_Messages_Scopes_Bool_Exp = {
+  _and?: InputMaybe<Array<Race_Control_Messages_Scopes_Bool_Exp>>;
+  _not?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
+  _or?: InputMaybe<Array<Race_Control_Messages_Scopes_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+  race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Bool_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "race_control_messages_scopes" */
+export enum Race_Control_Messages_Scopes_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  RaceControlMessagesScopesPkey = 'race_control_messages_scopes_pkey',
+}
+
+export enum Race_Control_Messages_Scopes_Enum {
+  /** Driver scope */
+  Driver = 'Driver',
+  /** Sector scope */
+  Sector = 'Sector',
+  /** Track scope */
+  Track = 'Track',
+}
+
+/** Boolean expression to compare columns of type "race_control_messages_scopes_enum". All fields are combined with logical 'AND'. */
+export type Race_Control_Messages_Scopes_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Race_Control_Messages_Scopes_Enum>;
+  _in?: InputMaybe<Array<Race_Control_Messages_Scopes_Enum>>;
   _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['race_control_messages_scopes']['input']>;
-  _lte?: InputMaybe<Scalars['race_control_messages_scopes']['input']>;
-  _neq?: InputMaybe<Scalars['race_control_messages_scopes']['input']>;
-  _nin?: InputMaybe<Array<Scalars['race_control_messages_scopes']['input']>>;
+  _neq?: InputMaybe<Race_Control_Messages_Scopes_Enum>;
+  _nin?: InputMaybe<Array<Race_Control_Messages_Scopes_Enum>>;
+};
+
+/** input type for inserting data into table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Race_Control_Messages_Scopes_Max_Fields = {
+  __typename?: 'race_control_messages_scopes_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Race_Control_Messages_Scopes_Min_Fields = {
+  __typename?: 'race_control_messages_scopes_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Mutation_Response = {
+  __typename?: 'race_control_messages_scopes_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Race_Control_Messages_Scopes>;
+};
+
+/** input type for inserting object relation for remote table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Obj_Rel_Insert_Input = {
+  data: Race_Control_Messages_Scopes_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Race_Control_Messages_Scopes_On_Conflict>;
+};
+
+/** on_conflict condition type for table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_On_Conflict = {
+  constraint: Race_Control_Messages_Scopes_Constraint;
+  update_columns?: Array<Race_Control_Messages_Scopes_Update_Column>;
+  where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "race_control_messages_scopes". */
+export type Race_Control_Messages_Scopes_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: race_control_messages_scopes */
+export type Race_Control_Messages_Scopes_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "race_control_messages_scopes" */
+export enum Race_Control_Messages_Scopes_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+/** input type for updating data in table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Race_Control_Messages_Scopes_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Race_Control_Messages_Scopes_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "race_control_messages_scopes" */
+export enum Race_Control_Messages_Scopes_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Race_Control_Messages_Scopes_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Race_Control_Messages_Scopes_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Race_Control_Messages_Scopes_Bool_Exp;
 };
 
 /** select columns of table "race_control_messages" */
@@ -4866,12 +6332,12 @@ export enum Race_Control_Messages_Select_Column {
 
 /** input type for updating data in table "race_control_messages" */
 export type Race_Control_Messages_Set_Input = {
-  category?: InputMaybe<Scalars['race_control_messages_categories']['input']>;
-  flag?: InputMaybe<Scalars['race_control_messages_flags']['input']>;
+  category?: InputMaybe<Race_Control_Messages_Categories_Enum>;
+  flag?: InputMaybe<Race_Control_Messages_Flags_Enum>;
   id?: InputMaybe<Scalars['String']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
   racing_number?: InputMaybe<Scalars['String']['input']>;
-  scope?: InputMaybe<Scalars['race_control_messages_scopes']['input']>;
+  scope?: InputMaybe<Race_Control_Messages_Scopes_Enum>;
   sector?: InputMaybe<Scalars['numeric']['input']>;
   session_id?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -4921,12 +6387,12 @@ export type Race_Control_Messages_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Race_Control_Messages_Stream_Cursor_Value_Input = {
-  category?: InputMaybe<Scalars['race_control_messages_categories']['input']>;
-  flag?: InputMaybe<Scalars['race_control_messages_flags']['input']>;
+  category?: InputMaybe<Race_Control_Messages_Categories_Enum>;
+  flag?: InputMaybe<Race_Control_Messages_Flags_Enum>;
   id?: InputMaybe<Scalars['String']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
   racing_number?: InputMaybe<Scalars['String']['input']>;
-  scope?: InputMaybe<Scalars['race_control_messages_scopes']['input']>;
+  scope?: InputMaybe<Race_Control_Messages_Scopes_Enum>;
   sector?: InputMaybe<Scalars['numeric']['input']>;
   session_id?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -5557,17 +7023,200 @@ export type Results_Variance_Order_By = {
   total_race_time?: InputMaybe<Order_By>;
 };
 
-/** Boolean expression to compare columns of type "session_name_choices". All fields are combined with logical 'AND'. */
-export type Session_Name_Choices_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['session_name_choices']['input']>;
-  _gt?: InputMaybe<Scalars['session_name_choices']['input']>;
-  _gte?: InputMaybe<Scalars['session_name_choices']['input']>;
-  _in?: InputMaybe<Array<Scalars['session_name_choices']['input']>>;
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_Choices = {
+  __typename?: 'session_name_choices';
+  comment?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  sessions: Array<Sessions>;
+  /** An aggregate relationship */
+  sessions_aggregate: Sessions_Aggregate;
+  value: Scalars['String']['output'];
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSessionsArgs = {
+  distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Sessions_Order_By>>;
+  where?: InputMaybe<Sessions_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSessions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Sessions_Order_By>>;
+  where?: InputMaybe<Sessions_Bool_Exp>;
+};
+
+/** aggregated selection of "session_name_choices" */
+export type Session_Name_Choices_Aggregate = {
+  __typename?: 'session_name_choices_aggregate';
+  aggregate?: Maybe<Session_Name_Choices_Aggregate_Fields>;
+  nodes: Array<Session_Name_Choices>;
+};
+
+/** aggregate fields of "session_name_choices" */
+export type Session_Name_Choices_Aggregate_Fields = {
+  __typename?: 'session_name_choices_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Session_Name_Choices_Max_Fields>;
+  min?: Maybe<Session_Name_Choices_Min_Fields>;
+};
+
+/** aggregate fields of "session_name_choices" */
+export type Session_Name_Choices_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Session_Name_Choices_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "session_name_choices". All fields are combined with a logical 'AND'. */
+export type Session_Name_Choices_Bool_Exp = {
+  _and?: InputMaybe<Array<Session_Name_Choices_Bool_Exp>>;
+  _not?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+  _or?: InputMaybe<Array<Session_Name_Choices_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  sessions?: InputMaybe<Sessions_Bool_Exp>;
+  sessions_aggregate?: InputMaybe<Sessions_Aggregate_Bool_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "session_name_choices" */
+export enum Session_Name_Choices_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  SessionNameChoicesPkey = 'session_name_choices_pkey',
+}
+
+export enum Session_Name_Choices_Enum {
+  /** Practice 1 session */
+  Practice_1 = 'Practice_1',
+  /** Practice 2 session */
+  Practice_2 = 'Practice_2',
+  /** Practice 3 session */
+  Practice_3 = 'Practice_3',
+  /** Qualifying session */
+  Qualifying = 'Qualifying',
+  /** Race session */
+  Race = 'Race',
+  /** Sprint session */
+  Sprint = 'Sprint',
+  /** Sprint Qualifying session */
+  SprintQualifying = 'Sprint_Qualifying',
+  /** Sprint Shootout session */
+  SprintShootout = 'Sprint_Shootout',
+  /** Test session */
+  TestSession = 'Test_Session',
+}
+
+/** Boolean expression to compare columns of type "session_name_choices_enum". All fields are combined with logical 'AND'. */
+export type Session_Name_Choices_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Session_Name_Choices_Enum>;
+  _in?: InputMaybe<Array<Session_Name_Choices_Enum>>;
   _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['session_name_choices']['input']>;
-  _lte?: InputMaybe<Scalars['session_name_choices']['input']>;
-  _neq?: InputMaybe<Scalars['session_name_choices']['input']>;
-  _nin?: InputMaybe<Array<Scalars['session_name_choices']['input']>>;
+  _neq?: InputMaybe<Session_Name_Choices_Enum>;
+  _nin?: InputMaybe<Array<Session_Name_Choices_Enum>>;
+};
+
+/** input type for inserting data into table "session_name_choices" */
+export type Session_Name_Choices_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  sessions?: InputMaybe<Sessions_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Session_Name_Choices_Max_Fields = {
+  __typename?: 'session_name_choices_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Session_Name_Choices_Min_Fields = {
+  __typename?: 'session_name_choices_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "session_name_choices" */
+export type Session_Name_Choices_Mutation_Response = {
+  __typename?: 'session_name_choices_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Session_Name_Choices>;
+};
+
+/** input type for inserting object relation for remote table "session_name_choices" */
+export type Session_Name_Choices_Obj_Rel_Insert_Input = {
+  data: Session_Name_Choices_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Session_Name_Choices_On_Conflict>;
+};
+
+/** on_conflict condition type for table "session_name_choices" */
+export type Session_Name_Choices_On_Conflict = {
+  constraint: Session_Name_Choices_Constraint;
+  update_columns?: Array<Session_Name_Choices_Update_Column>;
+  where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "session_name_choices". */
+export type Session_Name_Choices_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  sessions_aggregate?: InputMaybe<Sessions_Aggregate_Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: session_name_choices */
+export type Session_Name_Choices_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "session_name_choices" */
+export enum Session_Name_Choices_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+/** input type for updating data in table "session_name_choices" */
+export type Session_Name_Choices_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "session_name_choices" */
+export type Session_Name_Choices_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Session_Name_Choices_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Session_Name_Choices_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "session_name_choices" */
+export enum Session_Name_Choices_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Session_Name_Choices_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Session_Name_Choices_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Session_Name_Choices_Bool_Exp;
 };
 
 /** columns and relationships of "sessions" */
@@ -5585,7 +7234,7 @@ export type Sessions = {
   event?: Maybe<Events>;
   event_id?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
-  name?: Maybe<Scalars['session_name_choices']['output']>;
+  name?: Maybe<Session_Name_Choices_Enum>;
   /** An array relationship */
   race_control_messages: Array<Race_Control_Messages>;
   /** An aggregate relationship */
@@ -5593,6 +7242,8 @@ export type Sessions = {
   scheduled_laps?: Maybe<Scalars['Int']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
+  /** An object relationship */
+  session_name_choice?: Maybe<Session_Name_Choices>;
   start_time?: Maybe<Scalars['String']['output']>;
   total_laps?: Maybe<Scalars['Int']['output']>;
   /** An array relationship */
@@ -5765,12 +7416,13 @@ export type Sessions_Bool_Exp = {
   event?: InputMaybe<Events_Bool_Exp>;
   event_id?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
-  name?: InputMaybe<Session_Name_Choices_Comparison_Exp>;
+  name?: InputMaybe<Session_Name_Choices_Enum_Comparison_Exp>;
   race_control_messages?: InputMaybe<Race_Control_Messages_Bool_Exp>;
   race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Bool_Exp>;
   scheduled_laps?: InputMaybe<Int_Comparison_Exp>;
   scheduled_start_time?: InputMaybe<String_Comparison_Exp>;
   scheduled_start_time_utc?: InputMaybe<String_Comparison_Exp>;
+  session_name_choice?: InputMaybe<Session_Name_Choices_Bool_Exp>;
   start_time?: InputMaybe<String_Comparison_Exp>;
   total_laps?: InputMaybe<Int_Comparison_Exp>;
   track_statuses?: InputMaybe<Track_Status_Bool_Exp>;
@@ -5800,11 +7452,12 @@ export type Sessions_Insert_Input = {
   event?: InputMaybe<Events_Obj_Rel_Insert_Input>;
   event_id?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['session_name_choices']['input']>;
+  name?: InputMaybe<Session_Name_Choices_Enum>;
   race_control_messages?: InputMaybe<Race_Control_Messages_Arr_Rel_Insert_Input>;
   scheduled_laps?: InputMaybe<Scalars['Int']['input']>;
   scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
   scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
+  session_name_choice?: InputMaybe<Session_Name_Choices_Obj_Rel_Insert_Input>;
   start_time?: InputMaybe<Scalars['String']['input']>;
   total_laps?: InputMaybe<Scalars['Int']['input']>;
   track_statuses?: InputMaybe<Track_Status_Arr_Rel_Insert_Input>;
@@ -5818,7 +7471,6 @@ export type Sessions_Max_Fields = {
   date?: Maybe<Scalars['String']['output']>;
   event_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['session_name_choices']['output']>;
   scheduled_laps?: Maybe<Scalars['Int']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
@@ -5832,7 +7484,6 @@ export type Sessions_Max_Order_By = {
   date?: InputMaybe<Order_By>;
   event_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
   scheduled_laps?: InputMaybe<Order_By>;
   scheduled_start_time?: InputMaybe<Order_By>;
   scheduled_start_time_utc?: InputMaybe<Order_By>;
@@ -5847,7 +7498,6 @@ export type Sessions_Min_Fields = {
   date?: Maybe<Scalars['String']['output']>;
   event_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['session_name_choices']['output']>;
   scheduled_laps?: Maybe<Scalars['Int']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
@@ -5861,7 +7511,6 @@ export type Sessions_Min_Order_By = {
   date?: InputMaybe<Order_By>;
   event_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
   scheduled_laps?: InputMaybe<Order_By>;
   scheduled_start_time?: InputMaybe<Order_By>;
   scheduled_start_time_utc?: InputMaybe<Order_By>;
@@ -5906,6 +7555,7 @@ export type Sessions_Order_By = {
   scheduled_laps?: InputMaybe<Order_By>;
   scheduled_start_time?: InputMaybe<Order_By>;
   scheduled_start_time_utc?: InputMaybe<Order_By>;
+  session_name_choice?: InputMaybe<Session_Name_Choices_Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
   track_statuses_aggregate?: InputMaybe<Track_Status_Aggregate_Order_By>;
@@ -5947,7 +7597,7 @@ export type Sessions_Set_Input = {
   date?: InputMaybe<Scalars['String']['input']>;
   event_id?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['session_name_choices']['input']>;
+  name?: InputMaybe<Session_Name_Choices_Enum>;
   scheduled_laps?: InputMaybe<Scalars['Int']['input']>;
   scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
   scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
@@ -6008,7 +7658,7 @@ export type Sessions_Stream_Cursor_Value_Input = {
   date?: InputMaybe<Scalars['String']['input']>;
   event_id?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['session_name_choices']['input']>;
+  name?: InputMaybe<Session_Name_Choices_Enum>;
   scheduled_laps?: InputMaybe<Scalars['Int']['input']>;
   scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
   scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
@@ -6151,9 +7801,17 @@ export type Subscription_Root = {
   drivers_by_pk?: Maybe<Drivers>;
   /** fetch data from the table in a streaming manner: "drivers" */
   drivers_stream: Array<Drivers>;
-  /** fetch data from the table: "events" */
+  /** fetch data from the table: "event_format_choices" */
+  event_format_choices: Array<Event_Format_Choices>;
+  /** fetch aggregated fields from the table: "event_format_choices" */
+  event_format_choices_aggregate: Event_Format_Choices_Aggregate;
+  /** fetch data from the table: "event_format_choices" using primary key columns */
+  event_format_choices_by_pk?: Maybe<Event_Format_Choices>;
+  /** fetch data from the table in a streaming manner: "event_format_choices" */
+  event_format_choices_stream: Array<Event_Format_Choices>;
+  /** An array relationship */
   events: Array<Events>;
-  /** fetch aggregated fields from the table: "events" */
+  /** An aggregate relationship */
   events_aggregate: Events_Aggregate;
   /** fetch data from the table: "events" using primary key columns */
   events_by_pk?: Maybe<Events>;
@@ -6173,6 +7831,30 @@ export type Subscription_Root = {
   race_control_messages_aggregate: Race_Control_Messages_Aggregate;
   /** fetch data from the table: "race_control_messages" using primary key columns */
   race_control_messages_by_pk?: Maybe<Race_Control_Messages>;
+  /** fetch data from the table: "race_control_messages_categories" */
+  race_control_messages_categories: Array<Race_Control_Messages_Categories>;
+  /** fetch aggregated fields from the table: "race_control_messages_categories" */
+  race_control_messages_categories_aggregate: Race_Control_Messages_Categories_Aggregate;
+  /** fetch data from the table: "race_control_messages_categories" using primary key columns */
+  race_control_messages_categories_by_pk?: Maybe<Race_Control_Messages_Categories>;
+  /** fetch data from the table in a streaming manner: "race_control_messages_categories" */
+  race_control_messages_categories_stream: Array<Race_Control_Messages_Categories>;
+  /** fetch data from the table: "race_control_messages_flags" */
+  race_control_messages_flags: Array<Race_Control_Messages_Flags>;
+  /** fetch aggregated fields from the table: "race_control_messages_flags" */
+  race_control_messages_flags_aggregate: Race_Control_Messages_Flags_Aggregate;
+  /** fetch data from the table: "race_control_messages_flags" using primary key columns */
+  race_control_messages_flags_by_pk?: Maybe<Race_Control_Messages_Flags>;
+  /** fetch data from the table in a streaming manner: "race_control_messages_flags" */
+  race_control_messages_flags_stream: Array<Race_Control_Messages_Flags>;
+  /** fetch data from the table: "race_control_messages_scopes" */
+  race_control_messages_scopes: Array<Race_Control_Messages_Scopes>;
+  /** fetch aggregated fields from the table: "race_control_messages_scopes" */
+  race_control_messages_scopes_aggregate: Race_Control_Messages_Scopes_Aggregate;
+  /** fetch data from the table: "race_control_messages_scopes" using primary key columns */
+  race_control_messages_scopes_by_pk?: Maybe<Race_Control_Messages_Scopes>;
+  /** fetch data from the table in a streaming manner: "race_control_messages_scopes" */
+  race_control_messages_scopes_stream: Array<Race_Control_Messages_Scopes>;
   /** fetch data from the table in a streaming manner: "race_control_messages" */
   race_control_messages_stream: Array<Race_Control_Messages>;
   /** An array relationship */
@@ -6183,6 +7865,14 @@ export type Subscription_Root = {
   results_by_pk?: Maybe<Results>;
   /** fetch data from the table in a streaming manner: "results" */
   results_stream: Array<Results>;
+  /** fetch data from the table: "session_name_choices" */
+  session_name_choices: Array<Session_Name_Choices>;
+  /** fetch aggregated fields from the table: "session_name_choices" */
+  session_name_choices_aggregate: Session_Name_Choices_Aggregate;
+  /** fetch data from the table: "session_name_choices" using primary key columns */
+  session_name_choices_by_pk?: Maybe<Session_Name_Choices>;
+  /** fetch data from the table in a streaming manner: "session_name_choices" */
+  session_name_choices_stream: Array<Session_Name_Choices>;
   /** An array relationship */
   sessions: Array<Sessions>;
   /** An aggregate relationship */
@@ -6197,6 +7887,22 @@ export type Subscription_Root = {
   telemetry_aggregate: Telemetry_Aggregate;
   /** fetch data from the table: "telemetry" using primary key columns */
   telemetry_by_pk?: Maybe<Telemetry>;
+  /** fetch data from the table: "telemetry_car_status" */
+  telemetry_car_status: Array<Telemetry_Car_Status>;
+  /** fetch aggregated fields from the table: "telemetry_car_status" */
+  telemetry_car_status_aggregate: Telemetry_Car_Status_Aggregate;
+  /** fetch data from the table: "telemetry_car_status" using primary key columns */
+  telemetry_car_status_by_pk?: Maybe<Telemetry_Car_Status>;
+  /** fetch data from the table in a streaming manner: "telemetry_car_status" */
+  telemetry_car_status_stream: Array<Telemetry_Car_Status>;
+  /** fetch data from the table: "telemetry_sources" */
+  telemetry_sources: Array<Telemetry_Sources>;
+  /** fetch aggregated fields from the table: "telemetry_sources" */
+  telemetry_sources_aggregate: Telemetry_Sources_Aggregate;
+  /** fetch data from the table: "telemetry_sources" using primary key columns */
+  telemetry_sources_by_pk?: Maybe<Telemetry_Sources>;
+  /** fetch data from the table in a streaming manner: "telemetry_sources" */
+  telemetry_sources_stream: Array<Telemetry_Sources>;
   /** fetch data from the table in a streaming manner: "telemetry" */
   telemetry_stream: Array<Telemetry>;
   /** fetch data from the table: "track_status" */
@@ -6207,6 +7913,14 @@ export type Subscription_Root = {
   track_status_by_pk?: Maybe<Track_Status>;
   /** fetch data from the table in a streaming manner: "track_status" */
   track_status_stream: Array<Track_Status>;
+  /** fetch data from the table: "tyre_compounds" */
+  tyre_compounds: Array<Tyre_Compounds>;
+  /** fetch aggregated fields from the table: "tyre_compounds" */
+  tyre_compounds_aggregate: Tyre_Compounds_Aggregate;
+  /** fetch data from the table: "tyre_compounds" using primary key columns */
+  tyre_compounds_by_pk?: Maybe<Tyre_Compounds>;
+  /** fetch data from the table in a streaming manner: "tyre_compounds" */
+  tyre_compounds_stream: Array<Tyre_Compounds>;
   /** An array relationship */
   weather_data: Array<Weather_Data>;
   /** An aggregate relationship */
@@ -6373,6 +8087,32 @@ export type Subscription_RootDrivers_StreamArgs = {
   where?: InputMaybe<Drivers_Bool_Exp>;
 };
 
+export type Subscription_RootEvent_Format_ChoicesArgs = {
+  distinct_on?: InputMaybe<Array<Event_Format_Choices_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Event_Format_Choices_Order_By>>;
+  where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
+};
+
+export type Subscription_RootEvent_Format_Choices_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Event_Format_Choices_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Event_Format_Choices_Order_By>>;
+  where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
+};
+
+export type Subscription_RootEvent_Format_Choices_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Subscription_RootEvent_Format_Choices_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Event_Format_Choices_Stream_Cursor_Input>>;
+  where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
+};
+
 export type Subscription_RootEventsArgs = {
   distinct_on?: InputMaybe<Array<Events_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6445,6 +8185,90 @@ export type Subscription_RootRace_Control_Messages_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
+export type Subscription_RootRace_Control_Messages_CategoriesArgs = {
+  distinct_on?: InputMaybe<
+    Array<Race_Control_Messages_Categories_Select_Column>
+  >;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Categories_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
+};
+
+export type Subscription_RootRace_Control_Messages_Categories_AggregateArgs = {
+  distinct_on?: InputMaybe<
+    Array<Race_Control_Messages_Categories_Select_Column>
+  >;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Categories_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
+};
+
+export type Subscription_RootRace_Control_Messages_Categories_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Subscription_RootRace_Control_Messages_Categories_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<
+    InputMaybe<Race_Control_Messages_Categories_Stream_Cursor_Input>
+  >;
+  where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
+};
+
+export type Subscription_RootRace_Control_Messages_FlagsArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Flags_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Flags_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
+};
+
+export type Subscription_RootRace_Control_Messages_Flags_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Flags_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Flags_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
+};
+
+export type Subscription_RootRace_Control_Messages_Flags_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Subscription_RootRace_Control_Messages_Flags_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Race_Control_Messages_Flags_Stream_Cursor_Input>>;
+  where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
+};
+
+export type Subscription_RootRace_Control_Messages_ScopesArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Scopes_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
+};
+
+export type Subscription_RootRace_Control_Messages_Scopes_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Scopes_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
+};
+
+export type Subscription_RootRace_Control_Messages_Scopes_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Subscription_RootRace_Control_Messages_Scopes_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Race_Control_Messages_Scopes_Stream_Cursor_Input>>;
+  where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
+};
+
 export type Subscription_RootRace_Control_Messages_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Race_Control_Messages_Stream_Cursor_Input>>;
@@ -6475,6 +8299,32 @@ export type Subscription_RootResults_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Results_Stream_Cursor_Input>>;
   where?: InputMaybe<Results_Bool_Exp>;
+};
+
+export type Subscription_RootSession_Name_ChoicesArgs = {
+  distinct_on?: InputMaybe<Array<Session_Name_Choices_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Session_Name_Choices_Order_By>>;
+  where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+};
+
+export type Subscription_RootSession_Name_Choices_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Session_Name_Choices_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Session_Name_Choices_Order_By>>;
+  where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+};
+
+export type Subscription_RootSession_Name_Choices_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Subscription_RootSession_Name_Choices_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Session_Name_Choices_Stream_Cursor_Input>>;
+  where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
 };
 
 export type Subscription_RootSessionsArgs = {
@@ -6523,6 +8373,58 @@ export type Subscription_RootTelemetry_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
+export type Subscription_RootTelemetry_Car_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Car_Status_Order_By>>;
+  where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
+};
+
+export type Subscription_RootTelemetry_Car_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Car_Status_Order_By>>;
+  where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
+};
+
+export type Subscription_RootTelemetry_Car_Status_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Subscription_RootTelemetry_Car_Status_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Telemetry_Car_Status_Stream_Cursor_Input>>;
+  where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
+};
+
+export type Subscription_RootTelemetry_SourcesArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Sources_Order_By>>;
+  where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
+};
+
+export type Subscription_RootTelemetry_Sources_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Sources_Order_By>>;
+  where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
+};
+
+export type Subscription_RootTelemetry_Sources_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Subscription_RootTelemetry_Sources_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Telemetry_Sources_Stream_Cursor_Input>>;
+  where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
+};
+
 export type Subscription_RootTelemetry_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Telemetry_Stream_Cursor_Input>>;
@@ -6553,6 +8455,32 @@ export type Subscription_RootTrack_Status_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Track_Status_Stream_Cursor_Input>>;
   where?: InputMaybe<Track_Status_Bool_Exp>;
+};
+
+export type Subscription_RootTyre_CompoundsArgs = {
+  distinct_on?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Tyre_Compounds_Order_By>>;
+  where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
+};
+
+export type Subscription_RootTyre_Compounds_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Tyre_Compounds_Order_By>>;
+  where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
+};
+
+export type Subscription_RootTyre_Compounds_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+export type Subscription_RootTyre_Compounds_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Tyre_Compounds_Stream_Cursor_Input>>;
+  where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
 };
 
 export type Subscription_RootWeather_DataArgs = {
@@ -6598,9 +8526,13 @@ export type Telemetry = {
   relative_distance?: Maybe<Scalars['numeric']['output']>;
   rpm?: Maybe<Scalars['Int']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
-  source?: Maybe<Scalars['telemetry_sources']['output']>;
+  source?: Maybe<Telemetry_Sources_Enum>;
   speed?: Maybe<Scalars['numeric']['output']>;
-  status?: Maybe<Scalars['telemetry_car_status']['output']>;
+  status?: Maybe<Telemetry_Car_Status_Enum>;
+  /** An object relationship */
+  telemetry_car_status?: Maybe<Telemetry_Car_Status>;
+  /** An object relationship */
+  telemetry_source?: Maybe<Telemetry_Sources>;
   throttle?: Maybe<Scalars['numeric']['output']>;
   time?: Maybe<Scalars['bigint']['output']>;
   x?: Maybe<Scalars['numeric']['output']>;
@@ -6739,9 +8671,11 @@ export type Telemetry_Bool_Exp = {
   relative_distance?: InputMaybe<Numeric_Comparison_Exp>;
   rpm?: InputMaybe<Int_Comparison_Exp>;
   session_time?: InputMaybe<Bigint_Comparison_Exp>;
-  source?: InputMaybe<Telemetry_Sources_Comparison_Exp>;
+  source?: InputMaybe<Telemetry_Sources_Enum_Comparison_Exp>;
   speed?: InputMaybe<Numeric_Comparison_Exp>;
-  status?: InputMaybe<Telemetry_Car_Status_Comparison_Exp>;
+  status?: InputMaybe<Telemetry_Car_Status_Enum_Comparison_Exp>;
+  telemetry_car_status?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
+  telemetry_source?: InputMaybe<Telemetry_Sources_Bool_Exp>;
   throttle?: InputMaybe<Numeric_Comparison_Exp>;
   time?: InputMaybe<Bigint_Comparison_Exp>;
   x?: InputMaybe<Numeric_Comparison_Exp>;
@@ -6749,17 +8683,186 @@ export type Telemetry_Bool_Exp = {
   z?: InputMaybe<Numeric_Comparison_Exp>;
 };
 
-/** Boolean expression to compare columns of type "telemetry_car_status". All fields are combined with logical 'AND'. */
-export type Telemetry_Car_Status_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['telemetry_car_status']['input']>;
-  _gt?: InputMaybe<Scalars['telemetry_car_status']['input']>;
-  _gte?: InputMaybe<Scalars['telemetry_car_status']['input']>;
-  _in?: InputMaybe<Array<Scalars['telemetry_car_status']['input']>>;
+/** columns and relationships of "telemetry_car_status" */
+export type Telemetry_Car_Status = {
+  __typename?: 'telemetry_car_status';
+  comment?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  telemetries: Array<Telemetry>;
+  /** An aggregate relationship */
+  telemetries_aggregate: Telemetry_Aggregate;
+  value: Scalars['String']['output'];
+};
+
+/** columns and relationships of "telemetry_car_status" */
+export type Telemetry_Car_StatusTelemetriesArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Order_By>>;
+  where?: InputMaybe<Telemetry_Bool_Exp>;
+};
+
+/** columns and relationships of "telemetry_car_status" */
+export type Telemetry_Car_StatusTelemetries_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Order_By>>;
+  where?: InputMaybe<Telemetry_Bool_Exp>;
+};
+
+/** aggregated selection of "telemetry_car_status" */
+export type Telemetry_Car_Status_Aggregate = {
+  __typename?: 'telemetry_car_status_aggregate';
+  aggregate?: Maybe<Telemetry_Car_Status_Aggregate_Fields>;
+  nodes: Array<Telemetry_Car_Status>;
+};
+
+/** aggregate fields of "telemetry_car_status" */
+export type Telemetry_Car_Status_Aggregate_Fields = {
+  __typename?: 'telemetry_car_status_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Telemetry_Car_Status_Max_Fields>;
+  min?: Maybe<Telemetry_Car_Status_Min_Fields>;
+};
+
+/** aggregate fields of "telemetry_car_status" */
+export type Telemetry_Car_Status_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "telemetry_car_status". All fields are combined with a logical 'AND'. */
+export type Telemetry_Car_Status_Bool_Exp = {
+  _and?: InputMaybe<Array<Telemetry_Car_Status_Bool_Exp>>;
+  _not?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
+  _or?: InputMaybe<Array<Telemetry_Car_Status_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  telemetries?: InputMaybe<Telemetry_Bool_Exp>;
+  telemetries_aggregate?: InputMaybe<Telemetry_Aggregate_Bool_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "telemetry_car_status" */
+export enum Telemetry_Car_Status_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  TelemetryCarStatusPkey = 'telemetry_car_status_pkey',
+}
+
+export enum Telemetry_Car_Status_Enum {
+  /** Car is off track */
+  OffTrack = 'OffTrack',
+  /** Car is on track */
+  OnTrack = 'OnTrack',
+}
+
+/** Boolean expression to compare columns of type "telemetry_car_status_enum". All fields are combined with logical 'AND'. */
+export type Telemetry_Car_Status_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Telemetry_Car_Status_Enum>;
+  _in?: InputMaybe<Array<Telemetry_Car_Status_Enum>>;
   _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['telemetry_car_status']['input']>;
-  _lte?: InputMaybe<Scalars['telemetry_car_status']['input']>;
-  _neq?: InputMaybe<Scalars['telemetry_car_status']['input']>;
-  _nin?: InputMaybe<Array<Scalars['telemetry_car_status']['input']>>;
+  _neq?: InputMaybe<Telemetry_Car_Status_Enum>;
+  _nin?: InputMaybe<Array<Telemetry_Car_Status_Enum>>;
+};
+
+/** input type for inserting data into table "telemetry_car_status" */
+export type Telemetry_Car_Status_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  telemetries?: InputMaybe<Telemetry_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Telemetry_Car_Status_Max_Fields = {
+  __typename?: 'telemetry_car_status_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Telemetry_Car_Status_Min_Fields = {
+  __typename?: 'telemetry_car_status_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "telemetry_car_status" */
+export type Telemetry_Car_Status_Mutation_Response = {
+  __typename?: 'telemetry_car_status_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Telemetry_Car_Status>;
+};
+
+/** input type for inserting object relation for remote table "telemetry_car_status" */
+export type Telemetry_Car_Status_Obj_Rel_Insert_Input = {
+  data: Telemetry_Car_Status_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Telemetry_Car_Status_On_Conflict>;
+};
+
+/** on_conflict condition type for table "telemetry_car_status" */
+export type Telemetry_Car_Status_On_Conflict = {
+  constraint: Telemetry_Car_Status_Constraint;
+  update_columns?: Array<Telemetry_Car_Status_Update_Column>;
+  where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "telemetry_car_status". */
+export type Telemetry_Car_Status_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  telemetries_aggregate?: InputMaybe<Telemetry_Aggregate_Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: telemetry_car_status */
+export type Telemetry_Car_Status_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "telemetry_car_status" */
+export enum Telemetry_Car_Status_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+/** input type for updating data in table "telemetry_car_status" */
+export type Telemetry_Car_Status_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "telemetry_car_status" */
+export type Telemetry_Car_Status_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Telemetry_Car_Status_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Telemetry_Car_Status_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "telemetry_car_status" */
+export enum Telemetry_Car_Status_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Telemetry_Car_Status_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Telemetry_Car_Status_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Telemetry_Car_Status_Bool_Exp;
 };
 
 /** unique or primary key constraints on table "telemetry" */
@@ -6800,9 +8903,11 @@ export type Telemetry_Insert_Input = {
   relative_distance?: InputMaybe<Scalars['numeric']['input']>;
   rpm?: InputMaybe<Scalars['Int']['input']>;
   session_time?: InputMaybe<Scalars['bigint']['input']>;
-  source?: InputMaybe<Scalars['telemetry_sources']['input']>;
+  source?: InputMaybe<Telemetry_Sources_Enum>;
   speed?: InputMaybe<Scalars['numeric']['input']>;
-  status?: InputMaybe<Scalars['telemetry_car_status']['input']>;
+  status?: InputMaybe<Telemetry_Car_Status_Enum>;
+  telemetry_car_status?: InputMaybe<Telemetry_Car_Status_Obj_Rel_Insert_Input>;
+  telemetry_source?: InputMaybe<Telemetry_Sources_Obj_Rel_Insert_Input>;
   throttle?: InputMaybe<Scalars['numeric']['input']>;
   time?: InputMaybe<Scalars['bigint']['input']>;
   x?: InputMaybe<Scalars['numeric']['input']>;
@@ -6824,9 +8929,7 @@ export type Telemetry_Max_Fields = {
   relative_distance?: Maybe<Scalars['numeric']['output']>;
   rpm?: Maybe<Scalars['Int']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
-  source?: Maybe<Scalars['telemetry_sources']['output']>;
   speed?: Maybe<Scalars['numeric']['output']>;
-  status?: Maybe<Scalars['telemetry_car_status']['output']>;
   throttle?: Maybe<Scalars['numeric']['output']>;
   time?: Maybe<Scalars['bigint']['output']>;
   x?: Maybe<Scalars['numeric']['output']>;
@@ -6847,9 +8950,7 @@ export type Telemetry_Max_Order_By = {
   relative_distance?: InputMaybe<Order_By>;
   rpm?: InputMaybe<Order_By>;
   session_time?: InputMaybe<Order_By>;
-  source?: InputMaybe<Order_By>;
   speed?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
   throttle?: InputMaybe<Order_By>;
   time?: InputMaybe<Order_By>;
   x?: InputMaybe<Order_By>;
@@ -6871,9 +8972,7 @@ export type Telemetry_Min_Fields = {
   relative_distance?: Maybe<Scalars['numeric']['output']>;
   rpm?: Maybe<Scalars['Int']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
-  source?: Maybe<Scalars['telemetry_sources']['output']>;
   speed?: Maybe<Scalars['numeric']['output']>;
-  status?: Maybe<Scalars['telemetry_car_status']['output']>;
   throttle?: Maybe<Scalars['numeric']['output']>;
   time?: Maybe<Scalars['bigint']['output']>;
   x?: Maybe<Scalars['numeric']['output']>;
@@ -6894,9 +8993,7 @@ export type Telemetry_Min_Order_By = {
   relative_distance?: InputMaybe<Order_By>;
   rpm?: InputMaybe<Order_By>;
   session_time?: InputMaybe<Order_By>;
-  source?: InputMaybe<Order_By>;
   speed?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
   throttle?: InputMaybe<Order_By>;
   time?: InputMaybe<Order_By>;
   x?: InputMaybe<Order_By>;
@@ -6938,6 +9035,8 @@ export type Telemetry_Order_By = {
   source?: InputMaybe<Order_By>;
   speed?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
+  telemetry_car_status?: InputMaybe<Telemetry_Car_Status_Order_By>;
+  telemetry_source?: InputMaybe<Telemetry_Sources_Order_By>;
   throttle?: InputMaybe<Order_By>;
   time?: InputMaybe<Order_By>;
   x?: InputMaybe<Order_By>;
@@ -7020,9 +9119,9 @@ export type Telemetry_Set_Input = {
   relative_distance?: InputMaybe<Scalars['numeric']['input']>;
   rpm?: InputMaybe<Scalars['Int']['input']>;
   session_time?: InputMaybe<Scalars['bigint']['input']>;
-  source?: InputMaybe<Scalars['telemetry_sources']['input']>;
+  source?: InputMaybe<Telemetry_Sources_Enum>;
   speed?: InputMaybe<Scalars['numeric']['input']>;
-  status?: InputMaybe<Scalars['telemetry_car_status']['input']>;
+  status?: InputMaybe<Telemetry_Car_Status_Enum>;
   throttle?: InputMaybe<Scalars['numeric']['input']>;
   time?: InputMaybe<Scalars['bigint']['input']>;
   x?: InputMaybe<Scalars['numeric']['input']>;
@@ -7030,17 +9129,188 @@ export type Telemetry_Set_Input = {
   z?: InputMaybe<Scalars['numeric']['input']>;
 };
 
-/** Boolean expression to compare columns of type "telemetry_sources". All fields are combined with logical 'AND'. */
-export type Telemetry_Sources_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['telemetry_sources']['input']>;
-  _gt?: InputMaybe<Scalars['telemetry_sources']['input']>;
-  _gte?: InputMaybe<Scalars['telemetry_sources']['input']>;
-  _in?: InputMaybe<Array<Scalars['telemetry_sources']['input']>>;
+/** columns and relationships of "telemetry_sources" */
+export type Telemetry_Sources = {
+  __typename?: 'telemetry_sources';
+  comment?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  telemetries: Array<Telemetry>;
+  /** An aggregate relationship */
+  telemetries_aggregate: Telemetry_Aggregate;
+  value: Scalars['String']['output'];
+};
+
+/** columns and relationships of "telemetry_sources" */
+export type Telemetry_SourcesTelemetriesArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Order_By>>;
+  where?: InputMaybe<Telemetry_Bool_Exp>;
+};
+
+/** columns and relationships of "telemetry_sources" */
+export type Telemetry_SourcesTelemetries_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Telemetry_Order_By>>;
+  where?: InputMaybe<Telemetry_Bool_Exp>;
+};
+
+/** aggregated selection of "telemetry_sources" */
+export type Telemetry_Sources_Aggregate = {
+  __typename?: 'telemetry_sources_aggregate';
+  aggregate?: Maybe<Telemetry_Sources_Aggregate_Fields>;
+  nodes: Array<Telemetry_Sources>;
+};
+
+/** aggregate fields of "telemetry_sources" */
+export type Telemetry_Sources_Aggregate_Fields = {
+  __typename?: 'telemetry_sources_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Telemetry_Sources_Max_Fields>;
+  min?: Maybe<Telemetry_Sources_Min_Fields>;
+};
+
+/** aggregate fields of "telemetry_sources" */
+export type Telemetry_Sources_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "telemetry_sources". All fields are combined with a logical 'AND'. */
+export type Telemetry_Sources_Bool_Exp = {
+  _and?: InputMaybe<Array<Telemetry_Sources_Bool_Exp>>;
+  _not?: InputMaybe<Telemetry_Sources_Bool_Exp>;
+  _or?: InputMaybe<Array<Telemetry_Sources_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  telemetries?: InputMaybe<Telemetry_Bool_Exp>;
+  telemetries_aggregate?: InputMaybe<Telemetry_Aggregate_Bool_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "telemetry_sources" */
+export enum Telemetry_Sources_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  TelemetrySourcesPkey = 'telemetry_sources_pkey',
+}
+
+export enum Telemetry_Sources_Enum {
+  /** Car telemetry source */
+  Car = 'car',
+  /** Interpolation telemetry source */
+  Interpolation = 'interpolation',
+  /** Position telemetry source */
+  Pos = 'pos',
+}
+
+/** Boolean expression to compare columns of type "telemetry_sources_enum". All fields are combined with logical 'AND'. */
+export type Telemetry_Sources_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Telemetry_Sources_Enum>;
+  _in?: InputMaybe<Array<Telemetry_Sources_Enum>>;
   _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['telemetry_sources']['input']>;
-  _lte?: InputMaybe<Scalars['telemetry_sources']['input']>;
-  _neq?: InputMaybe<Scalars['telemetry_sources']['input']>;
-  _nin?: InputMaybe<Array<Scalars['telemetry_sources']['input']>>;
+  _neq?: InputMaybe<Telemetry_Sources_Enum>;
+  _nin?: InputMaybe<Array<Telemetry_Sources_Enum>>;
+};
+
+/** input type for inserting data into table "telemetry_sources" */
+export type Telemetry_Sources_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  telemetries?: InputMaybe<Telemetry_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Telemetry_Sources_Max_Fields = {
+  __typename?: 'telemetry_sources_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Telemetry_Sources_Min_Fields = {
+  __typename?: 'telemetry_sources_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "telemetry_sources" */
+export type Telemetry_Sources_Mutation_Response = {
+  __typename?: 'telemetry_sources_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Telemetry_Sources>;
+};
+
+/** input type for inserting object relation for remote table "telemetry_sources" */
+export type Telemetry_Sources_Obj_Rel_Insert_Input = {
+  data: Telemetry_Sources_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Telemetry_Sources_On_Conflict>;
+};
+
+/** on_conflict condition type for table "telemetry_sources" */
+export type Telemetry_Sources_On_Conflict = {
+  constraint: Telemetry_Sources_Constraint;
+  update_columns?: Array<Telemetry_Sources_Update_Column>;
+  where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "telemetry_sources". */
+export type Telemetry_Sources_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  telemetries_aggregate?: InputMaybe<Telemetry_Aggregate_Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: telemetry_sources */
+export type Telemetry_Sources_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "telemetry_sources" */
+export enum Telemetry_Sources_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+/** input type for updating data in table "telemetry_sources" */
+export type Telemetry_Sources_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "telemetry_sources" */
+export type Telemetry_Sources_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Telemetry_Sources_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Telemetry_Sources_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "telemetry_sources" */
+export enum Telemetry_Sources_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Telemetry_Sources_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Telemetry_Sources_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Telemetry_Sources_Bool_Exp;
 };
 
 /** aggregate stddev on columns */
@@ -7170,9 +9440,9 @@ export type Telemetry_Stream_Cursor_Value_Input = {
   relative_distance?: InputMaybe<Scalars['numeric']['input']>;
   rpm?: InputMaybe<Scalars['Int']['input']>;
   session_time?: InputMaybe<Scalars['bigint']['input']>;
-  source?: InputMaybe<Scalars['telemetry_sources']['input']>;
+  source?: InputMaybe<Telemetry_Sources_Enum>;
   speed?: InputMaybe<Scalars['numeric']['input']>;
-  status?: InputMaybe<Scalars['telemetry_car_status']['input']>;
+  status?: InputMaybe<Telemetry_Car_Status_Enum>;
   throttle?: InputMaybe<Scalars['numeric']['input']>;
   time?: InputMaybe<Scalars['bigint']['input']>;
   x?: InputMaybe<Scalars['numeric']['input']>;
@@ -7701,17 +9971,200 @@ export type Track_Status_Variance_Order_By = {
   session_time?: InputMaybe<Order_By>;
 };
 
-/** Boolean expression to compare columns of type "tyre_compounds". All fields are combined with logical 'AND'. */
-export type Tyre_Compounds_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['tyre_compounds']['input']>;
-  _gt?: InputMaybe<Scalars['tyre_compounds']['input']>;
-  _gte?: InputMaybe<Scalars['tyre_compounds']['input']>;
-  _in?: InputMaybe<Array<Scalars['tyre_compounds']['input']>>;
+/** columns and relationships of "tyre_compounds" */
+export type Tyre_Compounds = {
+  __typename?: 'tyre_compounds';
+  comment?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  laps: Array<Laps>;
+  /** An aggregate relationship */
+  laps_aggregate: Laps_Aggregate;
+  value: Scalars['String']['output'];
+};
+
+/** columns and relationships of "tyre_compounds" */
+export type Tyre_CompoundsLapsArgs = {
+  distinct_on?: InputMaybe<Array<Laps_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Laps_Order_By>>;
+  where?: InputMaybe<Laps_Bool_Exp>;
+};
+
+/** columns and relationships of "tyre_compounds" */
+export type Tyre_CompoundsLaps_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Laps_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Laps_Order_By>>;
+  where?: InputMaybe<Laps_Bool_Exp>;
+};
+
+/** aggregated selection of "tyre_compounds" */
+export type Tyre_Compounds_Aggregate = {
+  __typename?: 'tyre_compounds_aggregate';
+  aggregate?: Maybe<Tyre_Compounds_Aggregate_Fields>;
+  nodes: Array<Tyre_Compounds>;
+};
+
+/** aggregate fields of "tyre_compounds" */
+export type Tyre_Compounds_Aggregate_Fields = {
+  __typename?: 'tyre_compounds_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Tyre_Compounds_Max_Fields>;
+  min?: Maybe<Tyre_Compounds_Min_Fields>;
+};
+
+/** aggregate fields of "tyre_compounds" */
+export type Tyre_Compounds_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "tyre_compounds". All fields are combined with a logical 'AND'. */
+export type Tyre_Compounds_Bool_Exp = {
+  _and?: InputMaybe<Array<Tyre_Compounds_Bool_Exp>>;
+  _not?: InputMaybe<Tyre_Compounds_Bool_Exp>;
+  _or?: InputMaybe<Array<Tyre_Compounds_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  laps?: InputMaybe<Laps_Bool_Exp>;
+  laps_aggregate?: InputMaybe<Laps_Aggregate_Bool_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "tyre_compounds" */
+export enum Tyre_Compounds_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  TyreCompoundsPkey = 'tyre_compounds_pkey',
+}
+
+export enum Tyre_Compounds_Enum {
+  /** Hard tyre compound */
+  Hard = 'HARD',
+  /** Hypersoft tyre compound */
+  Hypersoft = 'HYPERSOFT',
+  /** Intermediate tyre compound */
+  Intermediate = 'INTERMEDIATE',
+  /** Medium tyre compound */
+  Medium = 'MEDIUM',
+  /** Soft tyre compound */
+  Soft = 'SOFT',
+  /** Supersoft tyre compound */
+  Supersoft = 'SUPERSOFT',
+  /** Ultrasoft tyre compound */
+  Ultrasoft = 'ULTRASOFT',
+  /** Unknown tyre compound */
+  Unknown = 'UNKNOWN',
+  /** Wet tyre compound */
+  Wet = 'WET',
+}
+
+/** Boolean expression to compare columns of type "tyre_compounds_enum". All fields are combined with logical 'AND'. */
+export type Tyre_Compounds_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Tyre_Compounds_Enum>;
+  _in?: InputMaybe<Array<Tyre_Compounds_Enum>>;
   _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['tyre_compounds']['input']>;
-  _lte?: InputMaybe<Scalars['tyre_compounds']['input']>;
-  _neq?: InputMaybe<Scalars['tyre_compounds']['input']>;
-  _nin?: InputMaybe<Array<Scalars['tyre_compounds']['input']>>;
+  _neq?: InputMaybe<Tyre_Compounds_Enum>;
+  _nin?: InputMaybe<Array<Tyre_Compounds_Enum>>;
+};
+
+/** input type for inserting data into table "tyre_compounds" */
+export type Tyre_Compounds_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  laps?: InputMaybe<Laps_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Tyre_Compounds_Max_Fields = {
+  __typename?: 'tyre_compounds_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Tyre_Compounds_Min_Fields = {
+  __typename?: 'tyre_compounds_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "tyre_compounds" */
+export type Tyre_Compounds_Mutation_Response = {
+  __typename?: 'tyre_compounds_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Tyre_Compounds>;
+};
+
+/** input type for inserting object relation for remote table "tyre_compounds" */
+export type Tyre_Compounds_Obj_Rel_Insert_Input = {
+  data: Tyre_Compounds_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Tyre_Compounds_On_Conflict>;
+};
+
+/** on_conflict condition type for table "tyre_compounds" */
+export type Tyre_Compounds_On_Conflict = {
+  constraint: Tyre_Compounds_Constraint;
+  update_columns?: Array<Tyre_Compounds_Update_Column>;
+  where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "tyre_compounds". */
+export type Tyre_Compounds_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  laps_aggregate?: InputMaybe<Laps_Aggregate_Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: tyre_compounds */
+export type Tyre_Compounds_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "tyre_compounds" */
+export enum Tyre_Compounds_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+/** input type for updating data in table "tyre_compounds" */
+export type Tyre_Compounds_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "tyre_compounds" */
+export type Tyre_Compounds_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Tyre_Compounds_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Tyre_Compounds_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "tyre_compounds" */
+export enum Tyre_Compounds_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Tyre_Compounds_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Tyre_Compounds_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Tyre_Compounds_Bool_Exp;
 };
 
 /** columns and relationships of "weather_data" */
@@ -8262,20 +10715,27 @@ export type GetConstructorQuery = {
     color?: string | null;
     driver_sessions: Array<{
       __typename?: 'driver_sessions';
-      driver?: { __typename?: 'drivers'; full_name?: string | null } | null;
+      driver?: {
+        __typename?: 'drivers';
+        full_name?: string | null;
+        number?: string | null;
+        headshot_url?: string | null;
+        country_code?: string | null;
+      } | null;
       session?: {
         __typename?: 'sessions';
         id: string;
-        name?: session_name_choices | null;
+        name?: Session_Name_Choices_Enum | null;
         event?: {
           __typename?: 'events';
+          round_number?: number | null;
           name?: string | null;
           year?: number | null;
         } | null;
       } | null;
       results: Array<{
         __typename?: 'results';
-        points?: number | null;
+        points?: number | bigint | null;
         classified_position?: string | null;
         grid_position?: number | null;
       }>;
@@ -8319,7 +10779,7 @@ export type GetSeasonEventsQuery = {
     country?: string | null;
     sessions: Array<{
       __typename?: 'sessions';
-      name?: session_name_choices | null;
+      name?: Session_Name_Choices_Enum | null;
       id: string;
       scheduled_start_time_utc?: string | null;
     }>;
@@ -8341,11 +10801,12 @@ export type GetEventDetailsQuery = {
     country?: string | null;
     sessions: Array<{
       __typename?: 'sessions';
+      id: string;
       scheduled_start_time_utc?: string | null;
-      name?: session_name_choices | null;
+      name?: Session_Name_Choices_Enum | null;
       race_control_messages: Array<{
         __typename?: 'race_control_messages';
-        flag?: race_control_messages_flags | null;
+        flag?: Race_Control_Messages_Flags_Enum | null;
         message?: string | null;
         time?: string | null;
       }>;
@@ -8353,6 +10814,7 @@ export type GetEventDetailsQuery = {
         __typename?: 'driver_sessions';
         driver?: {
           __typename?: 'drivers';
+          abbreviation?: string | null;
           full_name?: string | null;
           number?: string | null;
           headshot_url?: string | null;
@@ -8463,11 +10925,15 @@ export const GetConstructorDocument = gql`
       ) {
         driver {
           full_name
+          number
+          headshot_url
+          country_code
         }
         session {
           id
           name
           event {
+            round_number
             name
             year
           }
@@ -8814,19 +11280,17 @@ export const GetEventDetailsDocument = gql`
       location
       country
       sessions {
+        id
         scheduled_start_time_utc
         name
-        race_control_messages(
-          where: {
-            _or: [{ flag: { _eq: "GREEN" } }, { flag: { _eq: "CHEQUERED" } }]
-          }
-        ) {
+        race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
           flag
           message
           time
         }
         driver_sessions {
           driver {
+            abbreviation
             full_name
             number
             headshot_url

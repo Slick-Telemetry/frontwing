@@ -35,13 +35,15 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const drivers = Array.from(
     new Set(constructor?.driver_sessions.map((ds) => ds.driver?.full_name)),
   );
-  const sessions = Array.from(
-    new Set(
-      constructor?.driver_sessions.map(
-        (ds) => `${ds.session?.event?.name}-${ds.session?.name}`,
+  const sessions = (
+    Array.from(
+      new Set(
+        constructor?.driver_sessions.map(
+          (ds) => `${ds.session?.event?.name}-${ds.session?.name}`,
+        ),
       ),
-    ),
-  ).map((session) => session.split('-'));
+    ) as string[]
+  ).map((session: string) => session.split('-'));
 
   const years = Array.from(
     new Set(constructor?.driver_sessions.map((ds) => ds.session?.event?.year)),
@@ -111,7 +113,7 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
                           .find((ds) => ds.driver === driver)
                           ?.sessions?.reduce(
                             (acc, session) =>
-                              acc + (session?.results[0]?.points || 0),
+                              acc + Number(session?.results[0]?.points || 0),
                             0,
                           )}
                       </span>
