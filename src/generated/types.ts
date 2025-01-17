@@ -29,7 +29,7 @@ export type Scalars = {
   Int: { input: number; output: number };
   Float: { input: number; output: number };
   bigint: { input: bigint; output: bigint };
-  numeric: { input: number | bigint; output: number | bigint };
+  numeric: { input: bigint | number; output: bigint | number };
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -10735,7 +10735,7 @@ export type GetConstructorQuery = {
       } | null;
       results: Array<{
         __typename?: 'results';
-        points?: number | bigint | null;
+        points?: bigint | number | null;
         classified_position?: string | null;
         grid_position?: number | null;
       }>;
@@ -10827,7 +10827,7 @@ export type GetEventDetailsQuery = {
         }>;
         laps: Array<{
           __typename?: 'laps';
-          lap_time?: number | null;
+          lap_time?: bigint | null;
           lap_number?: number | null;
         }>;
       }>;
