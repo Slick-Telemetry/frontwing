@@ -1,27 +1,3 @@
-export const updateQueryState = (
-  query: QueryProps,
-  name: string,
-  value: string,
-  clear?: boolean,
-) => {
-  switch (name) {
-    case 'season':
-      return { season: value, event: '', session: '', driver: '' };
-    case 'event':
-      if (clear) return { ...query, event: value, session: '', driver: '' };
-      return { ...query, event: value };
-
-    case 'session':
-      if (clear) return { ...query, session: value, driver: '' };
-      return { ...query, session: value };
-
-    case 'driver':
-      return { ...query, driver: value };
-    default:
-      return query;
-  }
-};
-
 // const compareEventTime = (a, b = Date.now()) => {
 //   const eventTime = moment(a).local().format();
 //   const compareTime = moment(b).local().format();
@@ -106,56 +82,4 @@ export const formatDuration = (timeInterval: number) => {
       '.' +
       pad(milliseconds)
     );
-};
-
-/// Get a new searchParams string by merging the current
-// searchParams with a provided key/value pair
-export const updateSearchParams = (
-  params: URLSearchParams,
-  key: string,
-  value: string,
-  season?: string,
-  session?: string,
-) => {
-  // *** Remove extra parameters
-  switch (key) {
-    //  If view skip extra steps
-    case 'view':
-      break;
-
-    // If season is set, remove all other params
-    case 'season':
-      params.delete('event');
-      params.delete('session');
-      params.delete('driver');
-      break;
-
-    // If event is set, remove session and driver
-    case 'event':
-      // Make sure season is set
-      if (season) {
-        params.set('season', season);
-      }
-      params.delete('session');
-      params.delete('driver');
-      break;
-
-    // If session is set, remove driver
-    case 'session':
-      params.delete('driver');
-      break;
-
-    case 'driver':
-      // Make sure session is set
-      if (session) {
-        params.set('session', session);
-      }
-      break;
-  }
-
-  // Update specified param
-  params.set(key, value);
-
-  // Update View
-  return params;
 };
