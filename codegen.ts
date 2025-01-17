@@ -18,6 +18,12 @@ const config: CodegenConfig = {
         'typescript-operations',
         'typescript-react-apollo',
       ],
+      config: {
+        scalars: {
+          bigint: 'bigint',
+          numeric: 'bigint | number',
+        },
+      },
     },
     './graphql.schema.json': {
       plugins: ['introspection'],
