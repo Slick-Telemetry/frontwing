@@ -29,7 +29,6 @@ export const TopNav = () => {
       <div className='ml-auto flex items-center space-x-4'>
         <ServerStatus />
         <ThemeSwitcher />
-        {/* <UserNav /> */}
       </div>
     </div>
   );

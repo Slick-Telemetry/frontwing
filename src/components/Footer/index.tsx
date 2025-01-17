@@ -1,13 +1,8 @@
 'use client';
 
-// import { useAtom } from 'jotai';
 import { FileTextIcon, GithubIcon, MailIcon } from 'lucide-react';
 
-// import { incrementalHealthCheck } from '@/state-mgmt/store';
-
 function Footer() {
-  // useAtom(incrementalHealthCheck);
-
   return (
     <div className='container mb-4 mt-8 flex min-h-24 flex-col justify-between md:flex-row'>
       <div className='flex flex-col gap-y-2'>
