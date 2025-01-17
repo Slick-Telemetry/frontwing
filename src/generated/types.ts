@@ -10762,6 +10762,22 @@ export type GetSeasonsQuery = {
   events: Array<{ __typename?: 'events'; year?: number | null }>;
 };
 
+export type GetSeasonEventsSimpleQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+}>;
+
+export type GetSeasonEventsSimpleQuery = {
+  __typename?: 'query_root';
+  events: Array<{
+    __typename?: 'events';
+    round_number?: number | null;
+    name?: string | null;
+    location?: string | null;
+    date?: string | null;
+    country?: string | null;
+  }>;
+};
+
 export type GetSeasonEventsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
@@ -11178,6 +11194,92 @@ export type GetSeasonsQueryResult = Apollo.QueryResult<
   GetSeasonsQuery,
   GetSeasonsQueryVariables
 >;
+export const GetSeasonEventsSimpleDocument = gql`
+  query GetSeasonEventsSimple($year: Int!) {
+    events(where: { year: { _eq: $year } }) {
+      round_number
+      name
+      location
+      date
+      country
+    }
+  }
+`;
+
+/**
+ * __useGetSeasonEventsSimpleQuery__
+ *
+ * To run a query within a React component, call `useGetSeasonEventsSimpleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSeasonEventsSimpleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSeasonEventsSimpleQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetSeasonEventsSimpleQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetSeasonEventsSimpleQuery,
+    GetSeasonEventsSimpleQueryVariables
+  > &
+    (
+      | { variables: GetSeasonEventsSimpleQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetSeasonEventsSimpleQuery,
+    GetSeasonEventsSimpleQueryVariables
+  >(GetSeasonEventsSimpleDocument, options);
+}
+export function useGetSeasonEventsSimpleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSeasonEventsSimpleQuery,
+    GetSeasonEventsSimpleQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetSeasonEventsSimpleQuery,
+    GetSeasonEventsSimpleQueryVariables
+  >(GetSeasonEventsSimpleDocument, options);
+}
+export function useGetSeasonEventsSimpleSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetSeasonEventsSimpleQuery,
+        GetSeasonEventsSimpleQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetSeasonEventsSimpleQuery,
+    GetSeasonEventsSimpleQueryVariables
+  >(GetSeasonEventsSimpleDocument, options);
+}
+export type GetSeasonEventsSimpleQueryHookResult = ReturnType<
+  typeof useGetSeasonEventsSimpleQuery
+>;
+export type GetSeasonEventsSimpleLazyQueryHookResult = ReturnType<
+  typeof useGetSeasonEventsSimpleLazyQuery
+>;
+export type GetSeasonEventsSimpleSuspenseQueryHookResult = ReturnType<
+  typeof useGetSeasonEventsSimpleSuspenseQuery
+>;
+export type GetSeasonEventsSimpleQueryResult = Apollo.QueryResult<
+  GetSeasonEventsSimpleQuery,
+  GetSeasonEventsSimpleQueryVariables
+>;
 export const GetSeasonEventsDocument = gql`
   query GetSeasonEvents($year: Int!) {
     events(where: { year: { _eq: $year } }) {
@@ -11288,7 +11390,7 @@ export const GetEventDetailsDocument = gql`
           message
           time
         }
-        driver_sessions {
+        driver_sessions(order_by: { constructor_id: asc }) {
           driver {
             abbreviation
             full_name
