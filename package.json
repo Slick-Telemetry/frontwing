@@ -39,7 +39,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-map-gl": "^7.1.7",
+    "react-map-gl": "^7.1.8",
     "tailwind-merge": "latest",
     "tailwindcss-animate": "latest"
   },
