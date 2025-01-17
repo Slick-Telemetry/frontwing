@@ -66,6 +66,18 @@ export const GET_SEASONS = gql`
   }
 `;
 
+export const GET_SEASON_EVENTS_SIMPLE = gql`
+  query GetSeasonEventsSimple($year: Int!) {
+    events(where: { year: { _eq: $year } }) {
+      round_number
+      name
+      location
+      date
+      country
+    }
+  }
+`;
+
 export const GET_SEASON_EVENTS = gql`
   query GetSeasonEvents($year: Int!) {
     events(where: { year: { _eq: $year } }) {
