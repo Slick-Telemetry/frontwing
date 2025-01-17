@@ -16,9 +16,9 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-export default [
+const eslintConfig = [
   {
-    ignores: ['!**/.prettierrc.js'],
+    ignores: ['!**/.prettierrc.js', '.next'],
   },
   ...compat.extends(
     'eslint:recommended',
@@ -110,3 +110,4 @@ export default [
     },
   },
 ];
+export default eslintConfig;
