@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { MainNav } from './MainNav';
 import { ServerStatus } from './ServerStatus';
-import { ThemeSwitcher } from '../ThemeToggler';
+import { ThemeSwitcher } from './ThemeToggler';
 
 export * from './MainNav';
 export * from './UserNav';

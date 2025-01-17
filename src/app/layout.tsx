@@ -4,10 +4,8 @@ import { Inter } from 'next/font/google';
 
 import './globals.css';
 
-import { ErrorToast } from '@/components/ErrorToast';
 import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
-import { Toaster } from '@/components/ui/toaster';
 
 // import { Provider } from 'jotai';
 import Providers from './providers';
@@ -31,9 +29,7 @@ export default async function RootLayout({
           <TopNav />
           {children}
         </Providers>
-        <ErrorToast />
         <Footer />
-        <Toaster />
       </body>
     </html>
   );
