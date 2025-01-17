@@ -102,7 +102,7 @@ export const GET_EVENT_DETAILS = gql`
           message
           time
         }
-        driver_sessions {
+        driver_sessions(order_by: { constructor_id: asc }) {
           driver {
             abbreviation
             full_name
@@ -129,3 +129,28 @@ export const GET_EVENT_DETAILS = gql`
     }
   }
 `;
+
+// query GetStandings {
+//   events(where: {year: {_eq: 2024}}) {
+//     id
+//     round_number
+//     name
+//     location
+//     date
+//     country
+//     sessions(where: {name: {_in: [Sprint, Sprint_Shootout, Race]}}) {
+//       name
+//       driver_sessions {
+//         constructorByConstructorId {
+//           name
+//         }
+//         driver {
+//           abbreviation
+//         }
+//         results {
+//           points
+//         }
+//       }
+//     }
+//   }
+// }
