@@ -1,14 +1,11 @@
 'use client';
 
-import { useAtom } from 'jotai';
 import { useEffect, useRef } from 'react';
-
-import { globalError } from '@/state-mgmt/store';
 
 import { ToasterToast, useToast } from './ui/use-toast';
 
 export const ErrorToast = () => {
-  const [error] = useAtom(globalError);
+  const [error] = [false];
   const { toast } = useToast();
   const toastRef = useRef<{
     id: string;
@@ -17,7 +14,7 @@ export const ErrorToast = () => {
   } | null>(null);
 
   useEffect(() => {
-    if (error.type === 'server') {
+    if (error) {
       toastRef.current = toast({
         duration: 100000,
         variant: 'destructive',
@@ -34,7 +31,7 @@ export const ErrorToast = () => {
         });
       }
     }
-  }, [error.type, toast]);
+  }, [error, toast]);
 
   return null;
 };

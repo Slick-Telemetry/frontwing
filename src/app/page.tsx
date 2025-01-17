@@ -1,16 +1,12 @@
+import { CirclePlus } from 'lucide-react';
 import Link from 'next/link';
-
-import { PlusCircle } from '@/components/icons/PlusCircle';
-import { NextEvent } from '@/components/SelectionData';
 
 export default function Home() {
   return (
     <main className='flex min-h-[80vh] flex-col'>
       <Hero />
 
-      <div className='mx-auto my-4'>
-        <NextEvent />
-      </div>
+      <div className='mx-auto my-4'>Upcoming event:</div>
     </main>
   );
 }
@@ -25,7 +21,7 @@ const Hero = () => (
       </p>
     </div>
 
-    <PlusCircle className='h-8 w-8 lg:h-16 lg:w-16' />
+    <CirclePlus className='h-8 w-8 lg:h-16 lg:w-16' />
 
     {/* Formula */}
     <div className='grid gap-2 text-center md:flex-1'>
