@@ -47,11 +47,11 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
           Show Sessions
         </label>
       </div>
-      <div className='my-4 grid grid-cols-2 gap-4 xl:grid-cols-3'>
+      <div className='my-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
         {data?.events.map((event) => (
           <div
             key={event.name}
-            className='rounded-lg border border-b-4 border-r-4 border-current p-4'
+            className='rounded-lg border border-r-4 border-b-4 border-current p-4'
           >
             <div className='relative flex items-center justify-between py-2'>
               <div className='absolute left-2 text-8xl font-bold italic opacity-25'>
@@ -83,7 +83,7 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
                         .local()
                         .format('ddd')}
                     </p>
-                    <p className='text-2xl font-extrabold leading-6'>
+                    <p className='text-2xl leading-6 font-extrabold'>
                       {moment(session.scheduled_start_time_utc)
                         .local()
                         .format('D')}

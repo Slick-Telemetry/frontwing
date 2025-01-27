@@ -20,9 +20,9 @@ export function DisplayDrivers() {
     <Link
       href={`/driver/${ergast_id}`}
       key={full_name}
-      className='group relative flex items-center gap-2 overflow-hidden rounded-lg border p-2 hover:bg-gradient-to-l hover:from-current hover:via-transparent'
+      className='group relative flex items-center gap-2 overflow-hidden rounded-lg border p-2 hover:bg-linear-to-l hover:from-current hover:via-transparent'
     >
-      {/* <div className='rounded-full w-8 h-8 shadow shadow-current flex items-center justify-center'>
+      {/* <div className='rounded-full w-8 h-8 shadow-sm shadow-current flex items-center justify-center'>
       </div> */}
       <div className='absolute right-2 text-6xl font-bold italic opacity-25 group-hover:text-white dark:group-hover:text-black'>
         {number}

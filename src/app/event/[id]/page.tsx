@@ -36,7 +36,7 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
       {event && (
         <>
           <div className='relative mb-4 flex items-end justify-between'>
-            <div className='absolute bottom-2 right-2 text-6xl font-bold italic opacity-25 group-hover:text-white dark:group-hover:text-black'>
+            <div className='absolute right-2 bottom-2 text-6xl font-bold italic opacity-25 group-hover:text-white dark:group-hover:text-black'>
               ROUND {event.round_number}
             </div>
 
@@ -61,7 +61,7 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
                       .local()
                       .format('ddd')}
                   </p>
-                  <p className='text-2xl font-extrabold leading-6'>
+                  <p className='text-2xl leading-6 font-extrabold'>
                     {moment(session.scheduled_start_time_utc)
                       .local()
                       .format('D')}
