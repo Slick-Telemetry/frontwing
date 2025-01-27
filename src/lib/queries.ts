@@ -69,11 +69,18 @@ export const GET_SEASONS = gql`
 export const GET_SEASON_EVENTS_SIMPLE = gql`
   query GetSeasonEventsSimple($year: Int!) {
     events(where: { year: { _eq: $year } }) {
+      id
       round_number
       name
       location
       date
       country
+      sessions(limit: 1) {
+        circuit {
+          latitude
+          longitude
+        }
+      }
     }
   }
 `;

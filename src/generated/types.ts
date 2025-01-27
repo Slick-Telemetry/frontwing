@@ -110,7 +110,9 @@ export type Circuits = {
   country?: Maybe<Scalars['String']['output']>;
   f1_key?: Maybe<Scalars['Int']['output']>;
   id: Scalars['String']['output'];
+  latitude?: Maybe<Scalars['numeric']['output']>;
   location?: Maybe<Scalars['String']['output']>;
+  longitude?: Maybe<Scalars['numeric']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   sessions: Array<Sessions>;
@@ -169,6 +171,8 @@ export type Circuits_Aggregate_FieldsCountArgs = {
 export type Circuits_Avg_Fields = {
   __typename?: 'circuits_avg_fields';
   f1_key?: Maybe<Scalars['Float']['output']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "circuits". All fields are combined with a logical 'AND'. */
@@ -179,7 +183,9 @@ export type Circuits_Bool_Exp = {
   country?: InputMaybe<String_Comparison_Exp>;
   f1_key?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
+  latitude?: InputMaybe<Numeric_Comparison_Exp>;
   location?: InputMaybe<String_Comparison_Exp>;
+  longitude?: InputMaybe<Numeric_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   sessions?: InputMaybe<Sessions_Bool_Exp>;
   sessions_aggregate?: InputMaybe<Sessions_Aggregate_Bool_Exp>;
@@ -194,6 +200,8 @@ export enum Circuits_Constraint {
 /** input type for incrementing numeric columns in table "circuits" */
 export type Circuits_Inc_Input = {
   f1_key?: InputMaybe<Scalars['Int']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
 };
 
 /** input type for inserting data into table "circuits" */
@@ -201,7 +209,9 @@ export type Circuits_Insert_Input = {
   country?: InputMaybe<Scalars['String']['input']>;
   f1_key?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sessions?: InputMaybe<Sessions_Arr_Rel_Insert_Input>;
 };
@@ -212,7 +222,9 @@ export type Circuits_Max_Fields = {
   country?: Maybe<Scalars['String']['output']>;
   f1_key?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['String']['output']>;
+  latitude?: Maybe<Scalars['numeric']['output']>;
   location?: Maybe<Scalars['String']['output']>;
+  longitude?: Maybe<Scalars['numeric']['output']>;
   name?: Maybe<Scalars['String']['output']>;
 };
 
@@ -222,7 +234,9 @@ export type Circuits_Min_Fields = {
   country?: Maybe<Scalars['String']['output']>;
   f1_key?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['String']['output']>;
+  latitude?: Maybe<Scalars['numeric']['output']>;
   location?: Maybe<Scalars['String']['output']>;
+  longitude?: Maybe<Scalars['numeric']['output']>;
   name?: Maybe<Scalars['String']['output']>;
 };
 
@@ -254,7 +268,9 @@ export type Circuits_Order_By = {
   country?: InputMaybe<Order_By>;
   f1_key?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  latitude?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   sessions_aggregate?: InputMaybe<Sessions_Aggregate_Order_By>;
 };
@@ -273,7 +289,11 @@ export enum Circuits_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Latitude = 'latitude',
+  /** column name */
   Location = 'location',
+  /** column name */
+  Longitude = 'longitude',
   /** column name */
   Name = 'name',
 }
@@ -283,7 +303,9 @@ export type Circuits_Set_Input = {
   country?: InputMaybe<Scalars['String']['input']>;
   f1_key?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -291,18 +313,24 @@ export type Circuits_Set_Input = {
 export type Circuits_Stddev_Fields = {
   __typename?: 'circuits_stddev_fields';
   f1_key?: Maybe<Scalars['Float']['output']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Circuits_Stddev_Pop_Fields = {
   __typename?: 'circuits_stddev_pop_fields';
   f1_key?: Maybe<Scalars['Float']['output']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Circuits_Stddev_Samp_Fields = {
   __typename?: 'circuits_stddev_samp_fields';
   f1_key?: Maybe<Scalars['Float']['output']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "circuits" */
@@ -318,7 +346,9 @@ export type Circuits_Stream_Cursor_Value_Input = {
   country?: InputMaybe<Scalars['String']['input']>;
   f1_key?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -326,6 +356,8 @@ export type Circuits_Stream_Cursor_Value_Input = {
 export type Circuits_Sum_Fields = {
   __typename?: 'circuits_sum_fields';
   f1_key?: Maybe<Scalars['Int']['output']>;
+  latitude?: Maybe<Scalars['numeric']['output']>;
+  longitude?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** update columns of table "circuits" */
@@ -337,7 +369,11 @@ export enum Circuits_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Latitude = 'latitude',
+  /** column name */
   Location = 'location',
+  /** column name */
+  Longitude = 'longitude',
   /** column name */
   Name = 'name',
 }
@@ -355,18 +391,24 @@ export type Circuits_Updates = {
 export type Circuits_Var_Pop_Fields = {
   __typename?: 'circuits_var_pop_fields';
   f1_key?: Maybe<Scalars['Float']['output']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Circuits_Var_Samp_Fields = {
   __typename?: 'circuits_var_samp_fields';
   f1_key?: Maybe<Scalars['Float']['output']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Circuits_Variance_Fields = {
   __typename?: 'circuits_variance_fields';
   f1_key?: Maybe<Scalars['Float']['output']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "constructor_standings" */
@@ -2184,13 +2226,15 @@ export enum Event_Format_Choices_Constraint {
 }
 
 export enum Event_Format_Choices_Enum {
-  /** Conventional event format */
+  /** Practice 1, Practice 2, Practice 3, Qualifying, Race */
   Conventional = 'conventional',
-  /** Sprint qualifying event format */
+  /** Practice 1, Qualifying, Practice 2, Sprint, Race */
+  Sprint = 'sprint',
+  /** Practice 1, Sprint Qualifying, Sprint, Qualifying, Race */
   SprintQualifying = 'sprint_qualifying',
-  /** Sprint shootout event format */
+  /** Practice 1, Qualifying, Sprint Shootout, Sprint, Race */
   SprintShootout = 'sprint_shootout',
-  /** Testing event format */
+  /** no fixed session order; mostly Practice sessions */
   Testing = 'testing',
 }
 
@@ -10051,6 +10095,8 @@ export enum Tyre_Compounds_Enum {
   Soft = 'SOFT',
   /** Supersoft tyre compound */
   Supersoft = 'SUPERSOFT',
+  /** Unknown test tyre compound */
+  TestUnknown = 'TEST_UNKNOWN',
   /** Ultrasoft tyre compound */
   Ultrasoft = 'ULTRASOFT',
   /** Unknown tyre compound */
@@ -10770,11 +10816,20 @@ export type GetSeasonEventsSimpleQuery = {
   __typename?: 'query_root';
   events: Array<{
     __typename?: 'events';
+    id: string;
     round_number?: number | null;
     name?: string | null;
     location?: string | null;
     date?: string | null;
     country?: string | null;
+    sessions: Array<{
+      __typename?: 'sessions';
+      circuit?: {
+        __typename?: 'circuits';
+        latitude?: bigint | number | null;
+        longitude?: bigint | number | null;
+      } | null;
+    }>;
   }>;
 };
 
@@ -11197,11 +11252,18 @@ export type GetSeasonsQueryResult = Apollo.QueryResult<
 export const GetSeasonEventsSimpleDocument = gql`
   query GetSeasonEventsSimple($year: Int!) {
     events(where: { year: { _eq: $year } }) {
+      id
       round_number
       name
       location
       date
       country
+      sessions(limit: 1) {
+        circuit {
+          latitude
+          longitude
+        }
+      }
     }
   }
 `;

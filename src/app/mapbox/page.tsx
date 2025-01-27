@@ -1,30 +1,74 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { MapPin } from 'lucide-react';
-import React, { Fragment, useEffect, useState } from 'react';
-import Map, { Layer, Marker, Popup, Source } from 'react-map-gl';
+import { Maximize2, Minimize2 } from 'lucide-react';
+import React, { useState } from 'react';
+import Map from 'react-map-gl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { GET_SEASON_EVENTS_SIMPLE } from '@/lib/queries';
-import { geocodeLocation } from '@/lib/utils';
 
 import {
   GetSeasonEventsSimpleQuery,
   GetSeasonEventsSimpleQueryVariables,
 } from '@/generated/types';
 
+import { MapMarker } from './Marker';
+import { MapPopup } from './Popup';
+
 // Replace with your Mapbox access token
-const MAPBOX_TOKEN =
-  'pk.eyJ1Ijoiam9lbC1hbmdlbCIsImEiOiJjbTBiMWV3Y3YwM29zMmpzOGYwMzRnczJrIn0.Xe5m-NphtlcPF6WKdovTGQ';
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const initialView = {
+  longitude: 0,
+  latitude: 20,
+  zoom: 2,
+};
 
-type Event = GetSeasonEventsSimpleQuery['events'][0];
+export type Event = GetSeasonEventsSimpleQuery['events'][0];
 
-interface SimpleEvents extends Event {
-  lat: number;
-  long: number;
-}
+const Legend = () => {
+  const currDistance = 5000;
+  const totalDistance = 10000;
+
+  const [hidden, setHidden] = useState(false);
+
+  if (hidden) {
+    return (
+      <div className='absolute top-4 right-4 rounded border border-current bg-black p-2 text-base'>
+        <Maximize2
+          className='cursor-pointer'
+          onClick={() => setHidden(false)}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className='absolute top-4 right-4 grid gap-2 rounded border border-current bg-black p-2'>
+      <div className='flex items-center justify-between'>
+        <h3 className='text-2xl'>2024 Season Map</h3>
+        <Minimize2 className='cursor-pointer' onClick={() => setHidden(true)} />
+      </div>
+
+      <div className='h-2 w-full overflow-hidden rounded-full bg-white'>
+        <div
+          className='h-2 bg-blue-500'
+          style={{ width: (currDistance / totalDistance) * 100 + '%' }}
+        ></div>
+      </div>
+
+      <p>
+        Distance: {currDistance} / {totalDistance} KM
+      </p>
+      <div className='flex gap-4'>
+        <p>Current Event: Bahrain</p>
+        <p>Next Event: Jeddah</p>
+      </div>
+      <p className='text-right text-xs'>*Distances are approximate</p>
+    </div>
+  );
+};
 
 const WorldMap = () => {
   const { data } = useQuery<
@@ -33,111 +77,72 @@ const WorldMap = () => {
   >(GET_SEASON_EVENTS_SIMPLE, {
     variables: { year: 2024 },
   });
-  const [locations, setLocations] = useState<SimpleEvents[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<SimpleEvents | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchCoordinates = async () => {
-      try {
-        if (!data) return;
-        const locationsWithCoords = await Promise.all(
-          data.events.map(async (event) => {
-            if (event.location && event.country)
-              try {
-                const coords = await geocodeLocation(
-                  event.location,
-                  event.country,
-                );
-                return { ...event, ...coords };
-              } catch (err) {
-                if (err) return null;
-              }
-          }),
-        );
+  if (loading && !data) {
+    return <>Loading Map...</>;
+  }
 
-        // Filter out events that couldn't be geocoded
-        setLocations(
-          locationsWithCoords.filter(
-            (loc): loc is SimpleEvents => loc !== null,
-          ),
-        );
-      } catch (err) {
-        if (err) return null;
-      }
-    };
+  if (!data) {
+    return <>No Data for map</>;
+  }
 
-    fetchCoordinates();
-  }, [data]);
+  const handlePreviousClick = () => {
+    if (selectedEvent && selectedEvent.round_number) {
+      const previousEvent = data.events.find(
+        (e) => e.round_number === (selectedEvent.round_number as number) - 1,
+      );
+      setSelectedEvent(previousEvent as Event);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (selectedEvent && selectedEvent.round_number) {
+      const nextEvent = data.events.find(
+        (e) => e.round_number === (selectedEvent.round_number as number) + 1,
+      );
+      setSelectedEvent(nextEvent as Event);
+    }
+  };
 
   return (
     <div style={{ height: '500px', width: '100%' }}>
       <Map
-        initialViewState={{
-          longitude: 0,
-          latitude: 20,
-          zoom: 2,
-        }}
-        style={{ width: '100%', height: '100%' }}
-        mapStyle='mapbox://styles/joel-angel/cm0mcld6300b901qy5715btg6' // Use any Mapbox style
+        initialViewState={initialView}
+        mapStyle='mapbox://styles/mapbox/standard-satellite' // Use any Mapbox style
         mapboxAccessToken={MAPBOX_TOKEN}
+        projection={{ name: 'globe' }}
+        onLoad={() => setLoading(false)}
       >
-        {locations.map((event, i) => (
-          <Fragment key={event.name}>
-            <Marker
-              key={event.name}
-              longitude={event.long}
-              latitude={event.lat}
-              onClick={() => setSelectedEvent(event)}
-              scale={2}
-            >
-              {/* Custom marker */}
-              <div style={{ cursor: 'pointer' }}>
-                <MapPin fill='red' />
-              </div>
-            </Marker>
-            {i > 0 && (
-              <Source
-                id={event.name}
-                type='geojson'
-                data={{
-                  type: 'Feature',
-                  geometry: {
-                    type: 'LineString',
-                    coordinates: [
-                      [event.long, event.lat],
-                      [locations[i - 1].long, locations[i - 1].lat],
-                    ],
-                  },
-                }}
-              >
-                <Layer
-                  id={event.name || 'line'}
-                  type='line'
-                  source={event.name || 'line-source'}
-                  paint={{
-                    'line-color': '#FF0000', // Line color
-                    'line-width': 2, // Line width
-                  }}
-                />
-              </Source>
-            )}
-          </Fragment>
-        ))}
+        {/* Legend */}
+        <Legend />
 
+        {/* Markers */}
+        {!loading &&
+          data.events.map((event, i) => (
+            <MapMarker
+              key={event.name}
+              event={event}
+              selectEvent={(event) => setSelectedEvent(event)}
+              prevEvent={i > 0 ? data.events[i - 1] : undefined}
+            />
+          ))}
+
+        {/* Popup */}
         {selectedEvent && (
-          <Popup
-            longitude={selectedEvent.long}
-            latitude={selectedEvent.lat}
-            onClose={() => setSelectedEvent(null)}
-            closeOnClick={false}
-            closeButton={false}
-            closeOnMove
-            anchor='top'
-            className='text-center text-black'
-          >
-            <p>Round {selectedEvent.round_number}</p>
-            <strong>{selectedEvent.name}</strong>
-          </Popup>
+          <MapPopup
+            event={selectedEvent}
+            prevEvent={
+              data.events[(selectedEvent.round_number as number) - 2] as Event
+            }
+            nextEvent={
+              data.events[selectedEvent.round_number as number] as Event
+            }
+            handleClose={() => setSelectedEvent(null)}
+            handlePrev={handlePreviousClick}
+            handleNext={handleNextClick}
+          />
         )}
       </Map>
     </div>
