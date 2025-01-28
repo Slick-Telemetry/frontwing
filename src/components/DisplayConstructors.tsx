@@ -11,6 +11,8 @@ import {
   GetConstructorsQueryVariables,
 } from '@/generated/types';
 
+import { ServerComponentError } from './ServerError';
+
 export function DisplayConstructors() {
   const { loading, error, data } = useQuery<
     GetConstructorsQuery,
@@ -18,7 +20,7 @@ export function DisplayConstructors() {
   >(GET_CONSTRUCTORS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <ServerComponentError />;
 
   return data?.constructors.map(({ name, ergast_id, color }) => (
     <Link

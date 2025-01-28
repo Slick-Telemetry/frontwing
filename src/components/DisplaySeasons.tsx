@@ -7,6 +7,8 @@ import { GET_SEASONS } from '@/lib/queries';
 
 import { GetSeasonsQuery, GetSeasonsQueryVariables } from '@/generated/types';
 
+import { ServerComponentError } from './ServerError';
+
 export function DisplaySeasons() {
   const { loading, error, data } = useQuery<
     GetSeasonsQuery,
@@ -14,7 +16,7 @@ export function DisplaySeasons() {
   >(GET_SEASONS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <ServerComponentError />;
 
   return data?.events.map(({ year }) => (
     <Link

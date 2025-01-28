@@ -7,6 +7,7 @@ import React from 'react';
 import { hexToRgba } from '@/lib/helpers';
 import { GET_CONSTRUCTOR } from '@/lib/queries';
 
+import { ServerPageError } from '@/components/ServerError';
 import {
   Select,
   SelectContent,
@@ -23,7 +24,7 @@ import {
 const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
 
-  const { loading, data } = useQuery<
+  const { loading, data, error } = useQuery<
     GetConstructorQuery,
     GetConstructorQueryVariables
   >(GET_CONSTRUCTOR, {
@@ -56,6 +57,8 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
       ),
     };
   });
+
+  if (error) return <ServerPageError />;
 
   return (
     <div className='container'>

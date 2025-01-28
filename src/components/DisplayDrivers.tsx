@@ -7,6 +7,8 @@ import { GET_DRIVERS } from '@/lib/queries';
 
 import { GetDriversQuery, GetDriversQueryVariables } from '@/generated/types';
 
+import { ServerComponentError } from './ServerError';
+
 export function DisplayDrivers() {
   const { loading, error, data } = useQuery<
     GetDriversQuery,
@@ -14,7 +16,7 @@ export function DisplayDrivers() {
   >(GET_DRIVERS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <ServerComponentError />;
 
   return data?.drivers.map(({ full_name, ergast_id, number }) => (
     <Link

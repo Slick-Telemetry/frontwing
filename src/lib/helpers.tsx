@@ -1,15 +1,3 @@
-// const compareEventTime = (a, b = Date.now()) => {
-//   const eventTime = moment(a).local().format();
-//   const compareTime = moment(b).local().format();
-//   if (eventTime < compareTime) {
-//     return false;
-//   }
-//   if (eventTime > compareTime) {
-//     return true;
-//   }
-//   return true;
-// }
-
 // Helper function to convert HEX to RGBA
 export const hexToRgba = (hex: string, opacity: number) => {
   const bigint = parseInt(hex, 16);

@@ -8,6 +8,7 @@ import { use } from 'react';
 
 import { GET_EVENT_DETAILS } from '@/lib/queries';
 
+import { ServerPageError } from '@/components/ServerError';
 import { Button, buttonVariants } from '@/components/ui/button';
 
 import {
@@ -22,7 +23,7 @@ const formatTime = (time: string) => {
 const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
 
-  const { loading, data } = useQuery<
+  const { loading, data, error } = useQuery<
     GetEventDetailsQuery,
     GetEventDetailsQueryVariables
   >(GET_EVENT_DETAILS, {
@@ -30,6 +31,8 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
   });
 
   const event = loading ? null : data?.events[0];
+
+  if (error) return <ServerPageError />;
 
   return (
     <div className='container'>

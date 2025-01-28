@@ -8,6 +8,8 @@ import { use, useState } from 'react';
 
 import { GET_SEASON_EVENTS } from '@/lib/queries';
 
+import { ServerPageError } from '@/components/ServerError';
+
 import {
   GetSeasonEventsQuery,
   GetSeasonEventsQueryVariables,
@@ -30,7 +32,7 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <ServerPageError />;
 
   return (
     <div className='container'>
