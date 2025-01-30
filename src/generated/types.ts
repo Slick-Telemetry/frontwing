@@ -10822,6 +10822,7 @@ export type GetSeasonEventsSimpleQuery = {
     location?: string | null;
     date?: string | null;
     country?: string | null;
+    format?: Event_Format_Choices_Enum | null;
     sessions: Array<{
       __typename?: 'sessions';
       circuit?: {
@@ -11258,6 +11259,7 @@ export const GetSeasonEventsSimpleDocument = gql`
       location
       date
       country
+      format
       sessions(limit: 1) {
         circuit {
           latitude

@@ -75,6 +75,7 @@ export const GET_SEASON_EVENTS_SIMPLE = gql`
       location
       date
       country
+      format
       sessions(limit: 1) {
         circuit {
           latitude

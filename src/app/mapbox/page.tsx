@@ -1,23 +1,30 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { Maximize2, Minimize2 } from 'lucide-react';
-import React, { useState } from 'react';
+import clsx from 'clsx';
+import { Earth } from 'lucide-react';
+import React, { Fragment, useState } from 'react';
 import Map from 'react-map-gl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { GET_SEASON_EVENTS_SIMPLE } from '@/lib/queries';
+import { getColor } from '@/lib/utils';
+
+import { ServerPageError } from '@/components/ServerError';
 
 import {
   GetSeasonEventsSimpleQuery,
   GetSeasonEventsSimpleQueryVariables,
 } from '@/generated/types';
 
+import { ConnectionLine } from './ConnectionLine';
+import { Legend } from './Legend';
 import { MapMarker } from './Marker';
-import { MapPopup } from './Popup';
+import { MapPopup, PrevNextButtons } from './Popup';
 
-// Replace with your Mapbox access token
+export type Event = GetSeasonEventsSimpleQuery['events'][0];
+
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const initialView = {
   longitude: 0,
@@ -25,71 +32,25 @@ const initialView = {
   zoom: 2,
 };
 
-export type Event = GetSeasonEventsSimpleQuery['events'][0];
-
-const Legend = () => {
-  const currDistance = 5000;
-  const totalDistance = 10000;
-
-  const [hidden, setHidden] = useState(false);
-
-  if (hidden) {
-    return (
-      <div className='absolute top-4 right-4 rounded border border-current bg-black p-2 text-base'>
-        <Maximize2
-          className='cursor-pointer'
-          onClick={() => setHidden(false)}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className='absolute top-4 right-4 grid gap-2 rounded border border-current bg-black p-2'>
-      <div className='flex items-center justify-between'>
-        <h3 className='text-2xl'>2024 Season Map</h3>
-        <Minimize2 className='cursor-pointer' onClick={() => setHidden(true)} />
-      </div>
-
-      <div className='h-2 w-full overflow-hidden rounded-full bg-white'>
-        <div
-          className='h-2 bg-blue-500'
-          style={{ width: (currDistance / totalDistance) * 100 + '%' }}
-        ></div>
-      </div>
-
-      <p>
-        Distance: {currDistance} / {totalDistance} KM
-      </p>
-      <div className='flex gap-4'>
-        <p>Current Event: Bahrain</p>
-        <p>Next Event: Jeddah</p>
-      </div>
-      <p className='text-right text-xs'>*Distances are approximate</p>
-    </div>
-  );
-};
-
 const WorldMap = () => {
-  const { data } = useQuery<
+  const { data, error } = useQuery<
     GetSeasonEventsSimpleQuery,
     GetSeasonEventsSimpleQueryVariables
   >(GET_SEASON_EVENTS_SIMPLE, {
     variables: { year: 2024 },
   });
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  // We custom load state for map to load
+  // This prevents issues rending the custom line layers
   const [loading, setLoading] = useState(true);
 
-  if (loading && !data) {
-    return <>Loading Map...</>;
-  }
+  if (error) return <ServerPageError />;
 
-  if (!data) {
-    return <>No Data for map</>;
-  }
+  const handleSelectEvent = (event: Event) => setSelectedEvent(event);
 
+  // Previous event navigation for popup
   const handlePreviousClick = () => {
-    if (selectedEvent && selectedEvent.round_number) {
+    if (data && selectedEvent) {
       const previousEvent = data.events.find(
         (e) => e.round_number === (selectedEvent.round_number as number) - 1,
       );
@@ -98,7 +59,7 @@ const WorldMap = () => {
   };
 
   const handleNextClick = () => {
-    if (selectedEvent && selectedEvent.round_number) {
+    if (data && selectedEvent) {
       const nextEvent = data.events.find(
         (e) => e.round_number === (selectedEvent.round_number as number) + 1,
       );
@@ -107,7 +68,7 @@ const WorldMap = () => {
   };
 
   return (
-    <div style={{ height: '500px', width: '100%' }}>
+    <div className='relative flex h-[600px] w-full items-center justify-center'>
       <Map
         initialViewState={initialView}
         mapStyle='mapbox://styles/mapbox/standard-satellite' // Use any Mapbox style
@@ -116,35 +77,68 @@ const WorldMap = () => {
         onLoad={() => setLoading(false)}
       >
         {/* Legend */}
-        <Legend />
+        {data && <Legend events={data.events} />}
 
         {/* Markers */}
-        {!loading &&
-          data.events.map((event, i) => (
-            <MapMarker
-              key={event.name}
-              event={event}
-              selectEvent={(event) => setSelectedEvent(event)}
-              prevEvent={i > 0 ? data.events[i - 1] : undefined}
-            />
-          ))}
+        {data?.events.map((event, i) => {
+          const color = getColor(event.date);
+          return (
+            <Fragment key={event.name}>
+              <MapMarker
+                event={event}
+                color={color}
+                selectEvent={handleSelectEvent}
+              />
+
+              {/* Map needs to load first */}
+              {!loading && (
+                <ConnectionLine
+                  event={event}
+                  color={color}
+                  prevEvent={data.events[i - 1]}
+                />
+              )}
+            </Fragment>
+          );
+        })}
 
         {/* Popup */}
         {selectedEvent && (
           <MapPopup
             event={selectedEvent}
-            prevEvent={
-              data.events[(selectedEvent.round_number as number) - 2] as Event
-            }
-            nextEvent={
-              data.events[selectedEvent.round_number as number] as Event
-            }
             handleClose={() => setSelectedEvent(null)}
-            handlePrev={handlePreviousClick}
-            handleNext={handleNextClick}
-          />
+          >
+            {/* Prev and Next Event Buttons */}
+            {data && (
+              <PrevNextButtons
+                prevLocation={
+                  data.events[(selectedEvent.round_number as number) - 2]
+                    ?.location
+                }
+                nextLocation={
+                  data.events[selectedEvent.round_number as number]?.location
+                }
+                handlePrev={handlePreviousClick}
+                handleNext={handleNextClick}
+              />
+            )}
+          </MapPopup>
         )}
       </Map>
+      <div
+        className={clsx(
+          'pointer-events-none absolute inset-0 flex flex-col items-center justify-center bg-black transition-opacity duration-400',
+          loading ? 'opacity-100' : 'opacity-0',
+        )}
+      >
+        <Earth
+          size={48}
+          absoluteStrokeWidth={true}
+          className={
+            loading ? 'animate-[ping_1.5s_ease-out_infinite]' : 'animate-none'
+          }
+        />
+      </div>
     </div>
   );
 };
