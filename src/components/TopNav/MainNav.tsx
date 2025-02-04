@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -43,6 +44,9 @@ export function MainNav() {
               <DisplayDrivers />
             </ul>
           </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href='/map'>Map</Link>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
