@@ -3,7 +3,7 @@
 import { useQuery } from '@apollo/client';
 import clsx from 'clsx';
 import { Earth } from 'lucide-react';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useMemo, useState } from 'react';
 import Map from 'react-map-gl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -21,7 +21,8 @@ import {
 import { ConnectionLine } from './ConnectionLine';
 import { Legend } from './Legend';
 import { MapMarker } from './Marker';
-import { MapPopup, PrevNextButtons } from './Popup';
+import { MapPopup } from './Popup';
+import { PrevNextButtons } from './PrevNextButtons';
 
 export type Event = GetSeasonEventsSimpleQuery['events'][0];
 
@@ -33,42 +34,66 @@ const initialView = {
 };
 
 const WorldMap = () => {
+  // We custom load state for map to load
+  // This prevents issues rending the custom line layers
+  const [loading, setLoading] = useState(true);
+
   const { data, error } = useQuery<
     GetSeasonEventsSimpleQuery,
     GetSeasonEventsSimpleQueryVariables
   >(GET_SEASON_EVENTS_SIMPLE, {
     variables: { year: 2024 },
   });
+
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  // We custom load state for map to load
-  // This prevents issues rending the custom line layers
-  const [loading, setLoading] = useState(true);
+
+  const LegendMemo = useMemo(() => {
+    if (!data) return null;
+    return <Legend events={data.events} selectEvent={setSelectedEvent} />;
+  }, [data]);
+
+  const MarkersLinesMemo = useMemo(() => {
+    if (!data) return null;
+
+    return data.events.map((event, i) => {
+      const color = getColor(event.date);
+      const prevEvent = data.events[i - 1];
+      return (
+        <Fragment key={event.name}>
+          <MapMarker
+            event={event}
+            color={color}
+            selectEvent={setSelectedEvent}
+          />
+
+          {/* Map needs to load first */}
+          {loading ? null : (
+            <ConnectionLine event={event} color={color} prevEvent={prevEvent} />
+          )}
+        </Fragment>
+      );
+    });
+  }, [data, loading]);
 
   if (error) return <ServerPageError />;
 
-  const handleSelectEvent = (event: Event) => setSelectedEvent(event);
-
-  // Previous event navigation for popup
-  const handlePreviousClick = () => {
-    if (data && selectedEvent) {
-      const previousEvent = data.events.find(
-        (e) => e.round_number === (selectedEvent.round_number as number) - 1,
-      );
-      setSelectedEvent(previousEvent as Event);
-    }
-  };
-
-  const handleNextClick = () => {
-    if (data && selectedEvent) {
-      const nextEvent = data.events.find(
-        (e) => e.round_number === (selectedEvent.round_number as number) + 1,
-      );
-      setSelectedEvent(nextEvent as Event);
-    }
+  // Navigate to previous or next Event
+  // type
+  /**
+   * @description
+   * @param {('prev' | 'next')} [type='next']
+   */
+  const handleAdjacent = (type: 'prev' | 'next' = 'next') => {
+    if (!data || !selectedEvent) return;
+    const dirVal = type === 'prev' ? -1 : 1;
+    const event = data.events.find(
+      (e) => e.round_number === (selectedEvent.round_number as number) + dirVal,
+    );
+    setSelectedEvent(event as Event);
   };
 
   return (
-    <div className='relative flex h-[600px] w-full items-center justify-center'>
+    <div className='relative flex h-[700px] w-full items-center justify-center'>
       <Map
         initialViewState={initialView}
         mapStyle='mapbox://styles/mapbox/standard-satellite' // Use any Mapbox style
@@ -77,30 +102,10 @@ const WorldMap = () => {
         onLoad={() => setLoading(false)}
       >
         {/* Legend */}
-        {data && <Legend events={data.events} />}
+        {LegendMemo}
 
-        {/* Markers */}
-        {data?.events.map((event, i) => {
-          const color = getColor(event.date);
-          return (
-            <Fragment key={event.name}>
-              <MapMarker
-                event={event}
-                color={color}
-                selectEvent={handleSelectEvent}
-              />
-
-              {/* Map needs to load first */}
-              {!loading && (
-                <ConnectionLine
-                  event={event}
-                  color={color}
-                  prevEvent={data.events[i - 1]}
-                />
-              )}
-            </Fragment>
-          );
-        })}
+        {/* Markers & Connecting Lines */}
+        {MarkersLinesMemo}
 
         {/* Popup */}
         {selectedEvent && (
@@ -109,36 +114,33 @@ const WorldMap = () => {
             handleClose={() => setSelectedEvent(null)}
           >
             {/* Prev and Next Event Buttons */}
-            {data && (
-              <PrevNextButtons
-                prevLocation={
-                  data.events[(selectedEvent.round_number as number) - 2]
-                    ?.location
-                }
-                nextLocation={
-                  data.events[selectedEvent.round_number as number]?.location
-                }
-                handlePrev={handlePreviousClick}
-                handleNext={handleNextClick}
-              />
-            )}
+            <PrevNextButtons
+              events={data?.events}
+              selectedEvent={selectedEvent}
+              handleAdjacent={handleAdjacent}
+            />
           </MapPopup>
         )}
       </Map>
-      <div
-        className={clsx(
-          'pointer-events-none absolute inset-0 flex flex-col items-center justify-center bg-black transition-opacity duration-400',
-          loading ? 'opacity-100' : 'opacity-0',
-        )}
-      >
-        <Earth
-          size={48}
-          absoluteStrokeWidth={true}
-          className={
-            loading ? 'animate-[ping_1.5s_ease-out_infinite]' : 'animate-none'
-          }
-        />
-      </div>
+      <MapLoader loading={loading} />
+    </div>
+  );
+};
+
+const MapLoader = ({ loading }: { loading: boolean }) => {
+  return (
+    <div
+      className={clsx(
+        'pointer-events-none absolute inset-0 flex items-center justify-center bg-black transition-opacity duration-400',
+        loading ? 'opacity-100' : 'opacity-0',
+      )}
+    >
+      <Earth
+        size={48}
+        className={
+          loading ? 'animate-[ping_1.5s_ease-out_infinite]' : 'animate-none'
+        }
+      />
     </div>
   );
 };

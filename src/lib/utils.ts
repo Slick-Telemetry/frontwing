@@ -8,15 +8,73 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getColor = (date?: string | null) => {
-  if (!date) return '#4264FB';
+/**
+ * @description Return value for default background gradient
+ * @param {string} color
+ */
+export const bgGradient = (color: string) =>
+  `linear-gradient(to top left, ${hexToRgba(color, 0.8)}, ${hexToRgba(color, 0)})`;
 
-  // If today
-  if (moment(date).isSame(moment(), 'day')) return '#4264FB';
-  // If past
-  else if (moment(date).isBefore(moment(), 'day')) return '#28a745';
-  // else is future
-  else return '#FF0000';
+/**
+ * @description resolve if event is past, present, future
+ * @param {(string | null)} [date]
+ * @return {string}  {('past' | 'present' | 'future')}
+ */
+export const eventTiming = (
+  date?: string | null,
+): 'past' | 'present' | 'future' => {
+  if (!date) return 'past';
+
+  if (moment(date).isSame(moment(), 'day')) return 'present';
+  else if (moment(date).isBefore(moment(), 'day')) return 'past';
+  else return 'future';
+};
+
+const mapColors = {
+  present: '#4264FB',
+  past: '#28a745',
+  future: '#FF0000',
+};
+/**
+ * @description Get designated map color
+ * @param {(string | null)} [date]
+ * @return {string} value of mapColor
+ */
+export const getColor = (
+  date?: string | null,
+): (typeof mapColors)[keyof typeof mapColors] => {
+  const timing = eventTiming(date);
+  return mapColors[timing];
+};
+
+/**
+ * @description converts hexCode to rgba used for background gradients
+ * @param {string} hex
+ * @param {number} opacity
+ * @return {*}
+ */
+export const hexToRgba = (hex: string, opacity: number) => {
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `rgba(${r},${g},${b},${opacity})`;
+};
+
+/**
+ * @description Take a position value and returns position end
+ * @param {(number | string)} position
+ * @return {('st' | 'nd' | 'rd' | 'th')}
+ */
+export const positionEnding = (position: number | string) => {
+  // Convert to int
+  position = typeof position === 'string' ? parseInt(position) : position;
+  // Format
+  if ([1, 21].includes(position)) return 'st';
+  else if ([2, 22].includes(position)) return 'nd';
+  else if ([3, 23].includes(position)) return 'rd';
+  else return 'th';
 };
 
 // export const getCountryFlag = (country_code?: string) => {

@@ -4,8 +4,8 @@ import { useQuery } from '@apollo/client';
 import { use } from 'react';
 import React from 'react';
 
-import { hexToRgba } from '@/lib/helpers';
 import { GET_CONSTRUCTOR } from '@/lib/queries';
+import { bgGradient } from '@/lib/utils';
 
 import { ServerPageError } from '@/components/ServerError';
 import {
@@ -68,7 +68,7 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
             className='mb-4 rounded py-4'
             style={{
               background: constructor.color
-                ? `linear-gradient(to left, ${hexToRgba(constructor.color, 0.8)}, ${hexToRgba(constructor.color, 0)})`
+                ? bgGradient(constructor.color)
                 : 'initial',
             }}
           >

@@ -421,6 +421,7 @@ export type Constructor_Standings = {
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
+  round?: Maybe<Scalars['Int']['output']>;
   season?: Maybe<Scalars['Int']['output']>;
   wins?: Maybe<Scalars['Int']['output']>;
 };
@@ -492,6 +493,7 @@ export type Constructor_Standings_Avg_Fields = {
   __typename?: 'constructor_standings_avg_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -500,6 +502,7 @@ export type Constructor_Standings_Avg_Fields = {
 export type Constructor_Standings_Avg_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -515,6 +518,7 @@ export type Constructor_Standings_Bool_Exp = {
   points?: InputMaybe<Numeric_Comparison_Exp>;
   position?: InputMaybe<Int_Comparison_Exp>;
   position_text?: InputMaybe<String_Comparison_Exp>;
+  round?: InputMaybe<Int_Comparison_Exp>;
   season?: InputMaybe<Int_Comparison_Exp>;
   wins?: InputMaybe<Int_Comparison_Exp>;
 };
@@ -529,6 +533,7 @@ export enum Constructor_Standings_Constraint {
 export type Constructor_Standings_Inc_Input = {
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
   season?: InputMaybe<Scalars['Int']['input']>;
   wins?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -541,6 +546,7 @@ export type Constructor_Standings_Insert_Input = {
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
   season?: InputMaybe<Scalars['Int']['input']>;
   wins?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -553,6 +559,7 @@ export type Constructor_Standings_Max_Fields = {
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
+  round?: Maybe<Scalars['Int']['output']>;
   season?: Maybe<Scalars['Int']['output']>;
   wins?: Maybe<Scalars['Int']['output']>;
 };
@@ -564,6 +571,7 @@ export type Constructor_Standings_Max_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -576,6 +584,7 @@ export type Constructor_Standings_Min_Fields = {
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
+  round?: Maybe<Scalars['Int']['output']>;
   season?: Maybe<Scalars['Int']['output']>;
   wins?: Maybe<Scalars['Int']['output']>;
 };
@@ -587,6 +596,7 @@ export type Constructor_Standings_Min_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -615,6 +625,7 @@ export type Constructor_Standings_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -637,6 +648,8 @@ export enum Constructor_Standings_Select_Column {
   /** column name */
   PositionText = 'position_text',
   /** column name */
+  Round = 'round',
+  /** column name */
   Season = 'season',
   /** column name */
   Wins = 'wins',
@@ -649,6 +662,7 @@ export type Constructor_Standings_Set_Input = {
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
   season?: InputMaybe<Scalars['Int']['input']>;
   wins?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -658,6 +672,7 @@ export type Constructor_Standings_Stddev_Fields = {
   __typename?: 'constructor_standings_stddev_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -666,6 +681,7 @@ export type Constructor_Standings_Stddev_Fields = {
 export type Constructor_Standings_Stddev_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -675,6 +691,7 @@ export type Constructor_Standings_Stddev_Pop_Fields = {
   __typename?: 'constructor_standings_stddev_pop_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -683,6 +700,7 @@ export type Constructor_Standings_Stddev_Pop_Fields = {
 export type Constructor_Standings_Stddev_Pop_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -692,6 +710,7 @@ export type Constructor_Standings_Stddev_Samp_Fields = {
   __typename?: 'constructor_standings_stddev_samp_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -700,6 +719,7 @@ export type Constructor_Standings_Stddev_Samp_Fields = {
 export type Constructor_Standings_Stddev_Samp_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -719,6 +739,7 @@ export type Constructor_Standings_Stream_Cursor_Value_Input = {
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
   season?: InputMaybe<Scalars['Int']['input']>;
   wins?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -728,6 +749,7 @@ export type Constructor_Standings_Sum_Fields = {
   __typename?: 'constructor_standings_sum_fields';
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
+  round?: Maybe<Scalars['Int']['output']>;
   season?: Maybe<Scalars['Int']['output']>;
   wins?: Maybe<Scalars['Int']['output']>;
 };
@@ -736,6 +758,7 @@ export type Constructor_Standings_Sum_Fields = {
 export type Constructor_Standings_Sum_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -752,6 +775,8 @@ export enum Constructor_Standings_Update_Column {
   Position = 'position',
   /** column name */
   PositionText = 'position_text',
+  /** column name */
+  Round = 'round',
   /** column name */
   Season = 'season',
   /** column name */
@@ -772,6 +797,7 @@ export type Constructor_Standings_Var_Pop_Fields = {
   __typename?: 'constructor_standings_var_pop_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -780,6 +806,7 @@ export type Constructor_Standings_Var_Pop_Fields = {
 export type Constructor_Standings_Var_Pop_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -789,6 +816,7 @@ export type Constructor_Standings_Var_Samp_Fields = {
   __typename?: 'constructor_standings_var_samp_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -797,6 +825,7 @@ export type Constructor_Standings_Var_Samp_Fields = {
 export type Constructor_Standings_Var_Samp_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -806,6 +835,7 @@ export type Constructor_Standings_Variance_Fields = {
   __typename?: 'constructor_standings_variance_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -814,6 +844,7 @@ export type Constructor_Standings_Variance_Fields = {
 export type Constructor_Standings_Variance_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -929,6 +960,8 @@ export type Constructors_Bool_Exp = {
 
 /** unique or primary key constraints on table "constructors" */
 export enum Constructors_Constraint {
+  /** unique or primary key constraint on columns "ergast_id" */
+  ConstructorsErgastIdKey = 'constructors_ergast_id_key',
   /** unique or primary key constraint on columns "id" */
   ConstructorsPkey = 'constructors_pkey',
 }
@@ -1449,6 +1482,7 @@ export type Driver_Standings = {
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
+  round?: Maybe<Scalars['Int']['output']>;
   season?: Maybe<Scalars['Int']['output']>;
   wins?: Maybe<Scalars['Int']['output']>;
 };
@@ -1520,6 +1554,7 @@ export type Driver_Standings_Avg_Fields = {
   __typename?: 'driver_standings_avg_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -1528,6 +1563,7 @@ export type Driver_Standings_Avg_Fields = {
 export type Driver_Standings_Avg_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1543,6 +1579,7 @@ export type Driver_Standings_Bool_Exp = {
   points?: InputMaybe<Numeric_Comparison_Exp>;
   position?: InputMaybe<Int_Comparison_Exp>;
   position_text?: InputMaybe<String_Comparison_Exp>;
+  round?: InputMaybe<Int_Comparison_Exp>;
   season?: InputMaybe<Int_Comparison_Exp>;
   wins?: InputMaybe<Int_Comparison_Exp>;
 };
@@ -1557,6 +1594,7 @@ export enum Driver_Standings_Constraint {
 export type Driver_Standings_Inc_Input = {
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
   season?: InputMaybe<Scalars['Int']['input']>;
   wins?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -1569,6 +1607,7 @@ export type Driver_Standings_Insert_Input = {
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
   season?: InputMaybe<Scalars['Int']['input']>;
   wins?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -1581,6 +1620,7 @@ export type Driver_Standings_Max_Fields = {
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
+  round?: Maybe<Scalars['Int']['output']>;
   season?: Maybe<Scalars['Int']['output']>;
   wins?: Maybe<Scalars['Int']['output']>;
 };
@@ -1592,6 +1632,7 @@ export type Driver_Standings_Max_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1604,6 +1645,7 @@ export type Driver_Standings_Min_Fields = {
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
+  round?: Maybe<Scalars['Int']['output']>;
   season?: Maybe<Scalars['Int']['output']>;
   wins?: Maybe<Scalars['Int']['output']>;
 };
@@ -1615,6 +1657,7 @@ export type Driver_Standings_Min_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1643,6 +1686,7 @@ export type Driver_Standings_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1665,6 +1709,8 @@ export enum Driver_Standings_Select_Column {
   /** column name */
   PositionText = 'position_text',
   /** column name */
+  Round = 'round',
+  /** column name */
   Season = 'season',
   /** column name */
   Wins = 'wins',
@@ -1677,6 +1723,7 @@ export type Driver_Standings_Set_Input = {
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
   season?: InputMaybe<Scalars['Int']['input']>;
   wins?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -1686,6 +1733,7 @@ export type Driver_Standings_Stddev_Fields = {
   __typename?: 'driver_standings_stddev_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -1694,6 +1742,7 @@ export type Driver_Standings_Stddev_Fields = {
 export type Driver_Standings_Stddev_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1703,6 +1752,7 @@ export type Driver_Standings_Stddev_Pop_Fields = {
   __typename?: 'driver_standings_stddev_pop_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -1711,6 +1761,7 @@ export type Driver_Standings_Stddev_Pop_Fields = {
 export type Driver_Standings_Stddev_Pop_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1720,6 +1771,7 @@ export type Driver_Standings_Stddev_Samp_Fields = {
   __typename?: 'driver_standings_stddev_samp_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -1728,6 +1780,7 @@ export type Driver_Standings_Stddev_Samp_Fields = {
 export type Driver_Standings_Stddev_Samp_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1747,6 +1800,7 @@ export type Driver_Standings_Stream_Cursor_Value_Input = {
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
   season?: InputMaybe<Scalars['Int']['input']>;
   wins?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -1756,6 +1810,7 @@ export type Driver_Standings_Sum_Fields = {
   __typename?: 'driver_standings_sum_fields';
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
+  round?: Maybe<Scalars['Int']['output']>;
   season?: Maybe<Scalars['Int']['output']>;
   wins?: Maybe<Scalars['Int']['output']>;
 };
@@ -1764,6 +1819,7 @@ export type Driver_Standings_Sum_Fields = {
 export type Driver_Standings_Sum_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1780,6 +1836,8 @@ export enum Driver_Standings_Update_Column {
   Position = 'position',
   /** column name */
   PositionText = 'position_text',
+  /** column name */
+  Round = 'round',
   /** column name */
   Season = 'season',
   /** column name */
@@ -1800,6 +1858,7 @@ export type Driver_Standings_Var_Pop_Fields = {
   __typename?: 'driver_standings_var_pop_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -1808,6 +1867,7 @@ export type Driver_Standings_Var_Pop_Fields = {
 export type Driver_Standings_Var_Pop_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1817,6 +1877,7 @@ export type Driver_Standings_Var_Samp_Fields = {
   __typename?: 'driver_standings_var_samp_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -1825,6 +1886,7 @@ export type Driver_Standings_Var_Samp_Fields = {
 export type Driver_Standings_Var_Samp_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1834,6 +1896,7 @@ export type Driver_Standings_Variance_Fields = {
   __typename?: 'driver_standings_variance_fields';
   points?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Scalars['Float']['output']>;
+  round?: Maybe<Scalars['Float']['output']>;
   season?: Maybe<Scalars['Float']['output']>;
   wins?: Maybe<Scalars['Float']['output']>;
 };
@@ -1842,6 +1905,7 @@ export type Driver_Standings_Variance_Fields = {
 export type Driver_Standings_Variance_Order_By = {
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
 };
@@ -1953,6 +2017,8 @@ export type Drivers_Bool_Exp = {
 
 /** unique or primary key constraints on table "drivers" */
 export enum Drivers_Constraint {
+  /** unique or primary key constraint on columns "ergast_id" */
+  DriversErgastIdKey = 'drivers_ergast_id_key',
   /** unique or primary key constraint on columns "id" */
   DriversPkey = 'drivers_pkey',
 }

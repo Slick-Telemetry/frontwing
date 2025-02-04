@@ -3,8 +3,8 @@
 import { useQuery } from '@apollo/client';
 import Link from 'next/link';
 
-import { hexToRgba } from '@/lib/helpers';
 import { GET_CONSTRUCTORS } from '@/lib/queries';
+import { bgGradient } from '@/lib/utils';
 
 import {
   GetConstructorsQuery,
@@ -28,9 +28,7 @@ export function DisplayConstructors() {
       key={name}
       className='flex items-center gap-2 rounded-lg p-2 hover:underline'
       style={{
-        background: color
-          ? `linear-gradient(to left, ${hexToRgba(color, 0.8)}, ${hexToRgba(color, 0)})`
-          : 'initial',
+        background: color ? bgGradient(color) : 'initial',
       }}
     >
       <div

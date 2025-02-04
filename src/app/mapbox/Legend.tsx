@@ -12,15 +12,29 @@ import { getColor } from '@/lib/utils';
 
 import { Event } from './page';
 
-export const Legend = ({ events }: { events: Event[] }) => {
-  // const currDistance = 5000;
-  // const totalDistance = 10000;
+const containerClasses =
+  'absolute top-4 right-4 rounded border border-current bg-black p-2 text-base';
 
+// ? This is for when we can resolve reliable distances matching with paths
+// const calcDistance = (loc1: number[], loc2: number[]) => {
+//   const from = point(loc1);
+//   const to = point(loc2);
+//   const totalDistance = distance(from, to);
+//   return Math.ceil(totalDistance);
+// };
+
+export const Legend = ({
+  events,
+  selectEvent,
+}: {
+  events?: Event[];
+  selectEvent: (event: Event) => void;
+}) => {
   const [hidden, setHidden] = useState(false);
 
   if (hidden) {
     return (
-      <div className='absolute top-4 right-4 rounded border border-current bg-black p-2 text-base'>
+      <div className={containerClasses}>
         <Maximize2
           className='cursor-pointer'
           onClick={() => setHidden(false)}
@@ -30,35 +44,36 @@ export const Legend = ({ events }: { events: Event[] }) => {
   }
 
   return (
-    <div className='absolute top-4 right-4 grid gap-2 rounded border border-current bg-black p-2'>
+    <div className={containerClasses}>
       <div className='flex items-center justify-between gap-2'>
         <h3 className='text-2xl'>2024 Season Map</h3>
         <Minimize2 className='cursor-pointer' onClick={() => setHidden(true)} />
       </div>
 
+      <div className='grid divide-y divide-current'>
+        {events?.map((e) => (
+          <div
+            onClick={() => selectEvent(e)}
+            key={e.id}
+            style={{ color: getColor(e.date) }}
+            className='flex cursor-pointer items-center gap-2'
+          >
+            {moment(e.date).isSame(moment(), 'day') && <Star />}
+            {moment(e.date).isBefore(moment(), 'day') && <CircleCheck />}
+            {moment(e.date).isAfter(moment(), 'day') && <CalendarPlus />}{' '}
+            {e.name}
+          </div>
+        ))}
+      </div>
+
+      {/* Old Distance concept */}
       {/* <div className='h-2 w-full overflow-hidden rounded-full bg-white'>
         <div
           className='h-2 bg-blue-500'
           style={{ width: (currDistance / totalDistance) * 100 + '%' }}
         ></div>
       </div> */}
-
       {/* <p>Distance: {currDistance} / {totalDistance} KM</p> */}
-      <div className='grid divide-y divide-current'>
-        {events &&
-          events.map((e) => (
-            <div
-              key={e.id}
-              style={{ color: getColor(e.date) }}
-              className='flex items-center gap-2'
-            >
-              {moment(e.date).isSame(moment(), 'day') && <Star />}
-              {moment(e.date).isBefore(moment(), 'day') && <CircleCheck />}
-              {moment(e.date).isAfter(moment(), 'day') && <CalendarPlus />}{' '}
-              {e.name}
-            </div>
-          ))}
-      </div>
       {/* <p className='text-right text-xs'>*Distances are approximate</p> */}
     </div>
   );
