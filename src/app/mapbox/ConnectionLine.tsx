@@ -1,16 +1,14 @@
 import { greatCircle } from '@turf/turf';
 import { Layer, Source } from 'react-map-gl';
 
-import { Event } from './page';
-
 export const ConnectionLine = ({
   event,
   prevEvent,
   color,
 }: {
-  event: Event;
+  event: WeekendEvent;
   color: string;
-  prevEvent?: Event;
+  prevEvent?: WeekendEvent;
 }) => {
   const lineCoordinates = prevEvent
     ? greatCircle(

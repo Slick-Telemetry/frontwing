@@ -4,11 +4,13 @@ import { useQuery } from '@apollo/client';
 import moment from 'moment';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { use, useState } from 'react';
+import { use, useCallback, useState } from 'react';
 
 import { GET_SEASON_EVENTS } from '@/lib/queries';
 
+import { FloatingNumber } from '@/components/FloatingNumber';
 import { ServerPageError } from '@/components/ServerError';
+import { SessionTime } from '@/components/SessionTime';
 
 import {
   GetSeasonEventsQuery,
@@ -18,7 +20,6 @@ import {
 const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
   const { year } = use(params);
   const [showSessions, setShowSessions] = useState(false);
-  const router = useRouter();
 
   const { loading, error, data } = useQuery<
     GetSeasonEventsQuery,
@@ -27,9 +28,9 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
     variables: { year: parseInt(year) },
   });
 
-  const toggleSessions = () => {
-    setShowSessions(!showSessions);
-  };
+  const toggleSessions = useCallback(() => {
+    setShowSessions((prev) => !prev);
+  }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <ServerPageError />;
@@ -37,78 +38,90 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
   return (
     <div className='container'>
       <h1 className='font-mono text-4xl'>{year} Season</h1>
-      <div className='my-4 flex items-center rounded-lg border p-4'>
-        <input
-          onChange={toggleSessions}
-          id='sessions-checkbox'
-          type='checkbox'
-          value=''
-          className='h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600'
-        />
-        <label htmlFor='sessions-checkbox' className='ms-2 text-sm font-medium'>
-          Show Sessions
-        </label>
-      </div>
+      <SessionToggle toggleSessions={toggleSessions} />
+
       <div className='my-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
         {data?.events.map((event) => (
-          <div
-            key={event.name}
-            className='rounded-lg border border-r-4 border-b-4 border-current p-4'
-          >
-            <div className='relative flex items-center justify-between py-2'>
-              <div className='absolute left-2 text-8xl font-bold italic opacity-25'>
-                {event.round_number}
-              </div>
-              <Link
-                href={'/event/' + event.id}
-                className='text-3xl font-semibold hover:underline'
-              >
-                {event.name && event.name.replace('Grand Prix', 'GP')}
-              </Link>
-              <div className='text-right text-sm'>
-                <p>{moment(event.date).local().format('LL')}</p>
-                <p>
-                  {event.location}, {event.country}
-                </p>
-              </div>
-            </div>
+          <EventContainer key={event.id} event={event}>
             {showSessions &&
               event.sessions.map((session) => (
-                <div
-                  className='mt-4 flex items-center gap-4 overflow-hidden rounded-xl border hover:border-current'
-                  key={session.name}
-                  onClick={() => router.push('/session/' + session.id)}
-                >
-                  <div className='flex min-w-16 flex-col items-center bg-gray-300 p-2 dark:bg-gray-600'>
-                    <p className='text-xs'>
-                      {moment(session.scheduled_start_time_utc)
-                        .local()
-                        .format('ddd')}
-                    </p>
-                    <p className='text-2xl leading-6 font-extrabold'>
-                      {moment(session.scheduled_start_time_utc)
-                        .local()
-                        .format('D')}
-                    </p>
-                    <p className='text-xs'>
-                      {moment(session.scheduled_start_time_utc)
-                        .local()
-                        .format('MMM')}
-                    </p>
-                  </div>
-                  <div>
-                    <p className='font-mono text-sm'>
-                      {moment(session.scheduled_start_time_utc)
-                        .local()
-                        .format('LT')}
-                    </p>
-                    <p className='text-2xl font-semibold'>{session.name}</p>
-                  </div>
-                </div>
+                <SessionContainer key={session.id} id={session.id}>
+                  <SessionTime
+                    id={session.id}
+                    time={session?.scheduled_start_time_utc}
+                    name={session?.name}
+                  />
+                </SessionContainer>
               ))}
-          </div>
+          </EventContainer>
         ))}
       </div>
+    </div>
+  );
+};
+
+const EventContainer = ({
+  event,
+  children,
+}: {
+  event: WeekendEvent;
+  children: React.ReactNode;
+}) => {
+  return (
+    <div className='overflow-hidden rounded-lg border border-r-4 border-b-4 border-current p-4'>
+      <div className='relative flex items-center justify-between'>
+        <FloatingNumber className='-left-8'>
+          {event.round_number}
+        </FloatingNumber>
+        <Link
+          href={'/event/' + event.id}
+          className='text-3xl font-semibold hover:underline'
+        >
+          {event.name?.replace('Grand Prix', 'GP')}
+        </Link>
+        <div className='text-right text-sm'>
+          <p>{moment(event.date).local().format('LL')}</p>
+          <p>
+            {event.location}, {event.country}
+          </p>
+        </div>
+      </div>
+      {children}
+    </div>
+  );
+};
+
+const SessionToggle = ({ toggleSessions }: { toggleSessions: () => void }) => {
+  return (
+    <div className='my-4 flex items-center rounded-lg border p-4'>
+      <input
+        onChange={toggleSessions}
+        id='sessions-checkbox'
+        type='checkbox'
+        className='h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600'
+      />
+      <label htmlFor='sessions-checkbox' className='ms-2 text-sm font-medium'>
+        Show Sessions
+      </label>
+    </div>
+  );
+};
+
+const SessionContainer = ({
+  id,
+  children,
+}: {
+  id: string;
+  children: React.ReactNode;
+}) => {
+  const router = useRouter();
+
+  return (
+    <div
+      className='mt-4 flex items-center gap-4 overflow-hidden rounded-xl border hover:border-current'
+      onClick={() => router.push('/session/' + id)}
+    >
+      {children}
     </div>
   );
 };

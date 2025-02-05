@@ -3,11 +3,10 @@ import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { Popup, useMap } from 'react-map-gl';
 
+import { FloatingNumber } from '@/components/FloatingNumber';
 import { Badge } from '@/components/ui/badge';
 
 import { Event_Format_Choices_Enum } from '@/generated/types';
-
-import { Event } from './page';
 
 const optimalZoom = 15; // optimal zoom for circuit visibility
 
@@ -16,7 +15,7 @@ export const MapPopup = ({
   handleClose,
   children,
 }: {
-  event: Event;
+  event: WeekendEvent;
   handleClose: () => void;
   children: React.ReactNode;
 }) => {
@@ -80,9 +79,9 @@ export const MapPopup = ({
     >
       <div className='relative grid min-w-xs'>
         {/* Floating Round Number */}
-        <div className='absolute -top-8 right-5 text-8xl font-bold italic opacity-25'>
+        <FloatingNumber className='-top-8 right-4'>
           {event.round_number}
-        </div>
+        </FloatingNumber>
 
         {/* Top Row */}
         <div className='flex items-center justify-between'>

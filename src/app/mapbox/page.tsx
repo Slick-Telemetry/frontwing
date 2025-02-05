@@ -24,8 +24,6 @@ import { MapMarker } from './Marker';
 import { MapPopup } from './Popup';
 import { PrevNextButtons } from './PrevNextButtons';
 
-export type Event = GetSeasonEventsSimpleQuery['events'][0];
-
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const initialView = {
   longitude: 0,
@@ -45,7 +43,7 @@ const WorldMap = () => {
     variables: { year: 2024 },
   });
 
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<WeekendEvent | null>(null);
 
   const LegendMemo = useMemo(() => {
     if (!data) return null;
@@ -89,7 +87,7 @@ const WorldMap = () => {
     const event = data.events.find(
       (e) => e.round_number === (selectedEvent.round_number as number) + dirVal,
     );
-    setSelectedEvent(event as Event);
+    setSelectedEvent(event as WeekendEvent);
   };
 
   return (

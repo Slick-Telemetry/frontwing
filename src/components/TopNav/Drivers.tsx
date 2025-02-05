@@ -7,7 +7,8 @@ import { GET_DRIVERS } from '@/lib/queries';
 
 import { GetDriversQuery, GetDriversQueryVariables } from '@/generated/types';
 
-import { ServerComponentError } from './ServerError';
+import { FloatingNumber } from '../FloatingNumber';
+import { ServerComponentError } from '../ServerError';
 
 export function DisplayDrivers() {
   const { loading, error, data } = useQuery<
@@ -24,11 +25,7 @@ export function DisplayDrivers() {
       key={full_name}
       className='group relative flex items-center gap-2 overflow-hidden rounded-lg border p-2 hover:bg-linear-to-l hover:from-current hover:via-transparent'
     >
-      {/* <div className='rounded-full w-8 h-8 shadow-sm shadow-current flex items-center justify-center'>
-      </div> */}
-      <div className='absolute right-2 text-6xl font-bold italic opacity-25 group-hover:text-white dark:group-hover:text-black'>
-        {number}
-      </div>
+      <FloatingNumber className='right-2'>{number}</FloatingNumber>
       <h3 className='group-hover:underline'>{full_name}</h3>
     </Link>
   ));

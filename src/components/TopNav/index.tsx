@@ -5,9 +5,6 @@ import { MainNav } from './MainNav';
 import { ServerStatus } from './ServerStatus';
 import { ThemeSwitcher } from './ThemeToggler';
 
-export * from './MainNav';
-export * from './UserNav';
-
 export const TopNav = () => {
   return (
     <div className='container flex h-16 items-center'>

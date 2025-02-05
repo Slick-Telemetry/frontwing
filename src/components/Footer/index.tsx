@@ -34,7 +34,7 @@ function Footer() {
         </div>
       </div>
       <div>
-        <p>Copyright © 2024, Slick Telemetry</p>
+        <p>Copyright © 2025, Slick Telemetry</p>
         <p className='max-w-96'>
           This website is not associated in with any Formula&nbsp;1 companies
         </p>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { use } from 'react';
+import { use, useMemo } from 'react';
 import React from 'react';
 
 import { GET_CONSTRUCTOR } from '@/lib/queries';
@@ -21,6 +21,8 @@ import {
   GetConstructorQueryVariables,
 } from '@/generated/types';
 
+import { ResultsTable } from './ResultsTable';
+
 const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
 
@@ -31,131 +33,68 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
     variables: { _id: id },
   });
 
-  const constructor = loading ? null : data?.constructors[0];
+  const constructor = data?.constructors[0];
 
-  const drivers = Array.from(
-    new Set(constructor?.driver_sessions.map((ds) => ds.driver?.full_name)),
-  );
-  const sessions = (
-    Array.from(
+  const years = useMemo(() => {
+    return Array.from(
       new Set(
-        constructor?.driver_sessions.map(
-          (ds) => `${ds.session?.event?.name}-${ds.session?.name}`,
-        ),
+        constructor?.driver_sessions.map((ds) => ds.session?.event?.year),
       ),
-    ) as string[]
-  ).map((session: string) => session.split('-'));
+    );
+  }, [constructor]);
 
-  const years = Array.from(
-    new Set(constructor?.driver_sessions.map((ds) => ds.session?.event?.year)),
-  );
-  const driverSessionsByDriver = drivers.map((driver) => {
-    return {
-      driver,
-      sessions: constructor?.driver_sessions.filter(
-        (ds) => ds.driver?.full_name === driver,
-      ),
-    };
-  });
+  const drivers = useMemo(() => {
+    return Array.from(
+      new Set(constructor?.driver_sessions.map((ds) => ds.driver?.full_name)),
+    );
+  }, [constructor]);
 
   if (error) return <ServerPageError />;
+  if (loading) return <>Loading...</>;
+  if (!constructor) return <ServerPageError />;
 
   return (
     <div className='container'>
-      {constructor && (
-        <>
-          <div
-            className='mb-4 rounded py-4'
-            style={{
-              background: constructor.color
-                ? bgGradient(constructor.color)
-                : 'initial',
-            }}
-          >
-            <h1 className='text-6xl font-semibold'>{constructor.name}</h1>
-          </div>
+      {/* Header */}
+      <header
+        className='mb-4 rounded p-4'
+        style={{
+          background: constructor.color
+            ? bgGradient(constructor.color)
+            : 'initial',
+        }}
+      >
+        <h1 className='text-6xl font-semibold'>{constructor.name}</h1>
+      </header>
 
-          {sessions && drivers && (
-            <div
-              className='grid grid-flow-col divide-x divide-y divide-dashed'
-              style={{
-                gridTemplateColumns: `repeat(${drivers.length + 1}, 1fr)`,
-                gridTemplateRows: `repeat(${sessions.length + 1}, 1fr)`,
-              }}
-            >
-              {/* Spacer div */}
-              <div className='flex items-center justify-center p-4'>
-                <Select defaultValue='2024'>
-                  <SelectTrigger className='w-[180px]'>
-                    <SelectValue placeholder='Year' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {years.map((year) => (
-                      <SelectItem key={year} value={year + ''}>
-                        {year}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              {sessions &&
-                sessions.map((session) => (
-                  <div key={session[0] + session[1]} className='p-4'>
-                    <p className='text-sm italic'>{session[1]}</p>
-                    <h3 className='text-xl'>{session[0]}</h3>
-                  </div>
-                ))}
-              {drivers.map((driver) => (
-                <React.Fragment key={driver}>
-                  <div className='flex items-center justify-between p-4 text-center'>
-                    <h3 className='text-3xl'>{driver}</h3>
-                    <div>
-                      <p className='text-xs'>Points:</p>
-                      <span className='text-2xl font-semibold'>
-                        {driverSessionsByDriver
-                          .find((ds) => ds.driver === driver)
-                          ?.sessions?.reduce(
-                            (acc, session) =>
-                              acc + Number(session?.results[0]?.points || 0),
-                            0,
-                          )}
-                      </span>
-                    </div>
-                  </div>
+      {/* Results Table */}
+      <ResultsTable
+        drivers={drivers}
+        driverSessions={constructor.driver_sessions}
+      >
+        <YearSelector years={years} />
+      </ResultsTable>
+    </div>
+  );
+};
 
-                  {driverSessionsByDriver
-                    .find((ds) => ds.driver === driver)
-                    ?.sessions?.map((session) => (
-                      <div
-                        key={session.session?.id}
-                        className='flex items-center justify-between p-4 text-center'
-                      >
-                        <div>
-                          <p className='text-xs'>Start:</p>
-                          <p className='text-2xl font-semibold'>
-                            {session?.results[0]?.grid_position}
-                          </p>
-                        </div>
-                        <div>
-                          <p className='text-xs'>Finish:</p>
-                          <p className='text-2xl font-semibold'>
-                            {session?.results[0]?.classified_position}
-                          </p>
-                        </div>
-                        <div>
-                          <p className='text-xs'>Points:</p>
-                          <span className='text-2xl font-semibold'>
-                            {session?.results[0]?.points}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                </React.Fragment>
-              ))}
-            </div>
-          )}
-        </>
-      )}
+const YearSelector = ({ years }: { years: (number | null | undefined)[] }) => {
+  if (years.length <= 0) return null;
+
+  return (
+    <div className='flex items-center justify-center p-4'>
+      <Select defaultValue='2024'>
+        <SelectTrigger className='w-[180px]'>
+          <SelectValue placeholder='Year' />
+        </SelectTrigger>
+        <SelectContent>
+          {years.map((year) => (
+            <SelectItem key={year} value={year + ''}>
+              {year}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 };

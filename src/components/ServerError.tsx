@@ -1,9 +1,10 @@
-export const ServerPageError = () => {
+export const ServerPageError = ({ msg }: { msg?: string }) => {
   return (
     <div className='flex min-h-96 items-center justify-center'>
       <div className='grid gap-4'>
         <div>
           <h1 className='text-4xl'>Server Error</h1>
+          {msg && <p>{msg}</p>}
           <p>Please try again</p>
         </div>
         {/* <div className='text-red-500 rounded border border-current p-2 px-3'>

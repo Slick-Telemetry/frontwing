@@ -3,16 +3,14 @@ import { Marker } from 'react-map-gl';
 
 import { eventTiming } from '@/lib/utils';
 
-import { Event } from './page';
-
 export const MapMarker = ({
   event,
   color,
   selectEvent,
 }: {
-  event: Event;
+  event: WeekendEvent;
   color: string;
-  selectEvent: (event: Event) => void;
+  selectEvent: (event: WeekendEvent) => void;
 }) => {
   const { latitude, longitude } = event.sessions[0].circuit || {
     latitude: null,

@@ -10,8 +10,6 @@ import { useState } from 'react';
 
 import { getColor } from '@/lib/utils';
 
-import { Event } from './page';
-
 const containerClasses =
   'absolute top-4 right-4 rounded border border-current bg-black p-2 text-base';
 
@@ -27,8 +25,8 @@ export const Legend = ({
   events,
   selectEvent,
 }: {
-  events?: Event[];
-  selectEvent: (event: Event) => void;
+  events?: WeekendEvent[];
+  selectEvent: (event: WeekendEvent) => void;
 }) => {
   const [hidden, setHidden] = useState(false);
 

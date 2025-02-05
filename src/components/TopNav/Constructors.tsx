@@ -11,7 +11,7 @@ import {
   GetConstructorsQueryVariables,
 } from '@/generated/types';
 
-import { ServerComponentError } from './ServerError';
+import { ServerComponentError } from '../ServerError';
 
 export function DisplayConstructors() {
   const { loading, error, data } = useQuery<
@@ -31,6 +31,7 @@ export function DisplayConstructors() {
         background: color ? bgGradient(color) : 'initial',
       }}
     >
+      {/* Dot Next to name */}
       <div
         className='h-2 w-2 rounded-full'
         style={{ backgroundColor: `#${color}` }}

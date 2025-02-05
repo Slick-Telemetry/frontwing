@@ -4,9 +4,9 @@ import React from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { DisplayConstructors } from '../DisplayConstructors';
-import { DisplayDrivers } from '../DisplayDrivers';
-import { DisplaySeasons } from '../DisplaySeasons';
+import { DisplayConstructors } from './Constructors';
+import { DisplayDrivers } from './Drivers';
+import { DisplaySeasons } from './Seasons';
 import {
   NavigationMenu,
   NavigationMenuContent,
