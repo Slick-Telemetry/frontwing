@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Marker } from 'react-map-gl';
+import { Marker } from 'react-map-gl/mapbox';
 
 import { eventTiming } from '@/lib/utils';
 

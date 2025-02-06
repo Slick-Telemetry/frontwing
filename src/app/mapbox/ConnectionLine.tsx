@@ -1,5 +1,5 @@
 import { greatCircle } from '@turf/turf';
-import { Layer, Source } from 'react-map-gl';
+import { Layer, Source } from 'react-map-gl/mapbox';
 
 export const ConnectionLine = ({
   event,
@@ -23,6 +23,11 @@ export const ConnectionLine = ({
       ).geometry.coordinates
     : [];
 
+  const coordinates =
+    lineCoordinates.length === 2
+      ? (lineCoordinates as GeoJSON.Position[][])
+      : [lineCoordinates as GeoJSON.Position[]];
+
   return (
     <Source
       id={event.name}
@@ -31,9 +36,9 @@ export const ConnectionLine = ({
         type: 'Feature',
         geometry: {
           type: 'MultiLineString',
-          coordinates:
-            lineCoordinates.length === 2 ? lineCoordinates : [lineCoordinates],
+          coordinates: coordinates,
         },
+        properties: {}, // Add an empty properties object
       }}
     >
       <Layer

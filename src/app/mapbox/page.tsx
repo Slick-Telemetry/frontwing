@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import clsx from 'clsx';
 import { Earth } from 'lucide-react';
 import React, { Fragment, useMemo, useState } from 'react';
-import Map from 'react-map-gl';
+import Map from 'react-map-gl/mapbox';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 

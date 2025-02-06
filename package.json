@@ -29,7 +29,7 @@
     "@radix-ui/react-select": "latest",
     "@radix-ui/react-slot": "latest",
     "@tailwindcss/postcss": "latest",
-    "@turf/turf": "^7.2.0",
+    "@turf/turf": "latest",
     "class-variance-authority": "latest",
     "clsx": "latest",
     "country-flag-icons": "latest",
