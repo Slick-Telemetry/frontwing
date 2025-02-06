@@ -15,6 +15,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from '../ui/navigation-menu';
 
 export function MainNav() {
@@ -46,7 +47,11 @@ export function MainNav() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href='/map'>Map</Link>
+          <Link href='/map'>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Map
+            </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

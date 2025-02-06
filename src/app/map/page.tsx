@@ -8,14 +8,15 @@ import Map from 'react-map-gl/mapbox';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { GET_SEASON_EVENTS_SIMPLE } from '@/lib/queries';
+import { GET_MAP_EVENTS } from '@/lib/queries';
 import { getColor } from '@/lib/utils';
 
 import { ServerPageError } from '@/components/ServerError';
 
+import { MapEvent } from '@/generated/customTypes';
 import {
-  GetSeasonEventsSimpleQuery,
-  GetSeasonEventsSimpleQueryVariables,
+  GetMapEventsQuery,
+  GetMapEventsQueryVariables,
 } from '@/generated/types';
 
 import { ConnectionLine } from './ConnectionLine';
@@ -37,13 +38,13 @@ const WorldMap = () => {
   const [loading, setLoading] = useState(true);
 
   const { data, error } = useQuery<
-    GetSeasonEventsSimpleQuery,
-    GetSeasonEventsSimpleQueryVariables
-  >(GET_SEASON_EVENTS_SIMPLE, {
+    GetMapEventsQuery,
+    GetMapEventsQueryVariables
+  >(GET_MAP_EVENTS, {
     variables: { year: 2024 },
   });
 
-  const [selectedEvent, setSelectedEvent] = useState<WeekendEvent | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<MapEvent | null>(null);
 
   const LegendMemo = useMemo(() => {
     if (!data) return null;
@@ -87,7 +88,7 @@ const WorldMap = () => {
     const event = data.events.find(
       (e) => e.round_number === (selectedEvent.round_number as number) + dirVal,
     );
-    setSelectedEvent(event as WeekendEvent);
+    setSelectedEvent(event as MapEvent);
   };
 
   return (

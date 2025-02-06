@@ -1,8 +1,9 @@
 import { type ClassValue, clsx } from 'clsx';
+import getUnicodeFlagIcon from 'country-flag-icons/unicode';
+import { getAlpha2Code, registerLocale } from 'i18n-iso-countries';
+import enLocale from 'i18n-iso-countries/langs/en.json';
 import moment from 'moment';
 import { twMerge } from 'tailwind-merge';
-// import { alpha3ToAlpha2, isValid } from 'i18n-iso-countries'
-// import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -77,15 +78,16 @@ export const positionEnding = (position: number | string) => {
   else return 'th';
 };
 
-// export const getCountryFlag = (country_code?: string) => {
-//   if (!country_code) return;
-//   console.log(
-//     isValid(country_code), country_code
-//   );
-//   const alpha2 = alpha3ToAlpha2(country_code)
-//   if (!alpha2) return;
-//   console.log('alpha2', alpha2)
+export const getCountryFlagByCountryName = (country_code?: string) => {
+  if (!country_code) return;
 
-//   const icon = getUnicodeFlagIcon(alpha2)
-//   return icon || null;
-// }
+  // Register the languages you want to use to minimize the file size
+  registerLocale(enLocale);
+  // Get alpha2 code
+  const alpha2 = getAlpha2Code(country_code, 'en');
+  if (!alpha2) return;
+
+  // Get icon from code
+  const icon = getUnicodeFlagIcon(alpha2);
+  return icon || null;
+};

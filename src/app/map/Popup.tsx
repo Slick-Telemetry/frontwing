@@ -1,17 +1,21 @@
 import { CircleX, ZoomIn, ZoomOut } from 'lucide-react';
 import Image from 'next/Image';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Popup, useMap } from 'react-map-gl/mapbox';
 
-import { bgGradient, eventTiming, positionEnding } from '@/lib/utils';
+import {
+  bgGradient,
+  eventTiming,
+  getCountryFlagByCountryName,
+  positionEnding,
+} from '@/lib/utils';
 
 import { FloatingNumber } from '@/components/FloatingNumber';
 import { Badge } from '@/components/ui/badge';
 
+import { MapEvent } from '@/generated/customTypes';
 import { Event_Format_Choices_Enum } from '@/generated/types';
-
-import { topThree } from './popup-placeholder';
 
 const optimalZoom = 15; // optimal zoom for circuit visibility
 
@@ -20,7 +24,7 @@ export const MapPopup = ({
   handleClose,
   children,
 }: {
-  event: WeekendEvent;
+  event: MapEvent;
   handleClose: () => void;
   children: React.ReactNode;
 }) => {
@@ -71,6 +75,11 @@ export const MapPopup = ({
     setPrevZoom(mapZoom);
   };
 
+  const { driver_sessions, circuit } = useMemo(
+    () => event.sessions[0],
+    [event],
+  );
+
   return (
     <Popup
       longitude={longitude}
@@ -111,11 +120,16 @@ export const MapPopup = ({
           href={'session/' + event.id}
           className='mb-1 text-2xl font-medium underline'
         >
+          {circuit &&
+            circuit.country &&
+            getCountryFlagByCountryName(circuit.country)}{' '}
           {event.name}
         </Link>
 
         {/* If event happened show results */}
-        {eventTiming(event.date) === 'past' && <TopThreeDrivers />}
+        {eventTiming(event.date) === 'past' && (
+          <TopThreeDrivers driverSessions={driver_sessions} />
+        )}
 
         {/* Previous and Next Event Buttons */}
         {children}
@@ -144,40 +158,52 @@ const EventTypeBadge = ({
   );
 };
 
-const TopThreeDrivers = () => {
+const TopThreeDrivers = ({
+  driverSessions,
+}: {
+  driverSessions: MapEvent['sessions'][number]['driver_sessions'];
+}) => {
   return (
     <div className='grid grid-cols-3 gap-2'>
-      {topThree.map((driver) => (
-        <div
-          key={driver.full_name}
-          className='grid items-center gap-1 rounded-lg p-2'
-          style={{
-            background: driver.constructor.color
-              ? bgGradient(driver.constructor.color)
-              : 'initial',
-          }}
-        >
-          <div className='flex'>
-            <p className='flex items-start text-4xl font-medium italic opacity-75'>
-              {driver.position}
-              <span className='text-base'>
-                {positionEnding(driver.position)}
-              </span>
-            </p>
-            <Image
-              className='mx-auto'
-              src={driver.headshot_url}
-              width={60}
-              height={60}
-              alt={driver.full_name}
-            />
-          </div>
-          <div className='leading-3'>
-            <p className='text-sm'>{driver.full_name}</p>
-            <p className='text-xs'>{driver.constructor.name}</p>
-          </div>
-        </div>
-      ))}
+      {driverSessions.map(
+        ({ driver, constructorByConstructorId, results }) =>
+          driver &&
+          constructorByConstructorId && (
+            <div
+              key={driver.full_name}
+              className='grid items-center gap-1 rounded-lg p-2'
+              style={{
+                background: constructorByConstructorId.color
+                  ? bgGradient(constructorByConstructorId.color)
+                  : 'initial',
+              }}
+            >
+              <div className='flex'>
+                {results && results[0].classified_position && (
+                  <p className='flex items-start text-4xl font-medium italic opacity-75'>
+                    {results[0].classified_position}
+                    <span className='text-base'>
+                      {positionEnding(results[0].classified_position)}
+                    </span>
+                  </p>
+                )}
+                {driver.headshot_url && (
+                  <Image
+                    className='mx-auto'
+                    src={driver.headshot_url}
+                    width={60}
+                    height={60}
+                    alt={driver?.full_name || ''}
+                  />
+                )}
+              </div>
+              <div className='leading-3'>
+                <p className='text-sm'>{driver.full_name}</p>
+                <p className='text-xs'>{constructorByConstructorId.name}</p>
+              </div>
+            </div>
+          ),
+      )}
     </div>
   );
 };

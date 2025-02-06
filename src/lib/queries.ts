@@ -66,8 +66,8 @@ export const GET_SEASONS = gql`
   }
 `;
 
-export const GET_SEASON_EVENTS_SIMPLE = gql`
-  query GetSeasonEventsSimple($year: Int!) {
+export const GET_MAP_EVENTS = gql`
+  query GetMapEvents($year: Int!) {
     events(where: { year: { _eq: $year } }) {
       id
       round_number
@@ -76,10 +76,27 @@ export const GET_SEASON_EVENTS_SIMPLE = gql`
       date
       country
       format
-      sessions(limit: 1) {
+      sessions(limit: 1, where: { name: { _eq: Race } }) {
         circuit {
+          country
           latitude
           longitude
+        }
+        driver_sessions(
+          limit: 3
+          where: { results: { classified_position: { _in: ["1", "2", "3"] } } }
+        ) {
+          results {
+            classified_position
+          }
+          driver {
+            full_name
+            headshot_url
+          }
+          constructorByConstructorId {
+            name
+            color
+          }
         }
       }
     }

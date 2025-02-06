@@ -10874,11 +10874,11 @@ export type GetSeasonsQuery = {
   events: Array<{ __typename?: 'events'; year?: number | null }>;
 };
 
-export type GetSeasonEventsSimpleQueryVariables = Exact<{
+export type GetMapEventsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
 
-export type GetSeasonEventsSimpleQuery = {
+export type GetMapEventsQuery = {
   __typename?: 'query_root';
   events: Array<{
     __typename?: 'events';
@@ -10893,9 +10893,27 @@ export type GetSeasonEventsSimpleQuery = {
       __typename?: 'sessions';
       circuit?: {
         __typename?: 'circuits';
+        country?: string | null;
         latitude?: bigint | number | null;
         longitude?: bigint | number | null;
       } | null;
+      driver_sessions: Array<{
+        __typename?: 'driver_sessions';
+        results: Array<{
+          __typename?: 'results';
+          classified_position?: string | null;
+        }>;
+        driver?: {
+          __typename?: 'drivers';
+          full_name?: string | null;
+          headshot_url?: string | null;
+        } | null;
+        constructorByConstructorId?: {
+          __typename?: 'constructors';
+          name?: string | null;
+          color?: string | null;
+        } | null;
+      }>;
     }>;
   }>;
 };
@@ -11316,8 +11334,8 @@ export type GetSeasonsQueryResult = Apollo.QueryResult<
   GetSeasonsQuery,
   GetSeasonsQueryVariables
 >;
-export const GetSeasonEventsSimpleDocument = gql`
-  query GetSeasonEventsSimple($year: Int!) {
+export const GetMapEventsDocument = gql`
+  query GetMapEvents($year: Int!) {
     events(where: { year: { _eq: $year } }) {
       id
       round_number
@@ -11326,10 +11344,27 @@ export const GetSeasonEventsSimpleDocument = gql`
       date
       country
       format
-      sessions(limit: 1) {
+      sessions(limit: 1, where: { name: { _eq: Race } }) {
         circuit {
+          country
           latitude
           longitude
+        }
+        driver_sessions(
+          limit: 3
+          where: { results: { classified_position: { _in: ["1", "2", "3"] } } }
+        ) {
+          results {
+            classified_position
+          }
+          driver {
+            full_name
+            headshot_url
+          }
+          constructorByConstructorId {
+            name
+            color
+          }
         }
       }
     }
@@ -11337,78 +11372,78 @@ export const GetSeasonEventsSimpleDocument = gql`
 `;
 
 /**
- * __useGetSeasonEventsSimpleQuery__
+ * __useGetMapEventsQuery__
  *
- * To run a query within a React component, call `useGetSeasonEventsSimpleQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSeasonEventsSimpleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetMapEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMapEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetSeasonEventsSimpleQuery({
+ * const { data, loading, error } = useGetMapEventsQuery({
  *   variables: {
  *      year: // value for 'year'
  *   },
  * });
  */
-export function useGetSeasonEventsSimpleQuery(
+export function useGetMapEventsQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetSeasonEventsSimpleQuery,
-    GetSeasonEventsSimpleQueryVariables
+    GetMapEventsQuery,
+    GetMapEventsQueryVariables
   > &
     (
-      | { variables: GetSeasonEventsSimpleQueryVariables; skip?: boolean }
+      | { variables: GetMapEventsQueryVariables; skip?: boolean }
       | { skip: boolean }
     ),
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetSeasonEventsSimpleQuery,
-    GetSeasonEventsSimpleQueryVariables
-  >(GetSeasonEventsSimpleDocument, options);
+  return Apollo.useQuery<GetMapEventsQuery, GetMapEventsQueryVariables>(
+    GetMapEventsDocument,
+    options,
+  );
 }
-export function useGetSeasonEventsSimpleLazyQuery(
+export function useGetMapEventsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSeasonEventsSimpleQuery,
-    GetSeasonEventsSimpleQueryVariables
+    GetMapEventsQuery,
+    GetMapEventsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetSeasonEventsSimpleQuery,
-    GetSeasonEventsSimpleQueryVariables
-  >(GetSeasonEventsSimpleDocument, options);
+  return Apollo.useLazyQuery<GetMapEventsQuery, GetMapEventsQueryVariables>(
+    GetMapEventsDocument,
+    options,
+  );
 }
-export function useGetSeasonEventsSimpleSuspenseQuery(
+export function useGetMapEventsSuspenseQuery(
   baseOptions?:
     | Apollo.SkipToken
     | Apollo.SuspenseQueryHookOptions<
-        GetSeasonEventsSimpleQuery,
-        GetSeasonEventsSimpleQueryVariables
+        GetMapEventsQuery,
+        GetMapEventsQueryVariables
       >,
 ) {
   const options =
     baseOptions === Apollo.skipToken
       ? baseOptions
       : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetSeasonEventsSimpleQuery,
-    GetSeasonEventsSimpleQueryVariables
-  >(GetSeasonEventsSimpleDocument, options);
+  return Apollo.useSuspenseQuery<GetMapEventsQuery, GetMapEventsQueryVariables>(
+    GetMapEventsDocument,
+    options,
+  );
 }
-export type GetSeasonEventsSimpleQueryHookResult = ReturnType<
-  typeof useGetSeasonEventsSimpleQuery
+export type GetMapEventsQueryHookResult = ReturnType<
+  typeof useGetMapEventsQuery
 >;
-export type GetSeasonEventsSimpleLazyQueryHookResult = ReturnType<
-  typeof useGetSeasonEventsSimpleLazyQuery
+export type GetMapEventsLazyQueryHookResult = ReturnType<
+  typeof useGetMapEventsLazyQuery
 >;
-export type GetSeasonEventsSimpleSuspenseQueryHookResult = ReturnType<
-  typeof useGetSeasonEventsSimpleSuspenseQuery
+export type GetMapEventsSuspenseQueryHookResult = ReturnType<
+  typeof useGetMapEventsSuspenseQuery
 >;
-export type GetSeasonEventsSimpleQueryResult = Apollo.QueryResult<
-  GetSeasonEventsSimpleQuery,
-  GetSeasonEventsSimpleQueryVariables
+export type GetMapEventsQueryResult = Apollo.QueryResult<
+  GetMapEventsQuery,
+  GetMapEventsQueryVariables
 >;
 export const GetSeasonEventsDocument = gql`
   query GetSeasonEvents($year: Int!) {
