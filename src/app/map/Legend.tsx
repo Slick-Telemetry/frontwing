@@ -10,6 +10,8 @@ import { useState } from 'react';
 
 import { getColor } from '@/lib/utils';
 
+import { MapEvent } from '@/generated/customTypes';
+
 const containerClasses =
   'absolute top-4 right-4 rounded border border-current bg-black p-2 text-base';
 
@@ -25,8 +27,8 @@ export const Legend = ({
   events,
   selectEvent,
 }: {
-  events?: WeekendEvent[];
-  selectEvent: (event: WeekendEvent) => void;
+  events?: MapEvent[];
+  selectEvent: (event: MapEvent) => void;
 }) => {
   const [hidden, setHidden] = useState(false);
 

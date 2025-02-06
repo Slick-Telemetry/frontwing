@@ -1,14 +1,16 @@
 import { greatCircle } from '@turf/turf';
 import { Layer, Source } from 'react-map-gl/mapbox';
 
+import { MapEvent } from '@/generated/customTypes';
+
 export const ConnectionLine = ({
   event,
   prevEvent,
   color,
 }: {
-  event: WeekendEvent;
+  event: MapEvent;
   color: string;
-  prevEvent?: WeekendEvent;
+  prevEvent?: MapEvent;
 }) => {
   const lineCoordinates = prevEvent
     ? greatCircle(
@@ -30,7 +32,7 @@ export const ConnectionLine = ({
 
   return (
     <Source
-      id={event.name}
+      id={event.id}
       type='geojson'
       data={{
         type: 'Feature',

@@ -1,12 +1,14 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+import { MapEvent } from '@/generated/customTypes';
+
 export const PrevNextButtons = ({
   selectedEvent,
   events,
   handleAdjacent,
 }: {
-  selectedEvent: WeekendEvent;
-  events?: WeekendEvent[];
+  selectedEvent: MapEvent;
+  events?: MapEvent[];
   handleAdjacent: (type?: 'prev' | 'next') => void;
 }) => {
   const prevLocation = events?.find(

@@ -12,6 +12,7 @@ import { FloatingNumber } from '@/components/FloatingNumber';
 import { ServerPageError } from '@/components/ServerError';
 import { SessionTime } from '@/components/SessionTime';
 
+import { SeasonEvent } from '@/generated/customTypes';
 import {
   GetSeasonEventsQuery,
   GetSeasonEventsQueryVariables,
@@ -64,7 +65,7 @@ const EventContainer = ({
   event,
   children,
 }: {
-  event: WeekendEvent;
+  event: SeasonEvent;
   children: React.ReactNode;
 }) => {
   return (
