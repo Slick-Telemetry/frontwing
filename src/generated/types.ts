@@ -10991,6 +10991,31 @@ export type GetEventDetailsQuery = {
   }>;
 };
 
+export type GetDriverStandingsQueryVariables = Exact<{
+  season: Scalars['Int']['input'];
+}>;
+
+export type GetDriverStandingsQuery = {
+  __typename?: 'query_root';
+  driver_standings: Array<{
+    __typename?: 'driver_standings';
+    points?: bigint | number | null;
+    round?: number | null;
+    driver?: {
+      __typename?: 'drivers';
+      abbreviation?: string | null;
+      driver_sessions: Array<{
+        __typename?: 'driver_sessions';
+        constructorByConstructorId?: {
+          __typename?: 'constructors';
+          color?: string | null;
+          name?: string | null;
+        } | null;
+      }>;
+    } | null;
+  }>;
+};
+
 export const GetConstructorsDocument = gql`
   query GetConstructors {
     constructors(distinct_on: name, where: { ergast_id: { _neq: "" } }) {
@@ -11656,4 +11681,96 @@ export type GetEventDetailsSuspenseQueryHookResult = ReturnType<
 export type GetEventDetailsQueryResult = Apollo.QueryResult<
   GetEventDetailsQuery,
   GetEventDetailsQueryVariables
+>;
+export const GetDriverStandingsDocument = gql`
+  query GetDriverStandings($season: Int!) {
+    driver_standings(where: { season: { _eq: $season } }) {
+      points
+      round
+      driver {
+        abbreviation
+        driver_sessions(limit: 1, order_by: { session: { date: asc } }) {
+          constructorByConstructorId {
+            color
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetDriverStandingsQuery__
+ *
+ * To run a query within a React component, call `useGetDriverStandingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDriverStandingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDriverStandingsQuery({
+ *   variables: {
+ *      season: // value for 'season'
+ *   },
+ * });
+ */
+export function useGetDriverStandingsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetDriverStandingsQuery,
+    GetDriverStandingsQueryVariables
+  > &
+    (
+      | { variables: GetDriverStandingsQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetDriverStandingsQuery,
+    GetDriverStandingsQueryVariables
+  >(GetDriverStandingsDocument, options);
+}
+export function useGetDriverStandingsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetDriverStandingsQuery,
+    GetDriverStandingsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetDriverStandingsQuery,
+    GetDriverStandingsQueryVariables
+  >(GetDriverStandingsDocument, options);
+}
+export function useGetDriverStandingsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetDriverStandingsQuery,
+        GetDriverStandingsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetDriverStandingsQuery,
+    GetDriverStandingsQueryVariables
+  >(GetDriverStandingsDocument, options);
+}
+export type GetDriverStandingsQueryHookResult = ReturnType<
+  typeof useGetDriverStandingsQuery
+>;
+export type GetDriverStandingsLazyQueryHookResult = ReturnType<
+  typeof useGetDriverStandingsLazyQuery
+>;
+export type GetDriverStandingsSuspenseQueryHookResult = ReturnType<
+  typeof useGetDriverStandingsSuspenseQuery
+>;
+export type GetDriverStandingsQueryResult = Apollo.QueryResult<
+  GetDriverStandingsQuery,
+  GetDriverStandingsQueryVariables
 >;

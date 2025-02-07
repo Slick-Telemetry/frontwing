@@ -47,7 +47,7 @@ export function MainNav() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href='/map'>
+          <Link href='/map' legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Map
             </NavigationMenuLink>
