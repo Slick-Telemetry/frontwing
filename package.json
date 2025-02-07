@@ -45,6 +45,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-map-gl": "latest",
+    "recharts": "^2.15.1",
     "tailwind-merge": "latest",
     "tailwindcss-animate": "latest"
   },
