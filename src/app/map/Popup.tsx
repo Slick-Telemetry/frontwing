@@ -1,5 +1,5 @@
 import { CircleX, ZoomIn, ZoomOut } from 'lucide-react';
-import Image from 'next/Image';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Popup, useMap } from 'react-map-gl/mapbox';
