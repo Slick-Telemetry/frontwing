@@ -1,11 +1,16 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
 
 const config: CodegenConfig = {
   schema: [
     {
-      'http://localhost:8080/v1/graphql': {
+      [process.env.NEXT_PUBLIC_HASURA_URL as string]: {
         headers: {
-          'x-hasura-admin-secret': 'myadminsecretkey',
+          'x-hasura-admin-secret': process.env
+            .NEXT_PUBLIC_HASURA_SECRET as string,
         },
       },
     },

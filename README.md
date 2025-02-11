@@ -64,6 +64,10 @@ Currently the standard is to run the backend locally. Follow instructions [here]
 All queries can be found and should be added in [`./src/lib/*.ts`](./src/lib) to allow all proper typing to be compiled.
 This will prevent typesript errors when using queries.
 
+- **Add Traefik Support (Mac)**
+  To use the local api through Traefik you need to configure hosts for your systen
+  **Mac** - add `127.0.0.1 api.localhost` to your `/etc/hosts` file
+
 - **GraphQL Codegen**
   To generate proper graphql types run `pnpm generate`
 
