@@ -1,3 +1,9 @@
+## 0.3.1 (2025-02-11)
+
+### Fix
+
+- corrected next image import
+
 ## 0.3.0 (2025-01-21)
 
 ### Feat
