@@ -15,12 +15,12 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: ⎔ Setup node
-        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8
+        uses: actions/setup-node@802632921f8532d2409ae6eac3313b6f81f11122
         with:
           node-version: 20
 
       - name: Install pnpm
-        uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda
         with:
           version: 10
           run_install: false
