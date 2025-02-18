@@ -64,7 +64,7 @@
     "@typescript-eslint/parser": "latest",
     "autoprefixer": "latest",
     "cypress": "latest",
-    "dotenv": "^16.4.7",
+    "dotenv": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "eslint-config-prettier": "latest",
