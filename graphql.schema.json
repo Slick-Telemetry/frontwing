@@ -52981,7 +52981,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -53929,6 +53929,18 @@
             "deprecationReason": null
           },
           {
+            "name": "start_time",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "total_laps",
             "description": null,
             "args": [],
@@ -53955,6 +53967,18 @@
         "inputFields": [
           {
             "name": "scheduled_laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -54226,7 +54250,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "String_comparison_exp",
+              "name": "numeric_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -54329,6 +54353,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "defaultValue": null,
@@ -54520,7 +54556,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "numeric",
               "ofType": null
             },
             "defaultValue": null,
@@ -54664,7 +54700,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -54904,7 +54940,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -55628,7 +55664,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "numeric",
               "ofType": null
             },
             "defaultValue": null,
@@ -55660,6 +55696,18 @@
         "fields": [
           {
             "name": "scheduled_laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
             "description": null,
             "args": [],
             "type": {
@@ -55708,6 +55756,18 @@
             "deprecationReason": null
           },
           {
+            "name": "start_time",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "total_laps",
             "description": null,
             "type": {
@@ -55732,6 +55792,18 @@
         "fields": [
           {
             "name": "scheduled_laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
             "description": null,
             "args": [],
             "type": {
@@ -55780,6 +55852,18 @@
             "deprecationReason": null
           },
           {
+            "name": "start_time",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "total_laps",
             "description": null,
             "type": {
@@ -55804,6 +55888,18 @@
         "fields": [
           {
             "name": "scheduled_laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
             "description": null,
             "args": [],
             "type": {
@@ -55841,6 +55937,18 @@
         "inputFields": [
           {
             "name": "scheduled_laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -56016,7 +56124,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "numeric",
               "ofType": null
             },
             "defaultValue": null,
@@ -56059,6 +56167,18 @@
             "deprecationReason": null
           },
           {
+            "name": "start_time",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "total_laps",
             "description": null,
             "args": [],
@@ -56085,6 +56205,18 @@
         "inputFields": [
           {
             "name": "scheduled_laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -56255,6 +56387,18 @@
             "deprecationReason": null
           },
           {
+            "name": "start_time",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "total_laps",
             "description": null,
             "args": [],
@@ -56292,6 +56436,18 @@
             "deprecationReason": null
           },
           {
+            "name": "start_time",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "total_laps",
             "description": null,
             "type": {
@@ -56316,6 +56472,18 @@
         "fields": [
           {
             "name": "scheduled_laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
             "description": null,
             "args": [],
             "type": {
@@ -56364,6 +56532,18 @@
             "deprecationReason": null
           },
           {
+            "name": "start_time",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "total_laps",
             "description": null,
             "type": {
@@ -56388,6 +56568,18 @@
         "fields": [
           {
             "name": "scheduled_laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
             "description": null,
             "args": [],
             "type": {
@@ -56425,6 +56617,18 @@
         "inputFields": [
           {
             "name": "scheduled_laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "start_time",
             "description": null,
             "type": {
               "kind": "ENUM",
