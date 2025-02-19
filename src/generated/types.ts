@@ -11706,7 +11706,11 @@ export const GetDriverStandingsDocument = gql`
       round
       driver {
         abbreviation
-        driver_sessions(limit: 1, order_by: { session: { date: asc } }) {
+        driver_sessions(
+          limit: 1
+          order_by: { session: { date: asc } }
+          where: { session: { event: { year: { _eq: $season } } } }
+        ) {
           constructorByConstructorId {
             color
             name
