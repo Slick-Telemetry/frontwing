@@ -7354,7 +7354,7 @@ export type Sessions = {
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   session_name_choice?: Maybe<Session_Name_Choices>;
-  start_time?: Maybe<Scalars['String']['output']>;
+  start_time?: Maybe<Scalars['numeric']['output']>;
   total_laps?: Maybe<Scalars['Int']['output']>;
   /** An array relationship */
   track_statuses: Array<Track_Status>;
@@ -7504,12 +7504,14 @@ export type Sessions_Arr_Rel_Insert_Input = {
 export type Sessions_Avg_Fields = {
   __typename?: 'sessions_avg_fields';
   scheduled_laps?: Maybe<Scalars['Float']['output']>;
+  start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "sessions" */
 export type Sessions_Avg_Order_By = {
   scheduled_laps?: InputMaybe<Order_By>;
+  start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
 
@@ -7533,7 +7535,7 @@ export type Sessions_Bool_Exp = {
   scheduled_start_time?: InputMaybe<String_Comparison_Exp>;
   scheduled_start_time_utc?: InputMaybe<String_Comparison_Exp>;
   session_name_choice?: InputMaybe<Session_Name_Choices_Bool_Exp>;
-  start_time?: InputMaybe<String_Comparison_Exp>;
+  start_time?: InputMaybe<Numeric_Comparison_Exp>;
   total_laps?: InputMaybe<Int_Comparison_Exp>;
   track_statuses?: InputMaybe<Track_Status_Bool_Exp>;
   track_statuses_aggregate?: InputMaybe<Track_Status_Aggregate_Bool_Exp>;
@@ -7550,6 +7552,7 @@ export enum Sessions_Constraint {
 /** input type for incrementing numeric columns in table "sessions" */
 export type Sessions_Inc_Input = {
   scheduled_laps?: InputMaybe<Scalars['Int']['input']>;
+  start_time?: InputMaybe<Scalars['numeric']['input']>;
   total_laps?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -7568,7 +7571,7 @@ export type Sessions_Insert_Input = {
   scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
   scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
   session_name_choice?: InputMaybe<Session_Name_Choices_Obj_Rel_Insert_Input>;
-  start_time?: InputMaybe<Scalars['String']['input']>;
+  start_time?: InputMaybe<Scalars['numeric']['input']>;
   total_laps?: InputMaybe<Scalars['Int']['input']>;
   track_statuses?: InputMaybe<Track_Status_Arr_Rel_Insert_Input>;
   weather_data?: InputMaybe<Weather_Data_Arr_Rel_Insert_Input>;
@@ -7584,7 +7587,7 @@ export type Sessions_Max_Fields = {
   scheduled_laps?: Maybe<Scalars['Int']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
-  start_time?: Maybe<Scalars['String']['output']>;
+  start_time?: Maybe<Scalars['numeric']['output']>;
   total_laps?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -7611,7 +7614,7 @@ export type Sessions_Min_Fields = {
   scheduled_laps?: Maybe<Scalars['Int']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
-  start_time?: Maybe<Scalars['String']['output']>;
+  start_time?: Maybe<Scalars['numeric']['output']>;
   total_laps?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -7711,7 +7714,7 @@ export type Sessions_Set_Input = {
   scheduled_laps?: InputMaybe<Scalars['Int']['input']>;
   scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
   scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
-  start_time?: InputMaybe<Scalars['String']['input']>;
+  start_time?: InputMaybe<Scalars['numeric']['input']>;
   total_laps?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -7719,12 +7722,14 @@ export type Sessions_Set_Input = {
 export type Sessions_Stddev_Fields = {
   __typename?: 'sessions_stddev_fields';
   scheduled_laps?: Maybe<Scalars['Float']['output']>;
+  start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "sessions" */
 export type Sessions_Stddev_Order_By = {
   scheduled_laps?: InputMaybe<Order_By>;
+  start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
 
@@ -7732,12 +7737,14 @@ export type Sessions_Stddev_Order_By = {
 export type Sessions_Stddev_Pop_Fields = {
   __typename?: 'sessions_stddev_pop_fields';
   scheduled_laps?: Maybe<Scalars['Float']['output']>;
+  start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "sessions" */
 export type Sessions_Stddev_Pop_Order_By = {
   scheduled_laps?: InputMaybe<Order_By>;
+  start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
 
@@ -7745,12 +7752,14 @@ export type Sessions_Stddev_Pop_Order_By = {
 export type Sessions_Stddev_Samp_Fields = {
   __typename?: 'sessions_stddev_samp_fields';
   scheduled_laps?: Maybe<Scalars['Float']['output']>;
+  start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "sessions" */
 export type Sessions_Stddev_Samp_Order_By = {
   scheduled_laps?: InputMaybe<Order_By>;
+  start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
 
@@ -7772,7 +7781,7 @@ export type Sessions_Stream_Cursor_Value_Input = {
   scheduled_laps?: InputMaybe<Scalars['Int']['input']>;
   scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
   scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
-  start_time?: InputMaybe<Scalars['String']['input']>;
+  start_time?: InputMaybe<Scalars['numeric']['input']>;
   total_laps?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -7780,12 +7789,14 @@ export type Sessions_Stream_Cursor_Value_Input = {
 export type Sessions_Sum_Fields = {
   __typename?: 'sessions_sum_fields';
   scheduled_laps?: Maybe<Scalars['Int']['output']>;
+  start_time?: Maybe<Scalars['numeric']['output']>;
   total_laps?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "sessions" */
 export type Sessions_Sum_Order_By = {
   scheduled_laps?: InputMaybe<Order_By>;
+  start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
 
@@ -7826,12 +7837,14 @@ export type Sessions_Updates = {
 export type Sessions_Var_Pop_Fields = {
   __typename?: 'sessions_var_pop_fields';
   scheduled_laps?: Maybe<Scalars['Float']['output']>;
+  start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "sessions" */
 export type Sessions_Var_Pop_Order_By = {
   scheduled_laps?: InputMaybe<Order_By>;
+  start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
 
@@ -7839,12 +7852,14 @@ export type Sessions_Var_Pop_Order_By = {
 export type Sessions_Var_Samp_Fields = {
   __typename?: 'sessions_var_samp_fields';
   scheduled_laps?: Maybe<Scalars['Float']['output']>;
+  start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "sessions" */
 export type Sessions_Var_Samp_Order_By = {
   scheduled_laps?: InputMaybe<Order_By>;
+  start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
 
@@ -7852,12 +7867,14 @@ export type Sessions_Var_Samp_Order_By = {
 export type Sessions_Variance_Fields = {
   __typename?: 'sessions_variance_fields';
   scheduled_laps?: Maybe<Scalars['Float']['output']>;
+  start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "sessions" */
 export type Sessions_Variance_Order_By = {
   scheduled_laps?: InputMaybe<Order_By>;
+  start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
 
@@ -10991,6 +11008,33 @@ export type GetEventDetailsQuery = {
   }>;
 };
 
+export type GetStandingsQueryVariables = Exact<{
+  season: Scalars['Int']['input'];
+}>;
+
+export type GetStandingsQuery = {
+  __typename?: 'query_root';
+  drivers: Array<{
+    __typename?: 'drivers';
+    abbreviation?: string | null;
+    full_name?: string | null;
+    driver_sessions: Array<{
+      __typename?: 'driver_sessions';
+      constructorByConstructorId?: {
+        __typename?: 'constructors';
+        color?: string | null;
+        name?: string | null;
+      } | null;
+    }>;
+    driver_standings: Array<{
+      __typename?: 'driver_standings';
+      points?: bigint | number | null;
+      position?: number | null;
+      round?: number | null;
+    }>;
+  }>;
+};
+
 export const GetConstructorsDocument = gql`
   query GetConstructors {
     constructors(distinct_on: name, where: { ergast_id: { _neq: "" } }) {
@@ -11656,4 +11700,102 @@ export type GetEventDetailsSuspenseQueryHookResult = ReturnType<
 export type GetEventDetailsQueryResult = Apollo.QueryResult<
   GetEventDetailsQuery,
   GetEventDetailsQueryVariables
+>;
+export const GetStandingsDocument = gql`
+  query GetStandings($season: Int!) {
+    drivers(where: { driver_standings: { season: { _eq: $season } } }) {
+      abbreviation
+      full_name
+      driver_sessions(
+        limit: 1
+        where: { session: { event: { year: { _eq: $season } } } }
+        order_by: { session: { date: desc } }
+      ) {
+        constructorByConstructorId {
+          color
+          name
+        }
+      }
+      driver_standings(where: { season: { _eq: $season } }) {
+        points
+        position
+        round
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetStandingsQuery__
+ *
+ * To run a query within a React component, call `useGetStandingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStandingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStandingsQuery({
+ *   variables: {
+ *      season: // value for 'season'
+ *   },
+ * });
+ */
+export function useGetStandingsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetStandingsQuery,
+    GetStandingsQueryVariables
+  > &
+    (
+      | { variables: GetStandingsQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetStandingsQuery, GetStandingsQueryVariables>(
+    GetStandingsDocument,
+    options,
+  );
+}
+export function useGetStandingsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetStandingsQuery,
+    GetStandingsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetStandingsQuery, GetStandingsQueryVariables>(
+    GetStandingsDocument,
+    options,
+  );
+}
+export function useGetStandingsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetStandingsQuery,
+        GetStandingsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetStandingsQuery, GetStandingsQueryVariables>(
+    GetStandingsDocument,
+    options,
+  );
+}
+export type GetStandingsQueryHookResult = ReturnType<
+  typeof useGetStandingsQuery
+>;
+export type GetStandingsLazyQueryHookResult = ReturnType<
+  typeof useGetStandingsLazyQuery
+>;
+export type GetStandingsSuspenseQueryHookResult = ReturnType<
+  typeof useGetStandingsSuspenseQuery
+>;
+export type GetStandingsQueryResult = Apollo.QueryResult<
+  GetStandingsQuery,
+  GetStandingsQueryVariables
 >;

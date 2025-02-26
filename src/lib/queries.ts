@@ -167,27 +167,29 @@ export const GET_EVENT_DETAILS = gql`
   }
 `;
 
-// query GetStandings {
-//   events(where: {year: {_eq: 2024}}) {
-//     id
-//     round_number
-//     name
-//     location
-//     date
-//     country
-//     sessions(where: {name: {_in: [Sprint, Sprint_Shootout, Race]}}) {
-//       name
-//       driver_sessions {
-//         constructorByConstructorId {
-//           name
-//         }
-//         driver {
-//           abbreviation
-//         }
-//         results {
-//           points
-//         }
-//       }
-//     }
-//   }
-// }
+export const GET_DRIVER_STANDINGS = gql`
+  query GetStandings($season: Int!) {
+    drivers(where: { driver_standings: { season: { _eq: $season } } }) {
+      abbreviation
+      full_name
+      driver_sessions(
+        limit: 1
+        where: { session: { event: { year: { _eq: $season } } } }
+        order_by: { session: { date: desc } }
+      ) {
+        constructorByConstructorId {
+          color
+          name
+        }
+      }
+      driver_standings(
+        where: { season: { _eq: $season } }
+        order_by: { round: asc }
+      ) {
+        points
+        position
+        round
+      }
+    }
+  }
+`;
