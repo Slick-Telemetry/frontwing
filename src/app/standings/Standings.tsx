@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/client';
 import { useState } from 'react';
 
 import { GET_DRIVER_STANDINGS } from '@/lib/queries';
@@ -43,12 +43,17 @@ export const Standings = () => {
     Record<string, boolean>
   >({});
 
-  const { data, loading, error } = useQuery<
+  const { data, error } = useSuspenseQuery<
     GetStandingsQuery,
     GetStandingsQueryVariables
   >(GET_DRIVER_STANDINGS, { variables: { season: 2024 } });
 
-  if (loading) return <p>Loading...</p>;
+  // const { data, loading, error } = useQuery<
+  //   GetStandingsQuery,
+  //   GetStandingsQueryVariables
+  // >(GET_DRIVER_STANDINGS, { variables: { season: 2024 } });
+
+  // if (loading) return <FullHeightLoader>Loading events...</FullHeightLoader>;
   if (error || !data?.drivers) return <p>Error...</p>;
 
   const drivers = data.drivers.filter((driver) => !!driver);

@@ -7,8 +7,7 @@ import './globals.css';
 import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
 
-// import { Provider } from 'jotai';
-import Providers from './providers';
+import { ApolloWrapper } from './apollo-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,10 +24,10 @@ export default async function RootLayout({
   return (
     <html lang='en' className='dark'>
       <body className={clsx('min-h-screen', inter.className)}>
-        <Providers>
+        <ApolloWrapper>
           <TopNav />
           {children}
-        </Providers>
+        </ApolloWrapper>
         <Footer />
       </body>
     </html>
