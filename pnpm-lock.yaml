@@ -11,6 +11,9 @@ importers:
       '@apollo/client':
         specifier: latest
         version: 3.13.1(@types/react@19.0.10)(graphql-ws@5.16.2(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@apollo/experimental-nextjs-app-support':
+        specifier: ^0.11.9
+        version: 0.11.9(@apollo/client@3.13.1(@types/react@19.0.10)(graphql-ws@5.16.2(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(graphql@16.10.0)(next@15.1.7(@babel/core@7.26.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@graphql-typed-document-node/core':
         specifier: latest
         version: 3.2.0(graphql@16.10.0)
@@ -42,10 +45,10 @@ importers:
         specifier: latest
         version: 3.12.0(@react-spring/web@9.7.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       '@visx/responsive':
-        specifier: ^3.12.0
+        specifier: latest
         version: 3.12.0(react@19.0.0)
       '@visx/scale':
-        specifier: ^3.12.0
+        specifier: latest
         version: 3.12.0
       '@visx/xychart':
         specifier: latest
@@ -206,6 +209,14 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
+  '@apollo/client-react-streaming@0.11.9':
+    resolution: {integrity: sha512-jK/P+3cV48My3qbpnwV7mFNlMD+AUUudXk9t3AIdogvpx/O3V9Hl8jay5fmHC1BFJDHpBWcxEWM1kHH3uFyZwA==}
+    peerDependencies:
+      '@apollo/client': ^3.10.4
+      graphql: ^16 || >=17.0.0-alpha.2
+      react: ^18 || >=19.0.0-rc
+      react-dom: ^18 || >=19.0.0-rc
+
   '@apollo/client@3.13.1':
     resolution: {integrity: sha512-HaAt62h3jNUXpJ1v5HNgUiCzPP1c5zc2Q/FeTb2cTk/v09YlhoqKKHQFJI7St50VCJ5q8JVIc03I5bRcBrQxsg==}
     peerDependencies:
@@ -223,6 +234,13 @@ packages:
         optional: true
       subscriptions-transport-ws:
         optional: true
+
+  '@apollo/experimental-nextjs-app-support@0.11.9':
+    resolution: {integrity: sha512-RAGAuPxbNnUVLULa/AiAtGEClENmLm4bLWXVeLsmtkHTjhv+mQgHO4sdHAxo8HqtZowPQP73Mnw4K8CbQVm20Q==}
+    peerDependencies:
+      '@apollo/client': ^3.10.4
+      next: ^13.4.1 || ^14.0.0 || ^15.0.0-rc.0
+      react: ^18 || >=19.0.0-rc
 
   '@ardatan/relay-compiler@12.0.0':
     resolution: {integrity: sha512-9anThAaj1dQr6IGmzBMcfzOQKTa5artjuPmw8NYK/fiGEMjADbSguBY2FMDykt+QhilR3wc9VA/3yVju7JHg7Q==}
@@ -5451,6 +5469,14 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
+  '@apollo/client-react-streaming@0.11.9(@apollo/client@3.13.1(@types/react@19.0.10)(graphql-ws@5.16.2(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@apollo/client': 3.13.1(@types/react@19.0.10)(graphql-ws@5.16.2(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      graphql: 16.10.0
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      ts-invariant: 0.10.3
+
   '@apollo/client@3.13.1(@types/react@19.0.10)(graphql-ws@5.16.2(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.10.0)
@@ -5473,6 +5499,16 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
     transitivePeerDependencies:
       - '@types/react'
+
+  '@apollo/experimental-nextjs-app-support@0.11.9(@apollo/client@3.13.1(@types/react@19.0.10)(graphql-ws@5.16.2(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(graphql@16.10.0)(next@15.1.7(@babel/core@7.26.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@apollo/client': 3.13.1(@types/react@19.0.10)(graphql-ws@5.16.2(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@apollo/client-react-streaming': 0.11.9(@apollo/client@3.13.1(@types/react@19.0.10)(graphql-ws@5.16.2(graphql@16.10.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(graphql@16.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      next: 15.1.7(@babel/core@7.26.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react: 19.0.0
+    transitivePeerDependencies:
+      - graphql
+      - react-dom
 
   '@ardatan/relay-compiler@12.0.0(graphql@16.10.0)':
     dependencies:

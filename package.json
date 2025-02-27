@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@apollo/client": "latest",
+    "@apollo/experimental-nextjs-app-support": "^0.11.9",
     "@graphql-typed-document-node/core": "latest",
     "@radix-ui/react-avatar": "latest",
     "@radix-ui/react-dropdown-menu": "latest",
