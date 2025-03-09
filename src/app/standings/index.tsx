@@ -83,8 +83,8 @@ export const Standings = () => {
   };
 
   return (
-    <div className='my-4 grid items-center gap-4 lg:grid-cols-4'>
-      <div className='lg:order-last lg:col-span-3'>
+    <div className='my-4 grid items-center gap-4'>
+      <div>
         {/* Chart Toggles */}
         <div className='flex flex-col gap-2 lg:flex-row lg:gap-4'>
           <SeasonSelector />
@@ -119,6 +119,7 @@ export const Standings = () => {
           )}
         </div>
       </div>
+
       <Legend
         standings={standings}
         toggleDriverVisibility={toggleDriverVisibility}

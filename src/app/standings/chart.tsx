@@ -36,7 +36,11 @@ export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
             labelOffset={16}
             animationTrajectory='min'
           />
-          <AnimatedGrid strokeDasharray='3 6' animationTrajectory='min' />
+          <AnimatedGrid
+            strokeDasharray='3 6'
+            strokeWidth={1}
+            animationTrajectory='min'
+          />
           {children}
           <Tooltip
             snapTooltipToDatumX
