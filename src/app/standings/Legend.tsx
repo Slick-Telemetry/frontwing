@@ -68,17 +68,17 @@ export const Legend = ({
   }, [standings]);
 
   return (
-    <div className='grid grid-cols-2 gap-2 lg:grid-cols-1'>
+    <div className='grid grid-cols-2 gap-1 sm:grid-cols-5 lg:grid-cols-10'>
       {Object.entries(constructorsWithDrivers).map(
         ([constructor, { drivers, color }]) => (
           <div
             key={constructor}
-            className='flex flex-col justify-between rounded border p-2 text-sm sm:flex-row'
+            className='flex flex-col justify-between rounded border p-1 text-sm'
             style={{ background: bgGradient(color) }}
           >
             {/* **Constructor Name Toggle** */}
             <span
-              className='block cursor-pointer font-bold'
+              className='block cursor-pointer text-xs'
               onClick={() =>
                 toggleConstructorVisibility(
                   constructor,
@@ -97,25 +97,49 @@ export const Legend = ({
 
             {/* **Drivers under this Constructor** */}
             {chartType === 'drivers' && (
-              <div className='flex divide-x divide-gray-700'>
-                {drivers.map((driver) => (
-                  <div
-                    key={driver}
-                    className='flex cursor-pointer items-center gap-2 pr-2 not-first:pl-2'
-                    onClick={() => toggleDriverVisibility(constructor, driver)}
-                    style={{
-                      opacity: hiddenDrivers[driver] ? 0.3 : 1,
-                      textDecoration: hiddenDrivers[driver]
-                        ? 'line-through'
-                        : 'none',
-                    }}
-                  >
-                    <svg width={12} height={12}>
-                      <circle cx={6} cy={6} r={6} fill={`#${color || 'ccc'}`} />
-                    </svg>
-                    <span>{driver}</span>
-                  </div>
-                ))}
+              <div className='flex flex-wrap gap-x-2'>
+                {drivers.map((driver) => {
+                  const driverIndex = drivers.findIndex((d) => d === driver);
+                  const dashPatterns = ['solid', '2,1', '2,4'];
+                  const strokeDasharray = dashPatterns[driverIndex] || '3,6';
+
+                  return (
+                    <div
+                      key={driver}
+                      className='flex cursor-pointer items-center gap-1'
+                      onClick={() =>
+                        toggleDriverVisibility(constructor, driver)
+                      }
+                      style={{
+                        opacity: hiddenDrivers[driver] ? 0.3 : 1,
+                        textDecoration: hiddenDrivers[driver]
+                          ? 'line-through'
+                          : 'none',
+                      }}
+                    >
+                      <svg width={20} height={16}>
+                        <line
+                          x1={0}
+                          x2={20}
+                          y1={8}
+                          y2={8}
+                          strokeWidth='2'
+                          stroke={`#${color || 'ccc'}`}
+                          strokeDasharray={strokeDasharray}
+                        />
+                        <circle
+                          cx={10}
+                          cy={8}
+                          r={4}
+                          stroke={`#${color || 'ccc'}`}
+                          strokeWidth='2'
+                          // strokeDasharray={strokeDasharray} // Apply the same dash pattern
+                        />
+                      </svg>
+                      <span>{driver}</span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
