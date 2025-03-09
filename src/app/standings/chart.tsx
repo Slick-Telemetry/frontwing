@@ -8,7 +8,7 @@ import {
 } from '@visx/xychart';
 import clsx from 'clsx';
 
-import { ChartDataFormat } from './Standings';
+import { Standings } from '.';
 
 export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -20,13 +20,14 @@ export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
           width={width}
           margin={{ top: 16, left: 16, right: 64, bottom: 50 }}
           xScale={{ type: 'band' }}
-          yScale={{ type: 'linear' }}
+          yScale={{ type: 'linear', nice: true }}
         >
           <AnimatedAxis
             orientation='bottom'
             label='Round'
             labelClassName='text-lg'
             animationTrajectory='min'
+            numTicks={24}
           />
           <AnimatedAxis
             orientation='right'
@@ -35,7 +36,7 @@ export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
             labelOffset={16}
             animationTrajectory='min'
           />
-          <AnimatedGrid strokeDasharray='2 6' animationTrajectory='min' />
+          <AnimatedGrid strokeDasharray='3 6' animationTrajectory='min' />
           {children}
           <Tooltip
             snapTooltipToDatumX
@@ -43,12 +44,12 @@ export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
             showHorizontalCrosshair
             showVerticalCrosshair
             showDatumGlyph
-            renderGlyph={({ datum }: { datum: ChartDataFormat }) => {
+            renderGlyph={({ datum }: { datum: Standings }) => {
               if (!datum) return null;
               return (
                 <circle
                   r={4}
-                  fill={`#${datum.color || 'ccc'}`}
+                  fill={datum.color}
                   stroke='white'
                   strokeWidth={1}
                 />
@@ -60,7 +61,7 @@ export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
                 <div>
                   <p className='text-lg'>
                     {tooltipData.nearestDatum &&
-                      `Round: ${(tooltipData.nearestDatum.datum as ChartDataFormat).round}`}
+                      `Round: ${(tooltipData.nearestDatum.datum as Standings).round}`}
                   </p>
                   {tooltipData.datumByKey &&
                     Object.keys(tooltipData.datumByKey)
@@ -81,9 +82,7 @@ export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
                               active && 'border-white font-black',
                             )}
                           >
-                            <span style={{ color: `#${result.color}` }}>
-                              {key}
-                            </span>
+                            <span style={{ color: result.color }}>{key}</span>
                             {result.points}
                           </div>
                         );

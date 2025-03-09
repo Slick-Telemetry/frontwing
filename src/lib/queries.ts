@@ -167,28 +167,42 @@ export const GET_EVENT_DETAILS = gql`
   }
 `;
 
-export const GET_DRIVER_STANDINGS = gql`
+export const GET_STANDINGS = gql`
   query GetStandings($season: Int!) {
     drivers(where: { driver_standings: { season: { _eq: $season } } }) {
+      id
       abbreviation
       full_name
-      driver_sessions(
+      latest_constructor: driver_sessions(
         limit: 1
-        where: { session: { event: { year: { _eq: $season } } } }
         order_by: { session: { date: desc } }
       ) {
-        constructorByConstructorId {
-          color
+        constructor: constructorByConstructorId {
           name
+          color
         }
       }
       driver_standings(
         where: { season: { _eq: $season } }
         order_by: { round: asc }
       ) {
+        round
         points
         position
+      }
+    }
+    constructors(
+      where: { constructor_standings: { season: { _eq: $season } } }
+    ) {
+      name
+      color
+      constructor_standings(
+        where: { season: { _eq: $season } }
+        order_by: { round: asc }
+      ) {
         round
+        points
+        position
       }
     }
   }
