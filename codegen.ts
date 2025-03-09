@@ -7,7 +7,7 @@ dotenv.config();
 const config: CodegenConfig = {
   schema: [
     {
-      [process.env.NEXT_PUBLIC_HASURA_URL as string]: {
+      [process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL as string]: {
         headers: {
           'x-hasura-admin-secret': process.env
             .NEXT_PUBLIC_HASURA_SECRET as string,

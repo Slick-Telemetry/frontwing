@@ -11,10 +11,10 @@ import {
 // have a function to create a client for you
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: process.env.NEXT_PUBLIC_HASURA_URL || '',
+    uri: process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL || '',
     headers: {
       'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_SECRET || '',
-      // 'skip_zrok_interstitial': 'true',
+      skip_zrok_interstitial: 'true',
     },
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
