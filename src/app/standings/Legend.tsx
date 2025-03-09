@@ -1,111 +1,126 @@
-import { LegendItem, LegendLabel } from '@visx/legend';
+import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 
 import { bgGradient } from '@/lib/utils';
 
-import { ChartDataFormat, DriverStandings } from './Standings';
+import { GetStandingsQuery } from '@/generated/types';
 
 export const Legend = ({
-  standingsByDriver,
-  activeChart,
+  standings,
   toggleDriverVisibility,
   toggleConstructorVisibility,
   hiddenDrivers,
   hiddenConstructors,
 }: {
-  standingsByDriver: DriverStandings;
-  activeChart: 'drivers' | 'constructors';
+  standings: GetStandingsQuery;
   toggleDriverVisibility: (constructor: string, driver: string) => void;
   toggleConstructorVisibility: (constructor: string, drivers: string[]) => void;
   hiddenDrivers: Record<string, boolean>;
   hiddenConstructors: Record<string, boolean>;
 }) => {
-  const groupedData = useMemo(() => {
-    const grouped = Object.values(standingsByDriver)
-      .map((driverData) => driverData[0])
-      .reduce(
-        (acc, driver) => {
-          const constructor = driver.constructor || 'Unknown';
-          if (!acc[constructor]) acc[constructor] = [];
-          acc[constructor].push(driver);
-          return acc;
-        },
-        {} as Record<string, ChartDataFormat[]>,
-      );
+  const searchParams = useSearchParams();
+  const chartType = searchParams.get('chart') || 'drivers';
+  const constructorsWithDrivers = useMemo(() => {
+    if (!standings.constructors || !standings.drivers) return {};
 
-    return Object.keys(grouped)
-      .sort()
+    const constructorMap = standings.constructors.reduce(
+      (constructorMap, constructor) => {
+        const name = constructor?.name || 'Unknown';
+        const latestStanding = constructor.constructor_standings?.at(-1); // Get last entry (cumulative points)
+
+        if (!constructorMap[name]) {
+          constructorMap[name] = {
+            points: Number(latestStanding?.points || 0),
+            color: constructor.color || 'cccccc',
+            drivers: [],
+          };
+        }
+        return constructorMap;
+      },
+      {} as Record<
+        string,
+        { drivers: string[]; color: string; points: number }
+      >,
+    );
+
+    standings.drivers.map((driver) => {
+      const constructor = driver.latest_constructor?.[0]?.constructor;
+      const name = constructor?.name || 'Unknown';
+
+      if (constructorMap[name] && driver.abbreviation) {
+        constructorMap[name].drivers.push(driver.abbreviation);
+      }
+    });
+
+    // **Step 3: Convert to an array, sort by constructor points, and return as object**
+    return Object.entries(constructorMap)
+      .sort(([, a], [, b]) => b.points - a.points) // Sort descending by constructor points
       .reduce(
-        (acc, constructor) => {
-          acc[constructor] = grouped[constructor];
-          return acc;
+        (sortedMap, [name, data]) => {
+          sortedMap[name] = data;
+          return sortedMap;
         },
-        {} as Record<string, ChartDataFormat[]>,
+        {} as Record<
+          string,
+          { drivers: string[]; color: string; points: number }
+        >,
       );
-  }, [standingsByDriver]);
+  }, [standings]);
 
   return (
-    <div className='grid grid-cols-2 gap-4 lg:grid-cols-1 lg:gap-2'>
-      {Object.entries(groupedData).map(([constructor, drivers]) => (
-        <div
-          key={constructor}
-          className='flex justify-between rounded border border-gray-700 p-2'
-          style={{ background: bgGradient(drivers[0]?.color || '000000') }}
-        >
-          <span
-            className='cursor-pointer font-bold text-white'
-            onClick={() =>
-              toggleConstructorVisibility(
-                constructor,
-                drivers.map((d) => d?.abbreviation || ''),
-              )
-            }
-            style={{
-              opacity: hiddenConstructors[constructor] ? 0.3 : 1,
-              textDecoration: hiddenConstructors[constructor]
-                ? 'line-through'
-                : 'none',
-            }}
+    <div className='grid grid-cols-2 gap-2 lg:grid-cols-1'>
+      {Object.entries(constructorsWithDrivers).map(
+        ([constructor, { drivers, color }]) => (
+          <div
+            key={constructor}
+            className='flex flex-col justify-between rounded border p-2 text-sm sm:flex-row'
+            style={{ background: bgGradient(color) }}
           >
-            {constructor}
-          </span>
-          {activeChart === 'drivers' && (
-            <div className='flex divide-x divide-gray-700'>
-              {drivers.map((driver) => {
-                const abbreviation = driver.abbreviation || '';
-                return (
-                  <LegendItem
-                    className='flex items-center gap-2 px-2'
-                    key={driver.abbreviation}
-                    margin='0 5px'
-                    onClick={() =>
-                      toggleDriverVisibility(constructor, abbreviation)
-                    }
+            {/* **Constructor Name Toggle** */}
+            <span
+              className='block cursor-pointer font-bold'
+              onClick={() =>
+                toggleConstructorVisibility(
+                  constructor,
+                  drivers.map((d) => d),
+                )
+              }
+              style={{
+                opacity: hiddenConstructors[constructor] ? 0.3 : 1,
+                textDecoration: hiddenConstructors[constructor]
+                  ? 'line-through'
+                  : 'none',
+              }}
+            >
+              {constructor}
+            </span>
+
+            {/* **Drivers under this Constructor** */}
+            {chartType === 'drivers' && (
+              <div className='flex divide-x divide-gray-700'>
+                {drivers.map((driver) => (
+                  <div
+                    key={driver}
+                    className='flex cursor-pointer items-center gap-2 pr-2 not-first:pl-2'
+                    onClick={() => toggleDriverVisibility(constructor, driver)}
                     style={{
-                      opacity: hiddenDrivers[abbreviation] ? 0.3 : 1,
-                      textDecoration: hiddenDrivers[abbreviation]
+                      opacity: hiddenDrivers[driver] ? 0.3 : 1,
+                      textDecoration: hiddenDrivers[driver]
                         ? 'line-through'
                         : 'none',
                     }}
                   >
                     <svg width={12} height={12}>
-                      <circle
-                        cx={6}
-                        cy={6}
-                        r={6}
-                        fill={`#${driver.color || 'ccc'}`}
-                      />
+                      <circle cx={6} cy={6} r={6} fill={`#${color || 'ccc'}`} />
                     </svg>
-                    <LegendLabel align='left' margin='0 0 0 4px'>
-                      {driver.abbreviation}
-                    </LegendLabel>
-                  </LegendItem>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      ))}
+                    <span>{driver}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ),
+      )}
     </div>
   );
 };

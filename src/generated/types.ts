@@ -3841,6 +3841,10 @@ export type Mutation_Root = {
   delete_results?: Maybe<Results_Mutation_Response>;
   /** delete single row from the table: "results" */
   delete_results_by_pk?: Maybe<Results>;
+  /** delete data from the table: "schedule" */
+  delete_schedule?: Maybe<Schedule_Mutation_Response>;
+  /** delete single row from the table: "schedule" */
+  delete_schedule_by_pk?: Maybe<Schedule>;
   /** delete data from the table: "session_name_choices" */
   delete_session_name_choices?: Maybe<Session_Name_Choices_Mutation_Response>;
   /** delete single row from the table: "session_name_choices" */
@@ -3929,6 +3933,10 @@ export type Mutation_Root = {
   insert_results?: Maybe<Results_Mutation_Response>;
   /** insert a single row into the table: "results" */
   insert_results_one?: Maybe<Results>;
+  /** insert data into the table: "schedule" */
+  insert_schedule?: Maybe<Schedule_Mutation_Response>;
+  /** insert a single row into the table: "schedule" */
+  insert_schedule_one?: Maybe<Schedule>;
   /** insert data into the table: "session_name_choices" */
   insert_session_name_choices?: Maybe<Session_Name_Choices_Mutation_Response>;
   /** insert a single row into the table: "session_name_choices" */
@@ -4063,6 +4071,12 @@ export type Mutation_Root = {
   update_results_by_pk?: Maybe<Results>;
   /** update multiples rows of table: "results" */
   update_results_many?: Maybe<Array<Maybe<Results_Mutation_Response>>>;
+  /** update data of the table: "schedule" */
+  update_schedule?: Maybe<Schedule_Mutation_Response>;
+  /** update single row of the table: "schedule" */
+  update_schedule_by_pk?: Maybe<Schedule>;
+  /** update multiples rows of table: "schedule" */
+  update_schedule_many?: Maybe<Array<Maybe<Schedule_Mutation_Response>>>;
   /** update data of the table: "session_name_choices" */
   update_session_name_choices?: Maybe<Session_Name_Choices_Mutation_Response>;
   /** update single row of the table: "session_name_choices" */
@@ -4262,6 +4276,16 @@ export type Mutation_RootDelete_ResultsArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Results_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_ScheduleArgs = {
+  where: Schedule_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Schedule_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -4511,6 +4535,18 @@ export type Mutation_RootInsert_ResultsArgs = {
 export type Mutation_RootInsert_Results_OneArgs = {
   object: Results_Insert_Input;
   on_conflict?: InputMaybe<Results_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_ScheduleArgs = {
+  objects: Array<Schedule_Insert_Input>;
+  on_conflict?: InputMaybe<Schedule_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Schedule_OneArgs = {
+  object: Schedule_Insert_Input;
+  on_conflict?: InputMaybe<Schedule_On_Conflict>;
 };
 
 /** mutation root */
@@ -4864,6 +4900,25 @@ export type Mutation_RootUpdate_Results_ManyArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_ScheduleArgs = {
+  _inc?: InputMaybe<Schedule_Inc_Input>;
+  _set?: InputMaybe<Schedule_Set_Input>;
+  where: Schedule_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_By_PkArgs = {
+  _inc?: InputMaybe<Schedule_Inc_Input>;
+  _set?: InputMaybe<Schedule_Set_Input>;
+  pk_columns: Schedule_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_ManyArgs = {
+  updates: Array<Schedule_Updates>;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_Session_Name_ChoicesArgs = {
   _set?: InputMaybe<Session_Name_Choices_Set_Input>;
   where: Session_Name_Choices_Bool_Exp;
@@ -5122,6 +5177,12 @@ export type Query_Root = {
   results_aggregate: Results_Aggregate;
   /** fetch data from the table: "results" using primary key columns */
   results_by_pk?: Maybe<Results>;
+  /** fetch data from the table: "schedule" */
+  schedule: Array<Schedule>;
+  /** fetch aggregated fields from the table: "schedule" */
+  schedule_aggregate: Schedule_Aggregate;
+  /** fetch data from the table: "schedule" using primary key columns */
+  schedule_by_pk?: Maybe<Schedule>;
   /** fetch data from the table: "session_name_choices" */
   session_name_choices: Array<Session_Name_Choices>;
   /** fetch aggregated fields from the table: "session_name_choices" */
@@ -5453,6 +5514,26 @@ export type Query_RootResults_AggregateArgs = {
 };
 
 export type Query_RootResults_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+export type Query_RootScheduleArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+export type Query_RootSchedule_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+export type Query_RootSchedule_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -6589,7 +6670,7 @@ export type Race_Control_Messages_Variance_Order_By = {
 /** columns and relationships of "results" */
 export type Results = {
   __typename?: 'results';
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   driver_session?: Maybe<Driver_Sessions>;
@@ -6732,7 +6813,7 @@ export type Results_Inc_Input = {
 
 /** input type for inserting data into table "results" */
 export type Results_Insert_Input = {
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Scalars['String']['input']>;
   driver_session?: InputMaybe<Driver_Sessions_Obj_Rel_Insert_Input>;
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
@@ -6751,7 +6832,7 @@ export type Results_Insert_Input = {
 /** aggregate max on columns */
 export type Results_Max_Fields = {
   __typename?: 'results_max_fields';
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -6768,7 +6849,7 @@ export type Results_Max_Fields = {
 
 /** order by max() on columns of table "results" */
 export type Results_Max_Order_By = {
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -6786,7 +6867,7 @@ export type Results_Max_Order_By = {
 /** aggregate min on columns */
 export type Results_Min_Fields = {
   __typename?: 'results_min_fields';
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -6803,7 +6884,7 @@ export type Results_Min_Fields = {
 
 /** order by min() on columns of table "results" */
 export type Results_Min_Order_By = {
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -6883,7 +6964,7 @@ export enum Results_Select_Column {
 
 /** input type for updating data in table "results" */
 export type Results_Set_Input = {
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Scalars['String']['input']>;
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -6983,7 +7064,7 @@ export type Results_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Results_Stream_Cursor_Value_Input = {
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Scalars['String']['input']>;
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -7131,6 +7212,485 @@ export type Results_Variance_Order_By = {
   q2_time?: InputMaybe<Order_By>;
   q3_time?: InputMaybe<Order_By>;
   total_race_time?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "schedule" */
+export type Schedule = {
+  __typename?: 'schedule';
+  country?: Maybe<Scalars['String']['output']>;
+  event_date?: Maybe<Scalars['String']['output']>;
+  event_format?: Maybe<Scalars['String']['output']>;
+  event_name?: Maybe<Scalars['String']['output']>;
+  f1_api_support?: Maybe<Scalars['Boolean']['output']>;
+  id: Scalars['String']['output'];
+  location?: Maybe<Scalars['String']['output']>;
+  official_event_name?: Maybe<Scalars['String']['output']>;
+  round_number?: Maybe<Scalars['Int']['output']>;
+  session1?: Maybe<Scalars['String']['output']>;
+  session1_date?: Maybe<Scalars['String']['output']>;
+  session1_date_utc?: Maybe<Scalars['String']['output']>;
+  session2?: Maybe<Scalars['String']['output']>;
+  session2_date?: Maybe<Scalars['String']['output']>;
+  session2_date_utc?: Maybe<Scalars['String']['output']>;
+  session3?: Maybe<Scalars['String']['output']>;
+  session3_date?: Maybe<Scalars['String']['output']>;
+  session3_date_utc?: Maybe<Scalars['String']['output']>;
+  session4?: Maybe<Scalars['String']['output']>;
+  session4_date?: Maybe<Scalars['String']['output']>;
+  session4_date_utc?: Maybe<Scalars['String']['output']>;
+  session5?: Maybe<Scalars['String']['output']>;
+  session5_date?: Maybe<Scalars['String']['output']>;
+  session5_date_utc?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** aggregated selection of "schedule" */
+export type Schedule_Aggregate = {
+  __typename?: 'schedule_aggregate';
+  aggregate?: Maybe<Schedule_Aggregate_Fields>;
+  nodes: Array<Schedule>;
+};
+
+/** aggregate fields of "schedule" */
+export type Schedule_Aggregate_Fields = {
+  __typename?: 'schedule_aggregate_fields';
+  avg?: Maybe<Schedule_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Schedule_Max_Fields>;
+  min?: Maybe<Schedule_Min_Fields>;
+  stddev?: Maybe<Schedule_Stddev_Fields>;
+  stddev_pop?: Maybe<Schedule_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Schedule_Stddev_Samp_Fields>;
+  sum?: Maybe<Schedule_Sum_Fields>;
+  var_pop?: Maybe<Schedule_Var_Pop_Fields>;
+  var_samp?: Maybe<Schedule_Var_Samp_Fields>;
+  variance?: Maybe<Schedule_Variance_Fields>;
+};
+
+/** aggregate fields of "schedule" */
+export type Schedule_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Schedule_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Schedule_Avg_Fields = {
+  __typename?: 'schedule_avg_fields';
+  round_number?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "schedule". All fields are combined with a logical 'AND'. */
+export type Schedule_Bool_Exp = {
+  _and?: InputMaybe<Array<Schedule_Bool_Exp>>;
+  _not?: InputMaybe<Schedule_Bool_Exp>;
+  _or?: InputMaybe<Array<Schedule_Bool_Exp>>;
+  country?: InputMaybe<String_Comparison_Exp>;
+  event_date?: InputMaybe<String_Comparison_Exp>;
+  event_format?: InputMaybe<String_Comparison_Exp>;
+  event_name?: InputMaybe<String_Comparison_Exp>;
+  f1_api_support?: InputMaybe<Boolean_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  location?: InputMaybe<String_Comparison_Exp>;
+  official_event_name?: InputMaybe<String_Comparison_Exp>;
+  round_number?: InputMaybe<Int_Comparison_Exp>;
+  session1?: InputMaybe<String_Comparison_Exp>;
+  session1_date?: InputMaybe<String_Comparison_Exp>;
+  session1_date_utc?: InputMaybe<String_Comparison_Exp>;
+  session2?: InputMaybe<String_Comparison_Exp>;
+  session2_date?: InputMaybe<String_Comparison_Exp>;
+  session2_date_utc?: InputMaybe<String_Comparison_Exp>;
+  session3?: InputMaybe<String_Comparison_Exp>;
+  session3_date?: InputMaybe<String_Comparison_Exp>;
+  session3_date_utc?: InputMaybe<String_Comparison_Exp>;
+  session4?: InputMaybe<String_Comparison_Exp>;
+  session4_date?: InputMaybe<String_Comparison_Exp>;
+  session4_date_utc?: InputMaybe<String_Comparison_Exp>;
+  session5?: InputMaybe<String_Comparison_Exp>;
+  session5_date?: InputMaybe<String_Comparison_Exp>;
+  session5_date_utc?: InputMaybe<String_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "schedule" */
+export enum Schedule_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  SchedulePkey = 'schedule_pkey',
+}
+
+/** input type for incrementing numeric columns in table "schedule" */
+export type Schedule_Inc_Input = {
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "schedule" */
+export type Schedule_Insert_Input = {
+  country?: InputMaybe<Scalars['String']['input']>;
+  event_date?: InputMaybe<Scalars['String']['input']>;
+  event_format?: InputMaybe<Scalars['String']['input']>;
+  event_name?: InputMaybe<Scalars['String']['input']>;
+  f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  official_event_name?: InputMaybe<Scalars['String']['input']>;
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  session1?: InputMaybe<Scalars['String']['input']>;
+  session1_date?: InputMaybe<Scalars['String']['input']>;
+  session1_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session2?: InputMaybe<Scalars['String']['input']>;
+  session2_date?: InputMaybe<Scalars['String']['input']>;
+  session2_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session3?: InputMaybe<Scalars['String']['input']>;
+  session3_date?: InputMaybe<Scalars['String']['input']>;
+  session3_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session4?: InputMaybe<Scalars['String']['input']>;
+  session4_date?: InputMaybe<Scalars['String']['input']>;
+  session4_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session5?: InputMaybe<Scalars['String']['input']>;
+  session5_date?: InputMaybe<Scalars['String']['input']>;
+  session5_date_utc?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate max on columns */
+export type Schedule_Max_Fields = {
+  __typename?: 'schedule_max_fields';
+  country?: Maybe<Scalars['String']['output']>;
+  event_date?: Maybe<Scalars['String']['output']>;
+  event_format?: Maybe<Scalars['String']['output']>;
+  event_name?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  location?: Maybe<Scalars['String']['output']>;
+  official_event_name?: Maybe<Scalars['String']['output']>;
+  round_number?: Maybe<Scalars['Int']['output']>;
+  session1?: Maybe<Scalars['String']['output']>;
+  session1_date?: Maybe<Scalars['String']['output']>;
+  session1_date_utc?: Maybe<Scalars['String']['output']>;
+  session2?: Maybe<Scalars['String']['output']>;
+  session2_date?: Maybe<Scalars['String']['output']>;
+  session2_date_utc?: Maybe<Scalars['String']['output']>;
+  session3?: Maybe<Scalars['String']['output']>;
+  session3_date?: Maybe<Scalars['String']['output']>;
+  session3_date_utc?: Maybe<Scalars['String']['output']>;
+  session4?: Maybe<Scalars['String']['output']>;
+  session4_date?: Maybe<Scalars['String']['output']>;
+  session4_date_utc?: Maybe<Scalars['String']['output']>;
+  session5?: Maybe<Scalars['String']['output']>;
+  session5_date?: Maybe<Scalars['String']['output']>;
+  session5_date_utc?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** aggregate min on columns */
+export type Schedule_Min_Fields = {
+  __typename?: 'schedule_min_fields';
+  country?: Maybe<Scalars['String']['output']>;
+  event_date?: Maybe<Scalars['String']['output']>;
+  event_format?: Maybe<Scalars['String']['output']>;
+  event_name?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  location?: Maybe<Scalars['String']['output']>;
+  official_event_name?: Maybe<Scalars['String']['output']>;
+  round_number?: Maybe<Scalars['Int']['output']>;
+  session1?: Maybe<Scalars['String']['output']>;
+  session1_date?: Maybe<Scalars['String']['output']>;
+  session1_date_utc?: Maybe<Scalars['String']['output']>;
+  session2?: Maybe<Scalars['String']['output']>;
+  session2_date?: Maybe<Scalars['String']['output']>;
+  session2_date_utc?: Maybe<Scalars['String']['output']>;
+  session3?: Maybe<Scalars['String']['output']>;
+  session3_date?: Maybe<Scalars['String']['output']>;
+  session3_date_utc?: Maybe<Scalars['String']['output']>;
+  session4?: Maybe<Scalars['String']['output']>;
+  session4_date?: Maybe<Scalars['String']['output']>;
+  session4_date_utc?: Maybe<Scalars['String']['output']>;
+  session5?: Maybe<Scalars['String']['output']>;
+  session5_date?: Maybe<Scalars['String']['output']>;
+  session5_date_utc?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** response of any mutation on the table "schedule" */
+export type Schedule_Mutation_Response = {
+  __typename?: 'schedule_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Schedule>;
+};
+
+/** on_conflict condition type for table "schedule" */
+export type Schedule_On_Conflict = {
+  constraint: Schedule_Constraint;
+  update_columns?: Array<Schedule_Update_Column>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "schedule". */
+export type Schedule_Order_By = {
+  country?: InputMaybe<Order_By>;
+  event_date?: InputMaybe<Order_By>;
+  event_format?: InputMaybe<Order_By>;
+  event_name?: InputMaybe<Order_By>;
+  f1_api_support?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  location?: InputMaybe<Order_By>;
+  official_event_name?: InputMaybe<Order_By>;
+  round_number?: InputMaybe<Order_By>;
+  session1?: InputMaybe<Order_By>;
+  session1_date?: InputMaybe<Order_By>;
+  session1_date_utc?: InputMaybe<Order_By>;
+  session2?: InputMaybe<Order_By>;
+  session2_date?: InputMaybe<Order_By>;
+  session2_date_utc?: InputMaybe<Order_By>;
+  session3?: InputMaybe<Order_By>;
+  session3_date?: InputMaybe<Order_By>;
+  session3_date_utc?: InputMaybe<Order_By>;
+  session4?: InputMaybe<Order_By>;
+  session4_date?: InputMaybe<Order_By>;
+  session4_date_utc?: InputMaybe<Order_By>;
+  session5?: InputMaybe<Order_By>;
+  session5_date?: InputMaybe<Order_By>;
+  session5_date_utc?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: schedule */
+export type Schedule_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
+/** select columns of table "schedule" */
+export enum Schedule_Select_Column {
+  /** column name */
+  Country = 'country',
+  /** column name */
+  EventDate = 'event_date',
+  /** column name */
+  EventFormat = 'event_format',
+  /** column name */
+  EventName = 'event_name',
+  /** column name */
+  F1ApiSupport = 'f1_api_support',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Location = 'location',
+  /** column name */
+  OfficialEventName = 'official_event_name',
+  /** column name */
+  RoundNumber = 'round_number',
+  /** column name */
+  Session1 = 'session1',
+  /** column name */
+  Session1Date = 'session1_date',
+  /** column name */
+  Session1DateUtc = 'session1_date_utc',
+  /** column name */
+  Session2 = 'session2',
+  /** column name */
+  Session2Date = 'session2_date',
+  /** column name */
+  Session2DateUtc = 'session2_date_utc',
+  /** column name */
+  Session3 = 'session3',
+  /** column name */
+  Session3Date = 'session3_date',
+  /** column name */
+  Session3DateUtc = 'session3_date_utc',
+  /** column name */
+  Session4 = 'session4',
+  /** column name */
+  Session4Date = 'session4_date',
+  /** column name */
+  Session4DateUtc = 'session4_date_utc',
+  /** column name */
+  Session5 = 'session5',
+  /** column name */
+  Session5Date = 'session5_date',
+  /** column name */
+  Session5DateUtc = 'session5_date_utc',
+  /** column name */
+  Year = 'year',
+}
+
+/** input type for updating data in table "schedule" */
+export type Schedule_Set_Input = {
+  country?: InputMaybe<Scalars['String']['input']>;
+  event_date?: InputMaybe<Scalars['String']['input']>;
+  event_format?: InputMaybe<Scalars['String']['input']>;
+  event_name?: InputMaybe<Scalars['String']['input']>;
+  f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  official_event_name?: InputMaybe<Scalars['String']['input']>;
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  session1?: InputMaybe<Scalars['String']['input']>;
+  session1_date?: InputMaybe<Scalars['String']['input']>;
+  session1_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session2?: InputMaybe<Scalars['String']['input']>;
+  session2_date?: InputMaybe<Scalars['String']['input']>;
+  session2_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session3?: InputMaybe<Scalars['String']['input']>;
+  session3_date?: InputMaybe<Scalars['String']['input']>;
+  session3_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session4?: InputMaybe<Scalars['String']['input']>;
+  session4_date?: InputMaybe<Scalars['String']['input']>;
+  session4_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session5?: InputMaybe<Scalars['String']['input']>;
+  session5_date?: InputMaybe<Scalars['String']['input']>;
+  session5_date_utc?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Schedule_Stddev_Fields = {
+  __typename?: 'schedule_stddev_fields';
+  round_number?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Schedule_Stddev_Pop_Fields = {
+  __typename?: 'schedule_stddev_pop_fields';
+  round_number?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Schedule_Stddev_Samp_Fields = {
+  __typename?: 'schedule_stddev_samp_fields';
+  round_number?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "schedule" */
+export type Schedule_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Schedule_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Schedule_Stream_Cursor_Value_Input = {
+  country?: InputMaybe<Scalars['String']['input']>;
+  event_date?: InputMaybe<Scalars['String']['input']>;
+  event_format?: InputMaybe<Scalars['String']['input']>;
+  event_name?: InputMaybe<Scalars['String']['input']>;
+  f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  official_event_name?: InputMaybe<Scalars['String']['input']>;
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  session1?: InputMaybe<Scalars['String']['input']>;
+  session1_date?: InputMaybe<Scalars['String']['input']>;
+  session1_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session2?: InputMaybe<Scalars['String']['input']>;
+  session2_date?: InputMaybe<Scalars['String']['input']>;
+  session2_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session3?: InputMaybe<Scalars['String']['input']>;
+  session3_date?: InputMaybe<Scalars['String']['input']>;
+  session3_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session4?: InputMaybe<Scalars['String']['input']>;
+  session4_date?: InputMaybe<Scalars['String']['input']>;
+  session4_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session5?: InputMaybe<Scalars['String']['input']>;
+  session5_date?: InputMaybe<Scalars['String']['input']>;
+  session5_date_utc?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Schedule_Sum_Fields = {
+  __typename?: 'schedule_sum_fields';
+  round_number?: Maybe<Scalars['Int']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "schedule" */
+export enum Schedule_Update_Column {
+  /** column name */
+  Country = 'country',
+  /** column name */
+  EventDate = 'event_date',
+  /** column name */
+  EventFormat = 'event_format',
+  /** column name */
+  EventName = 'event_name',
+  /** column name */
+  F1ApiSupport = 'f1_api_support',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Location = 'location',
+  /** column name */
+  OfficialEventName = 'official_event_name',
+  /** column name */
+  RoundNumber = 'round_number',
+  /** column name */
+  Session1 = 'session1',
+  /** column name */
+  Session1Date = 'session1_date',
+  /** column name */
+  Session1DateUtc = 'session1_date_utc',
+  /** column name */
+  Session2 = 'session2',
+  /** column name */
+  Session2Date = 'session2_date',
+  /** column name */
+  Session2DateUtc = 'session2_date_utc',
+  /** column name */
+  Session3 = 'session3',
+  /** column name */
+  Session3Date = 'session3_date',
+  /** column name */
+  Session3DateUtc = 'session3_date_utc',
+  /** column name */
+  Session4 = 'session4',
+  /** column name */
+  Session4Date = 'session4_date',
+  /** column name */
+  Session4DateUtc = 'session4_date_utc',
+  /** column name */
+  Session5 = 'session5',
+  /** column name */
+  Session5Date = 'session5_date',
+  /** column name */
+  Session5DateUtc = 'session5_date_utc',
+  /** column name */
+  Year = 'year',
+}
+
+export type Schedule_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Schedule_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Schedule_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Schedule_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Schedule_Var_Pop_Fields = {
+  __typename?: 'schedule_var_pop_fields';
+  round_number?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Schedule_Var_Samp_Fields = {
+  __typename?: 'schedule_var_samp_fields';
+  round_number?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Schedule_Variance_Fields = {
+  __typename?: 'schedule_variance_fields';
+  round_number?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "session_name_choices" */
@@ -7992,6 +8552,14 @@ export type Subscription_Root = {
   results_by_pk?: Maybe<Results>;
   /** fetch data from the table in a streaming manner: "results" */
   results_stream: Array<Results>;
+  /** fetch data from the table: "schedule" */
+  schedule: Array<Schedule>;
+  /** fetch aggregated fields from the table: "schedule" */
+  schedule_aggregate: Schedule_Aggregate;
+  /** fetch data from the table: "schedule" using primary key columns */
+  schedule_by_pk?: Maybe<Schedule>;
+  /** fetch data from the table in a streaming manner: "schedule" */
+  schedule_stream: Array<Schedule>;
   /** fetch data from the table: "session_name_choices" */
   session_name_choices: Array<Session_Name_Choices>;
   /** fetch aggregated fields from the table: "session_name_choices" */
@@ -8426,6 +8994,32 @@ export type Subscription_RootResults_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Results_Stream_Cursor_Input>>;
   where?: InputMaybe<Results_Bool_Exp>;
+};
+
+export type Subscription_RootScheduleArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+export type Subscription_RootSchedule_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+export type Subscription_RootSchedule_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+export type Subscription_RootSchedule_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Schedule_Stream_Cursor_Input>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
 export type Subscription_RootSession_Name_ChoicesArgs = {
@@ -10178,6 +10772,8 @@ export enum Tyre_Compounds_Enum {
   Soft = 'SOFT',
   /** Supersoft tyre compound */
   Supersoft = 'SUPERSOFT',
+  /** Test tyre compound */
+  Test = 'TEST',
   /** Unknown test tyre compound */
   TestUnknown = 'TEST_UNKNOWN',
   /** Ultrasoft tyre compound */
@@ -11016,21 +11612,33 @@ export type GetStandingsQuery = {
   __typename?: 'query_root';
   drivers: Array<{
     __typename?: 'drivers';
+    id: string;
     abbreviation?: string | null;
     full_name?: string | null;
-    driver_sessions: Array<{
+    latest_constructor: Array<{
       __typename?: 'driver_sessions';
-      constructorByConstructorId?: {
+      constructor?: {
         __typename?: 'constructors';
-        color?: string | null;
         name?: string | null;
+        color?: string | null;
       } | null;
     }>;
     driver_standings: Array<{
       __typename?: 'driver_standings';
+      round?: number | null;
       points?: bigint | number | null;
       position?: number | null;
+    }>;
+  }>;
+  constructors: Array<{
+    __typename?: 'constructors';
+    name?: string | null;
+    color?: string | null;
+    constructor_standings: Array<{
+      __typename?: 'constructor_standings';
       round?: number | null;
+      points?: bigint | number | null;
+      position?: number | null;
     }>;
   }>;
 };
@@ -11704,22 +12312,39 @@ export type GetEventDetailsQueryResult = Apollo.QueryResult<
 export const GetStandingsDocument = gql`
   query GetStandings($season: Int!) {
     drivers(where: { driver_standings: { season: { _eq: $season } } }) {
+      id
       abbreviation
       full_name
-      driver_sessions(
+      latest_constructor: driver_sessions(
         limit: 1
-        where: { session: { event: { year: { _eq: $season } } } }
         order_by: { session: { date: desc } }
       ) {
-        constructorByConstructorId {
-          color
+        constructor: constructorByConstructorId {
           name
+          color
         }
       }
-      driver_standings(where: { season: { _eq: $season } }) {
+      driver_standings(
+        where: { season: { _eq: $season } }
+        order_by: { round: asc }
+      ) {
+        round
         points
         position
+      }
+    }
+    constructors(
+      where: { constructor_standings: { season: { _eq: $season } } }
+    ) {
+      name
+      color
+      constructor_standings(
+        where: { season: { _eq: $season } }
+        order_by: { round: asc }
+      ) {
         round
+        points
+        position
       }
     }
   }
