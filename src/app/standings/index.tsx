@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { GET_STANDINGS } from '@/lib/queries';
 
 import SeasonSelector from '@/components/seasonSelector';
+import { ServerPageError } from '@/components/ServerError';
 
 import {
   GetStandingsQuery,
@@ -30,10 +31,10 @@ export const accessors = {
   yAccessor: (d: Standings) => d?.points || 0,
 };
 
-export const Standings = () => {
+export const Standings = ({ season: selectedSeason }: { season?: number }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const season = Number(searchParams.get('season')) || 2024;
+  const season = selectedSeason || Number(searchParams.get('season')) || 2024;
   const chartType = searchParams.get('chart') || 'drivers';
 
   const [hiddenTeams, setHiddenTeams] = useState<Record<string, boolean>>({});
@@ -46,7 +47,7 @@ export const Standings = () => {
     GetStandingsQueryVariables
   >(GET_STANDINGS, { variables: { season: season } });
 
-  if (error || !standings) return <p>Error...</p>;
+  if (error || !standings) return <ServerPageError />;
 
   const changeChartType = (chart: 'drivers' | 'constructors') => {
     const params = new URLSearchParams(searchParams);
