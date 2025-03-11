@@ -32248,7 +32248,7 @@
         "fields": [
           {
             "name": "classified_position",
-            "description": "This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
+            "description": "This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -33249,7 +33249,7 @@
         "fields": [
           {
             "name": "classified_position",
-            "description": "This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
+            "description": "This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -33382,7 +33382,7 @@
         "inputFields": [
           {
             "name": "classified_position",
-            "description": "This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
+            "description": "This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
             "type": {
               "kind": "ENUM",
               "name": "order_by",
@@ -33513,7 +33513,7 @@
         "fields": [
           {
             "name": "classified_position",
-            "description": "This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
+            "description": "This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -33646,7 +33646,7 @@
         "inputFields": [
           {
             "name": "classified_position",
-            "description": "This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
+            "description": "This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
             "type": {
               "kind": "ENUM",
               "name": "order_by",
@@ -34610,7 +34610,7 @@
         "inputFields": [
           {
             "name": "classified_position",
-            "description": "This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
+            "description": "This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified)",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -57716,12 +57716,6 @@
           {
             "name": "SUPERSOFT",
             "description": "Supersoft tyre compound",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "TEST",
-            "description": "Test tyre compound",
             "isDeprecated": false,
             "deprecationReason": null
           },
