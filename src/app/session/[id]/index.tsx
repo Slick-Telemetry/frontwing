@@ -37,6 +37,11 @@ export const SessionResults = ({ id }: { id: string }) => {
   // Sort by results
   if (session.driver_sessions[0].results.length > 0) {
     // Sort by result position
+    driverSessions = [...session.driver_sessions].sort((ds1, ds2) => {
+      const position1 = Number(ds1.results[0].classified_position);
+      const position2 = Number(ds2.results[0].classified_position);
+      return position1 - position2;
+    });
   } else if (session.driver_sessions[0].laps.length > 0) {
     // Sort by laptime
     driverSessions = [...session.driver_sessions].sort((ds1, ds2) => {
@@ -75,48 +80,69 @@ export const SessionResults = ({ id }: { id: string }) => {
         </button>
       </div>
       {view === 'grid' && (
-        <div className='my-4 grid gap-4 lg:grid-cols-5'>
+        <div className='grid gap-4 lg:grid-cols-5'>
           {driverSessions.map((ds, i) => (
-            <SessionCard key={ds.id} driverSession={ds} position={i + 1} />
+            <SessionCard
+              key={ds.id}
+              driverSession={ds}
+              position={Number(ds.results?.[0]?.classified_position || i + 1)}
+            />
           ))}
         </div>
       )}
-      {view === 'charts' && <ChartView changeView={changeView} />}
-      {view === 'sectors' && <SectorTimes driverSessions={driverSessions} />}
-      {view === 'stints' && <Stints id={id} />}
+      {view === 'charts' && (
+        <ChartView id={id} driverSessions={driverSessions} />
+      )}
     </>
   );
 };
 
 const ChartView = ({
-  changeView,
+  driverSessions,
+  id,
 }: {
-  changeView: (view: 'sectors' | 'laps' | 'stints') => void;
+  driverSessions: SessionResultsQuery['sessions'][0]['driver_sessions'];
+  id: string;
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const view = searchParams.get('chart') || 'laps';
+  const chargeChart = (chart: 'sectors' | 'laps' | 'stints') => {
+    const params = new URLSearchParams(searchParams);
+    params.set('chart', chart);
+    router.replace(`?${params.toString()}`);
+  };
+
   return (
-    <div className='grid grid-cols-3 gap-4 py-4'>
-      <div className='flex h-48 w-full items-center justify-center rounded border'>
-        Laps Chart
+    <>
+      <div className='grid grid-cols-5 gap-4 py-4'>
+        <div className='flex h-8 w-full items-center justify-center rounded border'>
+          Laps Chart
+        </div>
+        <div
+          onClick={() => chargeChart('sectors')}
+          className='flex h-8 w-full items-center justify-center rounded border'
+        >
+          Sector Times
+        </div>
+        <div className='flex h-8 w-full items-center justify-center rounded border'>
+          Gap to Fastest
+        </div>
+        <div
+          onClick={() => chargeChart('stints')}
+          className='flex h-8 w-full items-center justify-center rounded border'
+        >
+          Stints
+        </div>
+        <div className='flex h-8 w-full items-center justify-center rounded border'>
+          Top Speeds
+        </div>
       </div>
-      <div
-        onClick={() => changeView('sectors')}
-        className='flex h-48 w-full items-center justify-center rounded border'
-      >
-        Sector Times
-      </div>
-      <div className='flex h-48 w-full items-center justify-center rounded border'>
-        Gap to Fastest
-      </div>
-      <div
-        onClick={() => changeView('stints')}
-        className='flex h-48 w-full items-center justify-center rounded border'
-      >
-        Stints
-      </div>
-      <div className='flex h-48 w-full items-center justify-center rounded border'>
-        Top Speeds
-      </div>
-    </div>
+
+      {view === 'laps' && <>Laps</>}
+      {view === 'sectors' && <SectorTimes driverSessions={driverSessions} />}
+      {view === 'stints' && <Stints id={id} />}
+    </>
   );
 };
 
@@ -138,18 +164,21 @@ const SessionCard = ({
     </FloatingNumber>
     <p className='text-xs leading-2'>{ds.constructorByConstructorId?.name}</p>
     <p>{ds.driver?.full_name}</p>
-    <div className='my-2 flex items-end justify-between'>
-      <p className='text-2xl'>
-        {moment.utc(Number(ds.laps[0].lap_time)).format('m:ss.SSS')}
-      </p>
-      <div className='ml-auto flex gap-2 text-xs'>
+    <div className='items-cemter my-2 flex justify-between'>
+      <div className='grid'>
+        <p className='text-xs'>Fastest Lap</p>
+        <p className='text-2xl leading-6'>
+          {moment.utc(Number(ds.laps[0].lap_time)).format('m:ss.SSS')}
+        </p>
+      </div>
+      <div className='ml-auto flex gap-2'>
         <div className='grid text-center'>
-          <p>Lap</p>
-          <p className='leading-3'>{ds.laps[0].lap_number}</p>
+          <p className='text-xs'>Lap</p>
+          <p className='text-2xl leading-6'>{ds.laps[0].lap_number}</p>
         </div>
         <div className='grid text-center'>
-          <p>Stint</p>
-          <p className='leading-3'>{ds.laps[0].stint}</p>
+          <p className='text-xs'>Stint</p>
+          <p className='text-2xl leading-6'>{ds.laps[0].stint}</p>
         </div>
       </div>
     </div>
