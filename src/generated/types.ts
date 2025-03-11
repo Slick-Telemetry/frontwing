@@ -2799,6 +2799,10 @@ export type Laps_Variance_Order_By = {
   tyre_life?: InputMaybe<Order_By>;
 };
 
+/** mutation root */
+
+};
+  updates: Array<Weather_Data_Updates>;
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
 export type Numeric_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['numeric']['input']>;
@@ -4017,7 +4021,7 @@ export type Race_Control_Messages_Variance_Order_By = {
 /** columns and relationships of "results" */
 export type Results = {
   __typename?: 'results';
-  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   driver_session?: Maybe<Driver_Sessions>;
@@ -4134,7 +4138,7 @@ export type Results_Bool_Exp = {
 /** aggregate max on columns */
 export type Results_Max_Fields = {
   __typename?: 'results_max_fields';
-  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -4150,7 +4154,7 @@ export type Results_Max_Fields = {
 
 /** order by max() on columns of table "results" */
 export type Results_Max_Order_By = {
-  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -4167,7 +4171,7 @@ export type Results_Max_Order_By = {
 /** aggregate min on columns */
 export type Results_Min_Fields = {
   __typename?: 'results_min_fields';
-  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -4183,7 +4187,7 @@ export type Results_Min_Fields = {
 
 /** order by min() on columns of table "results" */
 export type Results_Min_Order_By = {
-  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -4321,7 +4325,7 @@ export type Results_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Results_Stream_Cursor_Value_Input = {
-  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Scalars['String']['input']>;
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -7167,8 +7171,6 @@ export enum Tyre_Compounds_Enum {
   Soft = 'SOFT',
   /** Supersoft tyre compound */
   Supersoft = 'SUPERSOFT',
-  /** Test tyre compound */
-  Test = 'TEST',
   /** Unknown test tyre compound */
   TestUnknown = 'TEST_UNKNOWN',
   /** Ultrasoft tyre compound */
@@ -7972,6 +7974,77 @@ export type GetStandingsQuery = {
       round?: number | null;
       points?: bigint | number | null;
       position?: number | null;
+    }>;
+  }>;
+};
+
+export type SessionResultsQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+export type SessionResultsQuery = {
+  __typename?: 'query_root';
+  sessions: Array<{
+    __typename?: 'sessions';
+    name?: Session_Name_Choices_Enum | null;
+    event?: { __typename?: 'events'; name?: string | null } | null;
+    driver_sessions: Array<{
+      __typename?: 'driver_sessions';
+      id: string;
+      constructorByConstructorId?: {
+        __typename?: 'constructors';
+        name?: string | null;
+        color?: string | null;
+      } | null;
+      driver?: {
+        __typename?: 'drivers';
+        abbreviation?: string | null;
+        full_name?: string | null;
+        number?: string | null;
+        headshot_url?: string | null;
+      } | null;
+      results: Array<{
+        __typename?: 'results';
+        grid_position?: number | null;
+        points?: bigint | number | null;
+        status?: string | null;
+        classified_position?: string | null;
+      }>;
+      laps: Array<{
+        __typename?: 'laps';
+        lap_time?: bigint | null;
+        sector1?: bigint | null;
+        sector2?: bigint | null;
+        sector3?: bigint | null;
+        stint?: number | null;
+        lap_number?: number | null;
+      }>;
+    }>;
+  }>;
+};
+
+export type GetSessionStintsQueryVariables = Exact<{
+  session: Scalars['String']['input'];
+}>;
+
+export type GetSessionStintsQuery = {
+  __typename?: 'query_root';
+  sessions: Array<{
+    __typename?: 'sessions';
+    driver_sessions: Array<{
+      __typename?: 'driver_sessions';
+      driver?: {
+        __typename?: 'drivers';
+        abbreviation?: string | null;
+        full_name?: string | null;
+      } | null;
+      laps: Array<{
+        __typename?: 'laps';
+        stint?: number | null;
+        tyre_life?: number | null;
+        fresh_tyre?: boolean | null;
+        tyre_compound?: { __typename?: 'tyre_compounds'; value: string } | null;
+      }>;
     }>;
   }>;
 };
@@ -9012,4 +9085,215 @@ export type GetStandingsSuspenseQueryHookResult = ReturnType<
 export type GetStandingsQueryResult = Apollo.QueryResult<
   GetStandingsQuery,
   GetStandingsQueryVariables
+>;
+export const SessionResultsDocument = gql`
+  query SessionResults($id: String!) {
+    sessions(where: { id: { _eq: $id } }) {
+      name
+      event {
+        name
+      }
+      driver_sessions {
+        id
+        constructorByConstructorId {
+          name
+          color
+        }
+        driver {
+          abbreviation
+          full_name
+          number
+          headshot_url
+        }
+        results(where: { grid_position: { _is_null: false } }) {
+          grid_position
+          points
+          status
+          classified_position
+        }
+        laps(
+          where: { is_personal_best: { _eq: true } }
+          order_by: { lap_time: asc }
+          limit: 1
+        ) {
+          lap_time
+          sector1
+          sector2
+          sector3
+          stint
+          lap_number
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useSessionResultsQuery__
+ *
+ * To run a query within a React component, call `useSessionResultsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSessionResultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSessionResultsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSessionResultsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    SessionResultsQuery,
+    SessionResultsQueryVariables
+  > &
+    (
+      | { variables: SessionResultsQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SessionResultsQuery, SessionResultsQueryVariables>(
+    SessionResultsDocument,
+    options,
+  );
+}
+export function useSessionResultsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SessionResultsQuery,
+    SessionResultsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SessionResultsQuery, SessionResultsQueryVariables>(
+    SessionResultsDocument,
+    options,
+  );
+}
+export function useSessionResultsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        SessionResultsQuery,
+        SessionResultsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    SessionResultsQuery,
+    SessionResultsQueryVariables
+  >(SessionResultsDocument, options);
+}
+export type SessionResultsQueryHookResult = ReturnType<
+  typeof useSessionResultsQuery
+>;
+export type SessionResultsLazyQueryHookResult = ReturnType<
+  typeof useSessionResultsLazyQuery
+>;
+export type SessionResultsSuspenseQueryHookResult = ReturnType<
+  typeof useSessionResultsSuspenseQuery
+>;
+export type SessionResultsQueryResult = Apollo.QueryResult<
+  SessionResultsQuery,
+  SessionResultsQueryVariables
+>;
+export const GetSessionStintsDocument = gql`
+  query GetSessionStints($session: String!) {
+    sessions(where: { id: { _eq: $session } }) {
+      driver_sessions {
+        driver {
+          abbreviation
+          full_name
+        }
+        laps {
+          stint
+          tyre_compound {
+            value
+          }
+          tyre_life
+          fresh_tyre
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetSessionStintsQuery__
+ *
+ * To run a query within a React component, call `useGetSessionStintsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSessionStintsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSessionStintsQuery({
+ *   variables: {
+ *      session: // value for 'session'
+ *   },
+ * });
+ */
+export function useGetSessionStintsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetSessionStintsQuery,
+    GetSessionStintsQueryVariables
+  > &
+    (
+      | { variables: GetSessionStintsQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetSessionStintsQuery, GetSessionStintsQueryVariables>(
+    GetSessionStintsDocument,
+    options,
+  );
+}
+export function useGetSessionStintsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSessionStintsQuery,
+    GetSessionStintsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetSessionStintsQuery,
+    GetSessionStintsQueryVariables
+  >(GetSessionStintsDocument, options);
+}
+export function useGetSessionStintsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetSessionStintsQuery,
+        GetSessionStintsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetSessionStintsQuery,
+    GetSessionStintsQueryVariables
+  >(GetSessionStintsDocument, options);
+}
+export type GetSessionStintsQueryHookResult = ReturnType<
+  typeof useGetSessionStintsQuery
+>;
+export type GetSessionStintsLazyQueryHookResult = ReturnType<
+  typeof useGetSessionStintsLazyQuery
+>;
+export type GetSessionStintsSuspenseQueryHookResult = ReturnType<
+  typeof useGetSessionStintsSuspenseQuery
+>;
+export type GetSessionStintsQueryResult = Apollo.QueryResult<
+  GetSessionStintsQuery,
+  GetSessionStintsQueryVariables
 >;

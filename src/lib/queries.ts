@@ -312,3 +312,66 @@ export const GET_STANDINGS = gql`
     }
   }
 `;
+
+export const GET_SESSION_RESULTS = gql`
+  query SessionResults($id: String!) {
+    sessions(where: { id: { _eq: $id } }) {
+      name
+      event {
+        name
+      }
+      driver_sessions {
+        id
+        constructorByConstructorId {
+          name
+          color
+        }
+        driver {
+          abbreviation
+          full_name
+          number
+          headshot_url
+        }
+        results(where: { grid_position: { _is_null: false } }) {
+          grid_position
+          points
+          status
+          classified_position
+        }
+        laps(
+          where: { is_personal_best: { _eq: true } }
+          order_by: { lap_time: asc }
+          limit: 1
+        ) {
+          lap_time
+          sector1
+          sector2
+          sector3
+          stint
+          lap_number
+        }
+      }
+    }
+  }
+`;
+
+export const GET_SESSION_STINTS = gql`
+  query GetSessionStints($session: String!) {
+    sessions(where: { id: { _eq: $session } }) {
+      driver_sessions {
+        driver {
+          abbreviation
+          full_name
+        }
+        laps {
+          stint
+          tyre_compound {
+            value
+          }
+          tyre_life
+          fresh_tyre
+        }
+      }
+    }
+  }
+`;
