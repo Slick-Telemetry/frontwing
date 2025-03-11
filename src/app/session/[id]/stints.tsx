@@ -6,6 +6,7 @@ import {
   AnimatedBarSeries,
   AnimatedBarStack,
   Axis,
+  Tooltip,
   XYChart,
 } from '@visx/xychart';
 import { useMemo } from 'react';
@@ -39,6 +40,18 @@ const TYRE_COLORS = {
     old: '#ffffff', // Unknown
   },
 };
+const margin = { top: 0, right: 30, bottom: 72, left: 60 };
+
+type Stint = {
+  stint: number;
+  startLap: number;
+  endLap: number;
+  tyreLife: number;
+  tyreCompound: string;
+  freshTyre: boolean;
+  driver: string;
+};
+type StintMap = Record<number, Stint>;
 
 // Chart Component
 const Stints = ({ id }: { id: string }) => {
@@ -56,18 +69,7 @@ const Stints = ({ id }: { id: string }) => {
 
     const processedData = sessionData?.sessions[0]?.driver_sessions
       .map((ds) => {
-        const stintMap: Record<
-          number,
-          {
-            stint: number;
-            startLap: number;
-            endLap: number;
-            tyreLife: number;
-            tyreCompound: string;
-            freshTyre: boolean;
-            driver: string;
-          }
-        > = {};
+        const stintMap: StintMap = {};
 
         ds.laps.forEach((lap, index) => {
           if (lap.stint === null || lap.stint === undefined) return;
@@ -112,14 +114,16 @@ const Stints = ({ id }: { id: string }) => {
   if (error || !sessionData) return <ServerPageError />;
 
   return (
-    <div className='h-[600px] w-full'>
+    <div className='h-[600px] rounded border p-2'>
+      <h3 className='text-center text-lg font-semibold'>Tire Analysis</h3>
       <ParentSize key='stintTyres'>
         {({ width, height }) => (
           <XYChart
-            xScale={{ type: 'linear', domain: [0, maxLaps] }}
-            yScale={{ type: 'band', padding: 0.1 }}
+            xScale={{ type: 'linear', domain: [0, maxLaps + 1] }}
+            yScale={{ type: 'band', padding: 0.2 }}
             width={width}
             height={height}
+            margin={margin}
           >
             {/* X and Y Axes */}
             <Axis
@@ -134,7 +138,7 @@ const Stints = ({ id }: { id: string }) => {
             <Axis
               orientation='left'
               labelOffset={16}
-              //   numTicks={data.length}
+              numTicks={processedData?.length}
               label='Drivers'
               tickStroke='white'
               tickLabelProps={() => ({
@@ -158,7 +162,7 @@ const Stints = ({ id }: { id: string }) => {
 
                   return (
                     <AnimatedBarSeries
-                      radius={8}
+                      radius={4}
                       radiusAll
                       key={`${driverData.driver}-stint-${stint.startLap}`}
                       dataKey={`${driverData.driver}-stint-${stint.startLap}`}
@@ -173,7 +177,7 @@ const Stints = ({ id }: { id: string }) => {
             ))}
 
             {/* Tooltip */}
-            {/* <Tooltip
+            <Tooltip
               showVerticalCrosshair
               renderTooltip={({ tooltipData }) => {
                 if (!tooltipData?.nearestDatum) return null;
@@ -184,9 +188,9 @@ const Stints = ({ id }: { id: string }) => {
                   stint,
                   tyreCompound,
                   freshTyre,
-                } = tooltipData.nearestDatum.datum;
+                } = tooltipData.nearestDatum.datum as Stint;
                 return (
-                  <div className='bg-black p-2 text-white'>
+                  <div className=''>
                     <div>
                       <strong>Stint:</strong> {stint}
                     </div>
@@ -205,7 +209,7 @@ const Stints = ({ id }: { id: string }) => {
                   </div>
                 );
               }}
-            /> */}
+            />
           </XYChart>
         )}
       </ParentSize>
