@@ -55,6 +55,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-map-gl": "latest",
+    "react-use-websocket": "^4.13.0",
     "tailwind-merge": "latest",
     "tailwindcss-animate": "latest",
     "vaul": "latest"
