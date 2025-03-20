@@ -1,3 +1,13 @@
+## 0.4.0 (2025-03-20)
+
+### Feat
+
+- standings sorted by constructor with most points, season selector, nav addition
+
+### Refactor
+
+- testing server side rendering with apollo client
+
 ## 0.3.2 (2025-02-26)
 
 ### Fix
