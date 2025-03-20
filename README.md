@@ -25,7 +25,7 @@ Table of Contents:
 ### What you'll need
 
 - [VS Code](https://code.visualstudio.com/) / [Intellij WebStorm](https://www.jetbrains.com/webstorm/)
-- [Node.js](https://nodejs.org/en) (latest)
+- [Node.js](https://nodejs.org/en) (LTS)
 - [pnpm](https://pnpm.io/)
 
 ## Getting Started
