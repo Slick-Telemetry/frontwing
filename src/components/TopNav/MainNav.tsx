@@ -20,7 +20,7 @@ import {
 
 export function MainNav() {
   return (
-    <NavigationMenu className='px-4'>
+    <NavigationMenu className='hidden px-4 md:block'>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Seasons</NavigationMenuTrigger>

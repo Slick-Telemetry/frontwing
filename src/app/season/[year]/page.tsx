@@ -2,12 +2,10 @@
 
 import { useQuery } from '@apollo/client';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { use, useCallback, useState } from 'react';
 
 import { GET_SEASON_EVENTS } from '@/lib/queries';
 
-import { FloatingNumber } from '@/components/FloatingNumber';
 import { ServerPageError } from '@/components/ServerError';
 import { SessionTime } from '@/components/SessionTime';
 
@@ -37,21 +35,20 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
 
   return (
     <div className='container'>
-      <h1 className='font-mono text-4xl'>{year} Season</h1>
+      <h1 className='text-4xl font-black'>{year} Season</h1>
       <SessionToggle toggleSessions={toggleSessions} />
 
-      <div className='my-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
+      <div className='my-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4'>
         {data?.events.map((event) => (
           <EventContainer key={event.id} event={event}>
             {showSessions &&
               event.sessions.map((session) => (
-                <SessionContainer key={session.id} id={session.id}>
-                  <SessionTime
-                    id={session.id}
-                    time={session?.scheduled_start_time_utc}
-                    name={session?.name}
-                  />
-                </SessionContainer>
+                <SessionTime
+                  key={session.id}
+                  id={session.id}
+                  time={session?.scheduled_start_time_utc}
+                  name={session?.name}
+                />
               ))}
           </EventContainer>
         ))}
@@ -68,31 +65,33 @@ const EventContainer = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className='overflow-hidden rounded-lg border border-r-4 border-b-4 border-current p-4'>
+    <div className='border-accent-foreground overflow-hidden rounded border p-4'>
       <div className='relative flex items-center justify-between'>
-        <FloatingNumber className='-left-8'>
+        {/* <FloatingNumber className='-left-8'>
           {event.round_number}
-        </FloatingNumber>
-        <Link
-          href={'/event/' + event.id}
-          className='text-3xl font-semibold hover:underline'
-        >
-          {event.name?.replace('Grand Prix', 'GP')}
-        </Link>
-        <div className='text-right text-sm'>
+        </FloatingNumber> */}
+        <div>
           {event.date && (
-            <p>
+            <p className='text-sm'>
               {new Date(event.date).toLocaleString(undefined, {
-                month: 'long',
-                day: '2-digit',
+                month: 'short',
+                day: 'numeric',
                 year: 'numeric',
               })}
             </p>
           )}
-          <p>
+          <Link
+            href={'/event/' + event.id}
+            className='text-xl font-black hover:underline'
+          >
+            {event.name?.replace('Grand Prix', 'GP')}
+          </Link>
+          <p className='text-xs'>
             {event.location}, {event.country}
           </p>
         </div>
+        {/* <div className='text-sm text-right'> */}
+        {/* </div> */}
       </div>
       {children}
     </div>
@@ -111,25 +110,6 @@ const SessionToggle = ({ toggleSessions }: { toggleSessions: () => void }) => {
       <label htmlFor='sessions-checkbox' className='ms-2 text-sm font-medium'>
         Show Sessions
       </label>
-    </div>
-  );
-};
-
-const SessionContainer = ({
-  id,
-  children,
-}: {
-  id: string;
-  children: React.ReactNode;
-}) => {
-  const router = useRouter();
-
-  return (
-    <div
-      className='mt-4 flex items-center gap-4 overflow-hidden rounded-xl border hover:border-current'
-      onClick={() => router.push('/session/' + id)}
-    >
-      {children}
     </div>
   );
 };

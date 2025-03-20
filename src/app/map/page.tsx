@@ -33,10 +33,6 @@ const initialView = {
 };
 
 const WorldMap = () => {
-  // We custom load state for map to load
-  // This prevents issues rending the custom line layers
-  const [loading, setLoading] = useState(true);
-
   const { data, error } = useQuery<
     GetMapEventsQuery,
     GetMapEventsQueryVariables
@@ -44,6 +40,9 @@ const WorldMap = () => {
     variables: { year: 2024 },
   });
 
+  // We custom load state for map to load
+  // This prevents issues rending the custom line layers
+  const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<MapEvent | null>(null);
 
   const LegendMemo = useMemo(() => {
@@ -76,10 +75,8 @@ const WorldMap = () => {
 
   if (error) return <ServerPageError />;
 
-  // Navigate to previous or next Event
-  // type
   /**
-   * @description
+   * @description Navigate to previous or next Event
    * @param {('prev' | 'next')} [type='next']
    */
   const handleAdjacent = (type: 'prev' | 'next' = 'next') => {

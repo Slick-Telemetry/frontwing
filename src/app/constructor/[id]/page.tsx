@@ -7,6 +7,7 @@ import React from 'react';
 import { GET_CONSTRUCTOR } from '@/lib/queries';
 import { bgGradient } from '@/lib/utils';
 
+import { FullHeightLoader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
 import {
   Select,
@@ -49,8 +50,8 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
     );
   }, [constructor]);
 
-  if (error) return <ServerPageError />;
-  if (loading) return <>Loading...</>;
+  if (error) return <ServerPageError msg={error.message} />;
+  if (loading) return <FullHeightLoader>Loading events...</FullHeightLoader>;
   if (!constructor) return <ServerPageError />;
 
   return (
