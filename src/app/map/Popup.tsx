@@ -138,7 +138,7 @@ export const MapPopup = ({
   );
 };
 
-const EventTypeBadge = ({
+export const EventTypeBadge = ({
   format,
 }: {
   format?: Event_Format_Choices_Enum | null;

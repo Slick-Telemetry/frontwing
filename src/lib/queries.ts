@@ -103,6 +103,21 @@ export const GET_MAP_EVENTS = gql`
   }
 `;
 
+export const GET_NEXT_EVENT = gql`
+  query GetNextEvent($today: String!) {
+    schedule(
+      where: { event_date: { _gte: $today } }
+      order_by: { event_date: asc }
+      limit: 1
+    ) {
+      event_name
+      country
+      event_format
+      session5_date_utc
+    }
+  }
+`;
+
 export const GET_SEASON_EVENTS = gql`
   query GetSeasonEvents($year: Int!) {
     events(where: { year: { _eq: $year } }) {

@@ -11531,6 +11531,21 @@ export type GetMapEventsQuery = {
   }>;
 };
 
+export type GetNextEventQueryVariables = Exact<{
+  today: Scalars['String']['input'];
+}>;
+
+export type GetNextEventQuery = {
+  __typename?: 'query_root';
+  schedule: Array<{
+    __typename?: 'schedule';
+    event_name?: string | null;
+    country?: string | null;
+    event_format?: string | null;
+    session5_date_utc?: string | null;
+  }>;
+};
+
 export type GetSeasonEventsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
@@ -12096,6 +12111,95 @@ export type GetMapEventsSuspenseQueryHookResult = ReturnType<
 export type GetMapEventsQueryResult = Apollo.QueryResult<
   GetMapEventsQuery,
   GetMapEventsQueryVariables
+>;
+export const GetNextEventDocument = gql`
+  query GetNextEvent($today: String!) {
+    schedule(
+      where: { event_date: { _gte: $today } }
+      order_by: { event_date: asc }
+      limit: 1
+    ) {
+      event_name
+      country
+      event_format
+      session5_date_utc
+    }
+  }
+`;
+
+/**
+ * __useGetNextEventQuery__
+ *
+ * To run a query within a React component, call `useGetNextEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNextEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNextEventQuery({
+ *   variables: {
+ *      today: // value for 'today'
+ *   },
+ * });
+ */
+export function useGetNextEventQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetNextEventQuery,
+    GetNextEventQueryVariables
+  > &
+    (
+      | { variables: GetNextEventQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetNextEventQuery, GetNextEventQueryVariables>(
+    GetNextEventDocument,
+    options,
+  );
+}
+export function useGetNextEventLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetNextEventQuery,
+    GetNextEventQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetNextEventQuery, GetNextEventQueryVariables>(
+    GetNextEventDocument,
+    options,
+  );
+}
+export function useGetNextEventSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetNextEventQuery,
+        GetNextEventQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetNextEventQuery, GetNextEventQueryVariables>(
+    GetNextEventDocument,
+    options,
+  );
+}
+export type GetNextEventQueryHookResult = ReturnType<
+  typeof useGetNextEventQuery
+>;
+export type GetNextEventLazyQueryHookResult = ReturnType<
+  typeof useGetNextEventLazyQuery
+>;
+export type GetNextEventSuspenseQueryHookResult = ReturnType<
+  typeof useGetNextEventSuspenseQuery
+>;
+export type GetNextEventQueryResult = Apollo.QueryResult<
+  GetNextEventQuery,
+  GetNextEventQueryVariables
 >;
 export const GetSeasonEventsDocument = gql`
   query GetSeasonEvents($year: Int!) {
