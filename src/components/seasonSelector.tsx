@@ -7,6 +7,14 @@ import { GET_SEASONS } from '@/lib/queries';
 
 import { GetSeasonsQuery, GetSeasonsQueryVariables } from '@/generated/types';
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+
 const SeasonSelector = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -28,20 +36,21 @@ const SeasonSelector = () => {
   };
 
   return (
-    <select
-      value={currentSeason}
-      onChange={(e) => handleSeasonChange(e.target.value)}
-      className='rounded border p-2'
-    >
-      {events.map(
-        ({ year }) =>
-          year && (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ),
-      )}
-    </select>
+    <Select onValueChange={(val) => handleSeasonChange(val)}>
+      <SelectTrigger className='w-24'>
+        <SelectValue placeholder={currentSeason} />
+      </SelectTrigger>
+      <SelectContent>
+        {events.map(
+          ({ year }) =>
+            year && (
+              <SelectItem key={year} value={year + ''}>
+                {year}
+              </SelectItem>
+            ),
+        )}
+      </SelectContent>
+    </Select>
   );
 };
 

@@ -8,28 +8,22 @@ import { FullHeightLoader } from '@/components/Loader';
 import { Standings } from '.';
 
 export default async function StandingsPage({
-  params,
+  searchParams,
 }: {
-  params: Promise<{ season?: string }>;
+  searchParams: Promise<{ season?: string }>;
 }) {
-  const { season } = await params;
+  const { season } = await searchParams;
   const apolloClient = getClient();
   // ✅ Initialize selectedSeason with URL param if available
   let selectedSeason = season ? Number(season) : undefined;
 
   // ✅ If no season is in the URL, fetch the latest season on the server
   if (!selectedSeason) {
-    try {
-      const { data: seasonsData } = await apolloClient.query({
-        query: GET_SEASONS,
-      });
-      const availableSeasons = seasonsData?.seasons || [];
-      selectedSeason = availableSeasons.length
-        ? availableSeasons[0].year
-        : 2024;
-    } catch {
-      selectedSeason = 2024; // Fallback value
-    }
+    const { data: seasonsData } = await apolloClient.query({
+      query: GET_SEASONS,
+    });
+    const availableSeasons = seasonsData?.seasons || [];
+    selectedSeason = availableSeasons.length && availableSeasons[0].year;
   }
 
   return (
