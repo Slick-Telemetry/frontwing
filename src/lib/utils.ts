@@ -2,7 +2,6 @@ import { type ClassValue, clsx } from 'clsx';
 import getUnicodeFlagIcon from 'country-flag-icons/unicode';
 import { getAlpha2Code, registerLocale } from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
-import moment from 'moment';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -26,9 +25,20 @@ export const eventTiming = (
 ): 'past' | 'present' | 'future' => {
   if (!date) return 'past';
 
-  if (moment(date).isSame(moment(), 'day')) return 'present';
-  else if (moment(date).isBefore(moment(), 'day')) return 'past';
-  else return 'future';
+  const today = new Date();
+  const inputDate = new Date(date);
+
+  if (
+    inputDate.getFullYear() === today.getFullYear() &&
+    inputDate.getMonth() === today.getMonth() &&
+    inputDate.getDate() === today.getDate()
+  ) {
+    return 'present';
+  } else if (inputDate < today) {
+    return 'past';
+  } else {
+    return 'future';
+  }
 };
 
 const mapColors = {

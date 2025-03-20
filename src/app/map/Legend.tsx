@@ -5,10 +5,9 @@ import {
   Minimize2,
   Star,
 } from 'lucide-react';
-import moment from 'moment';
 import { useState } from 'react';
 
-import { getColor } from '@/lib/utils';
+import { eventTiming, getColor } from '@/lib/utils';
 
 import { MapEvent } from '@/generated/customTypes';
 
@@ -51,30 +50,33 @@ export const Legend = ({
       </div>
 
       <div className='grid divide-y divide-current'>
-        {events?.map((e) => (
-          <div
-            onClick={() => selectEvent(e)}
-            key={e.id}
-            style={{ color: getColor(e.date) }}
-            className='flex cursor-pointer items-center gap-2'
-          >
-            {moment(e.date).isSame(moment(), 'day') && <Star />}
-            {moment(e.date).isBefore(moment(), 'day') && <CircleCheck />}
-            {moment(e.date).isAfter(moment(), 'day') && <CalendarPlus />}{' '}
-            {e.name}
-          </div>
-        ))}
+        {events?.map((e) => {
+          // past, present, future
+          const eventTimePeriod = eventTiming(e.date);
+          return (
+            <div
+              onClick={() => selectEvent(e)}
+              key={e.id}
+              style={{ color: getColor(e.date) }}
+              className='flex cursor-pointer items-center gap-2'
+            >
+              {eventTimePeriod === 'present' && <Star />}
+              {eventTimePeriod === 'past' && <CircleCheck />}
+              {eventTimePeriod === 'future' && <CalendarPlus />} {e.name}
+            </div>
+          );
+        })}
       </div>
 
       {/* Old Distance concept */}
-      {/* <div className='h-2 w-full overflow-hidden rounded-full bg-white'>
+      {/* <div className='w-full h-2 overflow-hidden bg-white rounded-full'>
         <div
           className='h-2 bg-blue-500'
           style={{ width: (currDistance / totalDistance) * 100 + '%' }}
         ></div>
       </div> */}
       {/* <p>Distance: {currDistance} / {totalDistance} KM</p> */}
-      {/* <p className='text-right text-xs'>*Distances are approximate</p> */}
+      {/* <p className='text-xs text-right'>*Distances are approximate</p> */}
     </div>
   );
 };

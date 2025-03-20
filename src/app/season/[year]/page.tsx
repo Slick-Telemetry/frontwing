@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import moment from 'moment';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { use, useCallback, useState } from 'react';
@@ -81,7 +80,15 @@ const EventContainer = ({
           {event.name?.replace('Grand Prix', 'GP')}
         </Link>
         <div className='text-right text-sm'>
-          <p>{moment(event.date).local().format('LL')}</p>
+          {event.date && (
+            <p>
+              {new Date(event.date).toLocaleString(undefined, {
+                month: 'long',
+                day: '2-digit',
+                year: 'numeric',
+              })}
+            </p>
+          )}
           <p>
             {event.location}, {event.country}
           </p>

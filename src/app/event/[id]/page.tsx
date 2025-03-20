@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
 import { use, useMemo } from 'react';
@@ -19,7 +18,11 @@ import {
 } from '@/generated/types';
 
 const formatTime = (time: string) => {
-  return moment(time).format('LT');
+  return new Date(time).toLocaleString(undefined, {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
 };
 
 const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {

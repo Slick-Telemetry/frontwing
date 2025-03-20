@@ -1,4 +1,3 @@
-import moment from 'moment';
 import Link from 'next/link';
 
 import { Session_Name_Choices_Enum } from '@/generated/types';
@@ -11,21 +10,30 @@ export const SessionTime = ({
   time?: string | null;
   name?: Session_Name_Choices_Enum | null;
 }) => {
+  const date = time && new Date(time);
   return (
     <>
-      {time && (
+      {date && (
         <div className='flex min-w-16 flex-col items-center bg-gray-300 p-2 dark:bg-gray-600'>
-          <p className='text-xs'>{moment(time).local().format('ddd')}</p>
-          <p className='text-2xl leading-6 font-extrabold'>
-            {moment(time).local().format('D')}
+          <p className='text-xs'>
+            {date.toLocaleString(undefined, { weekday: 'short' })}
           </p>
-          <p className='text-xs'>{moment(time).local().format('MMM')}</p>
+          <p className='text-2xl leading-6 font-extrabold'>
+            {date.toLocaleString(undefined, { day: 'numeric' })}
+          </p>
+          <p className='text-xs'>
+            {date.toLocaleString(undefined, { month: 'short' })}
+          </p>
         </div>
       )}
       <div>
-        {time && (
+        {date && (
           <p className='font-mono text-sm'>
-            {moment(time).local().format('LT')}
+            {date.toLocaleString(undefined, {
+              hour: 'numeric',
+              minute: 'numeric',
+              hour12: true,
+            })}
           </p>
         )}
         <Link
