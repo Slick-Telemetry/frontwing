@@ -8,6 +8,7 @@ import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
 
 import { ApolloWrapper } from './apollo-provider';
+import { ThemeProvider } from './theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,11 +25,13 @@ export default async function RootLayout({
   return (
     <html lang='en' className='dark'>
       <body className={clsx('min-h-screen', inter.className)}>
-        <ApolloWrapper>
-          <TopNav />
-          {children}
-        </ApolloWrapper>
-        <Footer />
+        <ThemeProvider defaultTheme='system' storageKey='slick-telemetry-theme'>
+          <ApolloWrapper>
+            <TopNav />
+            {children}
+          </ApolloWrapper>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
