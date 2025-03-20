@@ -24,7 +24,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang='en' className='dark'>
-      <body className={clsx('min-h-screen', inter.className)}>
+      <body className={clsx('flex min-h-screen flex-col', inter.className)}>
         <ThemeProvider defaultTheme='system' storageKey='slick-telemetry-theme'>
           <ApolloWrapper>
             <TopNav />
