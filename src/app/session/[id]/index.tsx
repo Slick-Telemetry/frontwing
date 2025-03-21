@@ -1,7 +1,6 @@
 'use client';
 
 import { useSuspenseQuery } from '@apollo/client';
-import moment from 'moment';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { GET_SESSION_RESULTS } from '@/lib/queries';
@@ -146,6 +145,10 @@ const ChartView = ({
   );
 };
 
+const formatLapTime = (time: bigint) =>
+  new Date(Number(time)).toISOString().slice(14, -1);
+const formatSectorTimes = (time: bigint) =>
+  new Date(Number(time)).toISOString().slice(17, -1);
 const SessionCard = ({
   position,
   driverSession: ds,
@@ -167,9 +170,11 @@ const SessionCard = ({
     <div className='items-cemter my-2 flex justify-between'>
       <div className='grid'>
         <p className='text-xs'>Fastest Lap</p>
-        <p className='text-2xl leading-6'>
-          {moment.utc(Number(ds.laps[0].lap_time)).format('m:ss.SSS')}
-        </p>
+        {ds.laps[0].lap_time && (
+          <p className='text-2xl leading-6'>
+            {formatLapTime(ds.laps[0].lap_time)}
+          </p>
+        )}
       </div>
       <div className='ml-auto flex gap-2'>
         <div className='grid text-center'>
@@ -183,9 +188,9 @@ const SessionCard = ({
       </div>
     </div>
     <div className='grid grid-cols-3 divide-x rounded border p-1 text-center text-sm'>
-      <p>{moment.utc(Number(ds.laps[0].sector1)).format('ss.SSS')}</p>
-      <p>{moment.utc(Number(ds.laps[0].sector2)).format('ss.SSS')}</p>
-      <p>{moment.utc(Number(ds.laps[0].sector3)).format('ss.SSS')}</p>
+      {ds.laps[0].sector1 && <p>{formatSectorTimes(ds.laps[0].sector1)}</p>}
+      {ds.laps[0].sector2 && <p>{formatSectorTimes(ds.laps[0].sector2)}</p>}
+      {ds.laps[0].sector3 && <p>{formatSectorTimes(ds.laps[0].sector3)}</p>}
     </div>
   </div>
 );
