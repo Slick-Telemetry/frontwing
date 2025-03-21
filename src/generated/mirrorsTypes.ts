@@ -1,16 +1,47 @@
 type Timestamp = string;
 
-interface Heartbeat {
+export interface Heartbeat {
   Utc: Timestamp;
   _kf: boolean;
 }
 
-// interface EncodedData {
-//   'CarData.z': string;
-//   'Position.z': string;
-// }
+interface PositionEntry {
+  Status: string;
+  X: number;
+  Y: number;
+  Z: number;
+}
 
-interface ExtrapolatedClock {
+interface Entries {
+  Entries: Record<string, PositionEntry>;
+  Timestamp: string;
+}
+
+export interface PositionData {
+  Position: Record<string, Entries>;
+}
+
+interface CarChannels {
+  Channels: {
+    0: number;
+    2: number;
+    3: number;
+    4: number;
+    5: number;
+    45: number;
+  };
+}
+
+interface CarEntry {
+  Cars: Record<string, CarChannels>;
+  Utc: string;
+}
+
+export interface CarData {
+  Entries: CarEntry[];
+}
+
+export interface ExtrapolatedClock {
   Utc: Timestamp;
   Remaining: string;
   Extrapolating: boolean;
@@ -57,7 +88,7 @@ interface PersonalBestLapTime {
   Value: string;
 }
 
-interface TimingStatsEntry {
+export interface TimingStatsEntry {
   Line: number;
   RacingNumber: string;
   PersonalBestLapTime: PersonalBestLapTime;
@@ -65,14 +96,14 @@ interface TimingStatsEntry {
   BestSpeeds: Record<string, BestSpeed>;
 }
 
-interface TimingStats {
+export interface TimingStats {
   Withheld: boolean;
   Lines: Record<string, TimingStatsEntry>;
   SessionType?: string;
   _kf?: boolean;
 }
 
-interface Stint {
+export interface Stint {
   LapTime?: string;
   LapNumber?: number;
   LapFlags: number;
@@ -83,18 +114,18 @@ interface Stint {
   StartLaps: number;
 }
 
-interface TimingAppDataEntry {
+export interface TimingAppDataEntry {
   RacingNumber: string;
   Line: number;
   Stints: Stint[];
 }
 
-interface TimingAppData {
+export interface TimingAppData {
   Lines: Record<string, TimingAppDataEntry>;
   _kf?: boolean;
 }
 
-interface WeatherData {
+export interface WeatherData {
   AirTemp: string;
   Humidity: string;
   Pressure: string;
@@ -105,7 +136,7 @@ interface WeatherData {
   _kf?: boolean;
 }
 
-interface TrackStatus {
+export interface TrackStatus {
   Status: string;
   Message: string;
   _kf?: boolean;
@@ -130,7 +161,7 @@ export interface DriverList {
   [key: string]: DriverListEntry | boolean;
 }
 
-interface RaceControlMessage {
+export interface RaceControlMessage {
   Utc: Timestamp;
   Category: string;
   Flag?: string;
@@ -139,7 +170,7 @@ interface RaceControlMessage {
   Message: string;
 }
 
-interface RaceControlMessages {
+export interface RaceControlMessages {
   Messages: RaceControlMessage[];
   _kf?: boolean;
 }
@@ -164,7 +195,7 @@ interface ArchiveStatus {
   Status: string;
 }
 
-interface SessionInfo {
+export interface SessionInfo {
   Meeting: Meeting;
   ArchiveStatus: ArchiveStatus;
   Key: number;
@@ -177,7 +208,7 @@ interface SessionInfo {
   _kf?: boolean;
 }
 
-interface SessionDataEntry {
+export interface SessionDataEntry {
   Utc: Timestamp;
   TrackStatus?: string;
   SessionStatus?: string;
@@ -215,9 +246,19 @@ interface LapTime {
   Lap?: number;
 }
 
-interface TimingDataEntry {
+interface LastLapTime {
+  OverallFastest: boolean;
+  PersonalFastest: boolean;
+  Status: number;
+  Value: string;
+}
+
+interface DiffStat {
   TimeDiffToFastest?: string;
-  TimeDiffToPositionAhead?: string;
+  TimeDifftoPositionAhead?: string;
+}
+
+export interface TimingDataEntry {
   Line: number;
   Position: string;
   ShowPosition: boolean;
@@ -232,13 +273,14 @@ interface TimingDataEntry {
   Sectors: Sector[];
   Speeds: Record<string, Speed>;
   BestLapTime: LapTime;
-  LastLapTime: LapTime;
+  LastLapTime: LastLapTime;
   BestLapTimes?: LapTime[];
+  Stats: DiffStat[];
   KnockedOut?: boolean;
   Cutoff?: boolean;
 }
 
-interface TimingData {
+export interface TimingData {
   Lines: Record<string, TimingDataEntry>;
   Withheld?: boolean;
   CutOffTime?: string;
@@ -248,23 +290,38 @@ interface TimingData {
   _kf?: boolean;
 }
 
-interface StreamingFeedMessage {
+export interface StreamingTimingData {
+  Lines: {
+    [key: string]: {
+      Sectors: {
+        [key: string]: {
+          Segments: {
+            [key: string]: {
+              Status: number;
+            };
+          };
+        };
+      };
+    };
+  };
+}
+
+export interface StreamingFeedMessage {
   H: string;
   M: string;
   A: [
     string,
-    Record<
-      string,
-      Record<
-        string,
-        | TimingStatsEntry
-        | TimingDataEntry
-        | Heartbeat
-        | SessionDataEntry
-        | TimingAppDataEntry
-        | string
-      >
-    >,
+    (
+      | Record<
+          string,
+          Record<
+            string,
+            TimingStatsEntry | SessionDataEntry | TimingAppDataEntry | string
+          >
+        >
+      | Heartbeat
+      | StreamingTimingData
+    ),
     Timestamp,
   ];
 }
