@@ -30,6 +30,7 @@
     "@radix-ui/react-navigation-menu": "latest",
     "@radix-ui/react-select": "latest",
     "@radix-ui/react-slot": "latest",
+    "@radix-ui/react-tabs": "latest",
     "@tailwindcss/postcss": "latest",
     "@turf/turf": "latest",
     "@visx/curve": "latest",
@@ -55,7 +56,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-map-gl": "latest",
-    "react-use-websocket": "^4.13.0",
+    "react-use-websocket": "latest",
     "tailwind-merge": "latest",
     "tailwindcss-animate": "latest",
     "vaul": "latest"
