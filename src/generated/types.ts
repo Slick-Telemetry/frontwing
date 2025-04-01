@@ -4021,7 +4021,7 @@ export type Race_Control_Messages_Variance_Order_By = {
 /** columns and relationships of "results" */
 export type Results = {
   __typename?: 'results';
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   driver_session?: Maybe<Driver_Sessions>;
@@ -4138,7 +4138,7 @@ export type Results_Bool_Exp = {
 /** aggregate max on columns */
 export type Results_Max_Fields = {
   __typename?: 'results_max_fields';
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -4154,7 +4154,7 @@ export type Results_Max_Fields = {
 
 /** order by max() on columns of table "results" */
 export type Results_Max_Order_By = {
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -4171,7 +4171,7 @@ export type Results_Max_Order_By = {
 /** aggregate min on columns */
 export type Results_Min_Fields = {
   __typename?: 'results_min_fields';
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -4187,7 +4187,7 @@ export type Results_Min_Fields = {
 
 /** order by min() on columns of table "results" */
 export type Results_Min_Order_By = {
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -4325,7 +4325,7 @@ export type Results_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Results_Stream_Cursor_Value_Input = {
-  /** This is either an integer value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
   classified_position?: InputMaybe<Scalars['String']['input']>;
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
@@ -7171,6 +7171,8 @@ export enum Tyre_Compounds_Enum {
   Soft = 'SOFT',
   /** Supersoft tyre compound */
   Supersoft = 'SUPERSOFT',
+  /** Test tyre compound */
+  Test = 'TEST',
   /** Unknown test tyre compound */
   TestUnknown = 'TEST_UNKNOWN',
   /** Ultrasoft tyre compound */
@@ -8010,14 +8012,32 @@ export type SessionResultsQuery = {
         status?: string | null;
         classified_position?: string | null;
       }>;
-      laps: Array<{
+      fastest_lap: Array<{
         __typename?: 'laps';
+        lap_number?: number | null;
+        stint?: number | null;
         lap_time?: bigint | null;
         sector1?: bigint | null;
         sector2?: bigint | null;
         sector3?: bigint | null;
-        stint?: number | null;
+      }>;
+      fastest_sector1: Array<{
+        __typename?: 'laps';
         lap_number?: number | null;
+        stint?: number | null;
+        sector1?: bigint | null;
+      }>;
+      fastest_sector2: Array<{
+        __typename?: 'laps';
+        lap_number?: number | null;
+        stint?: number | null;
+        sector2?: bigint | null;
+      }>;
+      fastest_sector3: Array<{
+        __typename?: 'laps';
+        lap_number?: number | null;
+        stint?: number | null;
+        sector3?: bigint | null;
       }>;
     }>;
   }>;
@@ -9111,17 +9131,28 @@ export const SessionResultsDocument = gql`
           status
           classified_position
         }
-        laps(
-          where: { is_personal_best: { _eq: true } }
-          order_by: { lap_time: asc }
-          limit: 1
-        ) {
+        fastest_lap: laps(order_by: { lap_time: asc }, limit: 1) {
+          lap_number
+          stint
           lap_time
           sector1
           sector2
           sector3
-          stint
+        }
+        fastest_sector1: laps(order_by: { sector1: asc }, limit: 1) {
           lap_number
+          stint
+          sector1
+        }
+        fastest_sector2: laps(order_by: { sector2: asc }, limit: 1) {
+          lap_number
+          stint
+          sector2
+        }
+        fastest_sector3: laps(order_by: { sector3: asc }, limit: 1) {
+          lap_number
+          stint
+          sector3
         }
       }
     }

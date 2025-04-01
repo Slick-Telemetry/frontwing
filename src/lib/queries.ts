@@ -338,17 +338,28 @@ export const GET_SESSION_RESULTS = gql`
           status
           classified_position
         }
-        laps(
-          where: { is_personal_best: { _eq: true } }
-          order_by: { lap_time: asc }
-          limit: 1
-        ) {
+        fastest_lap: laps(order_by: { lap_time: asc }, limit: 1) {
+          lap_number
+          stint
           lap_time
           sector1
           sector2
           sector3
-          stint
+        }
+        fastest_sector1: laps(order_by: { sector1: asc }, limit: 1) {
           lap_number
+          stint
+          sector1
+        }
+        fastest_sector2: laps(order_by: { sector2: asc }, limit: 1) {
+          lap_number
+          stint
+          sector2
+        }
+        fastest_sector3: laps(order_by: { sector3: asc }, limit: 1) {
+          lap_number
+          stint
+          sector3
         }
       }
     }
