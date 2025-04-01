@@ -41,11 +41,15 @@ export const SessionResults = ({ id }: { id: string }) => {
       const position2 = Number(ds2.results[0].classified_position);
       return position1 - position2;
     });
-  } else if (session.driver_sessions[0].laps.length > 0) {
+  } else if (session.driver_sessions[0].fastest_lap.length > 0) {
     // Sort by laptime
     driverSessions = [...session.driver_sessions].sort((ds1, ds2) => {
-      const lapTime1 = ds1.laps[0].lap_time ? Number(ds1.laps[0].lap_time) : 0;
-      const lapTime2 = ds2.laps[0].lap_time ? Number(ds2.laps[0].lap_time) : 0;
+      const lapTime1 = ds1.fastest_lap[0].lap_time
+        ? Number(ds1.fastest_lap[0].lap_time)
+        : 0;
+      const lapTime2 = ds2.fastest_lap[0].lap_time
+        ? Number(ds2.fastest_lap[0].lap_time)
+        : 0;
       return lapTime1 - lapTime2;
     });
   }
@@ -170,27 +174,33 @@ const SessionCard = ({
     <div className='items-cemter my-2 flex justify-between'>
       <div className='grid'>
         <p className='text-xs'>Fastest Lap</p>
-        {ds.laps[0].lap_time && (
+        {ds.fastest_lap[0].lap_time && (
           <p className='text-2xl leading-6'>
-            {formatLapTime(ds.laps[0].lap_time)}
+            {formatLapTime(ds.fastest_lap[0].lap_time)}
           </p>
         )}
       </div>
       <div className='ml-auto flex gap-2'>
         <div className='grid text-center'>
           <p className='text-xs'>Lap</p>
-          <p className='text-2xl leading-6'>{ds.laps[0].lap_number}</p>
+          <p className='text-2xl leading-6'>{ds.fastest_lap[0].lap_number}</p>
         </div>
         <div className='grid text-center'>
           <p className='text-xs'>Stint</p>
-          <p className='text-2xl leading-6'>{ds.laps[0].stint}</p>
+          <p className='text-2xl leading-6'>{ds.fastest_lap[0].stint}</p>
         </div>
       </div>
     </div>
     <div className='grid grid-cols-3 divide-x rounded border p-1 text-center text-sm'>
-      {ds.laps[0].sector1 && <p>{formatSectorTimes(ds.laps[0].sector1)}</p>}
-      {ds.laps[0].sector2 && <p>{formatSectorTimes(ds.laps[0].sector2)}</p>}
-      {ds.laps[0].sector3 && <p>{formatSectorTimes(ds.laps[0].sector3)}</p>}
+      {ds.fastest_lap[0].sector1 && (
+        <p>{formatSectorTimes(ds.fastest_lap[0].sector1)}</p>
+      )}
+      {ds.fastest_lap[0].sector2 && (
+        <p>{formatSectorTimes(ds.fastest_lap[0].sector2)}</p>
+      )}
+      {ds.fastest_lap[0].sector3 && (
+        <p>{formatSectorTimes(ds.fastest_lap[0].sector3)}</p>
+      )}
     </div>
   </div>
 );
