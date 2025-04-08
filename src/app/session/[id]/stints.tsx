@@ -97,7 +97,7 @@ const Stints = ({ id }: { id: string }) => {
 
   return (
     <div className='h-[600px] rounded border p-2'>
-      <h3 className='text-center text-lg font-semibold'>Tire Analysis</h3>
+      <h3 className='text-center text-lg font-semibold'>Tyre Analysis</h3>
       <ParentSize key='stintTyres'>
         {({ width, height }) => (
           <XYChart
@@ -201,7 +201,7 @@ const Stints = ({ id }: { id: string }) => {
                       <strong>Laps:</strong> {startLap} - {endLap}
                     </div>
                     <div>
-                      <strong>Tire Life:</strong> {tyreLife}
+                      <strong>Tyre Life:</strong> {tyreLife}
                     </div>
                     <div>
                       <strong>Compound:</strong> {tyreCompound}
