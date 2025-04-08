@@ -1,18 +1,28 @@
+// https://materialui.co/flatuicolors
+
 export const TYRE_COLORS = {
   SOFT: {
-    new: '#b22222', // Soft (New)
-    old: '#ff9999', // Soft (Used)
+    new: '#C0392B', // Soft (New)
+    old: '#E74C3C', // Soft (Used)
   },
   MEDIUM: {
-    new: '#ffcc00', // Medium (New)
-    old: '#ffff99', // Medium (Used)
+    new: '#F1C40F', // Medium (New)
+    old: '#F39C12', // Medium (Used)
   },
   HARD: {
-    new: '#a9a9a9', // Hard (New)
-    old: '#d3d3d3', // Hard (Used)
+    new: '#ECF0F1', // Hard (New)
+    old: '#BDC3C7', // Hard (Used)
+  },
+  INTERMEDIATE: {
+    new: '#2ECC71', // Intermediate (New)
+    old: '#27AE60', // Intermediate (Used)
+  },
+  WET: {
+    new: '#3498DB', // Wet (New)
+    old: '#2980B9', // Wet (Used)
   },
   unknown: {
-    new: '#ffffff', // Unknown
-    old: '#ffffff', // Unknown
+    new: '#9B59B6', // Unknown
+    old: '#8E44AD', // Unknown
   },
 };
