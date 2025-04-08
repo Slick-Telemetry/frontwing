@@ -8069,6 +8069,49 @@ export type GetSessionStintsQuery = {
   }>;
 };
 
+export type GetSessionLapTimesQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+export type GetSessionLapTimesQuery = {
+  __typename?: 'query_root';
+  sessions: Array<{
+    __typename?: 'sessions';
+    driver_sessions: Array<{
+      __typename?: 'driver_sessions';
+      id: string;
+      constructorByConstructorId?: {
+        __typename?: 'constructors';
+        name?: string | null;
+        color?: string | null;
+      } | null;
+      driver?: {
+        __typename?: 'drivers';
+        abbreviation?: string | null;
+        full_name?: string | null;
+        number?: string | null;
+      } | null;
+      laps: Array<{
+        __typename?: 'laps';
+        lap_number?: number | null;
+        lap_time?: bigint | null;
+        compound?: Tyre_Compounds_Enum | null;
+        session_time?: bigint | null;
+      }>;
+      fastest_lap: {
+        __typename?: 'laps_aggregate';
+        aggregate?: {
+          __typename?: 'laps_aggregate_fields';
+          min?: {
+            __typename?: 'laps_min_fields';
+            lap_time?: bigint | null;
+          } | null;
+        } | null;
+      };
+    }>;
+  }>;
+};
+
 export const GetConstructorsDocument = gql`
   query GetConstructors {
     constructors(distinct_on: name, where: { ergast_id: { _neq: "" } }) {
@@ -9327,4 +9370,110 @@ export type GetSessionStintsSuspenseQueryHookResult = ReturnType<
 export type GetSessionStintsQueryResult = Apollo.QueryResult<
   GetSessionStintsQuery,
   GetSessionStintsQueryVariables
+>;
+export const GetSessionLapTimesDocument = gql`
+  query GetSessionLapTimes($id: String!) {
+    sessions(where: { id: { _eq: $id } }) {
+      driver_sessions {
+        id
+        constructorByConstructorId {
+          name
+          color
+        }
+        driver {
+          abbreviation
+          full_name
+          number
+        }
+        laps {
+          lap_number
+          lap_time
+          compound
+          session_time
+        }
+        fastest_lap: laps_aggregate {
+          aggregate {
+            min {
+              lap_time
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetSessionLapTimesQuery__
+ *
+ * To run a query within a React component, call `useGetSessionLapTimesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSessionLapTimesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSessionLapTimesQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetSessionLapTimesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetSessionLapTimesQuery,
+    GetSessionLapTimesQueryVariables
+  > &
+    (
+      | { variables: GetSessionLapTimesQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetSessionLapTimesQuery,
+    GetSessionLapTimesQueryVariables
+  >(GetSessionLapTimesDocument, options);
+}
+export function useGetSessionLapTimesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSessionLapTimesQuery,
+    GetSessionLapTimesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetSessionLapTimesQuery,
+    GetSessionLapTimesQueryVariables
+  >(GetSessionLapTimesDocument, options);
+}
+export function useGetSessionLapTimesSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetSessionLapTimesQuery,
+        GetSessionLapTimesQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetSessionLapTimesQuery,
+    GetSessionLapTimesQueryVariables
+  >(GetSessionLapTimesDocument, options);
+}
+export type GetSessionLapTimesQueryHookResult = ReturnType<
+  typeof useGetSessionLapTimesQuery
+>;
+export type GetSessionLapTimesLazyQueryHookResult = ReturnType<
+  typeof useGetSessionLapTimesLazyQuery
+>;
+export type GetSessionLapTimesSuspenseQueryHookResult = ReturnType<
+  typeof useGetSessionLapTimesSuspenseQuery
+>;
+export type GetSessionLapTimesQueryResult = Apollo.QueryResult<
+  GetSessionLapTimesQuery,
+  GetSessionLapTimesQueryVariables
 >;

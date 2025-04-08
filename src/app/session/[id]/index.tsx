@@ -14,6 +14,7 @@ import {
   SessionResultsQueryVariables,
 } from '@/generated/types';
 
+import LapTimeContainer from './lapTimes';
 import SectorTimes from './sectorTimes';
 import Stints from './stints';
 
@@ -119,7 +120,10 @@ const ChartView = ({
   return (
     <>
       <div className='grid grid-cols-5 gap-4 py-4'>
-        <div className='flex h-8 w-full items-center justify-center rounded border'>
+        <div
+          onClick={() => chargeChart('laps')}
+          className='flex h-8 w-full items-center justify-center rounded border'
+        >
           Laps Chart
         </div>
         <div
@@ -142,7 +146,7 @@ const ChartView = ({
         </div>
       </div>
 
-      {view === 'laps' && <>Laps</>}
+      {view === 'laps' && <LapTimeContainer id={id} />}
       {view === 'sectors' && <SectorTimes driverSessions={driverSessions} />}
       {view === 'stints' && <Stints id={id} />}
     </>
