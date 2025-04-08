@@ -12,6 +12,7 @@ import {
 import { useMemo } from 'react';
 
 import { GET_SESSION_STINTS } from '@/lib/queries';
+import { TYRE_COLORS } from '@/lib/tyre-colors';
 
 import { Loader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
@@ -21,25 +22,6 @@ import {
   GetSessionStintsQueryVariables,
 } from '@/generated/types';
 
-// Define colors for tyre compounds
-const TYRE_COLORS = {
-  SOFT: {
-    new: '#b22222', // Soft (New)
-    old: '#ff9999', // Soft (Used)
-  },
-  MEDIUM: {
-    new: '#ffcc00', // Medium (New)
-    old: '#ffff99', // Medium (Used)
-  },
-  HARD: {
-    new: '#a9a9a9', // Hard (New)
-    old: '#d3d3d3', // Hard (Used)
-  },
-  unknown: {
-    new: '#ffffff', // Unknown
-    old: '#ffffff', // Unknown
-  },
-};
 const margin = { top: 0, right: 30, bottom: 72, left: 60 };
 
 type Stint = {
