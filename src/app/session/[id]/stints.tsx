@@ -170,9 +170,30 @@ const Stints = ({ id }: { id: string }) => {
                   stint,
                   tyreCompound,
                   freshTyre,
+                  driver,
                 } = tooltipData.nearestDatum.datum as Stint;
+                const compound =
+                  TYRE_COLORS[tyreCompound as keyof typeof TYRE_COLORS] ||
+                  TYRE_COLORS.unknown;
+                const type = freshTyre ? 'new' : 'old';
+                const compoundColor = compound[type];
+                // for softs the text color is white
+                const textColor = tyreCompound === 'SOFT' ? 'white' : 'inherit';
                 return (
-                  <div className=''>
+                  <div
+                    className=''
+                    style={{
+                      backgroundColor: compoundColor,
+                      color: textColor,
+                      padding: '0.5rem',
+                      borderRadius: '4px',
+                    }}
+                  >
+                    <div>
+                      <strong>
+                        <u>{driver}</u>
+                      </strong>
+                    </div>
                     <div>
                       <strong>Stint:</strong> {stint}
                     </div>
