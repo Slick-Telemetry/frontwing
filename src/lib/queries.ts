@@ -386,3 +386,28 @@ export const GET_SESSION_STINTS = gql`
     }
   }
 `;
+
+export const GET_SESSION_LAP_TIMES = gql`
+  query GetSessionLapTimes($id: String!) {
+    sessions(where: { id: { _eq: $id } }) {
+      driver_sessions {
+        id
+        constructorByConstructorId {
+          name
+          color
+        }
+        driver {
+          abbreviation
+          full_name
+          number
+        }
+        laps {
+          lap_number
+          lap_time
+          compound
+          session_time
+        }
+      }
+    }
+  }
+`;

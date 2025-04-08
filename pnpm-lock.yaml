@@ -41,18 +41,15 @@ importers:
       '@turf/turf':
         specifier: latest
         version: 7.2.0
-      '@vercel/analytics':
-        specifier: ^1.5.0
-        version: 1.5.0(next@15.3.0(@babel/core@7.26.10)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
-      '@vercel/speed-insights':
-        specifier: ^1.2.0
-        version: 1.2.0(next@15.3.0(@babel/core@7.26.10)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       '@visx/event':
         specifier: ^3.12.0
         version: 3.12.0
+      '@visx/glyph':
+        specifier: ^3.12.0
+        version: 3.12.0(react@19.1.0)
       '@visx/group':
         specifier: ^3.12.0
-        version: 3.12.0(react@19.0.0)
+        version: 3.12.0(react@19.1.0)
       '@visx/legend':
         specifier: latest
         version: 3.12.0(react@19.1.0)
@@ -67,10 +64,10 @@ importers:
         version: 3.12.0
       '@visx/shape':
         specifier: ^3.12.0
-        version: 3.12.0(react@19.0.0)
+        version: 3.12.0(react@19.1.0)
       '@visx/tooltip':
         specifier: ^3.12.0
-        version: 3.12.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 3.12.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@visx/xychart':
         specifier: latest
         version: 3.12.0(@react-spring/web@9.7.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
