@@ -1,3 +1,9 @@
+## 0.4.1 (2025-04-09)
+
+### Fix
+
+- **eslint**: formatting not working
+
 ## 0.4.0 (2025-03-20)
 
 ### Feat
