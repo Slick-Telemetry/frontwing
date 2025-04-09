@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
+import { PatternLines } from '@visx/pattern';
 import { ParentSize } from '@visx/responsive';
 import {
   AnimatedBarSeries,
@@ -107,6 +108,37 @@ const Stints = ({ id }: { id: string }) => {
             height={height}
             margin={margin}
           >
+            {/* Define Patterns in <defs> */}
+            <defs>
+              {processedData?.flatMap((driverData) =>
+                driverData.stints.map((stint) => {
+                  if (!stint.freshTyre) {
+                    const compound =
+                      TYRE_COLORS[
+                        stint.tyreCompound as keyof typeof TYRE_COLORS
+                      ] || TYRE_COLORS.unknown;
+
+                    const type = stint.freshTyre ? 'new' : 'old';
+                    const compoundColor = compound[type]; // Calculate compoundColor here
+
+                    const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
+                    return (
+                      <PatternLines
+                        key={patternId}
+                        id={patternId}
+                        height={6}
+                        width={6}
+                        stroke='black'
+                        strokeWidth={1}
+                        orientation={['diagonal']}
+                        background={compoundColor} // Use the calculated compoundColor
+                      />
+                    );
+                  }
+                  return null;
+                }),
+              )}
+            </defs>
             {/* X and Y Axes */}
             <Axis
               orientation='bottom'
@@ -142,6 +174,9 @@ const Stints = ({ id }: { id: string }) => {
                   const type = stint.freshTyre ? 'new' : 'old';
                   const compoundColor = compound[type];
 
+                  // Define a pattern ID for old tyres
+                  const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
+
                   return (
                     <AnimatedBarSeries
                       radius={4}
@@ -151,7 +186,9 @@ const Stints = ({ id }: { id: string }) => {
                       data={[stint]}
                       xAccessor={(d) => d.endLap - d.startLap + 1}
                       yAccessor={(d) => d.driver}
-                      colorAccessor={() => compoundColor} // ✅ Correct color for each stint
+                      colorAccessor={() =>
+                        stint.freshTyre ? compoundColor : `url(#${patternId})`
+                      } // Use pattern for old tyres
                     />
                   );
                 })}
