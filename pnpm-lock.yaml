@@ -123,6 +123,9 @@ importers:
       '@graphql-codegen/typescript-react-apollo':
         specifier: latest
         version: 4.3.2(graphql@16.10.0)
+      '@next/eslint-plugin-next':
+        specifier: latest
+        version: 15.2.5
       '@parcel/watcher':
         specifier: latest
         version: 2.5.1
@@ -162,6 +165,9 @@ importers:
       eslint-plugin-cypress:
         specifier: latest
         version: 4.2.0(eslint@9.24.0(jiti@2.4.2))
+      eslint-plugin-react-hooks:
+        specifier: latest
+        version: 5.2.0(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-simple-import-sort:
         specifier: latest
         version: 12.1.1(eslint@9.24.0(jiti@2.4.2))
@@ -1156,6 +1162,9 @@ packages:
 
   '@next/eslint-plugin-next@15.2.4':
     resolution: {integrity: sha512-O8ScvKtnxkp8kL9TpJTTKnMqlkZnS+QxwoQnJwPGBxjBbzd6OVVPEJ5/pMNrktSyXQD/chEfzfFzYLM6JANOOQ==}
+
+  '@next/eslint-plugin-next@15.2.5':
+    resolution: {integrity: sha512-Q1ncASVFKSy+AbabimYxr/2HH/h+qlKlwu1fYV48xUefGzVimS3i3nKwYsM2w+rLdpMFdJyoVowrYyjKu47rBw==}
 
   '@next/swc-darwin-arm64@15.2.4':
     resolution: {integrity: sha512-1AnMfs655ipJEDC/FHkSr0r3lXBgpqKo4K1kiwfUf3iE68rDFXZ1TtHdMvf7D0hMItgDZ7Vuq3JgNMbt/+3bYw==}
@@ -3209,8 +3218,8 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9
 
-  eslint-plugin-react-hooks@5.1.0:
-    resolution: {integrity: sha512-mpJRtPgHN2tNAvZ35AMfqeB3Xqeo273QxrHJsbBEPWODRM4r0yB6jfoROqKEYrOn27UtRPpcpHc2UqyBSuUNTw==}
+  eslint-plugin-react-hooks@5.2.0:
+    resolution: {integrity: sha512-+f15FfK64YQwZdJNELETdn5ibXEUQmW1DZL6KXhNnc2heoy/sg9VJJeT7n8TlMWouzWqSWavFkIhHyIbIAEapg==}
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
@@ -6893,6 +6902,10 @@ snapshots:
     dependencies:
       fast-glob: 3.3.1
 
+  '@next/eslint-plugin-next@15.2.5':
+    dependencies:
+      fast-glob: 3.3.1
+
   '@next/swc-darwin-arm64@15.2.4':
     optional: true
 
@@ -9862,7 +9875,7 @@ snapshots:
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.7.0)(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react: 7.37.4(eslint@9.24.0(jiti@2.4.2))
-      eslint-plugin-react-hooks: 5.1.0(eslint@9.24.0(jiti@2.4.2))
+      eslint-plugin-react-hooks: 5.2.0(eslint@9.24.0(jiti@2.4.2))
     optionalDependencies:
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -9962,7 +9975,7 @@ snapshots:
       safe-regex-test: 1.1.0
       string.prototype.includes: 2.0.1
 
-  eslint-plugin-react-hooks@5.1.0(eslint@9.24.0(jiti@2.4.2)):
+  eslint-plugin-react-hooks@5.2.0(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       eslint: 9.24.0(jiti@2.4.2)
 
