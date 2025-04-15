@@ -53,7 +53,7 @@ const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
           </FloatingNumber>
 
           <h1 className='w-4/5 text-2xl font-black lg:text-6xl'>
-            {event.official_name?.replace(/[0-9]/g, '')}
+            {event.official_name}
           </h1>
           <p className='text-right lg:text-xl'>
             {event.location}, {event.country}
