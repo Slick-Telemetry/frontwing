@@ -60,7 +60,7 @@ export const GET_DRIVERS = gql`
 
 export const GET_SEASONS = gql`
   query GetSeasons {
-    events(distinct_on: year) {
+    events(distinct_on: year, order_by: { year: desc }) {
       year
     }
   }
