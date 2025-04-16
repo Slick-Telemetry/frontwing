@@ -31,6 +31,8 @@
     "@radix-ui/react-slot": "latest",
     "@tailwindcss/postcss": "latest",
     "@turf/turf": "latest",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "@visx/legend": "latest",
     "@visx/react-spring": "latest",
     "@visx/responsive": "latest",
