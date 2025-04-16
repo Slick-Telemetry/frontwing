@@ -1,3 +1,9 @@
+## 0.5.0 (2025-04-16)
+
+### Feat
+
+- add nextjs analytics and speed insights
+
 ## 0.4.1 (2025-04-09)
 
 ### Fix
