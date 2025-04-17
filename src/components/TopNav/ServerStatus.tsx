@@ -1,22 +1,21 @@
 'use client';
 
-import { RouterIcon, ServerCogIcon, ServerOffIcon } from 'lucide-react';
+import { ServerOffIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import { checkServerHealth } from '@/app/api/healthCheck';
 
 export const ServerStatus = () => {
-  const [status, setStatus] = useState('loading');
+  const [error, setError] = useState(false);
   const pathname = usePathname(); // Tracks the current route in the App Router
 
   const fetchServerStatus = async () => {
+    setError(false);
     try {
-      setStatus('loading');
-      const result = await checkServerHealth();
-      setStatus(result);
+      await checkServerHealth();
     } catch {
-      setStatus('error');
+      setError(true);
     }
   };
 
@@ -24,11 +23,11 @@ export const ServerStatus = () => {
     fetchServerStatus(); // Check server status on every route change
   }, [pathname]); // Runs whenever the route changes
 
+  if (!error) return null;
+
   return (
-    <div title={status.toUpperCase()}>
-      {status === 'loading' && <ServerCogIcon />}
-      {status === 'error' && <ServerOffIcon stroke='red' />}
-      {status === 'connected' && <RouterIcon />}
+    <div title='Server Error'>
+      <ServerOffIcon stroke='red' />
     </div>
   );
 };
