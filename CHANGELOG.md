@@ -1,3 +1,10 @@
+## 0.5.1 (2025-04-17)
+
+### Fix
+
+- resolve nav link child component error
+- FRON-142 hide server icon unless there is an error
+
 ## 0.5.0 (2025-04-16)
 
 ### Feat
