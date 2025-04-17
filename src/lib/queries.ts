@@ -26,7 +26,6 @@ export const GET_CONSTRUCTOR = gql`
           country_code
         }
         session {
-          id
           name
           event {
             round_number
@@ -69,7 +68,6 @@ export const GET_SEASONS = gql`
 export const GET_MAP_EVENTS = gql`
   query GetMapEvents($year: Int!) {
     events(where: { year: { _eq: $year } }) {
-      id
       round_number
       name
       location
@@ -141,12 +139,11 @@ export const GET_EVENT_DETAILS = gql`
   query GetEventDetails($_id: String!) {
     events(where: { id: { _eq: $_id } }) {
       round_number
-      id
+
       official_name
       location
       country
       sessions {
-        id
         scheduled_start_time_utc
         name
         race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
@@ -185,7 +182,6 @@ export const GET_EVENT_DETAILS = gql`
 export const GET_STANDINGS = gql`
   query GetStandings($season: Int!) {
     drivers(where: { driver_standings: { season: { _eq: $season } } }) {
-      id
       abbreviation
       full_name
       latest_constructor: driver_sessions(

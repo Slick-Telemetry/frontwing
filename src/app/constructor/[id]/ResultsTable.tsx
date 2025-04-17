@@ -47,13 +47,13 @@ export const ResultsTable = ({
 
       {/* Rows - Event Description & Driver Results */}
       {uniqueSessions.map((session) => {
-        const relatedSessions = driverSessions.filter(
-          (ds) => ds.session?.id === session?.session?.id,
-        );
+        // const relatedSessions = driverSessions.filter(
+        //   (ds) => ds.session?.id === session?.session?.id,
+        // );
         return (
-          <SessionRow key={session.session?.id} session={session}>
+          <SessionRow key={session.session?.name} session={session}>
             {drivers.map((d) => {
-              const relatedDriverSession = relatedSessions.find(
+              const relatedDriverSession = uniqueSessions.find(
                 (ds) => ds.driver?.full_name === d,
               );
               return (
