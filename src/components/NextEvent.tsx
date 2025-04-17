@@ -6,7 +6,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { GET_NEXT_EVENT } from '@/lib/queries';
 import { getCountryFlagByCountryName } from '@/lib/utils';
 
-import { EventTypeBadge } from '@/app/map/Popup';
+import { EventTypeBadge } from '@/components/EventTypeBadge';
+
 import {
   Event_Format_Choices_Enum,
   GetNextEventQuery,
