@@ -31,10 +31,10 @@ export const accessors = {
   yAccessor: (d: Standings) => d?.points || 0,
 };
 
-export const Standings = ({ season: selectedSeason }: { season?: number }) => {
+export const Standings = ({ season }: { season: number }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const season = selectedSeason || Number(searchParams.get('season')) || 2024;
+  // const season = selectedSeason || Number(searchParams.get('season')) || 2024;
   const chartType = searchParams.get('chart') || 'drivers';
 
   const [hiddenTeams, setHiddenTeams] = useState<Record<string, boolean>>({});
@@ -86,8 +86,8 @@ export const Standings = ({ season: selectedSeason }: { season?: number }) => {
   return (
     <div className='my-4 flex flex-col gap-4'>
       {/* Chart Toggles */}
-      <div className='flex flex-col gap-2 lg:flex-row lg:gap-4'>
-        <SeasonSelector />
+      <div className='flex flex-col items-center gap-2 lg:flex-row lg:gap-4'>
+        <SeasonSelector year={season} />
         <div className='grid w-full grid-cols-2 gap-4'>
           <button
             className={`w-full px-4 py-2 text-xs md:text-base ${chartType === 'drivers' ? 'border-b-2 border-blue-600' : ''}`}
