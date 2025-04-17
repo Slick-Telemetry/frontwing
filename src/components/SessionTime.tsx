@@ -1,3 +1,4 @@
+import { CalendarPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import { Session_Name_Choices_Enum } from '@/generated/types';
@@ -19,23 +20,23 @@ export const SessionTime = ({
   time,
   name,
 }: {
-  id: string;
+  id?: string | null;
   time?: string | null;
   name?: Session_Name_Choices_Enum | null;
 }) => {
   const router = useRouter();
-
+  const futureEvent = new Date(time || '').getTime() > Date.now();
   return (
     <div
-      className='border-accent-foreground mt-2 flex cursor-pointer items-center overflow-hidden rounded border hover:border-current'
+      className='flex cursor-pointer items-center gap-2 divide-x hover:underline'
       onClick={() => router.push('/session/' + id)}
     >
       {name && (
-        <div className='flex min-w-16 flex-col items-center bg-gray-300 p-2 dark:bg-gray-600'>
+        <div className='flex h-full min-w-16 items-center justify-center py-2'>
           <p className='font-black'>{sessionTitles[name]}</p>
         </div>
       )}
-      <div className='flex w-full items-center justify-between gap-2 p-2'>
+      <div className='flex w-full items-center justify-between gap-2'>
         {time && (
           <p className='text-sm'>
             {new Date(time).toLocaleString(undefined, {
@@ -48,7 +49,7 @@ export const SessionTime = ({
             })}
           </p>
         )}
-        {/* <CalendarPlus/> */}
+        {futureEvent && <CalendarPlus />}
       </div>
     </div>
   );

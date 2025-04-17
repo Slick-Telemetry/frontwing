@@ -119,16 +119,15 @@ export const GET_NEXT_EVENT = gql`
 export const GET_SEASON_EVENTS = gql`
   query GetSeasonEvents($year: Int!) {
     events(where: { year: { _eq: $year } }) {
-      year
-      id
       round_number
+      official_name
       name
+      format
       location
       date
       country
-      sessions {
+      sessions(order_by: { scheduled_start_time_utc: asc }) {
         name
-        id
         scheduled_start_time_utc
       }
     }

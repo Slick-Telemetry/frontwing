@@ -1,9 +1,11 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { GET_SEASONS } from '@/lib/queries';
+
+import { Loader } from '@/components/Loader';
 
 import { GetSeasonsQuery, GetSeasonsQueryVariables } from '@/generated/types';
 
@@ -15,10 +17,10 @@ import {
   SelectValue,
 } from './ui/select';
 
-const SeasonSelector = () => {
+const SeasonSelector = ({ year }: { year: number }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentSeason = Number(searchParams.get('season')) || 2024;
 
   const { data, loading, error } = useQuery<
     GetSeasonsQuery,
@@ -26,19 +28,28 @@ const SeasonSelector = () => {
   >(GET_SEASONS);
   const events = data?.events || [];
 
-  if (loading) return <p>Loading seasons...</p>;
+  if (loading)
+    return (
+      <Select>
+        <SelectTrigger className='w-24'>
+          <SelectValue placeholder={<Loader size={24} />} />
+        </SelectTrigger>
+      </Select>
+    );
   if (error) return <p>Error loading seasons!</p>;
 
   const handleSeasonChange = (newSeason: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('season', newSeason);
-    router.replace(`?${params.toString()}`);
+    const urlSegments = pathname.split('/');
+    if (urlSegments[1]) urlSegments[1] = newSeason;
+    const newPath = urlSegments.join('/');
+    const newUrl = `${newPath}?${searchParams.toString()}`;
+    router.push(newUrl);
   };
 
   return (
     <Select onValueChange={(val) => handleSeasonChange(val)}>
       <SelectTrigger className='w-24'>
-        <SelectValue placeholder={currentSeason} />
+        <SelectValue placeholder={year} />
       </SelectTrigger>
       <SelectContent>
         {events.map(
