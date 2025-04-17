@@ -1,21 +1,22 @@
 import { CircleX, ZoomIn, ZoomOut } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Popup, useMap } from 'react-map-gl/mapbox';
 
 import {
   bgGradient,
+  eventLocationEncode,
   eventTiming,
   getCountryFlagByCountryName,
   positionEnding,
 } from '@/lib/utils';
 
+import { EventTypeBadge } from '@/components/EventTypeBadge';
 import { FloatingNumber } from '@/components/FloatingNumber';
-import { Badge } from '@/components/ui/badge';
 
 import { MapEvent } from '@/generated/customTypes';
-import { Event_Format_Choices_Enum } from '@/generated/types';
 
 const optimalZoom = 15; // optimal zoom for circuit visibility
 
@@ -28,9 +29,12 @@ export const MapPopup = ({
   handleClose: () => void;
   children: React.ReactNode;
 }) => {
+  const { year } = useParams();
   const { current: map } = useMap();
   const [prevZoom, setPrevZoom] = useState(2);
 
+  const eventUrl =
+    event?.location && `${year}/${eventLocationEncode(event?.location)}`;
   const longitude = event.sessions[0].circuit?.longitude as number;
   const latitude = event.sessions[0].circuit?.latitude as number;
 
@@ -117,7 +121,7 @@ export const MapPopup = ({
 
         {/* Event Name Link */}
         <Link
-          href={'session/' + event.id}
+          href={`/${eventUrl || ''}`}
           className='mb-1 text-2xl font-medium underline'
         >
           {circuit &&
@@ -135,26 +139,6 @@ export const MapPopup = ({
         {children}
       </div>
     </Popup>
-  );
-};
-
-export const EventTypeBadge = ({
-  format,
-}: {
-  format?: Event_Format_Choices_Enum | null;
-}) => {
-  if (!format) return;
-  return ['sprint', 'sprint_shootout', 'sprint_qualifying'].includes(format) ? (
-    <Badge className='z-10 w-fit rounded-full' variant='secondary'>
-      Sprint
-    </Badge>
-  ) : (
-    <Badge
-      className='z-10 w-fit rounded-full bg-white text-black'
-      variant='outline'
-    >
-      Conventional
-    </Badge>
   );
 };
 

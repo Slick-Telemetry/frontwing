@@ -3,7 +3,7 @@
 import { useQuery } from '@apollo/client';
 import clsx from 'clsx';
 import { Earth } from 'lucide-react';
-import React, { Fragment, useMemo, useState } from 'react';
+import React, { Fragment, use, useMemo, useState } from 'react';
 import Map from 'react-map-gl/mapbox';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -32,19 +32,20 @@ const initialView = {
   zoom: 2,
 };
 
-const WorldMap = () => {
+const WorldMap = ({ params }: { params: Promise<{ year: string }> }) => {
+  const { year } = use(params);
+
   const { data, error } = useQuery<
     GetMapEventsQuery,
     GetMapEventsQueryVariables
   >(GET_MAP_EVENTS, {
-    variables: { year: 2024 },
+    variables: { year: parseInt(year) },
   });
 
   // We custom load state for map to load
   // This prevents issues rending the custom line layers
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<MapEvent | null>(null);
-
   const LegendMemo = useMemo(() => {
     if (!data) return null;
     return <Legend events={data.events} selectEvent={setSelectedEvent} />;
