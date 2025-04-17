@@ -25,7 +25,7 @@ export function MainNav() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Seasons</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className='grid gap-3 p-4 md:w-[200px] lg:w-[300px] lg:grid-cols-2'>
+            <ul className='grid gap-3 p-4 md:w-[150px] lg:w-[200px] lg:grid-cols-2'>
               <DisplaySeasons />
             </ul>
           </NavigationMenuContent>
@@ -33,7 +33,7 @@ export function MainNav() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Constructors</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
+            <ul className='grid w-[300px] gap-3 p-4 md:grid-cols-2 lg:w-[400px]'>
               <DisplayConstructors />
             </ul>
           </NavigationMenuContent>
@@ -47,18 +47,14 @@ export function MainNav() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href='/standings' legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Standings
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
+            <Link href='/standings'>Standings</Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href='/map' legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Map
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href='/map'>Map</Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
