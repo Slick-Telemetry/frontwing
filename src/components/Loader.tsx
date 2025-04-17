@@ -12,8 +12,8 @@ export const FullHeightLoader = ({
   </div>
 );
 
-export const Loader = () => (
-  <div className='animate-spin'>
-    <LoaderCircle size={48} />
+export const Loader = ({ size = 48 }: { size?: number }) => (
+  <div className='h-fit w-fit animate-spin'>
+    <LoaderCircle size={size} />
   </div>
 );

@@ -1,22 +1,20 @@
 import Link from 'next/link';
 
+import { Button } from '@/components/ui/button';
+
 export default function NotFound() {
   return (
-    <div className='container flex min-h-[60vh] items-center justify-center'>
-      <div className='max-w-96 rounded border border-current p-4'>
-        <div className='mb-4'>
-          <h2 className='text-2xl'>Page Not Found</h2>
-          <p className='text-lg'>
-            The page you are looking for does not exist. Please check the URL
-            and try again.
-          </p>
+    <div className='my-auto flex flex-1 items-center justify-center'>
+      <div className='grid gap-4 rounded border p-4'>
+        <div className='max-w-96'>
+          <h2 className='text-4xl'>Page Not Found</h2>
+          <hr className='my-2' />
+          <p className='text-lg'>The page you are looking for does not exist</p>
         </div>
 
-        <Link href='/dashboard'>
-          <button className='rounded border border-current px-3 py-1'>
-            Return to Dashboard
-          </button>
-        </Link>
+        <Button asChild>
+          <Link href='/'>Home</Link>
+        </Button>
       </div>
     </div>
   );

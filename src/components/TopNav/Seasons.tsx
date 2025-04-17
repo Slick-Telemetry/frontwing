@@ -20,7 +20,7 @@ export function DisplaySeasons() {
 
   return data?.events.map(({ year }) => (
     <Link
-      href={'/season/' + year + ''}
+      href={'/' + year}
       key={year}
       className='flex items-center gap-2 hover:underline'
     >

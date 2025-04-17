@@ -1,7 +1,7 @@
 export const ServerPageError = ({ msg }: { msg?: string }) => {
   return (
-    <div className='flex min-h-96 items-center justify-center'>
-      <div className='grid gap-4'>
+    <div className='my-auto flex flex-1 items-center justify-center'>
+      <div className='grid gap-4 rounded border p-4'>
         <div>
           <h1>Server Error</h1>
           <p className='text-4xl'>{msg || 'Please try again soon'}</p>
