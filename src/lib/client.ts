@@ -10,7 +10,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
     link: new HttpLink({
       uri: process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL || '',
       headers: {
-        'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_SECRET || '',
+        'x-hasura-role': 'public',
         skip_zrok_interstitial: 'true',
       },
     }),

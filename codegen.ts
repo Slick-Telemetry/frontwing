@@ -9,8 +9,7 @@ const config: CodegenConfig = {
     {
       [process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL as string]: {
         headers: {
-          'x-hasura-admin-secret': process.env
-            .NEXT_PUBLIC_HASURA_SECRET as string,
+          'x-hasura-role': process.env.NEXT_PUBLIC_HASURA_ROLE as string,
         },
       },
     },
