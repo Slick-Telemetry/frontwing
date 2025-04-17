@@ -101,3 +101,13 @@ export const getCountryFlagByCountryName = (country_code?: string) => {
   const icon = getUnicodeFlagIcon(alpha2);
   return icon || null;
 };
+
+export const eventLocationEncode = (location?: string) =>
+  !location ? null : location.replace(/ /g, '_').toLowerCase();
+
+export const eventLocationDecode = (location?: string) =>
+  !location
+    ? ''
+    : location
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase());

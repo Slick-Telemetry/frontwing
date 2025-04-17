@@ -134,6 +134,117 @@ export const GET_SEASON_EVENTS = gql`
   }
 `;
 
+export const GET_EVENT_DETAILS_v2 = gql`
+  query GetEventDetailsV2($year: Int!, $event: String!) {
+    dropdown_events: events(
+      where: { location: { _neq: $event }, year: { _eq: $year } }
+    ) {
+      official_name
+      name
+      round_number
+      location
+    }
+    events(
+      where: { location: { _eq: $event }, year: { _eq: $year } }
+      limit: 1
+    ) {
+      round_number
+      official_name
+      name
+      format
+      location
+      date
+      country
+      competition: sessions(
+        where: { name: { _in: [Sprint, Race] } }
+        limit: 2
+      ) {
+        scheduled_start_time_utc
+        name
+        race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
+          flag
+          message
+          time
+        }
+        driver_sessions {
+          driver {
+            abbreviation
+            full_name
+            number
+            headshot_url
+          }
+          constructorByConstructorId {
+            color
+          }
+          results {
+            finishing_position
+            classified_position
+            grid_position
+            total_race_time
+          }
+        }
+      }
+      qualifying: sessions(
+        where: {
+          name: { _in: [Sprint_Shootout, Sprint_Qualifying, Qualifying] }
+        }
+        limit: 2
+      ) {
+        scheduled_start_time_utc
+        name
+        race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
+          flag
+          message
+          time
+        }
+        driver_sessions {
+          driver {
+            abbreviation
+            full_name
+            number
+            headshot_url
+          }
+          constructorByConstructorId {
+            color
+          }
+          results {
+            finishing_position
+            q1_time
+            q2_time
+            q3_time
+          }
+        }
+      }
+      practices: sessions(
+        limit: 3
+        where: { name: { _in: [Practice_1, Practice_2, Practice_3] } }
+      ) {
+        scheduled_start_time_utc
+        name
+        race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
+          flag
+          message
+          time
+        }
+        driver_sessions {
+          driver {
+            abbreviation
+            full_name
+            number
+            headshot_url
+          }
+          constructorByConstructorId {
+            color
+          }
+          fastest_lap: laps(limit: 1, order_by: { lap_time: asc }) {
+            lap_time
+            lap_number
+          }
+        }
+      }
+    }
+  }
+`;
 export const GET_EVENT_DETAILS = gql`
   query GetEventDetails($_id: String!) {
     events(where: { id: { _eq: $_id } }) {
