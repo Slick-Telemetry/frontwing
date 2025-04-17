@@ -25,6 +25,7 @@
     "@apollo/experimental-nextjs-app-support": "latest",
     "@graphql-typed-document-node/core": "latest",
     "@radix-ui/react-avatar": "latest",
+    "@radix-ui/react-dialog": "^1.1.7",
     "@radix-ui/react-dropdown-menu": "latest",
     "@radix-ui/react-navigation-menu": "latest",
     "@radix-ui/react-select": "latest",
