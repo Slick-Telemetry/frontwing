@@ -5,9 +5,12 @@ import {
   Minimize2,
   Star,
 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { eventTiming, getColor } from '@/lib/utils';
+
+import SeasonSelector from '@/components/seasonSelector';
 
 import { MapEvent } from '@/generated/customTypes';
 
@@ -29,6 +32,7 @@ export const Legend = ({
   events?: MapEvent[];
   selectEvent: (event: MapEvent) => void;
 }) => {
+  const { year } = useParams();
   const [hidden, setHidden] = useState(false);
 
   if (hidden) {
@@ -45,7 +49,7 @@ export const Legend = ({
   return (
     <div className={containerClasses}>
       <div className='flex items-center justify-between gap-2'>
-        <h3 className='text-2xl'>2024 Season Map</h3>
+        <SeasonSelector year={parseInt(year as string)} />
         <Minimize2 className='cursor-pointer' onClick={() => setHidden(true)} />
       </div>
 
@@ -56,7 +60,7 @@ export const Legend = ({
           return (
             <div
               onClick={() => selectEvent(e)}
-              key={e.id}
+              key={e.name}
               style={{ color: getColor(e.date) }}
               className='flex cursor-pointer items-center gap-2'
             >

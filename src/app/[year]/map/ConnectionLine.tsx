@@ -32,7 +32,7 @@ export const ConnectionLine = ({
 
   return (
     <Source
-      id={event.id}
+      id={event.name || event.location || ''}
       type='geojson'
       data={{
         type: 'Feature',
