@@ -3,9 +3,8 @@ export const ServerPageError = ({ msg }: { msg?: string }) => {
     <div className='flex min-h-96 items-center justify-center'>
       <div className='grid gap-4'>
         <div>
-          <h1 className='text-4xl'>Server Error</h1>
-          {msg && <p>{msg}</p>}
-          <p>Please try again</p>
+          <h1>Server Error</h1>
+          <p className='text-4xl'>{msg || 'Please try again soon'}</p>
         </div>
         {/* <div className='text-red-500 rounded border border-current p-2 px-3'>
             <p>{error.name}: {error.message}</p>
