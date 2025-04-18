@@ -1,10 +1,12 @@
 import NextEvent from '@/components/NextEvent';
 
+import bg from '../../public/slick-telemetry-bg.png';
+
 export default function Home() {
   return (
     <main
       className='flex flex-1 bg-cover bg-center bg-no-repeat'
-      style={{ backgroundImage: `url(./slick-telemetry-bg.png)` }}
+      style={{ backgroundImage: `url(${bg.src})` }}
     >
       <div className='grid w-full grid-rows-3 items-center bg-black/50 text-white'>
         <div className='row-start-2 text-center'>
