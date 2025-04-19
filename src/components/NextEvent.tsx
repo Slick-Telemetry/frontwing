@@ -1,10 +1,11 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 
 import { GET_NEXT_EVENT } from '@/lib/queries';
-import { getCountryFlagByCountryName } from '@/lib/utils';
+import { eventLocationEncode, getCountryFlagByCountryName } from '@/lib/utils';
 
 import { EventTypeBadge } from '@/components/EventTypeBadge';
 
@@ -36,10 +37,9 @@ const NextEvent = () => {
         <Loader />
       </div>
     );
-  if (error) return <></>;
+  if (error || !data?.schedule[0]) return <></>;
 
-  const nextEvent = data?.schedule[0];
-  if (!nextEvent) return <></>;
+  const nextEvent = data.schedule[0];
 
   return (
     <div className='mx-auto flex w-fit flex-col rounded-lg p-2'>
@@ -50,8 +50,14 @@ const NextEvent = () => {
       )}
       <div>
         <h2 className='text-2xl font-black'>
-          {nextEvent.event_name}{' '}
-          {nextEvent.country && getCountryFlagByCountryName(nextEvent.country)}
+          <Link
+            className='hover:underline'
+            href={`/${nextEvent.year}/${eventLocationEncode(nextEvent?.location)}`}
+          >
+            {nextEvent.event_name}{' '}
+            {nextEvent.country &&
+              getCountryFlagByCountryName(nextEvent.country)}
+          </Link>
         </h2>
         {nextEvent.session5_date_utc && (
           <p>
