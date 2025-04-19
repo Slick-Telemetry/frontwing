@@ -1,20 +1,17 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import { use, useCallback, useState } from 'react';
 
 import { GET_SEASON_EVENTS } from '@/lib/queries';
 
 import { CheckboxToggle } from '@/components/Checkbox';
-import { EventTypeBadge } from '@/components/EventTypeBadge';
 import { FullHeightLoader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
 import { SessionTime } from '@/components/SessionTime';
 
+import { EventContainer } from '@/app/[year]/EventContainer';
 import NotFound from '@/app/not-found';
-import { SeasonEvent } from '@/generated/customTypes';
 import {
   GetSeasonEventsQuery,
   GetSeasonEventsQueryVariables,
@@ -37,77 +34,49 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
 
   if (loading) return <FullHeightLoader />;
   if (error) return <ServerPageError />;
-  if (data?.events.length === 0) return <NotFound />;
+  if (
+    data?.schedule.length === 0 ||
+    data?.schedule.filter((e) => !!e.event_name).length === 0
+  )
+    return <NotFound />;
 
   return (
     <div className='container'>
       <CheckboxToggle toggle={toggleSessions} label='Show Sessions' />
-      <main className='my-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4'>
-        {data?.events.map((event) => (
-          <EventContainer key={event.official_name} event={event}>
-            {showSessions && (
-              <div className='bg-muted grid divide-y'>
-                {[...event.sessions].map((session) => (
-                  <SessionTime
-                    key={session.scheduled_start_time_utc}
-                    id={session?.scheduled_start_time_utc}
-                    time={session?.scheduled_start_time_utc}
-                    name={session?.name}
-                  />
-                ))}
-              </div>
-            )}
-          </EventContainer>
-        ))}
+      <main className='my-4 grid sm:grid-cols-2 xl:grid-cols-4'>
+        {data?.schedule.map(
+          (event) =>
+            event.event_name && (
+              <EventContainer key={event.event_name} event={event}>
+                {showSessions && (
+                  <div className='bg-secondary divide-background border-background grid divide-y rounded border-2'>
+                    {Array.from({ length: 5 }, (_, i) => i + 1).map(
+                      (sessionNumber) => {
+                        const sessionDate =
+                          event[
+                            `session${sessionNumber}_date` as keyof typeof event
+                          ];
+                        return sessionDate && sessionDate !== 'NaT' ? (
+                          <SessionTime
+                            key={String(sessionDate)}
+                            id={String(sessionDate)}
+                            time={String(sessionDate)}
+                            name={String(
+                              event[
+                                `session${sessionNumber}` as keyof typeof event
+                              ],
+                            )}
+                          />
+                        ) : null;
+                      },
+                    )}
+                  </div>
+                )}
+              </EventContainer>
+            ),
+        )}
       </main>
     </div>
-  );
-};
-
-export const EventContainer = ({
-  event,
-  children,
-}: {
-  event: SeasonEvent;
-  children: React.ReactNode;
-}) => {
-  const { year } = useParams();
-  const { official_name, round_number, location, country, format, date } =
-    event;
-
-  const eventUrl = `${year}/${location?.replace(/ /g, '-').toLowerCase()}`;
-  const eventDate =
-    date &&
-    new Date(date).toLocaleString(undefined, {
-      timeZone: 'UTC',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-
-  return (
-    <fieldset className='border-accent-foreground mb-2 overflow-hidden rounded border'>
-      <legend className='ml-2 px-2 font-black'>Round {round_number}</legend>
-      {/* Heading */}
-      <div className='px-4 py-2'>
-        <div className='mb-2 flex items-center justify-between text-sm'>
-          <EventTypeBadge format={format} />
-          <p>{eventDate}</p>
-        </div>
-        {official_name && (
-          <Link
-            href={eventUrl}
-            className='line-clamp-2 flex-1 text-lg leading-tight font-black hover:underline'
-          >
-            {official_name}
-          </Link>
-        )}
-        <p>
-          {location}, {country}
-        </p>
-      </div>
-      {children}
-    </fieldset>
   );
 };
 

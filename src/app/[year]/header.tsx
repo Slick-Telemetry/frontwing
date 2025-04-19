@@ -17,15 +17,18 @@ export const Header = () => {
       </div>
       {/* <CheckboxToggle toggle={toggleSessions} label='Show Sessions' /> */}
       <Button variant='outline' asChild>
-        <Link href={`${year}/standings`}>Driver Standings</Link>
+        <Link href={`/${year}`}>Sessions</Link>
+      </Button>
+      <Button variant='outline' asChild>
+        <Link href={`/${year}/standings`}>Driver Standings</Link>
       </Button>
       <Button variant='outline'>
-        <Link href={`${year}/standings?chart=constructors`}>
+        <Link href={`/${year}/standings?chart=constructors`}>
           Constructor Standings
         </Link>
       </Button>
       <Button variant='outline'>
-        <Link href={`${year}/map`}>Travel Map</Link>
+        <Link href={`/${year}/map`}>Travel Map</Link>
       </Button>
     </header>
   );
