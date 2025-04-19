@@ -7759,7 +7759,9 @@ export type GetNextEventQuery = {
   __typename?: 'query_root';
   schedule: Array<{
     __typename?: 'schedule';
+    year?: number | null;
     event_name?: string | null;
+    location?: string | null;
     country?: string | null;
     event_format?: string | null;
     session5_date_utc?: string | null;
@@ -7772,46 +7774,73 @@ export type GetSeasonEventsQueryVariables = Exact<{
 
 export type GetSeasonEventsQuery = {
   __typename?: 'query_root';
-  events: Array<{
-    __typename?: 'events';
+  schedule: Array<{
+    __typename?: 'schedule';
+    year?: number | null;
     round_number?: number | null;
-    official_name?: string | null;
-    name?: string | null;
-    format?: Event_Format_Choices_Enum | null;
+    event_name?: string | null;
+    event_format?: string | null;
+    event_date?: string | null;
     location?: string | null;
-    date?: string | null;
     country?: string | null;
-    sessions: Array<{
-      __typename?: 'sessions';
-      name?: Session_Name_Choices_Enum | null;
-      scheduled_start_time_utc?: string | null;
-    }>;
+    session1?: string | null;
+    session1_date?: string | null;
+    session2?: string | null;
+    session2_date?: string | null;
+    session3?: string | null;
+    session3_date?: string | null;
+    session4?: string | null;
+    session4_date?: string | null;
+    session5?: string | null;
+    session5_date?: string | null;
   }>;
 };
 
-export type GetEventDetailsV2QueryVariables = Exact<{
+export type GetEventScheduleQueryVariables = Exact<{
   year: Scalars['Int']['input'];
   event: Scalars['String']['input'];
 }>;
 
-export type GetEventDetailsV2Query = {
+export type GetEventScheduleQuery = {
   __typename?: 'query_root';
   dropdown_events: Array<{
-    __typename?: 'events';
-    official_name?: string | null;
-    name?: string | null;
+    __typename?: 'schedule';
+    event_name?: string | null;
     round_number?: number | null;
     location?: string | null;
   }>;
+  schedule: Array<{
+    __typename?: 'schedule';
+    year?: number | null;
+    round_number?: number | null;
+    event_date?: string | null;
+    official_event_name?: string | null;
+    event_name?: string | null;
+    event_format?: string | null;
+    location?: string | null;
+    country?: string | null;
+    session1?: string | null;
+    session1_date_utc?: string | null;
+    session2?: string | null;
+    session2_date_utc?: string | null;
+    session3?: string | null;
+    session3_date_utc?: string | null;
+    session4?: string | null;
+    session4_date_utc?: string | null;
+    session5?: string | null;
+    session5_date_utc?: string | null;
+  }>;
+};
+
+export type GetEventDetailsQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+  event: Scalars['String']['input'];
+}>;
+
+export type GetEventDetailsQuery = {
+  __typename?: 'query_root';
   events: Array<{
     __typename?: 'events';
-    round_number?: number | null;
-    official_name?: string | null;
-    name?: string | null;
-    format?: Event_Format_Choices_Enum | null;
-    location?: string | null;
-    date?: string | null;
-    country?: string | null;
     competition: Array<{
       __typename?: 'sessions';
       scheduled_start_time_utc?: string | null;
@@ -8406,7 +8435,9 @@ export const GetNextEventDocument = gql`
       order_by: { event_date: asc }
       limit: 1
     ) {
+      year
       event_name
+      location
       country
       event_format
       session5_date_utc
@@ -8490,18 +8521,24 @@ export type GetNextEventQueryResult = Apollo.QueryResult<
 >;
 export const GetSeasonEventsDocument = gql`
   query GetSeasonEvents($year: Int!) {
-    events(where: { year: { _eq: $year } }) {
+    schedule(where: { year: { _eq: $year } }) {
+      year
       round_number
-      official_name
-      name
-      format
+      event_name
+      event_format
+      event_date
       location
-      date
       country
-      sessions(order_by: { scheduled_start_time_utc: asc }) {
-        name
-        scheduled_start_time_utc
-      }
+      session1
+      session1_date
+      session2
+      session2_date
+      session3
+      session3_date
+      session4
+      session4_date
+      session5
+      session5_date
     }
   }
 `;
@@ -8580,27 +8617,122 @@ export type GetSeasonEventsQueryResult = Apollo.QueryResult<
   GetSeasonEventsQuery,
   GetSeasonEventsQueryVariables
 >;
-export const GetEventDetailsV2Document = gql`
-  query GetEventDetailsV2($year: Int!, $event: String!) {
-    dropdown_events: events(
+export const GetEventScheduleDocument = gql`
+  query GetEventSchedule($year: Int!, $event: String!) {
+    dropdown_events: schedule(
       where: { location: { _neq: $event }, year: { _eq: $year } }
     ) {
-      official_name
-      name
+      event_name
       round_number
       location
     }
+    schedule(
+      where: { year: { _eq: $year }, location: { _eq: $event } }
+      limit: 1
+    ) {
+      year
+      round_number
+      event_date
+      official_event_name
+      event_name
+      event_format
+      location
+      country
+      session1
+      session1_date_utc
+      session2
+      session2_date_utc
+      session3
+      session3_date_utc
+      session4
+      session4_date_utc
+      session5
+      session5_date_utc
+    }
+  }
+`;
+
+/**
+ * __useGetEventScheduleQuery__
+ *
+ * To run a query within a React component, call `useGetEventScheduleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventScheduleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventScheduleQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *      event: // value for 'event'
+ *   },
+ * });
+ */
+export function useGetEventScheduleQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetEventScheduleQuery,
+    GetEventScheduleQueryVariables
+  > &
+    (
+      | { variables: GetEventScheduleQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetEventScheduleQuery, GetEventScheduleQueryVariables>(
+    GetEventScheduleDocument,
+    options,
+  );
+}
+export function useGetEventScheduleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetEventScheduleQuery,
+    GetEventScheduleQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetEventScheduleQuery,
+    GetEventScheduleQueryVariables
+  >(GetEventScheduleDocument, options);
+}
+export function useGetEventScheduleSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetEventScheduleQuery,
+        GetEventScheduleQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetEventScheduleQuery,
+    GetEventScheduleQueryVariables
+  >(GetEventScheduleDocument, options);
+}
+export type GetEventScheduleQueryHookResult = ReturnType<
+  typeof useGetEventScheduleQuery
+>;
+export type GetEventScheduleLazyQueryHookResult = ReturnType<
+  typeof useGetEventScheduleLazyQuery
+>;
+export type GetEventScheduleSuspenseQueryHookResult = ReturnType<
+  typeof useGetEventScheduleSuspenseQuery
+>;
+export type GetEventScheduleQueryResult = Apollo.QueryResult<
+  GetEventScheduleQuery,
+  GetEventScheduleQueryVariables
+>;
+export const GetEventDetailsDocument = gql`
+  query GetEventDetails($year: Int!, $event: String!) {
     events(
       where: { location: { _eq: $event }, year: { _eq: $year } }
       limit: 1
     ) {
-      round_number
-      official_name
-      name
-      format
-      location
-      date
-      country
       competition: sessions(
         where: { name: { _in: [Sprint, Race] } }
         limit: 2
@@ -8693,56 +8825,56 @@ export const GetEventDetailsV2Document = gql`
 `;
 
 /**
- * __useGetEventDetailsV2Query__
+ * __useGetEventDetailsQuery__
  *
- * To run a query within a React component, call `useGetEventDetailsV2Query` and pass it any options that fit your needs.
- * When your component renders, `useGetEventDetailsV2Query` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetEventDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetEventDetailsV2Query({
+ * const { data, loading, error } = useGetEventDetailsQuery({
  *   variables: {
  *      year: // value for 'year'
  *      event: // value for 'event'
  *   },
  * });
  */
-export function useGetEventDetailsV2Query(
+export function useGetEventDetailsQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetEventDetailsV2Query,
-    GetEventDetailsV2QueryVariables
+    GetEventDetailsQuery,
+    GetEventDetailsQueryVariables
   > &
     (
-      | { variables: GetEventDetailsV2QueryVariables; skip?: boolean }
+      | { variables: GetEventDetailsQueryVariables; skip?: boolean }
       | { skip: boolean }
     ),
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetEventDetailsV2Query,
-    GetEventDetailsV2QueryVariables
-  >(GetEventDetailsV2Document, options);
+  return Apollo.useQuery<GetEventDetailsQuery, GetEventDetailsQueryVariables>(
+    GetEventDetailsDocument,
+    options,
+  );
 }
-export function useGetEventDetailsV2LazyQuery(
+export function useGetEventDetailsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEventDetailsV2Query,
-    GetEventDetailsV2QueryVariables
+    GetEventDetailsQuery,
+    GetEventDetailsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetEventDetailsV2Query,
-    GetEventDetailsV2QueryVariables
-  >(GetEventDetailsV2Document, options);
+    GetEventDetailsQuery,
+    GetEventDetailsQueryVariables
+  >(GetEventDetailsDocument, options);
 }
-export function useGetEventDetailsV2SuspenseQuery(
+export function useGetEventDetailsSuspenseQuery(
   baseOptions?:
     | Apollo.SkipToken
     | Apollo.SuspenseQueryHookOptions<
-        GetEventDetailsV2Query,
-        GetEventDetailsV2QueryVariables
+        GetEventDetailsQuery,
+        GetEventDetailsQueryVariables
       >,
 ) {
   const options =
@@ -8750,22 +8882,22 @@ export function useGetEventDetailsV2SuspenseQuery(
       ? baseOptions
       : { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<
-    GetEventDetailsV2Query,
-    GetEventDetailsV2QueryVariables
-  >(GetEventDetailsV2Document, options);
+    GetEventDetailsQuery,
+    GetEventDetailsQueryVariables
+  >(GetEventDetailsDocument, options);
 }
-export type GetEventDetailsV2QueryHookResult = ReturnType<
-  typeof useGetEventDetailsV2Query
+export type GetEventDetailsQueryHookResult = ReturnType<
+  typeof useGetEventDetailsQuery
 >;
-export type GetEventDetailsV2LazyQueryHookResult = ReturnType<
-  typeof useGetEventDetailsV2LazyQuery
+export type GetEventDetailsLazyQueryHookResult = ReturnType<
+  typeof useGetEventDetailsLazyQuery
 >;
-export type GetEventDetailsV2SuspenseQueryHookResult = ReturnType<
-  typeof useGetEventDetailsV2SuspenseQuery
+export type GetEventDetailsSuspenseQueryHookResult = ReturnType<
+  typeof useGetEventDetailsSuspenseQuery
 >;
-export type GetEventDetailsV2QueryResult = Apollo.QueryResult<
-  GetEventDetailsV2Query,
-  GetEventDetailsV2QueryVariables
+export type GetEventDetailsQueryResult = Apollo.QueryResult<
+  GetEventDetailsQuery,
+  GetEventDetailsQueryVariables
 >;
 export const GetStandingsDocument = gql`
   query GetStandings($season: Int!) {

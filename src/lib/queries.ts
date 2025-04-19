@@ -108,7 +108,9 @@ export const GET_NEXT_EVENT = gql`
       order_by: { event_date: asc }
       limit: 1
     ) {
+      year
       event_name
+      location
       country
       event_format
       session5_date_utc
@@ -118,18 +120,24 @@ export const GET_NEXT_EVENT = gql`
 
 export const GET_SEASON_EVENTS = gql`
   query GetSeasonEvents($year: Int!) {
-    events(where: { year: { _eq: $year } }) {
+    schedule(where: { year: { _eq: $year } }) {
+      year
       round_number
-      official_name
-      name
-      format
+      event_name
+      event_format
+      event_date
       location
-      date
       country
-      sessions(order_by: { scheduled_start_time_utc: asc }) {
-        name
-        scheduled_start_time_utc
-      }
+      session1
+      session1_date
+      session2
+      session2_date
+      session3
+      session3_date
+      session4
+      session4_date
+      session5
+      session5_date
     }
   }
 `;
