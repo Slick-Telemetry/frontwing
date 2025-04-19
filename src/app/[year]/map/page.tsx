@@ -3,7 +3,7 @@
 import { useQuery } from '@apollo/client';
 import clsx from 'clsx';
 import { Earth } from 'lucide-react';
-import React, { Fragment, use, useMemo, useState } from 'react';
+import React, { Fragment, use, useEffect, useMemo, useState } from 'react';
 import Map from 'react-map-gl/mapbox';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -46,17 +46,25 @@ const WorldMap = ({ params }: { params: Promise<{ year: string }> }) => {
   // This prevents issues rending the custom line layers
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<MapEvent | null>(null);
+
+  // Set focus on first locatoin
+  useEffect(() => {
+    if (data?.events) setSelectedEvent(data.events[0]);
+  }, [data]);
+
+  // Legend Element
   const LegendMemo = useMemo(() => {
     if (!data) return null;
     return <Legend events={data.events} selectEvent={setSelectedEvent} />;
   }, [data]);
 
+  // Map Marker and Line to previous location
   const MarkersLinesMemo = useMemo(() => {
     if (!data) return null;
 
     return data.events.map((event, i) => {
       const color = getColor(event.date);
-      const prevEvent = data.events[i - 1];
+      const nextEvent = data.events[i + 1];
       return (
         <Fragment key={event.name}>
           <MapMarker
@@ -67,7 +75,7 @@ const WorldMap = ({ params }: { params: Promise<{ year: string }> }) => {
 
           {/* Map needs to load first */}
           {loading ? null : (
-            <ConnectionLine event={event} color={color} prevEvent={prevEvent} />
+            <ConnectionLine event={event} color={color} prevEvent={nextEvent} />
           )}
         </Fragment>
       );
@@ -92,6 +100,7 @@ const WorldMap = ({ params }: { params: Promise<{ year: string }> }) => {
   return (
     <div className='relative flex h-[700px] w-full items-center justify-center'>
       <Map
+        reuseMaps
         initialViewState={initialView}
         mapStyle='mapbox://styles/mapbox/standard-satellite' // Use any Mapbox style
         mapboxAccessToken={MAPBOX_TOKEN}

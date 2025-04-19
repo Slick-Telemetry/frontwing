@@ -160,3 +160,7 @@
   /* height: 16px; */
   stroke-width: 1.5;
 }
+
+.mapboxgl-popup-content {
+  @apply bg-background! text-foreground!;
+}

@@ -1,21 +1,8 @@
-import {
-  CalendarPlus,
-  CircleCheck,
-  Maximize2,
-  Minimize2,
-  Star,
-} from 'lucide-react';
-import { useParams } from 'next/navigation';
-import { useState } from 'react';
-
-import { eventTiming, getColor } from '@/lib/utils';
-
-import SeasonSelector from '@/components/seasonSelector';
+import { getColor } from '@/lib/utils';
 
 import { MapEvent } from '@/generated/customTypes';
 
-const containerClasses =
-  'absolute top-4 right-4 rounded border border-current bg-black p-2 text-base';
+const containerClasses = 'absolute top-4 left-4 rounded bg-muted p-2';
 
 // ? This is for when we can resolve reliable distances matching with paths
 // const calcDistance = (loc1: number[], loc2: number[]) => {
@@ -32,41 +19,41 @@ export const Legend = ({
   events?: MapEvent[];
   selectEvent: (event: MapEvent) => void;
 }) => {
-  const { year } = useParams();
-  const [hidden, setHidden] = useState(false);
+  // const [hidden, setHidden] = useState(false);
 
-  if (hidden) {
-    return (
-      <div className={containerClasses}>
-        <Maximize2
-          className='cursor-pointer'
-          onClick={() => setHidden(false)}
-        />
-      </div>
-    );
-  }
+  // if (hidden) {
+  //   return (
+  //     <div className={containerClasses}>
+  //       <Maximize2
+  //         className='cursor-pointer'
+  //         onClick={() => setHidden(false)}
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className={containerClasses}>
-      <div className='flex items-center justify-between gap-2'>
-        <SeasonSelector year={parseInt(year as string)} />
-        <Minimize2 className='cursor-pointer' onClick={() => setHidden(true)} />
-      </div>
+      {/* <Minimize2 className='cursor-pointer' onClick={() => setHidden(true)} /> */}
 
       <div className='grid divide-y divide-current'>
         {events?.map((e) => {
           // past, present, future
-          const eventTimePeriod = eventTiming(e.date);
+          const color = getColor(e.date);
           return (
             <div
               onClick={() => selectEvent(e)}
               key={e.name}
-              style={{ color: getColor(e.date) }}
-              className='flex cursor-pointer items-center gap-2'
+              style={{ color: color }}
+              className='flex cursor-pointer items-center gap-2 py-0.5'
             >
-              {eventTimePeriod === 'present' && <Star />}
-              {eventTimePeriod === 'past' && <CircleCheck />}
-              {eventTimePeriod === 'future' && <CalendarPlus />} {e.name}
+              <div
+                className='flex h-4 w-4 items-center justify-center text-xs'
+                style={{ borderColor: color }}
+              >
+                {e.round_number}
+              </div>
+              <p className='text-sm'>{e.name}</p>
             </div>
           );
         })}

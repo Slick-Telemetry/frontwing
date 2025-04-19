@@ -33,8 +33,7 @@ export const MapPopup = ({
   const { current: map } = useMap();
   const [prevZoom, setPrevZoom] = useState(2);
 
-  const eventUrl =
-    event?.location && `${year}/${eventLocationEncode(event?.location)}`;
+  const eventUrl = `${year}/${eventLocationEncode(event?.location)}`;
   const longitude = event.sessions[0].circuit?.longitude as number;
   const latitude = event.sessions[0].circuit?.latitude as number;
 
@@ -93,7 +92,7 @@ export const MapPopup = ({
       closeButton={false}
       anchor='bottom'
       maxWidth='unset'
-      className='overflow-hidden text-sm text-black'
+      className='overflow-hidden text-sm'
     >
       <div className='relative grid min-w-xs'>
         {/* Floating Round Number */}
@@ -102,7 +101,7 @@ export const MapPopup = ({
         </FloatingNumber>
 
         {/* Top Row */}
-        <div className='flex items-center justify-between'>
+        <div className='mb-1 flex items-center justify-between'>
           <div className='flex gap-2'>
             {/* ZoomIn and ZoomOut as one */}
             <div
@@ -122,12 +121,12 @@ export const MapPopup = ({
         {/* Event Name Link */}
         <Link
           href={`/${eventUrl || ''}`}
-          className='mb-1 text-2xl font-medium underline'
+          className='mb-1 text-2xl font-medium hover:underline'
         >
+          {event.name}{' '}
           {circuit &&
             circuit.country &&
-            getCountryFlagByCountryName(circuit.country)}{' '}
-          {event.name}
+            getCountryFlagByCountryName(circuit.country)}
         </Link>
 
         {/* If event happened show results */}
@@ -155,7 +154,7 @@ const TopThreeDrivers = ({
           constructorByConstructorId && (
             <div
               key={driver.full_name}
-              className='grid items-center gap-1 rounded-lg p-2'
+              className='grid items-center gap-1 rounded-lg p-2 nth-2:mt-2 nth-3:mt-4'
               style={{
                 background: constructorByConstructorId.color
                   ? bgGradient(constructorByConstructorId.color)
