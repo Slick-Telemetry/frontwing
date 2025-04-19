@@ -134,27 +134,46 @@ export const GET_SEASON_EVENTS = gql`
   }
 `;
 
-export const GET_EVENT_DETAILS_v2 = gql`
-  query GetEventDetailsV2($year: Int!, $event: String!) {
-    dropdown_events: events(
+export const GET_EVENT_SCHEDULE = gql`
+  query GetEventSchedule($year: Int!, $event: String!) {
+    dropdown_events: schedule(
       where: { location: { _neq: $event }, year: { _eq: $year } }
     ) {
-      official_name
-      name
+      event_name
       round_number
       location
     }
+    schedule(
+      where: { year: { _eq: $year }, location: { _eq: $event } }
+      limit: 1
+    ) {
+      year
+      round_number
+      event_date
+      official_event_name
+      event_name
+      event_format
+      location
+      country
+      session1
+      session1_date_utc
+      session2
+      session2_date_utc
+      session3
+      session3_date_utc
+      session4
+      session4_date_utc
+      session5
+      session5_date_utc
+    }
+  }
+`;
+export const GET_EVENT_DETAILS = gql`
+  query GetEventDetails($year: Int!, $event: String!) {
     events(
       where: { location: { _eq: $event }, year: { _eq: $year } }
       limit: 1
     ) {
-      round_number
-      official_name
-      name
-      format
-      location
-      date
-      country
       competition: sessions(
         where: { name: { _in: [Sprint, Race] } }
         limit: 2
@@ -237,49 +256,6 @@ export const GET_EVENT_DETAILS_v2 = gql`
             color
           }
           fastest_lap: laps(limit: 1, order_by: { lap_time: asc }) {
-            lap_time
-            lap_number
-          }
-        }
-      }
-    }
-  }
-`;
-export const GET_EVENT_DETAILS = gql`
-  query GetEventDetails($_id: String!) {
-    events(where: { id: { _eq: $_id } }) {
-      round_number
-
-      official_name
-      location
-      country
-      sessions {
-        scheduled_start_time_utc
-        name
-        race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
-          flag
-          message
-          time
-        }
-        driver_sessions(order_by: { constructor_id: asc }) {
-          driver {
-            abbreviation
-            full_name
-            number
-            headshot_url
-          }
-          results {
-            grid_position
-            finishing_position
-            classified_position
-          }
-          laps(
-            where: {
-              is_personal_best: { _eq: true }
-              is_accurate: { _eq: true }
-            }
-            order_by: { lap_time: asc }
-          ) {
             lap_time
             lap_number
           }

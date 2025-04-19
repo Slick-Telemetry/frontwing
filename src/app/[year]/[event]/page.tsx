@@ -3,9 +3,9 @@
 import { useQuery } from '@apollo/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { use, useState } from 'react';
+import { use, useMemo, useState } from 'react';
 
-import { GET_EVENT_DETAILS_v2 } from '@/lib/queries';
+import { GET_EVENT_DETAILS, GET_EVENT_SCHEDULE } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
 
 import { CheckboxToggle } from '@/components/Checkbox';
@@ -19,11 +19,17 @@ import {
   SelectTrigger,
 } from '@/components/ui/select';
 
-import { EventSession } from '@/app/[year]/[event]/EventSession';
-import { EventContainer } from '@/app/[year]/page';
 import {
-  GetEventDetailsV2Query,
-  GetEventDetailsV2QueryVariables,
+  EventSession,
+  SessionProvisionalGrid,
+  SkeletonProvisionalGrid,
+} from '@/app/[year]/[event]/EventSession';
+import { EventContainer } from '@/app/[year]/EventContainer';
+import {
+  GetEventDetailsQuery,
+  GetEventDetailsQueryVariables,
+  GetEventScheduleQuery,
+  GetEventScheduleQueryVariables,
 } from '@/generated/types';
 
 import circuit from '../../../../public/Bahrain_carbon.png';
@@ -37,62 +43,106 @@ const EventPage = ({
   const [showGrid, setShowGrid] = useState(false);
 
   const { loading, data, error } = useQuery<
-    GetEventDetailsV2Query,
-    GetEventDetailsV2QueryVariables
-  >(GET_EVENT_DETAILS_v2, {
+    GetEventScheduleQuery,
+    GetEventScheduleQueryVariables
+  >(GET_EVENT_SCHEDULE, {
     variables: {
       year: parseInt(year),
       event: eventLocationDecode(eventLoc),
     },
   });
 
+  // Load grid elements
+  const { loading: loadingDetails, data: eventDetailsData } = useQuery<
+    GetEventDetailsQuery,
+    GetEventDetailsQueryVariables
+  >(GET_EVENT_DETAILS, {
+    skip:
+      loading || !data?.schedule?.[0]?.event_date
+        ? true
+        : new Date(data.schedule[0].event_date) >= new Date(),
+    variables: {
+      year: parseInt(year),
+      event: eventLocationDecode(eventLoc),
+    },
+  });
+
+  const sessions = useMemo(() => {
+    const eventDetails = eventDetailsData?.events[0];
+
+    return [
+      eventDetails?.competition,
+      eventDetails?.qualifying,
+      eventDetails?.practices,
+    ]
+      .flat() // Join Arrays
+      .filter((session) => !!session) // Filter empty
+      .sort(
+        (
+          sessionA,
+          sessionB, // Sort by start_time
+        ) =>
+          (sessionA?.scheduled_start_time_utc ?? '').localeCompare(
+            sessionB?.scheduled_start_time_utc ?? '',
+          ),
+      );
+  }, [eventDetailsData]);
+
   if (loading) return <FullHeightLoader />;
   if (error) return <ServerPageError msg='Failed to load event details.' />;
-  if (!data?.events || data?.events.length <= 0) {
+  if (!data?.schedule || data?.schedule.length <= 0) {
     // TODO: return to season page
-    return <ServerPageError msg='Event not found.' />;
+    return <ServerPageError msg={`Event, ${eventLoc}, not found`} />;
   }
 
-  const event = data?.events[0];
-  const sessions = [event?.competition, event?.qualifying, event?.practices]
-    .flat() // Join Arrays
-    .filter((session) => !!session) // Filter empty
-    .sort(
-      (
-        sessionA,
-        sessionB, // Sort by start_time
-      ) =>
-        (sessionA?.scheduled_start_time_utc ?? '').localeCompare(
-          sessionB?.scheduled_start_time_utc ?? '',
-        ),
-    );
-
+  const event = data.schedule[0];
   return (
     <main className='container mt-4 flex grid-cols-4 flex-col gap-4 lg:grid'>
       {/* Sidebar  */}
       <Sidebar
         allEvents={data?.dropdown_events}
-        event={data.events[0]}
+        event={data.schedule[0]}
         year={year}
       >
-        <div className='mb-2'>
-          <CheckboxToggle
-            toggle={() => setShowGrid((prev) => !prev)}
-            label='Show Provisional Results'
-          />
-        </div>
+        {event.event_date && new Date(event.event_date) < new Date() && (
+          <div className='mb-2'>
+            <CheckboxToggle
+              toggle={() => setShowGrid((prev) => !prev)}
+              label='Show Provisional Results'
+            />
+          </div>
+        )}
       </Sidebar>
 
       <div className='col-span-3'>
         <div className='grid gap-4'>
           {/* Sessions */}
-          {sessions.map((session) => (
-            <EventSession
-              key={session.scheduled_start_time_utc}
-              session={session}
-              grid={showGrid}
-            />
-          ))}
+          {Array.from({ length: 5 }, (_, i) => i + 1).map((sessionNumber) => {
+            const sessionDate =
+              event[`session${sessionNumber}_date_utc` as keyof typeof event];
+            return sessionDate && sessionDate !== 'NaT' ? (
+              <EventSession
+                time={String(sessionDate)}
+                name={String(
+                  event[`session${sessionNumber}` as keyof typeof event],
+                )}
+                key={String(sessionDate)}
+              >
+                {showGrid &&
+                  (loadingDetails ? (
+                    // TODO: Replace with sketelon
+                    <SkeletonProvisionalGrid />
+                  ) : (
+                    sessions.length > 0 && (
+                      <SessionProvisionalGrid
+                        key={sessions[sessionNumber - 1]?.name}
+                        session={sessions[sessionNumber - 1]}
+                      />
+                    )
+                  ))}
+              </EventSession>
+            ) : null;
+          })}
         </div>
       </div>
     </main>
@@ -106,9 +156,9 @@ const Sidebar = ({
   children,
 }: {
   year: string;
-  event: GetEventDetailsV2Query['events'][number];
+  event: GetEventScheduleQuery['schedule'][number];
   children?: React.ReactNode;
-  allEvents?: GetEventDetailsV2Query['dropdown_events'];
+  allEvents?: GetEventScheduleQuery['dropdown_events'];
 }) => {
   const router = useRouter();
 
@@ -117,7 +167,7 @@ const Sidebar = ({
     <div>
       {children}
 
-      <EventContainer event={{ ...event, official_name: '' }}>
+      <EventContainer event={{ ...event, event_name: '' }}>
         <div className='px-4'>
           <Select
             onValueChange={(loc) =>
@@ -125,18 +175,18 @@ const Sidebar = ({
             }
           >
             <SelectTrigger className='h-fit bg-inherit p-2 text-left text-lg font-black outline-0 outline-offset-4'>
-              {event.official_name}
+              {event.event_name}
             </SelectTrigger>
             <SelectContent align='center'>
               <SelectGroup>
                 {allEvents?.map((event) => (
                   <SelectItem
                     className='px-1'
-                    key={event.official_name}
+                    key={event.event_name}
                     value={event.location || ''}
                   >
                     {event.round_number}{' '}
-                    {event.official_name?.replace(/FORMULA 1/g, '')}
+                    {event.event_name?.replace(/Grand Prix/g, 'GP')}
                   </SelectItem>
                 ))}
               </SelectGroup>
@@ -144,7 +194,7 @@ const Sidebar = ({
           </Select>
         </div>
         <div className='bg-muted mt-4 rounded p-4'>
-          <Image src={circuit} alt={event.official_name || ''} />
+          <Image src={circuit} alt={event.official_event_name || ''} />
         </div>
       </EventContainer>
     </div>

@@ -102,7 +102,7 @@ export const getCountryFlagByCountryName = (country_code?: string) => {
   return icon || null;
 };
 
-export const eventLocationEncode = (location?: string) =>
+export const eventLocationEncode = (location?: string | null) =>
   !location ? null : location.replace(/ /g, '_').toLowerCase();
 
 export const eventLocationDecode = (location?: string) =>
