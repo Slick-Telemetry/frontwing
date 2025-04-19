@@ -1,12 +1,11 @@
 'use client';
 
 import { useSuspenseQuery } from '@apollo/client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { GET_STANDINGS } from '@/lib/queries';
 
-import SeasonSelector from '@/components/seasonSelector';
 import { ServerPageError } from '@/components/ServerError';
 
 import {
@@ -32,7 +31,7 @@ export const accessors = {
 };
 
 export const Standings = ({ season }: { season: number }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const searchParams = useSearchParams();
   // const season = selectedSeason || Number(searchParams.get('season')) || 2024;
   const chartType = searchParams.get('chart') || 'drivers';
@@ -49,11 +48,11 @@ export const Standings = ({ season }: { season: number }) => {
 
   if (error || !standings) return <ServerPageError />;
 
-  const changeChartType = (chart: 'drivers' | 'constructors') => {
-    const params = new URLSearchParams(searchParams);
-    params.set('chart', chart);
-    router.replace(`?${params.toString()}`);
-  };
+  // const changeChartType = (chart: 'drivers' | 'constructors') => {
+  //   const params = new URLSearchParams(searchParams);
+  //   params.set('chart', chart);
+  //   router.replace(`?${params.toString()}`);
+  // };
 
   const toggleDriverVisibility = (constructor: string, driver: string) => {
     if (!driver) return;
@@ -85,25 +84,6 @@ export const Standings = ({ season }: { season: number }) => {
 
   return (
     <div className='my-4 flex flex-col gap-4'>
-      {/* Chart Toggles */}
-      <div className='flex flex-col items-center gap-2 lg:flex-row lg:gap-4'>
-        <SeasonSelector year={season} />
-        <div className='grid w-full grid-cols-2 gap-4'>
-          <button
-            className={`w-full px-4 py-2 text-xs md:text-base ${chartType === 'drivers' ? 'border-b-2 border-blue-600' : ''}`}
-            onClick={() => changeChartType('drivers')}
-          >
-            Drivers
-          </button>
-          <button
-            className={`w-full px-4 py-2 text-xs md:text-base ${chartType === 'constructors' ? 'border-b-2 border-blue-600' : ''}`}
-            onClick={() => changeChartType('constructors')}
-          >
-            Constructors
-          </button>
-        </div>
-      </div>
-
       {/* Charts */}
       {chartType === 'drivers' ? (
         <DriverStandingsChart
