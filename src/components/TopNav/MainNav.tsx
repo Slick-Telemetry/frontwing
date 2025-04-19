@@ -48,12 +48,16 @@ export function MainNav() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
-            <Link href='/standings'>Standings</Link>
+            {/* TODO: Get value from lastest year in schedule */}
+            <Link href={`/${new Date().getFullYear()}/standings`}>
+              Standings
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href='/map'>Map</Link>
+            {/* TODO: Get value from lastest year in schedule */}
+            <Link href={`/${new Date().getFullYear()}/map`}>Map</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
