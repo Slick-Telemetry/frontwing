@@ -1,3 +1,13 @@
+## 0.5.2 (2025-04-19)
+
+### Fix
+
+- FRON-132 landing page bg image to load properly
+
+### Refactor
+
+- small change to server error comp
+
 ## 0.5.1 (2025-04-17)
 
 ### Fix
