@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "cypress:open": "cypress open",
+    "cy:setup": "pnpm config set side-effects-cache false --location project",
+    "cy:open": "cypress open",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "next lint",
@@ -111,5 +112,10 @@
     "node": "22.x",
     "pnpm": "10.x"
   },
-  "packageManager": "pnpm@10.10.0"
+  "packageManager": "pnpm@10.10.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "cypress"
+    ]
+  }
 }

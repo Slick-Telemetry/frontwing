@@ -25,6 +25,7 @@ import {
   SkeletonProvisionalGrid,
 } from '@/app/[year]/[event]/EventSession';
 import { EventContainer } from '@/app/[year]/EventContainer';
+import NotFound from '@/app/not-found';
 import {
   GetEventDetailsQuery,
   GetEventDetailsQueryVariables,
@@ -90,8 +91,8 @@ const EventPage = ({
   if (loading) return <FullHeightLoader />;
   if (error) return <ServerPageError msg='Failed to load event details.' />;
   if (!data?.schedule || data?.schedule.length <= 0) {
-    // TODO: return to season page
-    return <ServerPageError msg={`Event, ${eventLoc}, not found`} />;
+    // TODO: return to season page and show not found warning
+    return <NotFound />;
   }
 
   const event = data.schedule[0];
