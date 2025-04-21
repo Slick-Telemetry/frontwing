@@ -128,7 +128,7 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 
 - **Running Cypress**
 
-  - `pnpm run cypress:open`
+  - `pnpm cy:open`
 
 ## Deployment
 
