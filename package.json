@@ -9,6 +9,7 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "build:test": "TESTING=true next build",
+    "cy:setup": "pnpm config set side-effects-cache false --location project",
     "cy:open": "cypress open",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -114,4 +115,9 @@
     "pnpm": "10.x"
   },
   "packageManager": "pnpm@10.13.1"
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "cypress"
+    ]
+  }
 }

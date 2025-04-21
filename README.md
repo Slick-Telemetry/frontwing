@@ -84,6 +84,14 @@ pnpm cy:open
 
 Run `pnpm build:test` to **build for testing**, when trying to test production code we need to omit certain components from vercel
 
+- **Background**
+
+  - Cypress uses chai based assertions
+
+- **Running Cypress**
+
+  - `pnpm cy:open`
+
 ## Deployment
 
 The site is deployed at https://slicktelemetry.com using Vercel.
