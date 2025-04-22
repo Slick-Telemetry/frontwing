@@ -1,12 +1,14 @@
 'use client';
 
 import { QueryRef, useBackgroundQuery, useReadQuery } from '@apollo/client';
-import { curveBasis, curveCatmullRom } from '@visx/curve';
+import { curveCatmullRom } from '@visx/curve';
 import { ParentSize } from '@visx/responsive';
 import { Axis, Grid, LineSeries, Tooltip, XYChart } from '@visx/xychart';
+import { useParams } from 'next/navigation';
 import React, { Suspense } from 'react';
 
 import { GET_SESSION_LAP_TIMES } from '@/lib/queries';
+import { eventLocationDecode } from '@/lib/utils';
 
 import { FullHeightLoader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
@@ -14,19 +16,39 @@ import { ServerPageError } from '@/components/ServerError';
 import {
   GetSessionLapTimesQuery,
   GetSessionLapTimesQueryVariables,
+  Session_Name_Choices_Enum,
 } from '@/generated/types';
 
 const margin = { top: 20, right: 30, bottom: 50, left: 60 };
 
-const LapTimeContainer = ({ id }: { id: string }) => {
+const LapTimeContainer = () => {
+  const { year, event, session } = useParams();
+
   const [queryRef] = useBackgroundQuery<
     GetSessionLapTimesQuery,
     GetSessionLapTimesQueryVariables
-  >(GET_SESSION_LAP_TIMES, { variables: { id: id } });
+  >(GET_SESSION_LAP_TIMES, {
+    variables: {
+      year: parseInt(year as string),
+      event: eventLocationDecode(event as string),
+      session: eventLocationDecode(
+        session as string,
+      ) as Session_Name_Choices_Enum,
+    },
+  });
+
+  const competition = [
+    'sprint_qualifying',
+    'race',
+    'sprint',
+    'sprint_shootout',
+    'qualifying',
+  ].includes(session as string);
 
   return (
     <Suspense fallback={<FullHeightLoader />}>
-      <DeltaToWinner queryRef={queryRef} />
+      {session && competition && <DeltaToWinner queryRef={queryRef} />}
+      {/* {session && competition && <PositionChanges queryRef={queryRef} />} */}
       <LapTimes queryRef={queryRef} />
     </Suspense>
   );
@@ -46,17 +68,17 @@ const DeltaToWinner = ({
 
   return (
     <div className='grid gap-4'>
-      <LineChart title='Delta to Winner'>
+      <LineChart title='Delta to Fastest Lap (Practice) or Winner'>
         {driverData.map((driver) => {
           const color = `#${driver.constructorByConstructorId?.color || 'cccccc'}`;
           const lapData = driver.laps
-            .filter((lap) => !!lap.lap_time)
+            .filter((lap) => !!lap.lap_number)
             .map((lap, i) => {
               return {
                 ...lap,
                 delta_time:
-                  (Number(firstPlaceLaps[i].session_time) -
-                    Number(lap.session_time)) /
+                  (Number(firstPlaceLaps[i]?.session_time || 0) -
+                    Number(lap.session_time || 0)) /
                   1000,
                 color: color,
               };
@@ -132,17 +154,17 @@ const LapTimes = ({
 
   return (
     <div className='grid gap-4'>
-      <LineChart title='Lap Times'>
+      <LineChart title='Raw Lap Times' yScaleType='log'>
         {data.sessions[0].driver_sessions.map((driver) => {
           // console.log('lap difference',  Number(driver.laps[0].lap_time) - Number(fastestLap))
           const color = `#${driver.constructorByConstructorId?.color || 'cccccc'}`;
           return (
             <LineSeries
-              curve={curveBasis}
+              curve={curveCatmullRom}
               key={driver.driver?.abbreviation}
               dataKey={driver.driver?.abbreviation as string}
               data={driver.laps
-                .filter((lap) => !!lap.lap_time)
+                .filter((lap) => !!lap.lap_number)
                 .map((lap) => {
                   return {
                     ...lap,
@@ -154,7 +176,7 @@ const LapTimes = ({
               colorAccessor={() => color}
               strokeWidth={2}
               xAccessor={(d) => d.lap_number}
-              yAccessor={(d) => d.delta_time}
+              yAccessor={(d) => d.lap_time}
             />
           );
         })}
@@ -186,10 +208,15 @@ const LapTimes = ({
 
 interface LineChartProps {
   title: React.ReactNode;
+  yScaleType?: 'linear' | 'log';
   children: React.ReactNode;
 }
 
-const LineChart: React.FC<LineChartProps> = ({ title, children }) => (
+const LineChart: React.FC<LineChartProps> = ({
+  title,
+  children,
+  yScaleType = 'linear',
+}) => (
   <div className='rounded border p-2'>
     {title}
     <div className='h-[500px]'>
@@ -200,8 +227,8 @@ const LineChart: React.FC<LineChartProps> = ({ title, children }) => (
             width={width}
             xScale={{ type: 'band', padding: 0.1 }}
             yScale={{
-              type: 'linear',
-              nice: true,
+              type: yScaleType,
+              nice: yScaleType === 'linear',
               //   domain: [-25000, 0]
             }}
             margin={margin}

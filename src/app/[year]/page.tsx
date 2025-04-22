@@ -59,7 +59,7 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
                         return sessionDate && sessionDate !== 'NaT' ? (
                           <SessionTime
                             key={String(sessionDate)}
-                            id={String(sessionDate)}
+                            event={event.location}
                             time={String(sessionDate)}
                             name={String(
                               event[

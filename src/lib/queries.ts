@@ -314,14 +314,23 @@ export const GET_STANDINGS = gql`
 `;
 
 export const GET_SESSION_RESULTS = gql`
-  query SessionResults($id: String!) {
-    sessions(where: { id: { _eq: $id } }) {
+  query SessionResults(
+    $year: Int!
+    $event: String!
+    $session: session_name_choices_enum!
+  ) {
+    sessions(
+      limit: 1
+      where: {
+        event: { year: { _eq: $year }, location: { _eq: $event } }
+        name: { _eq: $session }
+      }
+    ) {
       name
       event {
         name
       }
       driver_sessions {
-        id
         constructorByConstructorId {
           name
           color
@@ -367,8 +376,18 @@ export const GET_SESSION_RESULTS = gql`
 `;
 
 export const GET_SESSION_STINTS = gql`
-  query GetSessionStints($session: String!) {
-    sessions(where: { id: { _eq: $session } }) {
+  query GetSessionStints(
+    $year: Int!
+    $event: String!
+    $session: session_name_choices_enum!
+  ) {
+    sessions(
+      limit: 1
+      where: {
+        event: { year: { _eq: $year }, location: { _eq: $event } }
+        name: { _eq: $session }
+      }
+    ) {
       driver_sessions {
         driver {
           abbreviation
@@ -388,10 +407,19 @@ export const GET_SESSION_STINTS = gql`
 `;
 
 export const GET_SESSION_LAP_TIMES = gql`
-  query GetSessionLapTimes($id: String!) {
-    sessions(where: { id: { _eq: $id } }) {
+  query GetSessionLapTimes(
+    $year: Int!
+    $event: String!
+    $session: session_name_choices_enum!
+  ) {
+    sessions(
+      limit: 1
+      where: {
+        event: { year: { _eq: $year }, location: { _eq: $event } }
+        name: { _eq: $session }
+      }
+    ) {
       driver_sessions {
-        id
         constructorByConstructorId {
           name
           color
@@ -401,7 +429,7 @@ export const GET_SESSION_LAP_TIMES = gql`
           full_name
           number
         }
-        laps {
+        laps(order_by: { lap_number: asc }) {
           lap_number
           lap_time
           compound
