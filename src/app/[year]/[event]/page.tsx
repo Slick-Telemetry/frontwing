@@ -104,6 +104,7 @@ const EventPage = ({
         event={data.schedule[0]}
         year={year}
       >
+        {/* If event is in the past */}
         {event.event_date && new Date(event.event_date) < new Date() && (
           <div className='mb-2'>
             <CheckboxToggle

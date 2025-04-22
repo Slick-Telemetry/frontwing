@@ -11,7 +11,7 @@ export const EventContainer = ({
   event: SeasonEvent;
   children: React.ReactNode;
 }) => {
-  if (!event || !event.event_name) return null;
+  if (!event) return null;
   const {
     year,
     event_name,
