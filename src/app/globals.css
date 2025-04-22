@@ -3,51 +3,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(222.2 84% 4.9%);
-
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(222.2 84% 4.9%);
-
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(222.2 84% 4.9%);
-
-  --primary: hsl(222.2 47.4% 11.2%);
-  --primary-foreground: hsl(210 40% 98%);
-
-  --secondary: hsl(210 40% 96.1%);
-  --secondary-foreground: hsl(222.2 47.4% 11.2%);
-
-  --muted: hsl(210 40% 96.1%);
-  --muted-foreground: hsl(215.4 16.3% 46.9%);
-
-  --accent: hsl(210 40% 96.1%);
-  --accent-foreground: hsl(222.2 47.4% 11.2%);
-
-  --destructive: hsl(0 84.2% 60.2%);
-  --destructive-foreground: hsl(210 40% 98%);
-
-  --border: hsl(214.3 31.8% 91.4%);
-  --input: hsl(214.3 31.8% 91.4%);
-  --ring: hsl(222.2 84% 4.9%);
-
-  --soft-new: hsl(6 78% 63%);
-  --soft-old: hsl(6 79% 48%);
-  --medium-new: hsl(48 89% 62%);
-  --medium-old: hsl(38 85% 61%);
-  --hard-new: hsl(192 16% 92%);
-  --hard-old: hsl(192 15% 74%);
-  --intermediate-new: hsl(145 63% 53%);
-  --intermediate-old: hsl(145 65% 40%);
-  --wet-new: hsl(204 70% 53%);
-  --wet-old: hsl(204 67% 41%);
-  --unknown-new: hsl(282 35% 58%);
-  --unknown-old: hsl(282 39% 45%);
-
-  --radius: 0.5rem;
-}
-
-.dark {
   --background: hsl(222.2 84% 4.9%);
   --foreground: hsl(210 40% 98%);
 
@@ -76,8 +31,26 @@
   --input: hsl(217.2 32.6% 17.5%);
   --ring: hsl(212.7 26.8% 83.9%);
 
+  --soft-new: hsl(6 78% 63%);
+  --soft-old: hsl(6 79% 48%);
+  --supersoft-new: hsl(6 78% 73%);
+  --supersoft-old: hsl(6 79% 58%);
+  --medium-new: hsl(48 89% 62%);
+  --medium-old: hsl(38 85% 61%);
   --hard-new: hsl(192 16% 92%);
   --hard-old: hsl(192 15% 74%);
+  --intermediate-new: hsl(145 63% 53%);
+  --intermediate-old: hsl(145 65% 40%);
+  --wet-new: hsl(204 70% 53%);
+  --wet-old: hsl(204 67% 41%);
+  --ultrasoft-new: hsl(305 100% 80%);
+  --ultrasoft-old: hsl(305 100% 50%);
+  --hypersoft-new: hsl(348 100% 85%);
+  --hypersoft-old: hsl(348 100% 65%);
+  --unknown-new: hsl(282 35% 58%);
+  --unknown-old: hsl(282 39% 45%);
+
+  --radius: 0.5rem;
 }
 
 @theme {
@@ -114,19 +87,6 @@
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
-
-  --color-soft-new: var(--soft-new);
-  --color-soft-old: var(--soft-old);
-  --color-medium-new: var(--medium-new);
-  --color-medium-old: var(--medium-old);
-  --color-hard-new: var(--hard-new);
-  --color-hard-old: var(--hard-old);
-  --color-intermediate-new: var(--intermediate-new);
-  --color-intermediate-old: var(--intermediate-old);
-  --color-wet-new: var(--wet-new);
-  --color-wet-old: var(--wet-old);
-  --color-unknown-new: var(--unknown-new);
-  --color-unknown-old: var(--unknown-old);
 
   @keyframes accordion-down {
     from {

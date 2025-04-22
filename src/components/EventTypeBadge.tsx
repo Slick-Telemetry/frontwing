@@ -11,7 +11,7 @@ export const EventTypeBadge = ({
     <Badge
       data-cy='event-badge'
       className='z-10 w-fit rounded-full'
-      variant='default'
+      variant='secondary'
     >
       Sprint
     </Badge>
