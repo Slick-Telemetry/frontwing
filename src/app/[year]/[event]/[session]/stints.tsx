@@ -5,15 +5,16 @@ import { PatternLines } from '@visx/pattern';
 import { ParentSize } from '@visx/responsive';
 import {
   AnimatedBarSeries,
-  AnimatedBarStack,
   Axis,
+  BarStack,
   Tooltip,
   XYChart,
 } from '@visx/xychart';
+import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 
 import { GET_SESSION_STINTS } from '@/lib/queries';
-import { TYRE_COLORS } from '@/lib/tyre-colors';
+import { eventLocationDecode } from '@/lib/utils';
 
 import { Loader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
@@ -21,6 +22,7 @@ import { ServerPageError } from '@/components/ServerError';
 import {
   GetSessionStintsQuery,
   GetSessionStintsQueryVariables,
+  Session_Name_Choices_Enum,
 } from '@/generated/types';
 
 const margin = { top: 0, right: 30, bottom: 72, left: 60 };
@@ -37,15 +39,26 @@ type Stint = {
 type StintMap = Record<number, Stint>;
 
 // Chart Component
-const Stints = ({ id }: { id: string }) => {
+const Stints = () => {
+  const { year, event, session } = useParams();
+
   const {
     data: sessionData,
     loading,
     error,
   } = useQuery<GetSessionStintsQuery, GetSessionStintsQueryVariables>(
     GET_SESSION_STINTS,
-    { variables: { session: id } },
+    {
+      variables: {
+        year: parseInt(year as string),
+        event: eventLocationDecode(event as string),
+        session: eventLocationDecode(
+          session as string,
+        ) as Session_Name_Choices_Enum,
+      },
+    },
   );
+
   // 🛠️ Process data for BarStack
   const data = useMemo(() => {
     let maxLaps = 0; // Track the largest endLap
@@ -113,15 +126,10 @@ const Stints = ({ id }: { id: string }) => {
               {processedData?.flatMap((driverData) =>
                 driverData.stints.map((stint) => {
                   if (!stint.freshTyre) {
-                    const compound =
-                      TYRE_COLORS[
-                        stint.tyreCompound as keyof typeof TYRE_COLORS
-                      ] || TYRE_COLORS.unknown;
-
+                    const compound = stint.tyreCompound.toLowerCase();
                     const type = stint.freshTyre ? 'new' : 'old';
-                    const compoundColor = compound[type]; // Calculate compoundColor here
-
                     const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
+
                     return (
                       <PatternLines
                         key={patternId}
@@ -131,7 +139,7 @@ const Stints = ({ id }: { id: string }) => {
                         stroke='black'
                         strokeWidth={1}
                         orientation={['diagonal']}
-                        background={compoundColor} // Use the calculated compoundColor
+                        background={`var(--color-${compound}-${type})`} // Use the calculated compoundColor
                       />
                     );
                   }
@@ -164,19 +172,13 @@ const Stints = ({ id }: { id: string }) => {
 
             {/* Stacked Bars for Stints */}
             {processedData?.flatMap((driverData) => (
-              <AnimatedBarStack>
+              <BarStack>
                 {driverData.stints.map((stint) => {
-                  const compound =
-                    TYRE_COLORS[
-                      stint.tyreCompound as keyof typeof TYRE_COLORS
-                    ] || TYRE_COLORS.unknown;
-
+                  const compound = stint.tyreCompound.toLowerCase();
                   const type = stint.freshTyre ? 'new' : 'old';
-                  const compoundColor = compound[type];
 
                   // Define a pattern ID for old tyres
                   const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
-
                   return (
                     <AnimatedBarSeries
                       radius={4}
@@ -187,12 +189,14 @@ const Stints = ({ id }: { id: string }) => {
                       xAccessor={(d) => d.endLap - d.startLap + 1}
                       yAccessor={(d) => d.driver}
                       colorAccessor={() =>
-                        stint.freshTyre ? compoundColor : `url(#${patternId})`
+                        stint.freshTyre
+                          ? `var(--color-${compound}-${type})`
+                          : `url(#${patternId})`
                       } // Use pattern for old tyres
                     />
                   );
                 })}
-              </AnimatedBarStack>
+              </BarStack>
             ))}
 
             {/* Tooltip */}
@@ -209,23 +213,8 @@ const Stints = ({ id }: { id: string }) => {
                   freshTyre,
                   driver,
                 } = tooltipData.nearestDatum.datum as Stint;
-                const compound =
-                  TYRE_COLORS[tyreCompound as keyof typeof TYRE_COLORS] ||
-                  TYRE_COLORS.unknown;
-                const type = freshTyre ? 'new' : 'old';
-                const compoundColor = compound[type];
-                // for softs the text color is white
-                const textColor = tyreCompound === 'SOFT' ? 'white' : 'inherit';
                 return (
-                  <div
-                    className=''
-                    style={{
-                      backgroundColor: compoundColor,
-                      color: textColor,
-                      padding: '0.5rem',
-                      borderRadius: '4px',
-                    }}
-                  >
+                  <>
                     <div>
                       <strong>
                         <u>{driver}</u>
@@ -246,7 +235,7 @@ const Stints = ({ id }: { id: string }) => {
                     <div>
                       <strong>Condition:</strong> {freshTyre ? 'NEW' : 'OLD'}
                     </div>
-                  </div>
+                  </>
                 );
               }}
             />

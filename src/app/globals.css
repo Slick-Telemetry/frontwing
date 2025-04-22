@@ -31,6 +31,19 @@
   --input: hsl(214.3 31.8% 91.4%);
   --ring: hsl(222.2 84% 4.9%);
 
+  --soft-new: hsl(6 78% 63%);
+  --soft-old: hsl(6 79% 48%);
+  --medium-new: hsl(48 89% 62%);
+  --medium-old: hsl(38 85% 61%);
+  --hard-new: hsl(192 16% 92%);
+  --hard-old: hsl(192 15% 74%);
+  --intermediate-new: hsl(145 63% 53%);
+  --intermediate-old: hsl(145 65% 40%);
+  --wet-new: hsl(204 70% 53%);
+  --wet-old: hsl(204 67% 41%);
+  --unknown-new: hsl(282 35% 58%);
+  --unknown-old: hsl(282 39% 45%);
+
   --radius: 0.5rem;
 }
 
@@ -62,6 +75,9 @@
   --border: hsl(217.2 32.6% 17.5%);
   --input: hsl(217.2 32.6% 17.5%);
   --ring: hsl(212.7 26.8% 83.9%);
+
+  --hard-new: hsl(192 16% 92%);
+  --hard-old: hsl(192 15% 74%);
 }
 
 @theme {
@@ -98,6 +114,19 @@
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  --color-soft-new: var(--soft-new);
+  --color-soft-old: var(--soft-old);
+  --color-medium-new: var(--medium-new);
+  --color-medium-old: var(--medium-old);
+  --color-hard-new: var(--hard-new);
+  --color-hard-old: var(--hard-old);
+  --color-intermediate-new: var(--intermediate-new);
+  --color-intermediate-old: var(--intermediate-old);
+  --color-wet-new: var(--wet-new);
+  --color-wet-old: var(--wet-old);
+  --color-unknown-new: var(--unknown-new);
+  --color-unknown-old: var(--unknown-old);
 
   @keyframes accordion-down {
     from {
