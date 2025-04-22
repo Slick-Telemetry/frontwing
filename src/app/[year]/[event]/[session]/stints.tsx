@@ -139,7 +139,7 @@ const Stints = () => {
                         stroke='black'
                         strokeWidth={1}
                         orientation={['diagonal']}
-                        background={`var(--color-${compound}-${type})`} // Use the calculated compoundColor
+                        background={`var(--${compound}-${type})`} // Use the calculated compoundColor
                       />
                     );
                   }
@@ -190,7 +190,7 @@ const Stints = () => {
                       yAccessor={(d) => d.driver}
                       colorAccessor={() =>
                         stint.freshTyre
-                          ? `var(--color-${compound}-${type})`
+                          ? `var(--${compound}-${type})`
                           : `url(#${patternId})`
                       } // Use pattern for old tyres
                     />
