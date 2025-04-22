@@ -1,6 +1,8 @@
 import { CalendarPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
+import { eventLocationEncode } from '@/lib/utils';
+
 // const sessionTitles: Record<Session_Name_Choices_Enum, string> = {
 //   [Session_Name_Choices_Enum.Practice_1]: 'FP1',
 //   [Session_Name_Choices_Enum.Practice_2]: 'FP2',
@@ -26,21 +28,26 @@ const sessionTitles: Record<string, string> = {
 };
 
 export const SessionTime = ({
-  id,
+  event,
   time,
   name,
 }: {
-  id?: string | null;
   time?: string | null;
   name?: string | null;
+  event?: string | null;
   // name?: Session_Name_Choices_Enum | null;
 }) => {
   const router = useRouter();
   const futureEvent = new Date(time || '').getTime() > Date.now();
+  const year = new Date(time || '').getFullYear();
   return (
     <div
       className='flex cursor-pointer items-center gap-2 px-4 hover:underline'
-      onClick={() => router.push('/session/' + id)}
+      onClick={() =>
+        router.push(
+          `${year}/${eventLocationEncode(event)}/${eventLocationEncode(name)}`,
+        )
+      }
     >
       {name && (
         <div className='flex h-full items-center justify-center py-2'>

@@ -2799,10 +2799,6 @@ export type Laps_Variance_Order_By = {
   tyre_life?: InputMaybe<Order_By>;
 };
 
-/** mutation root */
-
-};
-  updates: Array<Weather_Data_Updates>;
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
 export type Numeric_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['numeric']['input']>;
@@ -7981,7 +7977,9 @@ export type GetStandingsQuery = {
 };
 
 export type SessionResultsQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  year: Scalars['Int']['input'];
+  event: Scalars['String']['input'];
+  session: Session_Name_Choices_Enum;
 }>;
 
 export type SessionResultsQuery = {
@@ -7992,7 +7990,6 @@ export type SessionResultsQuery = {
     event?: { __typename?: 'events'; name?: string | null } | null;
     driver_sessions: Array<{
       __typename?: 'driver_sessions';
-      id: string;
       constructorByConstructorId?: {
         __typename?: 'constructors';
         name?: string | null;
@@ -8044,7 +8041,9 @@ export type SessionResultsQuery = {
 };
 
 export type GetSessionStintsQueryVariables = Exact<{
-  session: Scalars['String']['input'];
+  year: Scalars['Int']['input'];
+  event: Scalars['String']['input'];
+  session: Session_Name_Choices_Enum;
 }>;
 
 export type GetSessionStintsQuery = {
@@ -8070,7 +8069,9 @@ export type GetSessionStintsQuery = {
 };
 
 export type GetSessionLapTimesQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  year: Scalars['Int']['input'];
+  event: Scalars['String']['input'];
+  session: Session_Name_Choices_Enum;
 }>;
 
 export type GetSessionLapTimesQuery = {
@@ -8079,7 +8080,6 @@ export type GetSessionLapTimesQuery = {
     __typename?: 'sessions';
     driver_sessions: Array<{
       __typename?: 'driver_sessions';
-      id: string;
       constructorByConstructorId?: {
         __typename?: 'constructors';
         name?: string | null;
@@ -8098,16 +8098,6 @@ export type GetSessionLapTimesQuery = {
         compound?: Tyre_Compounds_Enum | null;
         session_time?: bigint | null;
       }>;
-      fastest_lap: {
-        __typename?: 'laps_aggregate';
-        aggregate?: {
-          __typename?: 'laps_aggregate_fields';
-          min?: {
-            __typename?: 'laps_min_fields';
-            lap_time?: bigint | null;
-          } | null;
-        } | null;
-      };
     }>;
   }>;
 };
@@ -9150,14 +9140,23 @@ export type GetStandingsQueryResult = Apollo.QueryResult<
   GetStandingsQueryVariables
 >;
 export const SessionResultsDocument = gql`
-  query SessionResults($id: String!) {
-    sessions(where: { id: { _eq: $id } }) {
+  query SessionResults(
+    $year: Int!
+    $event: String!
+    $session: session_name_choices_enum!
+  ) {
+    sessions(
+      limit: 1
+      where: {
+        event: { year: { _eq: $year }, location: { _eq: $event } }
+        name: { _eq: $session }
+      }
+    ) {
       name
       event {
         name
       }
       driver_sessions {
-        id
         constructorByConstructorId {
           name
           color
@@ -9214,7 +9213,9 @@ export const SessionResultsDocument = gql`
  * @example
  * const { data, loading, error } = useSessionResultsQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      year: // value for 'year'
+ *      event: // value for 'event'
+ *      session: // value for 'session'
  *   },
  * });
  */
@@ -9277,8 +9278,18 @@ export type SessionResultsQueryResult = Apollo.QueryResult<
   SessionResultsQueryVariables
 >;
 export const GetSessionStintsDocument = gql`
-  query GetSessionStints($session: String!) {
-    sessions(where: { id: { _eq: $session } }) {
+  query GetSessionStints(
+    $year: Int!
+    $event: String!
+    $session: session_name_choices_enum!
+  ) {
+    sessions(
+      limit: 1
+      where: {
+        event: { year: { _eq: $year }, location: { _eq: $event } }
+        name: { _eq: $session }
+      }
+    ) {
       driver_sessions {
         driver {
           abbreviation
@@ -9309,6 +9320,8 @@ export const GetSessionStintsDocument = gql`
  * @example
  * const { data, loading, error } = useGetSessionStintsQuery({
  *   variables: {
+ *      year: // value for 'year'
+ *      event: // value for 'event'
  *      session: // value for 'session'
  *   },
  * });
@@ -9372,10 +9385,19 @@ export type GetSessionStintsQueryResult = Apollo.QueryResult<
   GetSessionStintsQueryVariables
 >;
 export const GetSessionLapTimesDocument = gql`
-  query GetSessionLapTimes($id: String!) {
-    sessions(where: { id: { _eq: $id } }) {
+  query GetSessionLapTimes(
+    $year: Int!
+    $event: String!
+    $session: session_name_choices_enum!
+  ) {
+    sessions(
+      limit: 1
+      where: {
+        event: { year: { _eq: $year }, location: { _eq: $event } }
+        name: { _eq: $session }
+      }
+    ) {
       driver_sessions {
-        id
         constructorByConstructorId {
           name
           color
@@ -9390,13 +9412,6 @@ export const GetSessionLapTimesDocument = gql`
           lap_time
           compound
           session_time
-        }
-        fastest_lap: laps_aggregate {
-          aggregate {
-            min {
-              lap_time
-            }
-          }
         }
       }
     }
@@ -9415,7 +9430,9 @@ export const GetSessionLapTimesDocument = gql`
  * @example
  * const { data, loading, error } = useGetSessionLapTimesQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      year: // value for 'year'
+ *      event: // value for 'event'
+ *      session: // value for 'session'
  *   },
  * });
  */

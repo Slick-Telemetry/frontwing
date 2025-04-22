@@ -4,29 +4,48 @@ import { useSuspenseQuery } from '@apollo/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { GET_SESSION_RESULTS } from '@/lib/queries';
-import { bgGradient } from '@/lib/utils';
+import { bgGradient, eventLocationDecode } from '@/lib/utils';
 
 import { FloatingNumber } from '@/components/FloatingNumber';
 import { ServerPageError } from '@/components/ServerError';
 
+import LapTimeContainer from '@/app/[year]/[event]/[session]/lapTimes';
+import SectorTimes from '@/app/[year]/[event]/[session]/sectorTimes';
+import Stints from '@/app/[year]/[event]/[session]/stints';
 import {
+  Session_Name_Choices_Enum,
   SessionResultsQuery,
   SessionResultsQueryVariables,
 } from '@/generated/types';
 
-import LapTimeContainer from './lapTimes';
-import SectorTimes from './sectorTimes';
-import Stints from './stints';
+// import LapTimeContainer from './lapTimes';
+// import SectorTimes from './sectorTimes';
+// import Stints from './stints';
 
-export const SessionResults = ({ id }: { id: string }) => {
+export const SessionResults = ({
+  year,
+  event,
+  session: sessionBlob,
+}: {
+  year: string;
+  event: string;
+  session: string;
+}) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const view = searchParams.get('view') || 'grid';
+  const chart = searchParams.get('chart') || 'laps';
 
   const { data, error } = useSuspenseQuery<
     SessionResultsQuery,
     SessionResultsQueryVariables
-  >(GET_SESSION_RESULTS, { variables: { id: id } });
+  >(GET_SESSION_RESULTS, {
+    variables: {
+      year: parseInt(year),
+      event: eventLocationDecode(event),
+      session: eventLocationDecode(sessionBlob) as Session_Name_Choices_Enum,
+    },
+  });
 
   if (error || !data.sessions) return <ServerPageError />;
 
@@ -87,7 +106,7 @@ export const SessionResults = ({ id }: { id: string }) => {
         <div className='grid gap-4 lg:grid-cols-5'>
           {driverSessions.map((ds, i) => (
             <SessionCard
-              key={ds.id}
+              key={ds.driver?.full_name}
               driverSession={ds}
               position={Number(ds.results?.[0]?.classified_position || i + 1)}
             />
@@ -95,22 +114,29 @@ export const SessionResults = ({ id }: { id: string }) => {
         </div>
       )}
       {view === 'charts' && (
-        <ChartView id={id} driverSessions={driverSessions} />
+        <ChartViewController
+        // id={id}
+        >
+          {chart === 'laps' && <LapTimeContainer />}
+          {chart === 'sectors' && (
+            <SectorTimes driverSessions={driverSessions} />
+          )}
+          {chart === 'stints' && <Stints />}
+        </ChartViewController>
       )}
     </>
   );
 };
 
-const ChartView = ({
-  driverSessions,
-  id,
+const ChartViewController = ({
+  children,
+  // id,
 }: {
-  driverSessions: SessionResultsQuery['sessions'][0]['driver_sessions'];
-  id: string;
+  children: React.ReactNode;
+  // id: string;
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const view = searchParams.get('chart') || 'laps';
   const chargeChart = (chart: 'sectors' | 'laps' | 'stints') => {
     const params = new URLSearchParams(searchParams);
     params.set('chart', chart);
@@ -145,10 +171,7 @@ const ChartView = ({
           Top Speeds
         </div>
       </div>
-
-      {view === 'laps' && <LapTimeContainer id={id} />}
-      {view === 'sectors' && <SectorTimes driverSessions={driverSessions} />}
-      {view === 'stints' && <Stints id={id} />}
+      {children}
     </>
   );
 };

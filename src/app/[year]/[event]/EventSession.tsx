@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { formatDuration } from '@/lib/helpers';
+import { eventLocationEncode } from '@/lib/utils';
 
 import { GetEventDetailsQuery } from '@/generated/types';
 
@@ -68,7 +69,9 @@ export const EventSession = ({
       <div className='bg-secondary text-secondary-foreground flex w-full items-center justify-between p-4 py-2'>
         <div>
           <h2
-            onClick={() => router.push(`${pathname}/${name?.toLowerCase()}`)}
+            onClick={() =>
+              router.push(`${pathname}/${eventLocationEncode(name)}`)
+            }
             className='mr-auto text-2xl font-black hover:underline'
           >
             {name?.replace(/_/g, ' ')}
