@@ -1,11 +1,5 @@
 import { ParentSize } from '@visx/responsive';
-import {
-  AnimatedAxis,
-  AnimatedGrid,
-  darkTheme,
-  Tooltip,
-  XYChart,
-} from '@visx/xychart';
+import { Axis, darkTheme, Grid, Tooltip, XYChart } from '@visx/xychart';
 import clsx from 'clsx';
 
 import { Standings } from '.';
@@ -23,24 +17,24 @@ export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
             xScale={{ type: 'band' }}
             yScale={{ type: 'linear', nice: true }}
           >
-            <AnimatedAxis
+            <Axis
               orientation='bottom'
               label='Round'
               labelClassName='text-lg'
-              animationTrajectory='min'
+              // animationTrajectory='min'
               numTicks={24}
             />
-            <AnimatedAxis
+            <Axis
               orientation='right'
               label='Points'
               labelClassName='text-lg'
               labelOffset={16}
-              animationTrajectory='min'
+              // animationTrajectory='min'
             />
-            <AnimatedGrid
+            <Grid
               strokeDasharray='3 6'
               strokeWidth={1}
-              animationTrajectory='min'
+              // animationTrajectory='min'
             />
             {children}
             <Tooltip
