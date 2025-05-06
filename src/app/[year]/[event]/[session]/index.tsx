@@ -137,37 +137,58 @@ const ChartViewController = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const chargeChart = (chart: 'sectors' | 'laps' | 'stints') => {
+
+  // Helper to check if a tab is active, similar to header.tsx
+  const isActive = (tab: string) => {
+    if (tab === 'laps') {
+      return !searchParams.get('chart') || searchParams.get('chart') === 'laps';
+    }
+    return searchParams.get('chart') === tab;
+  };
+
+  const chargeChart = (tab: 'sectors' | 'laps' | 'stints') => {
     const params = new URLSearchParams(searchParams);
-    params.set('chart', chart);
+    params.set('chart', tab);
     router.replace(`?${params.toString()}`);
   };
+
+  const tabClass = (tab: string) =>
+    `flex h-8 w-full items-center justify-center rounded border transition-colors
+    ${
+      isActive(tab)
+        ? 'bg-white text-black font-semibold'
+        : 'border outline-none hover:bg-muted cursor-pointer'
+    }
+    `;
 
   return (
     <>
       <div className='grid grid-cols-5 gap-4 py-4'>
-        <div
-          onClick={() => chargeChart('laps')}
-          className='flex h-8 w-full items-center justify-center rounded border'
-        >
+        <div onClick={() => chargeChart('laps')} className={tabClass('laps')}>
           Laps Chart
         </div>
         <div
           onClick={() => chargeChart('sectors')}
-          className='flex h-8 w-full items-center justify-center rounded border'
+          className={tabClass('sectors')}
         >
           Sector Times
         </div>
-        <div className='flex h-8 w-full items-center justify-center rounded border'>
+        <div
+          className='flex h-8 w-full cursor-not-allowed items-center justify-center rounded border opacity-50'
+          aria-disabled='true'
+        >
           Gap to Fastest
         </div>
         <div
           onClick={() => chargeChart('stints')}
-          className='flex h-8 w-full items-center justify-center rounded border'
+          className={tabClass('stints')}
         >
           Stints
         </div>
-        <div className='flex h-8 w-full items-center justify-center rounded border'>
+        <div
+          className='flex h-8 w-full cursor-not-allowed items-center justify-center rounded border opacity-50'
+          aria-disabled='true'
+        >
           Top Speeds
         </div>
       </div>
