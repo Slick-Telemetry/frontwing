@@ -25,7 +25,7 @@
     "@apollo/experimental-nextjs-app-support": "latest",
     "@graphql-typed-document-node/core": "latest",
     "@radix-ui/react-avatar": "latest",
-    "@radix-ui/react-dialog": "^1.1.7",
+    "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-dropdown-menu": "latest",
     "@radix-ui/react-navigation-menu": "latest",
     "@radix-ui/react-select": "latest",
@@ -111,5 +111,5 @@
     "node": "22.x",
     "pnpm": "10.x"
   },
-  "packageManager": "pnpm@10.8.0"
+  "packageManager": "pnpm@10.10.0"
 }
