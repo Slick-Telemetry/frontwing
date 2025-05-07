@@ -122,6 +122,7 @@ export const SessionResults = ({
               key={ds.driver?.full_name}
               driverSession={ds}
               position={Number(ds.results?.[0]?.classified_position || i + 1)}
+              index={i}
             />
           ))}
         </div>
@@ -210,8 +211,26 @@ const ChartViewController = ({
   );
 };
 
-const formatLapTime = (time: bigint) =>
-  new Date(Number(time)).toISOString().slice(14, -1);
+const formatLapTime = (time: bigint) => {
+  const date = new Date(Number(time));
+  const iso = date.toISOString();
+  // Convert to numbers to remove leading zeros, but pad seconds/minutes if needed
+  const hours = Number(iso.slice(11, 13));
+  const minutes = Number(iso.slice(14, 16));
+  const seconds = Number(iso.slice(17, 19));
+  const millis = iso.slice(19, -1); // .sss
+
+  // Helper to pad with zero if needed
+  const pad = (n: number) => n.toString().padStart(2, '0');
+
+  if (hours === 0 && minutes === 0) {
+    return `${seconds}${millis}`;
+  }
+  if (hours === 0) {
+    return `${minutes}:${pad(seconds)}${millis}`;
+  }
+  return `${hours}:${pad(minutes)}:${pad(seconds)}${millis}`;
+};
 const formatSectorTimes = (time: bigint) =>
   new Date(Number(time)).toISOString().slice(17, -1);
 
@@ -235,9 +254,11 @@ const positionDisplay = (position: string | number) => {
 const SessionCard = ({
   position,
   driverSession: ds,
+  index,
 }: {
   position: number | string;
   driverSession: SessionResultsQuery['sessions'][0]['driver_sessions'][0];
+  index: number;
 }) => {
   const displayPosition = ds.results?.[0]?.classified_position ?? position;
   const isInteger =
@@ -262,6 +283,13 @@ const SessionCard = ({
       </div>
       <p className='text-xs leading-2'>{ds.constructorByConstructorId?.name}</p>
       <p>{ds.driver?.full_name}</p>
+      {ds.results?.[0]?.total_race_time && (
+        <p className='text-muted-foreground text-xs'>
+          {index === 0
+            ? formatLapTime(ds.results[0].total_race_time)
+            : `+${formatLapTime(ds.results[0].total_race_time)}`}
+        </p>
+      )}
       <div className='items-cemter my-2 flex justify-between rounded border p-1'>
         <div className='grid'>
           <p className='text-xs'>Fastest Lap</p>

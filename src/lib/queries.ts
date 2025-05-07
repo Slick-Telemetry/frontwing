@@ -346,6 +346,7 @@ export const GET_SESSION_RESULTS = gql`
           points
           status
           classified_position
+          total_race_time
         }
         fastest_lap: laps(order_by: { lap_time: asc }, limit: 1) {
           lap_number

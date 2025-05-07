@@ -316,7 +316,7 @@ export type Circuits_Variance_Fields = {
 export type Constructor_Standings = {
   __typename?: 'constructor_standings';
   /** An object relationship */
-  constructorByConstructorId?: Maybe<Constructors>;
+  constructorByConstructorIdSeason?: Maybe<Constructors>;
   constructor_id?: Maybe<Scalars['String']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
@@ -405,7 +405,7 @@ export type Constructor_Standings_Bool_Exp = {
   _and?: InputMaybe<Array<Constructor_Standings_Bool_Exp>>;
   _not?: InputMaybe<Constructor_Standings_Bool_Exp>;
   _or?: InputMaybe<Array<Constructor_Standings_Bool_Exp>>;
-  constructorByConstructorId?: InputMaybe<Constructors_Bool_Exp>;
+  constructorByConstructorIdSeason?: InputMaybe<Constructors_Bool_Exp>;
   constructor_id?: InputMaybe<String_Comparison_Exp>;
   points?: InputMaybe<Numeric_Comparison_Exp>;
   position?: InputMaybe<Int_Comparison_Exp>;
@@ -463,7 +463,7 @@ export type Constructor_Standings_Min_Order_By = {
 
 /** Ordering options when selecting data from "constructor_standings". */
 export type Constructor_Standings_Order_By = {
-  constructorByConstructorId?: InputMaybe<Constructors_Order_By>;
+  constructorByConstructorIdSeason?: InputMaybe<Constructors_Order_By>;
   constructor_id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
@@ -660,6 +660,7 @@ export type Constructors = {
   name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   start_year?: Maybe<Scalars['Int']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** columns and relationships of "constructors" */
@@ -731,6 +732,7 @@ export type Constructors_Aggregate_FieldsCountArgs = {
 export type Constructors_Avg_Fields = {
   __typename?: 'constructors_avg_fields';
   start_year?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "constructors". All fields are combined with a logical 'AND'. */
@@ -748,6 +750,7 @@ export type Constructors_Bool_Exp = {
   name?: InputMaybe<String_Comparison_Exp>;
   nationality?: InputMaybe<String_Comparison_Exp>;
   start_year?: InputMaybe<Int_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** aggregate max on columns */
@@ -759,6 +762,7 @@ export type Constructors_Max_Fields = {
   name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   start_year?: Maybe<Scalars['Int']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** aggregate min on columns */
@@ -770,6 +774,7 @@ export type Constructors_Min_Fields = {
   name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   start_year?: Maybe<Scalars['Int']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** Ordering options when selecting data from "constructors". */
@@ -782,6 +787,7 @@ export type Constructors_Order_By = {
   name?: InputMaybe<Order_By>;
   nationality?: InputMaybe<Order_By>;
   start_year?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "constructors" */
@@ -798,24 +804,29 @@ export enum Constructors_Select_Column {
   Nationality = 'nationality',
   /** column name */
   StartYear = 'start_year',
+  /** column name */
+  Year = 'year',
 }
 
 /** aggregate stddev on columns */
 export type Constructors_Stddev_Fields = {
   __typename?: 'constructors_stddev_fields';
   start_year?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Constructors_Stddev_Pop_Fields = {
   __typename?: 'constructors_stddev_pop_fields';
   start_year?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Constructors_Stddev_Samp_Fields = {
   __typename?: 'constructors_stddev_samp_fields';
   start_year?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "constructors" */
@@ -834,30 +845,35 @@ export type Constructors_Stream_Cursor_Value_Input = {
   name?: InputMaybe<Scalars['String']['input']>;
   nationality?: InputMaybe<Scalars['String']['input']>;
   start_year?: InputMaybe<Scalars['Int']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Constructors_Sum_Fields = {
   __typename?: 'constructors_sum_fields';
   start_year?: Maybe<Scalars['Int']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** aggregate var_pop on columns */
 export type Constructors_Var_Pop_Fields = {
   __typename?: 'constructors_var_pop_fields';
   start_year?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Constructors_Var_Samp_Fields = {
   __typename?: 'constructors_var_samp_fields';
   start_year?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Constructors_Variance_Fields = {
   __typename?: 'constructors_variance_fields';
   start_year?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** ordering argument of a cursor */
@@ -1427,6 +1443,7 @@ export type Drivers = {
   last_name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   number?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** columns and relationships of "drivers" */
@@ -1475,15 +1492,29 @@ export type Drivers_Aggregate = {
 /** aggregate fields of "drivers" */
 export type Drivers_Aggregate_Fields = {
   __typename?: 'drivers_aggregate_fields';
+  avg?: Maybe<Drivers_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Drivers_Max_Fields>;
   min?: Maybe<Drivers_Min_Fields>;
+  stddev?: Maybe<Drivers_Stddev_Fields>;
+  stddev_pop?: Maybe<Drivers_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Drivers_Stddev_Samp_Fields>;
+  sum?: Maybe<Drivers_Sum_Fields>;
+  var_pop?: Maybe<Drivers_Var_Pop_Fields>;
+  var_samp?: Maybe<Drivers_Var_Samp_Fields>;
+  variance?: Maybe<Drivers_Variance_Fields>;
 };
 
 /** aggregate fields of "drivers" */
 export type Drivers_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Drivers_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Drivers_Avg_Fields = {
+  __typename?: 'drivers_avg_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "drivers". All fields are combined with a logical 'AND'. */
@@ -1506,6 +1537,7 @@ export type Drivers_Bool_Exp = {
   last_name?: InputMaybe<String_Comparison_Exp>;
   nationality?: InputMaybe<String_Comparison_Exp>;
   number?: InputMaybe<String_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** aggregate max on columns */
@@ -1522,6 +1554,7 @@ export type Drivers_Max_Fields = {
   last_name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   number?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** aggregate min on columns */
@@ -1538,6 +1571,7 @@ export type Drivers_Min_Fields = {
   last_name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   number?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** Ordering options when selecting data from "drivers". */
@@ -1555,6 +1589,7 @@ export type Drivers_Order_By = {
   last_name?: InputMaybe<Order_By>;
   nationality?: InputMaybe<Order_By>;
   number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "drivers" */
@@ -1581,7 +1616,27 @@ export enum Drivers_Select_Column {
   Nationality = 'nationality',
   /** column name */
   Number = 'number',
+  /** column name */
+  Year = 'year',
 }
+
+/** aggregate stddev on columns */
+export type Drivers_Stddev_Fields = {
+  __typename?: 'drivers_stddev_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Drivers_Stddev_Pop_Fields = {
+  __typename?: 'drivers_stddev_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Drivers_Stddev_Samp_Fields = {
+  __typename?: 'drivers_stddev_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
 
 /** Streaming cursor of the table "drivers" */
 export type Drivers_Stream_Cursor_Input = {
@@ -1604,6 +1659,31 @@ export type Drivers_Stream_Cursor_Value_Input = {
   last_name?: InputMaybe<Scalars['String']['input']>;
   nationality?: InputMaybe<Scalars['String']['input']>;
   number?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Drivers_Sum_Fields = {
+  __typename?: 'drivers_sum_fields';
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** aggregate var_pop on columns */
+export type Drivers_Var_Pop_Fields = {
+  __typename?: 'drivers_var_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Drivers_Var_Samp_Fields = {
+  __typename?: 'drivers_var_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Drivers_Variance_Fields = {
+  __typename?: 'drivers_variance_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "event_format_choices" */
@@ -1614,6 +1694,10 @@ export type Event_Format_Choices = {
   events: Array<Events>;
   /** An aggregate relationship */
   events_aggregate: Events_Aggregate;
+  /** An array relationship */
+  schedules: Array<Schedule>;
+  /** An aggregate relationship */
+  schedules_aggregate: Schedule_Aggregate;
   value: Scalars['String']['output'];
 };
 
@@ -1633,6 +1717,24 @@ export type Event_Format_ChoicesEvents_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Events_Order_By>>;
   where?: InputMaybe<Events_Bool_Exp>;
+};
+
+/** columns and relationships of "event_format_choices" */
+export type Event_Format_ChoicesSchedulesArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "event_format_choices" */
+export type Event_Format_ChoicesSchedules_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
 /** aggregated selection of "event_format_choices" */
@@ -1664,6 +1766,8 @@ export type Event_Format_Choices_Bool_Exp = {
   comment?: InputMaybe<String_Comparison_Exp>;
   events?: InputMaybe<Events_Bool_Exp>;
   events_aggregate?: InputMaybe<Events_Aggregate_Bool_Exp>;
+  schedules?: InputMaybe<Schedule_Bool_Exp>;
+  schedules_aggregate?: InputMaybe<Schedule_Aggregate_Bool_Exp>;
   value?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -1707,6 +1811,7 @@ export type Event_Format_Choices_Min_Fields = {
 export type Event_Format_Choices_Order_By = {
   comment?: InputMaybe<Order_By>;
   events_aggregate?: InputMaybe<Events_Aggregate_Order_By>;
+  schedules_aggregate?: InputMaybe<Schedule_Aggregate_Order_By>;
   value?: InputMaybe<Order_By>;
 };
 
@@ -2106,16 +2211,22 @@ export type Events_Variance_Order_By = {
 export type Laps = {
   __typename?: 'laps';
   compound?: Maybe<Tyre_Compounds_Enum>;
+  deleted?: Maybe<Scalars['Boolean']['output']>;
+  deleted_reason?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   driver_session?: Maybe<Driver_Sessions>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
+  fastf1_generated?: Maybe<Scalars['Boolean']['output']>;
   fresh_tyre?: Maybe<Scalars['Boolean']['output']>;
   is_accurate?: Maybe<Scalars['Boolean']['output']>;
   is_personal_best?: Maybe<Scalars['Boolean']['output']>;
   lap_number?: Maybe<Scalars['Int']['output']>;
+  lap_start_date?: Maybe<Scalars['String']['output']>;
+  lap_start_time?: Maybe<Scalars['bigint']['output']>;
   lap_time?: Maybe<Scalars['bigint']['output']>;
   pitin_time?: Maybe<Scalars['bigint']['output']>;
   pitout_time?: Maybe<Scalars['bigint']['output']>;
+  position?: Maybe<Scalars['numeric']['output']>;
   sector1?: Maybe<Scalars['bigint']['output']>;
   sector1_ts?: Maybe<Scalars['bigint']['output']>;
   sector2?: Maybe<Scalars['bigint']['output']>;
@@ -2128,6 +2239,7 @@ export type Laps = {
   speed_trap_sector2?: Maybe<Scalars['numeric']['output']>;
   speed_trap_straight?: Maybe<Scalars['numeric']['output']>;
   stint?: Maybe<Scalars['Int']['output']>;
+  track_status?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   tyre_compound?: Maybe<Tyre_Compounds>;
   tyre_life?: Maybe<Scalars['Int']['output']>;
@@ -2208,9 +2320,11 @@ export type Laps_Aggregate_Order_By = {
 export type Laps_Avg_Fields = {
   __typename?: 'laps_avg_fields';
   lap_number?: Maybe<Scalars['Float']['output']>;
+  lap_start_time?: Maybe<Scalars['Float']['output']>;
   lap_time?: Maybe<Scalars['Float']['output']>;
   pitin_time?: Maybe<Scalars['Float']['output']>;
   pitout_time?: Maybe<Scalars['Float']['output']>;
+  position?: Maybe<Scalars['Float']['output']>;
   sector1?: Maybe<Scalars['Float']['output']>;
   sector1_ts?: Maybe<Scalars['Float']['output']>;
   sector2?: Maybe<Scalars['Float']['output']>;
@@ -2229,9 +2343,11 @@ export type Laps_Avg_Fields = {
 /** order by avg() on columns of table "laps" */
 export type Laps_Avg_Order_By = {
   lap_number?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2253,15 +2369,21 @@ export type Laps_Bool_Exp = {
   _not?: InputMaybe<Laps_Bool_Exp>;
   _or?: InputMaybe<Array<Laps_Bool_Exp>>;
   compound?: InputMaybe<Tyre_Compounds_Enum_Comparison_Exp>;
+  deleted?: InputMaybe<Boolean_Comparison_Exp>;
+  deleted_reason?: InputMaybe<String_Comparison_Exp>;
   driver_session?: InputMaybe<Driver_Sessions_Bool_Exp>;
   driver_session_id?: InputMaybe<String_Comparison_Exp>;
+  fastf1_generated?: InputMaybe<Boolean_Comparison_Exp>;
   fresh_tyre?: InputMaybe<Boolean_Comparison_Exp>;
   is_accurate?: InputMaybe<Boolean_Comparison_Exp>;
   is_personal_best?: InputMaybe<Boolean_Comparison_Exp>;
   lap_number?: InputMaybe<Int_Comparison_Exp>;
+  lap_start_date?: InputMaybe<String_Comparison_Exp>;
+  lap_start_time?: InputMaybe<Bigint_Comparison_Exp>;
   lap_time?: InputMaybe<Bigint_Comparison_Exp>;
   pitin_time?: InputMaybe<Bigint_Comparison_Exp>;
   pitout_time?: InputMaybe<Bigint_Comparison_Exp>;
+  position?: InputMaybe<Numeric_Comparison_Exp>;
   sector1?: InputMaybe<Bigint_Comparison_Exp>;
   sector1_ts?: InputMaybe<Bigint_Comparison_Exp>;
   sector2?: InputMaybe<Bigint_Comparison_Exp>;
@@ -2274,6 +2396,7 @@ export type Laps_Bool_Exp = {
   speed_trap_sector2?: InputMaybe<Numeric_Comparison_Exp>;
   speed_trap_straight?: InputMaybe<Numeric_Comparison_Exp>;
   stint?: InputMaybe<Int_Comparison_Exp>;
+  track_status?: InputMaybe<String_Comparison_Exp>;
   tyre_compound?: InputMaybe<Tyre_Compounds_Bool_Exp>;
   tyre_life?: InputMaybe<Int_Comparison_Exp>;
 };
@@ -2281,11 +2404,15 @@ export type Laps_Bool_Exp = {
 /** aggregate max on columns */
 export type Laps_Max_Fields = {
   __typename?: 'laps_max_fields';
+  deleted_reason?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   lap_number?: Maybe<Scalars['Int']['output']>;
+  lap_start_date?: Maybe<Scalars['String']['output']>;
+  lap_start_time?: Maybe<Scalars['bigint']['output']>;
   lap_time?: Maybe<Scalars['bigint']['output']>;
   pitin_time?: Maybe<Scalars['bigint']['output']>;
   pitout_time?: Maybe<Scalars['bigint']['output']>;
+  position?: Maybe<Scalars['numeric']['output']>;
   sector1?: Maybe<Scalars['bigint']['output']>;
   sector1_ts?: Maybe<Scalars['bigint']['output']>;
   sector2?: Maybe<Scalars['bigint']['output']>;
@@ -2298,16 +2425,21 @@ export type Laps_Max_Fields = {
   speed_trap_sector2?: Maybe<Scalars['numeric']['output']>;
   speed_trap_straight?: Maybe<Scalars['numeric']['output']>;
   stint?: Maybe<Scalars['Int']['output']>;
+  track_status?: Maybe<Scalars['String']['output']>;
   tyre_life?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by max() on columns of table "laps" */
 export type Laps_Max_Order_By = {
+  deleted_reason?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   lap_number?: InputMaybe<Order_By>;
+  lap_start_date?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2320,17 +2452,22 @@ export type Laps_Max_Order_By = {
   speed_trap_sector2?: InputMaybe<Order_By>;
   speed_trap_straight?: InputMaybe<Order_By>;
   stint?: InputMaybe<Order_By>;
+  track_status?: InputMaybe<Order_By>;
   tyre_life?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Laps_Min_Fields = {
   __typename?: 'laps_min_fields';
+  deleted_reason?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
   lap_number?: Maybe<Scalars['Int']['output']>;
+  lap_start_date?: Maybe<Scalars['String']['output']>;
+  lap_start_time?: Maybe<Scalars['bigint']['output']>;
   lap_time?: Maybe<Scalars['bigint']['output']>;
   pitin_time?: Maybe<Scalars['bigint']['output']>;
   pitout_time?: Maybe<Scalars['bigint']['output']>;
+  position?: Maybe<Scalars['numeric']['output']>;
   sector1?: Maybe<Scalars['bigint']['output']>;
   sector1_ts?: Maybe<Scalars['bigint']['output']>;
   sector2?: Maybe<Scalars['bigint']['output']>;
@@ -2343,16 +2480,21 @@ export type Laps_Min_Fields = {
   speed_trap_sector2?: Maybe<Scalars['numeric']['output']>;
   speed_trap_straight?: Maybe<Scalars['numeric']['output']>;
   stint?: Maybe<Scalars['Int']['output']>;
+  track_status?: Maybe<Scalars['String']['output']>;
   tyre_life?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by min() on columns of table "laps" */
 export type Laps_Min_Order_By = {
+  deleted_reason?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
   lap_number?: InputMaybe<Order_By>;
+  lap_start_date?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2365,21 +2507,28 @@ export type Laps_Min_Order_By = {
   speed_trap_sector2?: InputMaybe<Order_By>;
   speed_trap_straight?: InputMaybe<Order_By>;
   stint?: InputMaybe<Order_By>;
+  track_status?: InputMaybe<Order_By>;
   tyre_life?: InputMaybe<Order_By>;
 };
 
 /** Ordering options when selecting data from "laps". */
 export type Laps_Order_By = {
   compound?: InputMaybe<Order_By>;
+  deleted?: InputMaybe<Order_By>;
+  deleted_reason?: InputMaybe<Order_By>;
   driver_session?: InputMaybe<Driver_Sessions_Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
+  fastf1_generated?: InputMaybe<Order_By>;
   fresh_tyre?: InputMaybe<Order_By>;
   is_accurate?: InputMaybe<Order_By>;
   is_personal_best?: InputMaybe<Order_By>;
   lap_number?: InputMaybe<Order_By>;
+  lap_start_date?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2392,6 +2541,7 @@ export type Laps_Order_By = {
   speed_trap_sector2?: InputMaybe<Order_By>;
   speed_trap_straight?: InputMaybe<Order_By>;
   stint?: InputMaybe<Order_By>;
+  track_status?: InputMaybe<Order_By>;
   tyre_compound?: InputMaybe<Tyre_Compounds_Order_By>;
   tyre_life?: InputMaybe<Order_By>;
 };
@@ -2401,7 +2551,13 @@ export enum Laps_Select_Column {
   /** column name */
   Compound = 'compound',
   /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  DeletedReason = 'deleted_reason',
+  /** column name */
   DriverSessionId = 'driver_session_id',
+  /** column name */
+  Fastf1Generated = 'fastf1_generated',
   /** column name */
   FreshTyre = 'fresh_tyre',
   /** column name */
@@ -2411,11 +2567,17 @@ export enum Laps_Select_Column {
   /** column name */
   LapNumber = 'lap_number',
   /** column name */
+  LapStartDate = 'lap_start_date',
+  /** column name */
+  LapStartTime = 'lap_start_time',
+  /** column name */
   LapTime = 'lap_time',
   /** column name */
   PitinTime = 'pitin_time',
   /** column name */
   PitoutTime = 'pitout_time',
+  /** column name */
+  Position = 'position',
   /** column name */
   Sector1 = 'sector1',
   /** column name */
@@ -2441,11 +2603,17 @@ export enum Laps_Select_Column {
   /** column name */
   Stint = 'stint',
   /** column name */
+  TrackStatus = 'track_status',
+  /** column name */
   TyreLife = 'tyre_life',
 }
 
 /** select "laps_aggregate_bool_exp_bool_and_arguments_columns" columns of table "laps" */
 export enum Laps_Select_Column_Laps_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  Fastf1Generated = 'fastf1_generated',
   /** column name */
   FreshTyre = 'fresh_tyre',
   /** column name */
@@ -2456,6 +2624,10 @@ export enum Laps_Select_Column_Laps_Aggregate_Bool_Exp_Bool_And_Arguments_Column
 
 /** select "laps_aggregate_bool_exp_bool_or_arguments_columns" columns of table "laps" */
 export enum Laps_Select_Column_Laps_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  Fastf1Generated = 'fastf1_generated',
   /** column name */
   FreshTyre = 'fresh_tyre',
   /** column name */
@@ -2468,9 +2640,11 @@ export enum Laps_Select_Column_Laps_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns
 export type Laps_Stddev_Fields = {
   __typename?: 'laps_stddev_fields';
   lap_number?: Maybe<Scalars['Float']['output']>;
+  lap_start_time?: Maybe<Scalars['Float']['output']>;
   lap_time?: Maybe<Scalars['Float']['output']>;
   pitin_time?: Maybe<Scalars['Float']['output']>;
   pitout_time?: Maybe<Scalars['Float']['output']>;
+  position?: Maybe<Scalars['Float']['output']>;
   sector1?: Maybe<Scalars['Float']['output']>;
   sector1_ts?: Maybe<Scalars['Float']['output']>;
   sector2?: Maybe<Scalars['Float']['output']>;
@@ -2489,9 +2663,11 @@ export type Laps_Stddev_Fields = {
 /** order by stddev() on columns of table "laps" */
 export type Laps_Stddev_Order_By = {
   lap_number?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2511,9 +2687,11 @@ export type Laps_Stddev_Order_By = {
 export type Laps_Stddev_Pop_Fields = {
   __typename?: 'laps_stddev_pop_fields';
   lap_number?: Maybe<Scalars['Float']['output']>;
+  lap_start_time?: Maybe<Scalars['Float']['output']>;
   lap_time?: Maybe<Scalars['Float']['output']>;
   pitin_time?: Maybe<Scalars['Float']['output']>;
   pitout_time?: Maybe<Scalars['Float']['output']>;
+  position?: Maybe<Scalars['Float']['output']>;
   sector1?: Maybe<Scalars['Float']['output']>;
   sector1_ts?: Maybe<Scalars['Float']['output']>;
   sector2?: Maybe<Scalars['Float']['output']>;
@@ -2532,9 +2710,11 @@ export type Laps_Stddev_Pop_Fields = {
 /** order by stddev_pop() on columns of table "laps" */
 export type Laps_Stddev_Pop_Order_By = {
   lap_number?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2554,9 +2734,11 @@ export type Laps_Stddev_Pop_Order_By = {
 export type Laps_Stddev_Samp_Fields = {
   __typename?: 'laps_stddev_samp_fields';
   lap_number?: Maybe<Scalars['Float']['output']>;
+  lap_start_time?: Maybe<Scalars['Float']['output']>;
   lap_time?: Maybe<Scalars['Float']['output']>;
   pitin_time?: Maybe<Scalars['Float']['output']>;
   pitout_time?: Maybe<Scalars['Float']['output']>;
+  position?: Maybe<Scalars['Float']['output']>;
   sector1?: Maybe<Scalars['Float']['output']>;
   sector1_ts?: Maybe<Scalars['Float']['output']>;
   sector2?: Maybe<Scalars['Float']['output']>;
@@ -2575,9 +2757,11 @@ export type Laps_Stddev_Samp_Fields = {
 /** order by stddev_samp() on columns of table "laps" */
 export type Laps_Stddev_Samp_Order_By = {
   lap_number?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2604,14 +2788,20 @@ export type Laps_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Laps_Stream_Cursor_Value_Input = {
   compound?: InputMaybe<Tyre_Compounds_Enum>;
+  deleted?: InputMaybe<Scalars['Boolean']['input']>;
+  deleted_reason?: InputMaybe<Scalars['String']['input']>;
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
+  fastf1_generated?: InputMaybe<Scalars['Boolean']['input']>;
   fresh_tyre?: InputMaybe<Scalars['Boolean']['input']>;
   is_accurate?: InputMaybe<Scalars['Boolean']['input']>;
   is_personal_best?: InputMaybe<Scalars['Boolean']['input']>;
   lap_number?: InputMaybe<Scalars['Int']['input']>;
+  lap_start_date?: InputMaybe<Scalars['String']['input']>;
+  lap_start_time?: InputMaybe<Scalars['bigint']['input']>;
   lap_time?: InputMaybe<Scalars['bigint']['input']>;
   pitin_time?: InputMaybe<Scalars['bigint']['input']>;
   pitout_time?: InputMaybe<Scalars['bigint']['input']>;
+  position?: InputMaybe<Scalars['numeric']['input']>;
   sector1?: InputMaybe<Scalars['bigint']['input']>;
   sector1_ts?: InputMaybe<Scalars['bigint']['input']>;
   sector2?: InputMaybe<Scalars['bigint']['input']>;
@@ -2624,6 +2814,7 @@ export type Laps_Stream_Cursor_Value_Input = {
   speed_trap_sector2?: InputMaybe<Scalars['numeric']['input']>;
   speed_trap_straight?: InputMaybe<Scalars['numeric']['input']>;
   stint?: InputMaybe<Scalars['Int']['input']>;
+  track_status?: InputMaybe<Scalars['String']['input']>;
   tyre_life?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -2631,9 +2822,11 @@ export type Laps_Stream_Cursor_Value_Input = {
 export type Laps_Sum_Fields = {
   __typename?: 'laps_sum_fields';
   lap_number?: Maybe<Scalars['Int']['output']>;
+  lap_start_time?: Maybe<Scalars['bigint']['output']>;
   lap_time?: Maybe<Scalars['bigint']['output']>;
   pitin_time?: Maybe<Scalars['bigint']['output']>;
   pitout_time?: Maybe<Scalars['bigint']['output']>;
+  position?: Maybe<Scalars['numeric']['output']>;
   sector1?: Maybe<Scalars['bigint']['output']>;
   sector1_ts?: Maybe<Scalars['bigint']['output']>;
   sector2?: Maybe<Scalars['bigint']['output']>;
@@ -2652,9 +2845,11 @@ export type Laps_Sum_Fields = {
 /** order by sum() on columns of table "laps" */
 export type Laps_Sum_Order_By = {
   lap_number?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2674,9 +2869,11 @@ export type Laps_Sum_Order_By = {
 export type Laps_Var_Pop_Fields = {
   __typename?: 'laps_var_pop_fields';
   lap_number?: Maybe<Scalars['Float']['output']>;
+  lap_start_time?: Maybe<Scalars['Float']['output']>;
   lap_time?: Maybe<Scalars['Float']['output']>;
   pitin_time?: Maybe<Scalars['Float']['output']>;
   pitout_time?: Maybe<Scalars['Float']['output']>;
+  position?: Maybe<Scalars['Float']['output']>;
   sector1?: Maybe<Scalars['Float']['output']>;
   sector1_ts?: Maybe<Scalars['Float']['output']>;
   sector2?: Maybe<Scalars['Float']['output']>;
@@ -2695,9 +2892,11 @@ export type Laps_Var_Pop_Fields = {
 /** order by var_pop() on columns of table "laps" */
 export type Laps_Var_Pop_Order_By = {
   lap_number?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2717,9 +2916,11 @@ export type Laps_Var_Pop_Order_By = {
 export type Laps_Var_Samp_Fields = {
   __typename?: 'laps_var_samp_fields';
   lap_number?: Maybe<Scalars['Float']['output']>;
+  lap_start_time?: Maybe<Scalars['Float']['output']>;
   lap_time?: Maybe<Scalars['Float']['output']>;
   pitin_time?: Maybe<Scalars['Float']['output']>;
   pitout_time?: Maybe<Scalars['Float']['output']>;
+  position?: Maybe<Scalars['Float']['output']>;
   sector1?: Maybe<Scalars['Float']['output']>;
   sector1_ts?: Maybe<Scalars['Float']['output']>;
   sector2?: Maybe<Scalars['Float']['output']>;
@@ -2738,9 +2939,11 @@ export type Laps_Var_Samp_Fields = {
 /** order by var_samp() on columns of table "laps" */
 export type Laps_Var_Samp_Order_By = {
   lap_number?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -2760,9 +2963,11 @@ export type Laps_Var_Samp_Order_By = {
 export type Laps_Variance_Fields = {
   __typename?: 'laps_variance_fields';
   lap_number?: Maybe<Scalars['Float']['output']>;
+  lap_start_time?: Maybe<Scalars['Float']['output']>;
   lap_time?: Maybe<Scalars['Float']['output']>;
   pitin_time?: Maybe<Scalars['Float']['output']>;
   pitout_time?: Maybe<Scalars['Float']['output']>;
+  position?: Maybe<Scalars['Float']['output']>;
   sector1?: Maybe<Scalars['Float']['output']>;
   sector1_ts?: Maybe<Scalars['Float']['output']>;
   sector2?: Maybe<Scalars['Float']['output']>;
@@ -2781,9 +2986,11 @@ export type Laps_Variance_Fields = {
 /** order by variance() on columns of table "laps" */
 export type Laps_Variance_Order_By = {
   lap_number?: InputMaybe<Order_By>;
+  lap_start_time?: InputMaybe<Order_By>;
   lap_time?: InputMaybe<Order_By>;
   pitin_time?: InputMaybe<Order_By>;
   pitout_time?: InputMaybe<Order_By>;
+  position?: InputMaybe<Order_By>;
   sector1?: InputMaybe<Order_By>;
   sector1_ts?: InputMaybe<Order_By>;
   sector2?: InputMaybe<Order_By>;
@@ -4440,27 +4647,39 @@ export type Schedule = {
   __typename?: 'schedule';
   country?: Maybe<Scalars['String']['output']>;
   event_date?: Maybe<Scalars['String']['output']>;
-  event_format?: Maybe<Scalars['String']['output']>;
+  event_format?: Maybe<Event_Format_Choices_Enum>;
+  /** An object relationship */
+  event_format_choice?: Maybe<Event_Format_Choices>;
   event_name?: Maybe<Scalars['String']['output']>;
   f1_api_support?: Maybe<Scalars['Boolean']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   official_event_name?: Maybe<Scalars['String']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
-  session1?: Maybe<Scalars['String']['output']>;
+  session1?: Maybe<Session_Name_Choices_Enum>;
   session1_date?: Maybe<Scalars['String']['output']>;
   session1_date_utc?: Maybe<Scalars['String']['output']>;
-  session2?: Maybe<Scalars['String']['output']>;
+  session2?: Maybe<Session_Name_Choices_Enum>;
   session2_date?: Maybe<Scalars['String']['output']>;
   session2_date_utc?: Maybe<Scalars['String']['output']>;
-  session3?: Maybe<Scalars['String']['output']>;
+  session3?: Maybe<Session_Name_Choices_Enum>;
   session3_date?: Maybe<Scalars['String']['output']>;
   session3_date_utc?: Maybe<Scalars['String']['output']>;
-  session4?: Maybe<Scalars['String']['output']>;
+  session4?: Maybe<Session_Name_Choices_Enum>;
   session4_date?: Maybe<Scalars['String']['output']>;
   session4_date_utc?: Maybe<Scalars['String']['output']>;
-  session5?: Maybe<Scalars['String']['output']>;
+  session5?: Maybe<Session_Name_Choices_Enum>;
   session5_date?: Maybe<Scalars['String']['output']>;
   session5_date_utc?: Maybe<Scalars['String']['output']>;
+  /** An object relationship */
+  sessionNameChoiceBySession2?: Maybe<Session_Name_Choices>;
+  /** An object relationship */
+  sessionNameChoiceBySession3?: Maybe<Session_Name_Choices>;
+  /** An object relationship */
+  sessionNameChoiceBySession4?: Maybe<Session_Name_Choices>;
+  /** An object relationship */
+  sessionNameChoiceBySession5?: Maybe<Session_Name_Choices>;
+  /** An object relationship */
+  session_name_choice?: Maybe<Session_Name_Choices>;
   year?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -4469,6 +4688,33 @@ export type Schedule_Aggregate = {
   __typename?: 'schedule_aggregate';
   aggregate?: Maybe<Schedule_Aggregate_Fields>;
   nodes: Array<Schedule>;
+};
+
+export type Schedule_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Schedule_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Schedule_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Schedule_Aggregate_Bool_Exp_Count>;
+};
+
+export type Schedule_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Schedule_Select_Column_Schedule_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Schedule_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Schedule_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Schedule_Select_Column_Schedule_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Schedule_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Schedule_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Schedule_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Schedule_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "schedule" */
@@ -4493,11 +4739,32 @@ export type Schedule_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "schedule" */
+export type Schedule_Aggregate_Order_By = {
+  avg?: InputMaybe<Schedule_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Schedule_Max_Order_By>;
+  min?: InputMaybe<Schedule_Min_Order_By>;
+  stddev?: InputMaybe<Schedule_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Schedule_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Schedule_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Schedule_Sum_Order_By>;
+  var_pop?: InputMaybe<Schedule_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Schedule_Var_Samp_Order_By>;
+  variance?: InputMaybe<Schedule_Variance_Order_By>;
+};
+
 /** aggregate avg on columns */
 export type Schedule_Avg_Fields = {
   __typename?: 'schedule_avg_fields';
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "schedule" */
+export type Schedule_Avg_Order_By = {
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "schedule". All fields are combined with a logical 'AND'. */
@@ -4507,27 +4774,33 @@ export type Schedule_Bool_Exp = {
   _or?: InputMaybe<Array<Schedule_Bool_Exp>>;
   country?: InputMaybe<String_Comparison_Exp>;
   event_date?: InputMaybe<String_Comparison_Exp>;
-  event_format?: InputMaybe<String_Comparison_Exp>;
+  event_format?: InputMaybe<Event_Format_Choices_Enum_Comparison_Exp>;
+  event_format_choice?: InputMaybe<Event_Format_Choices_Bool_Exp>;
   event_name?: InputMaybe<String_Comparison_Exp>;
   f1_api_support?: InputMaybe<Boolean_Comparison_Exp>;
   location?: InputMaybe<String_Comparison_Exp>;
   official_event_name?: InputMaybe<String_Comparison_Exp>;
   round_number?: InputMaybe<Int_Comparison_Exp>;
-  session1?: InputMaybe<String_Comparison_Exp>;
+  session1?: InputMaybe<Session_Name_Choices_Enum_Comparison_Exp>;
   session1_date?: InputMaybe<String_Comparison_Exp>;
   session1_date_utc?: InputMaybe<String_Comparison_Exp>;
-  session2?: InputMaybe<String_Comparison_Exp>;
+  session2?: InputMaybe<Session_Name_Choices_Enum_Comparison_Exp>;
   session2_date?: InputMaybe<String_Comparison_Exp>;
   session2_date_utc?: InputMaybe<String_Comparison_Exp>;
-  session3?: InputMaybe<String_Comparison_Exp>;
+  session3?: InputMaybe<Session_Name_Choices_Enum_Comparison_Exp>;
   session3_date?: InputMaybe<String_Comparison_Exp>;
   session3_date_utc?: InputMaybe<String_Comparison_Exp>;
-  session4?: InputMaybe<String_Comparison_Exp>;
+  session4?: InputMaybe<Session_Name_Choices_Enum_Comparison_Exp>;
   session4_date?: InputMaybe<String_Comparison_Exp>;
   session4_date_utc?: InputMaybe<String_Comparison_Exp>;
-  session5?: InputMaybe<String_Comparison_Exp>;
+  session5?: InputMaybe<Session_Name_Choices_Enum_Comparison_Exp>;
   session5_date?: InputMaybe<String_Comparison_Exp>;
   session5_date_utc?: InputMaybe<String_Comparison_Exp>;
+  sessionNameChoiceBySession2?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+  sessionNameChoiceBySession3?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+  sessionNameChoiceBySession4?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+  sessionNameChoiceBySession5?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+  session_name_choice?: InputMaybe<Session_Name_Choices_Bool_Exp>;
   year?: InputMaybe<Int_Comparison_Exp>;
 };
 
@@ -4536,27 +4809,42 @@ export type Schedule_Max_Fields = {
   __typename?: 'schedule_max_fields';
   country?: Maybe<Scalars['String']['output']>;
   event_date?: Maybe<Scalars['String']['output']>;
-  event_format?: Maybe<Scalars['String']['output']>;
   event_name?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   official_event_name?: Maybe<Scalars['String']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
-  session1?: Maybe<Scalars['String']['output']>;
   session1_date?: Maybe<Scalars['String']['output']>;
   session1_date_utc?: Maybe<Scalars['String']['output']>;
-  session2?: Maybe<Scalars['String']['output']>;
   session2_date?: Maybe<Scalars['String']['output']>;
   session2_date_utc?: Maybe<Scalars['String']['output']>;
-  session3?: Maybe<Scalars['String']['output']>;
   session3_date?: Maybe<Scalars['String']['output']>;
   session3_date_utc?: Maybe<Scalars['String']['output']>;
-  session4?: Maybe<Scalars['String']['output']>;
   session4_date?: Maybe<Scalars['String']['output']>;
   session4_date_utc?: Maybe<Scalars['String']['output']>;
-  session5?: Maybe<Scalars['String']['output']>;
   session5_date?: Maybe<Scalars['String']['output']>;
   session5_date_utc?: Maybe<Scalars['String']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by max() on columns of table "schedule" */
+export type Schedule_Max_Order_By = {
+  country?: InputMaybe<Order_By>;
+  event_date?: InputMaybe<Order_By>;
+  event_name?: InputMaybe<Order_By>;
+  location?: InputMaybe<Order_By>;
+  official_event_name?: InputMaybe<Order_By>;
+  round_number?: InputMaybe<Order_By>;
+  session1_date?: InputMaybe<Order_By>;
+  session1_date_utc?: InputMaybe<Order_By>;
+  session2_date?: InputMaybe<Order_By>;
+  session2_date_utc?: InputMaybe<Order_By>;
+  session3_date?: InputMaybe<Order_By>;
+  session3_date_utc?: InputMaybe<Order_By>;
+  session4_date?: InputMaybe<Order_By>;
+  session4_date_utc?: InputMaybe<Order_By>;
+  session5_date?: InputMaybe<Order_By>;
+  session5_date_utc?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -4564,27 +4852,42 @@ export type Schedule_Min_Fields = {
   __typename?: 'schedule_min_fields';
   country?: Maybe<Scalars['String']['output']>;
   event_date?: Maybe<Scalars['String']['output']>;
-  event_format?: Maybe<Scalars['String']['output']>;
   event_name?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   official_event_name?: Maybe<Scalars['String']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
-  session1?: Maybe<Scalars['String']['output']>;
   session1_date?: Maybe<Scalars['String']['output']>;
   session1_date_utc?: Maybe<Scalars['String']['output']>;
-  session2?: Maybe<Scalars['String']['output']>;
   session2_date?: Maybe<Scalars['String']['output']>;
   session2_date_utc?: Maybe<Scalars['String']['output']>;
-  session3?: Maybe<Scalars['String']['output']>;
   session3_date?: Maybe<Scalars['String']['output']>;
   session3_date_utc?: Maybe<Scalars['String']['output']>;
-  session4?: Maybe<Scalars['String']['output']>;
   session4_date?: Maybe<Scalars['String']['output']>;
   session4_date_utc?: Maybe<Scalars['String']['output']>;
-  session5?: Maybe<Scalars['String']['output']>;
   session5_date?: Maybe<Scalars['String']['output']>;
   session5_date_utc?: Maybe<Scalars['String']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by min() on columns of table "schedule" */
+export type Schedule_Min_Order_By = {
+  country?: InputMaybe<Order_By>;
+  event_date?: InputMaybe<Order_By>;
+  event_name?: InputMaybe<Order_By>;
+  location?: InputMaybe<Order_By>;
+  official_event_name?: InputMaybe<Order_By>;
+  round_number?: InputMaybe<Order_By>;
+  session1_date?: InputMaybe<Order_By>;
+  session1_date_utc?: InputMaybe<Order_By>;
+  session2_date?: InputMaybe<Order_By>;
+  session2_date_utc?: InputMaybe<Order_By>;
+  session3_date?: InputMaybe<Order_By>;
+  session3_date_utc?: InputMaybe<Order_By>;
+  session4_date?: InputMaybe<Order_By>;
+  session4_date_utc?: InputMaybe<Order_By>;
+  session5_date?: InputMaybe<Order_By>;
+  session5_date_utc?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** Ordering options when selecting data from "schedule". */
@@ -4592,6 +4895,7 @@ export type Schedule_Order_By = {
   country?: InputMaybe<Order_By>;
   event_date?: InputMaybe<Order_By>;
   event_format?: InputMaybe<Order_By>;
+  event_format_choice?: InputMaybe<Event_Format_Choices_Order_By>;
   event_name?: InputMaybe<Order_By>;
   f1_api_support?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
@@ -4612,6 +4916,11 @@ export type Schedule_Order_By = {
   session5?: InputMaybe<Order_By>;
   session5_date?: InputMaybe<Order_By>;
   session5_date_utc?: InputMaybe<Order_By>;
+  sessionNameChoiceBySession2?: InputMaybe<Session_Name_Choices_Order_By>;
+  sessionNameChoiceBySession3?: InputMaybe<Session_Name_Choices_Order_By>;
+  sessionNameChoiceBySession4?: InputMaybe<Session_Name_Choices_Order_By>;
+  sessionNameChoiceBySession5?: InputMaybe<Session_Name_Choices_Order_By>;
+  session_name_choice?: InputMaybe<Session_Name_Choices_Order_By>;
   year?: InputMaybe<Order_By>;
 };
 
@@ -4667,11 +4976,29 @@ export enum Schedule_Select_Column {
   Year = 'year',
 }
 
+/** select "schedule_aggregate_bool_exp_bool_and_arguments_columns" columns of table "schedule" */
+export enum Schedule_Select_Column_Schedule_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  F1ApiSupport = 'f1_api_support',
+}
+
+/** select "schedule_aggregate_bool_exp_bool_or_arguments_columns" columns of table "schedule" */
+export enum Schedule_Select_Column_Schedule_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  F1ApiSupport = 'f1_api_support',
+}
+
 /** aggregate stddev on columns */
 export type Schedule_Stddev_Fields = {
   __typename?: 'schedule_stddev_fields';
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev() on columns of table "schedule" */
+export type Schedule_Stddev_Order_By = {
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -4681,11 +5008,23 @@ export type Schedule_Stddev_Pop_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev_pop() on columns of table "schedule" */
+export type Schedule_Stddev_Pop_Order_By = {
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_samp on columns */
 export type Schedule_Stddev_Samp_Fields = {
   __typename?: 'schedule_stddev_samp_fields';
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "schedule" */
+export type Schedule_Stddev_Samp_Order_By = {
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "schedule" */
@@ -4700,25 +5039,25 @@ export type Schedule_Stream_Cursor_Input = {
 export type Schedule_Stream_Cursor_Value_Input = {
   country?: InputMaybe<Scalars['String']['input']>;
   event_date?: InputMaybe<Scalars['String']['input']>;
-  event_format?: InputMaybe<Scalars['String']['input']>;
+  event_format?: InputMaybe<Event_Format_Choices_Enum>;
   event_name?: InputMaybe<Scalars['String']['input']>;
   f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   official_event_name?: InputMaybe<Scalars['String']['input']>;
   round_number?: InputMaybe<Scalars['Int']['input']>;
-  session1?: InputMaybe<Scalars['String']['input']>;
+  session1?: InputMaybe<Session_Name_Choices_Enum>;
   session1_date?: InputMaybe<Scalars['String']['input']>;
   session1_date_utc?: InputMaybe<Scalars['String']['input']>;
-  session2?: InputMaybe<Scalars['String']['input']>;
+  session2?: InputMaybe<Session_Name_Choices_Enum>;
   session2_date?: InputMaybe<Scalars['String']['input']>;
   session2_date_utc?: InputMaybe<Scalars['String']['input']>;
-  session3?: InputMaybe<Scalars['String']['input']>;
+  session3?: InputMaybe<Session_Name_Choices_Enum>;
   session3_date?: InputMaybe<Scalars['String']['input']>;
   session3_date_utc?: InputMaybe<Scalars['String']['input']>;
-  session4?: InputMaybe<Scalars['String']['input']>;
+  session4?: InputMaybe<Session_Name_Choices_Enum>;
   session4_date?: InputMaybe<Scalars['String']['input']>;
   session4_date_utc?: InputMaybe<Scalars['String']['input']>;
-  session5?: InputMaybe<Scalars['String']['input']>;
+  session5?: InputMaybe<Session_Name_Choices_Enum>;
   session5_date?: InputMaybe<Scalars['String']['input']>;
   session5_date_utc?: InputMaybe<Scalars['String']['input']>;
   year?: InputMaybe<Scalars['Int']['input']>;
@@ -4731,11 +5070,23 @@ export type Schedule_Sum_Fields = {
   year?: Maybe<Scalars['Int']['output']>;
 };
 
+/** order by sum() on columns of table "schedule" */
+export type Schedule_Sum_Order_By = {
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_pop on columns */
 export type Schedule_Var_Pop_Fields = {
   __typename?: 'schedule_var_pop_fields';
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_pop() on columns of table "schedule" */
+export type Schedule_Var_Pop_Order_By = {
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -4745,6 +5096,12 @@ export type Schedule_Var_Samp_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_samp() on columns of table "schedule" */
+export type Schedule_Var_Samp_Order_By = {
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Schedule_Variance_Fields = {
   __typename?: 'schedule_variance_fields';
@@ -4752,15 +5109,131 @@ export type Schedule_Variance_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by variance() on columns of table "schedule" */
+export type Schedule_Variance_Order_By = {
+  round_number?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_Choices = {
   __typename?: 'session_name_choices';
   comment?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
+  schedules: Array<Schedule>;
+  /** An array relationship */
+  schedulesBySession2: Array<Schedule>;
+  /** An aggregate relationship */
+  schedulesBySession2_aggregate: Schedule_Aggregate;
+  /** An array relationship */
+  schedulesBySession3: Array<Schedule>;
+  /** An aggregate relationship */
+  schedulesBySession3_aggregate: Schedule_Aggregate;
+  /** An array relationship */
+  schedulesBySession4: Array<Schedule>;
+  /** An aggregate relationship */
+  schedulesBySession4_aggregate: Schedule_Aggregate;
+  /** An array relationship */
+  schedulesBySession5: Array<Schedule>;
+  /** An aggregate relationship */
+  schedulesBySession5_aggregate: Schedule_Aggregate;
+  /** An aggregate relationship */
+  schedules_aggregate: Schedule_Aggregate;
+  /** An array relationship */
   sessions: Array<Sessions>;
   /** An aggregate relationship */
   sessions_aggregate: Sessions_Aggregate;
   value: Scalars['String']['output'];
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedulesArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedulesBySession2Args = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedulesBySession2_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedulesBySession3Args = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedulesBySession3_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedulesBySession4Args = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedulesBySession4_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedulesBySession5Args = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedulesBySession5_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+/** columns and relationships of "session_name_choices" */
+export type Session_Name_ChoicesSchedules_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Schedule_Order_By>>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
 /** columns and relationships of "session_name_choices" */
@@ -4808,6 +5281,16 @@ export type Session_Name_Choices_Bool_Exp = {
   _not?: InputMaybe<Session_Name_Choices_Bool_Exp>;
   _or?: InputMaybe<Array<Session_Name_Choices_Bool_Exp>>;
   comment?: InputMaybe<String_Comparison_Exp>;
+  schedules?: InputMaybe<Schedule_Bool_Exp>;
+  schedulesBySession2?: InputMaybe<Schedule_Bool_Exp>;
+  schedulesBySession2_aggregate?: InputMaybe<Schedule_Aggregate_Bool_Exp>;
+  schedulesBySession3?: InputMaybe<Schedule_Bool_Exp>;
+  schedulesBySession3_aggregate?: InputMaybe<Schedule_Aggregate_Bool_Exp>;
+  schedulesBySession4?: InputMaybe<Schedule_Bool_Exp>;
+  schedulesBySession4_aggregate?: InputMaybe<Schedule_Aggregate_Bool_Exp>;
+  schedulesBySession5?: InputMaybe<Schedule_Bool_Exp>;
+  schedulesBySession5_aggregate?: InputMaybe<Schedule_Aggregate_Bool_Exp>;
+  schedules_aggregate?: InputMaybe<Schedule_Aggregate_Bool_Exp>;
   sessions?: InputMaybe<Sessions_Bool_Exp>;
   sessions_aggregate?: InputMaybe<Sessions_Aggregate_Bool_Exp>;
   value?: InputMaybe<String_Comparison_Exp>;
@@ -4860,6 +5343,11 @@ export type Session_Name_Choices_Min_Fields = {
 /** Ordering options when selecting data from "session_name_choices". */
 export type Session_Name_Choices_Order_By = {
   comment?: InputMaybe<Order_By>;
+  schedulesBySession2_aggregate?: InputMaybe<Schedule_Aggregate_Order_By>;
+  schedulesBySession3_aggregate?: InputMaybe<Schedule_Aggregate_Order_By>;
+  schedulesBySession4_aggregate?: InputMaybe<Schedule_Aggregate_Order_By>;
+  schedulesBySession5_aggregate?: InputMaybe<Schedule_Aggregate_Order_By>;
+  schedules_aggregate?: InputMaybe<Schedule_Aggregate_Order_By>;
   sessions_aggregate?: InputMaybe<Sessions_Aggregate_Order_By>;
   value?: InputMaybe<Order_By>;
 };
@@ -7763,7 +8251,7 @@ export type GetNextEventQuery = {
     event_name?: string | null;
     location?: string | null;
     country?: string | null;
-    event_format?: string | null;
+    event_format?: Event_Format_Choices_Enum | null;
     session5_date_utc?: string | null;
   }>;
 };
@@ -7779,19 +8267,19 @@ export type GetSeasonEventsQuery = {
     year?: number | null;
     round_number?: number | null;
     event_name?: string | null;
-    event_format?: string | null;
+    event_format?: Event_Format_Choices_Enum | null;
     event_date?: string | null;
     location?: string | null;
     country?: string | null;
-    session1?: string | null;
+    session1?: Session_Name_Choices_Enum | null;
     session1_date?: string | null;
-    session2?: string | null;
+    session2?: Session_Name_Choices_Enum | null;
     session2_date?: string | null;
-    session3?: string | null;
+    session3?: Session_Name_Choices_Enum | null;
     session3_date?: string | null;
-    session4?: string | null;
+    session4?: Session_Name_Choices_Enum | null;
     session4_date?: string | null;
-    session5?: string | null;
+    session5?: Session_Name_Choices_Enum | null;
     session5_date?: string | null;
   }>;
 };
@@ -7816,18 +8304,18 @@ export type GetEventScheduleQuery = {
     event_date?: string | null;
     official_event_name?: string | null;
     event_name?: string | null;
-    event_format?: string | null;
+    event_format?: Event_Format_Choices_Enum | null;
     location?: string | null;
     country?: string | null;
-    session1?: string | null;
+    session1?: Session_Name_Choices_Enum | null;
     session1_date_utc?: string | null;
-    session2?: string | null;
+    session2?: Session_Name_Choices_Enum | null;
     session2_date_utc?: string | null;
-    session3?: string | null;
+    session3?: Session_Name_Choices_Enum | null;
     session3_date_utc?: string | null;
-    session4?: string | null;
+    session4?: Session_Name_Choices_Enum | null;
     session4_date_utc?: string | null;
-    session5?: string | null;
+    session5?: Session_Name_Choices_Enum | null;
     session5_date_utc?: string | null;
   }>;
 };
@@ -8008,6 +8496,7 @@ export type SessionResultsQuery = {
         points?: bigint | number | null;
         status?: string | null;
         classified_position?: string | null;
+        total_race_time?: bigint | null;
       }>;
       fastest_lap: Array<{
         __typename?: 'laps';
@@ -9172,6 +9661,7 @@ export const SessionResultsDocument = gql`
           points
           status
           classified_position
+          total_race_time
         }
         fastest_lap: laps(order_by: { lap_time: asc }, limit: 1) {
           lap_number
@@ -9407,7 +9897,7 @@ export const GetSessionLapTimesDocument = gql`
           full_name
           number
         }
-        laps {
+        laps(order_by: { lap_number: asc }) {
           lap_number
           lap_time
           compound
