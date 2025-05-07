@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { GET_SESSION_RESULTS } from '@/lib/queries';
 import { bgGradient, eventLocationDecode } from '@/lib/utils';
 
+import { ChequeredFlagIcon } from '@/components/ChequeredFlagIcon';
 import { FloatingNumber } from '@/components/FloatingNumber';
 import { ServerPageError } from '@/components/ServerError';
 
@@ -55,11 +56,23 @@ export const SessionResults = ({
   let driverSessions = session.driver_sessions;
   // Sort by results
   if (session.driver_sessions[0].results.length > 0) {
-    // Sort by result position
+    // Sort by classified_position: integers first (asc), then non-integers
     driverSessions = [...session.driver_sessions].sort((ds1, ds2) => {
-      const position1 = Number(ds1.results[0].classified_position);
-      const position2 = Number(ds2.results[0].classified_position);
-      return position1 - position2;
+      const pos1 = ds1.results[0]?.classified_position;
+      const pos2 = ds2.results[0]?.classified_position;
+      const num1 = Number(pos1);
+      const num2 = Number(pos2);
+      const isNum1 =
+        !isNaN(num1) && pos1 !== null && pos1 !== undefined && pos1 !== '';
+      const isNum2 =
+        !isNaN(num2) && pos2 !== null && pos2 !== undefined && pos2 !== '';
+
+      if (isNum1 && isNum2) {
+        return num1 - num2; // both numbers, sort ascending
+      }
+      if (isNum1) return -1; // num1 is number, num2 is not: num1 comes first
+      if (isNum2) return 1; // num2 is number, num1 is not: num2 comes first
+      return 0; // both non-numbers, keep original order
     });
   } else if (session.driver_sessions[0].fastest_lap.length > 0) {
     // Sort by laptime
@@ -201,54 +214,100 @@ const formatLapTime = (time: bigint) =>
   new Date(Number(time)).toISOString().slice(14, -1);
 const formatSectorTimes = (time: bigint) =>
   new Date(Number(time)).toISOString().slice(17, -1);
+
+const positionDisplay = (position: string | number) => {
+  const map: Record<string, string> = {
+    R: 'Retired',
+    D: 'Disqualified',
+    E: 'Excluded',
+    W: 'Withdrawn',
+    F: 'Failed to Qualify',
+    N: 'Not Classified',
+  };
+  // If position is a number or a string that can be converted to a number, show the number
+  if (!isNaN(Number(position))) {
+    return position;
+  }
+  // Otherwise, show the mapped value or the original string
+  return map[String(position)] || position;
+};
+
 const SessionCard = ({
   position,
   driverSession: ds,
 }: {
-  position: number;
+  position: number | string;
   driverSession: SessionResultsQuery['sessions'][0]['driver_sessions'][0];
-}) => (
-  <div
-    className='relative rounded border p-3'
-    style={{
-      background: bgGradient(ds.constructorByConstructorId?.color || 'cccccc'),
-    }}
-  >
-    <FloatingNumber className='top-2 right-4 lg:text-xl'>
-      {position}
-    </FloatingNumber>
-    <p className='text-xs leading-2'>{ds.constructorByConstructorId?.name}</p>
-    <p>{ds.driver?.full_name}</p>
-    <div className='items-cemter my-2 flex justify-between'>
-      <div className='grid'>
-        <p className='text-xs'>Fastest Lap</p>
-        {ds.fastest_lap[0].lap_time && (
-          <p className='text-2xl leading-6'>
-            {formatLapTime(ds.fastest_lap[0].lap_time)}
+}) => {
+  const displayPosition = ds.results?.[0]?.classified_position ?? position;
+  const isInteger =
+    !isNaN(Number(displayPosition)) &&
+    Number.isInteger(Number(displayPosition));
+  return (
+    <div
+      className='relative rounded border p-3'
+      style={{
+        background: bgGradient(
+          ds.constructorByConstructorId?.color || 'cccccc',
+        ),
+      }}
+    >
+      <div className='absolute top-2 right-4 flex items-center gap-1'>
+        {isInteger && <ChequeredFlagIcon className='inline-block opacity-60' />}
+        <FloatingNumber
+          className={isInteger ? 'text-2xl lg:text-2xl' : 'text-xm lg:text-xm'}
+        >
+          {positionDisplay(displayPosition)}
+        </FloatingNumber>
+      </div>
+      <p className='text-xs leading-2'>{ds.constructorByConstructorId?.name}</p>
+      <p>{ds.driver?.full_name}</p>
+      <div className='items-cemter my-2 flex justify-between rounded border p-1'>
+        <div className='grid'>
+          <p className='text-xs'>Fastest Lap</p>
+          {ds.fastest_lap[0].lap_time && (
+            <p className='text-2xl leading-6'>
+              {formatLapTime(ds.fastest_lap[0].lap_time)}
+            </p>
+          )}
+        </div>
+        <div className='ml-auto flex gap-2'>
+          <div className='grid text-center'>
+            <p className='text-xs'>Lap</p>
+            <p className='text-2xl leading-6'>{ds.fastest_lap[0].lap_number}</p>
+          </div>
+          <div className='grid text-center'>
+            <p className='text-xs'>Stint</p>
+            <p className='text-2xl leading-6'>{ds.fastest_lap[0].stint}</p>
+          </div>
+        </div>
+      </div>
+      <div className='grid grid-cols-3 divide-x rounded border p-1 text-center text-sm'>
+        <div>
+          <span className='text-muted-foreground block text-xs'>S1</span>
+          <p>
+            {ds.fastest_lap[0].sector1
+              ? formatSectorTimes(ds.fastest_lap[0].sector1)
+              : 'N/A'}
           </p>
-        )}
-      </div>
-      <div className='ml-auto flex gap-2'>
-        <div className='grid text-center'>
-          <p className='text-xs'>Lap</p>
-          <p className='text-2xl leading-6'>{ds.fastest_lap[0].lap_number}</p>
         </div>
-        <div className='grid text-center'>
-          <p className='text-xs'>Stint</p>
-          <p className='text-2xl leading-6'>{ds.fastest_lap[0].stint}</p>
+        <div>
+          <span className='text-muted-foreground block text-xs'>S2</span>
+          <p>
+            {ds.fastest_lap[0].sector2
+              ? formatSectorTimes(ds.fastest_lap[0].sector2)
+              : 'N/A'}
+          </p>
+        </div>
+        <div>
+          <span className='text-muted-foreground block text-xs'>S3</span>
+          <p>
+            {ds.fastest_lap[0].sector3
+              ? formatSectorTimes(ds.fastest_lap[0].sector3)
+              : 'N/A'}
+          </p>
         </div>
       </div>
     </div>
-    <div className='grid grid-cols-3 divide-x rounded border p-1 text-center text-sm'>
-      {ds.fastest_lap[0].sector1 && (
-        <p>{formatSectorTimes(ds.fastest_lap[0].sector1)}</p>
-      )}
-      {ds.fastest_lap[0].sector2 && (
-        <p>{formatSectorTimes(ds.fastest_lap[0].sector2)}</p>
-      )}
-      {ds.fastest_lap[0].sector3 && (
-        <p>{formatSectorTimes(ds.fastest_lap[0].sector3)}</p>
-      )}
-    </div>
-  </div>
-);
+  );
+};
