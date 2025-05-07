@@ -116,7 +116,7 @@ export const SessionResults = ({
         </button>
       </div>
       {view === 'grid' && (
-        <div className='grid gap-4 lg:grid-cols-5'>
+        <div className='grid gap-4 py-4 lg:grid-cols-5'>
           {driverSessions.map((ds, i) => (
             <SessionCard
               key={ds.driver?.full_name}
