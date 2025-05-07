@@ -36,17 +36,31 @@ export const DriverStandingsChart = ({
         const constructorName = constructor?.name || '';
         const color = `#${constructor?.color || 'cccccc'}`;
 
-        // Determine driver order within the same constructor
-        const driverIndex = standingsByDriver
-          .filter(
-            (d) =>
-              d.latest_constructor[0]?.constructor?.name === constructorName,
-          )
-          .findIndex((d) => d.abbreviation === driver.abbreviation);
+        // Find all drivers for this constructor
+        const driversInConstructor = standingsByDriver.filter(
+          (d) => d.latest_constructor[0]?.constructor?.name === constructorName,
+        );
 
-        // Define strokeDasharray patterns
-        const dashPatterns = ['solid', '2,4', '4,8']; // Customize as needed
-        const strokeDasharray = dashPatterns[driverIndex] || '8,6';
+        // Sort drivers by their last available points (descending)
+        const sortedDrivers = [...driversInConstructor].sort((a, b) => {
+          const aPointsRaw =
+            a.driver_standings[a.driver_standings.length - 1]?.points ?? 0;
+          const bPointsRaw =
+            b.driver_standings[b.driver_standings.length - 1]?.points ?? 0;
+          const aPoints =
+            typeof aPointsRaw === 'bigint' ? Number(aPointsRaw) : aPointsRaw;
+          const bPoints =
+            typeof bPointsRaw === 'bigint' ? Number(bPointsRaw) : bPointsRaw;
+          return bPoints - aPoints;
+        });
+
+        // Find this driver's index in the sorted array
+        const driverIndex = sortedDrivers.findIndex(
+          (d) => d.abbreviation === driver.abbreviation,
+        );
+
+        // Assign solid to higher points, dashed to lower
+        const strokeDasharray = driverIndex === 0 ? 'solid' : '2,4';
 
         return (
           <AnimatedLineSeries

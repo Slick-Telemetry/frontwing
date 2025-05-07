@@ -98,52 +98,74 @@ export const Legend = ({
             {/* **Drivers under this Constructor** */}
             {chartType === 'drivers' && (
               <div className='mt-1 flex gap-x-2'>
-                {drivers.map((driver) => {
-                  const driverIndex = drivers.findIndex((d) => d === driver);
-                  const dashPatterns = ['solid', '2,1', '2,4'];
-                  const strokeDasharray = dashPatterns[driverIndex] || '3,6';
+                {drivers
+                  // Sort drivers by last available points (descending)
+                  .slice() // copy to avoid mutating original
+                  .sort((a, b) => {
+                    const driverA = standings.drivers.find(
+                      (d) => d.abbreviation === a,
+                    );
+                    const driverB = standings.drivers.find(
+                      (d) => d.abbreviation === b,
+                    );
+                    const aPointsRaw =
+                      driverA?.driver_standings?.at(-1)?.points ?? 0;
+                    const bPointsRaw =
+                      driverB?.driver_standings?.at(-1)?.points ?? 0;
+                    const aPoints =
+                      typeof aPointsRaw === 'bigint'
+                        ? Number(aPointsRaw)
+                        : aPointsRaw;
+                    const bPoints =
+                      typeof bPointsRaw === 'bigint'
+                        ? Number(bPointsRaw)
+                        : bPointsRaw;
+                    return bPoints - aPoints;
+                  })
+                  .map((driver, driverIndex) => {
+                    const strokeDasharray = driverIndex === 0 ? 'solid' : '2,4';
 
-                  return (
-                    <svg
-                      key={driver}
-                      className='cursor-pointer'
-                      onClick={() =>
-                        toggleDriverVisibility(constructor, driver)
-                      }
-                      style={{
-                        opacity: hiddenDrivers[driver] ? 0.3 : 1,
-                        textDecoration: hiddenDrivers[driver]
-                          ? 'line-through'
-                          : 'none',
-                      }}
-                      width='auto'
-                      height='20'
-                    >
-                      <rect
-                        x='0'
-                        y='0'
-                        width='100%'
+                    return (
+                      <svg
+                        key={driver}
+                        className='cursor-pointer'
+                        onClick={() =>
+                          toggleDriverVisibility(constructor, driver)
+                        }
+                        style={{
+                          opacity: hiddenDrivers[driver] ? 0.3 : 1,
+                          textDecoration: hiddenDrivers[driver]
+                            ? 'line-through'
+                            : 'none',
+                        }}
+                        width='auto'
                         height='20'
-                        fill='none'
-                        stroke={`#${color || 'ccc'}`}
-                        strokeWidth='2'
-                        strokeDasharray={strokeDasharray}
-                        rx='8' // Add this line for border radius
-                        ry='8' // Add this line for border radius
-                      />
-                      <text
-                        x='50%'
-                        y='55%'
-                        className='fill-foreground'
-                        fontSize='12'
-                        dominantBaseline='middle'
-                        textAnchor='middle'
                       >
-                        {driver}
-                      </text>
-                    </svg>
-                  );
-                })}
+                        <rect
+                          x='0'
+                          y='0'
+                          width='100%'
+                          height='20'
+                          fill='none'
+                          stroke={`#${color || 'ccc'}`}
+                          strokeWidth='2'
+                          strokeDasharray={strokeDasharray}
+                          rx='8' // Add this line for border radius
+                          ry='8' // Add this line for border radius
+                        />
+                        <text
+                          x='50%'
+                          y='55%'
+                          className='fill-foreground'
+                          fontSize='12'
+                          dominantBaseline='middle'
+                          textAnchor='middle'
+                        >
+                          {driver}
+                        </text>
+                      </svg>
+                    );
+                  })}
               </div>
             )}
           </div>
