@@ -110,4 +110,4 @@ export const eventLocationDecode = (location?: string) =>
     ? ''
     : location
         .replace(/-/g, ' ')
-        .replace(/\b\w/g, (char) => char.toUpperCase());
+        .replace(/(^|_|\s)\w/g, (match) => match.toUpperCase());
