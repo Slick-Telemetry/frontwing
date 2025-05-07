@@ -146,9 +146,22 @@ const TopThreeDrivers = ({
 }: {
   driverSessions: MapEvent['sessions'][number]['driver_sessions'];
 }) => {
+  // Sort driverSessions by classified_position (ascending, as integer)
+  const sortedSessions = [...driverSessions].sort((a, b) => {
+    const posA =
+      a.results && a.results[0]?.classified_position
+        ? parseInt(a.results[0].classified_position, 10)
+        : Infinity;
+    const posB =
+      b.results && b.results[0]?.classified_position
+        ? parseInt(b.results[0].classified_position, 10)
+        : Infinity;
+    return posA - posB;
+  });
+
   return (
     <div className='grid grid-cols-3 gap-2'>
-      {driverSessions.map(
+      {sortedSessions.map(
         ({ driver, constructorByConstructorId, results }) =>
           driver &&
           constructorByConstructorId && (
