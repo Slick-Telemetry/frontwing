@@ -61,15 +61,21 @@ const NextEvent = () => {
         </h2>
         {nextEvent.session5_date_utc && (
           <p>
-            {new Date(nextEvent.session5_date_utc).toLocaleString(undefined, {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
-              second: 'numeric',
-            })}
+            {
+              // Use user locale to format the date
+              new Date(nextEvent.session5_date_utc + 'Z').toLocaleString(
+                undefined,
+                {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  second: 'numeric',
+                },
+              )
+            }
           </p>
         )}
       </div>

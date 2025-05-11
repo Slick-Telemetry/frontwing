@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { CalendarPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -32,8 +33,12 @@ export const SessionTime = ({
   const year = new Date(time || '').getFullYear();
   return (
     <div
-      className='flex cursor-pointer items-center gap-2 px-4 hover:underline'
+      className={clsx(
+        'flex items-center gap-2 px-4',
+        !futureEvent && 'cursor-pointer hover:underline',
+      )}
       onClick={() =>
+        !futureEvent &&
         router.push(
           `${year}/${eventLocationEncode(event)}/${eventLocationEncode(name)}`,
         )
