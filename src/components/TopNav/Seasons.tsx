@@ -22,7 +22,7 @@ export function DisplaySeasons() {
     <Link
       href={'/' + year}
       key={year}
-      className='flex items-center gap-2 hover:underline'
+      className='border-primary flex items-center justify-center rounded border py-1 hover:underline'
     >
       <h3>{year}</h3>
     </Link>

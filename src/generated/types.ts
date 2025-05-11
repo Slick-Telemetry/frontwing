@@ -8148,6 +8148,7 @@ export type GetConstructorQuery = {
     __typename?: 'constructors';
     name?: string | null;
     color?: string | null;
+    year?: number | null;
     driver_sessions: Array<{
       __typename?: 'driver_sessions';
       driver?: {
@@ -8593,7 +8594,11 @@ export type GetSessionLapTimesQuery = {
 
 export const GetConstructorsDocument = gql`
   query GetConstructors {
-    constructors(distinct_on: name, where: { ergast_id: { _neq: "" } }) {
+    constructors(
+      where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
+      order_by: { name: asc }
+      distinct_on: name
+    ) {
       name
       ergast_id
       color
@@ -8675,6 +8680,7 @@ export const GetConstructorDocument = gql`
     constructors(where: { ergast_id: { _eq: $_id } }) {
       name
       color
+      year
       driver_sessions(
         order_by: { session: { event: { year: asc } } }
         where: { session: { total_laps: { _is_null: false } } }
@@ -8780,9 +8786,9 @@ export type GetConstructorQueryResult = Apollo.QueryResult<
 export const GetDriversDocument = gql`
   query GetDrivers {
     drivers(
-      where: { driver_sessions: { session: { date: { _iregex: "2024" } } } }
-      distinct_on: full_name
+      where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
       order_by: { full_name: asc }
+      distinct_on: full_name
     ) {
       full_name
       ergast_id

@@ -25,7 +25,7 @@ export function MainNav() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Seasons</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className='grid gap-3 p-4 md:w-[150px] lg:w-[200px] lg:grid-cols-2'>
+            <ul className='grid gap-3 p-3 md:w-[150px] lg:w-[200px] lg:grid-cols-2'>
               <DisplaySeasons />
             </ul>
           </NavigationMenuContent>
@@ -33,7 +33,7 @@ export function MainNav() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Constructors</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className='grid w-[300px] gap-3 p-4 md:grid-cols-2 lg:w-[400px]'>
+            <ul className='grid w-[300px] gap-3 p-3 md:grid-cols-2 lg:w-[400px]'>
               <DisplayConstructors />
             </ul>
           </NavigationMenuContent>
@@ -41,7 +41,7 @@ export function MainNav() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Drivers</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] lg:grid-cols-3'>
+            <ul className='grid w-[400px] gap-3 p-3 md:w-[500px] md:grid-cols-2 lg:w-[600px] lg:grid-cols-3'>
               <DisplayDrivers />
             </ul>
           </NavigationMenuContent>

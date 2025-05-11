@@ -2,7 +2,11 @@ import { gql } from '@apollo/client';
 
 export const GET_CONSTRUCTORS = gql`
   query GetConstructors {
-    constructors(distinct_on: name, where: { ergast_id: { _neq: "" } }) {
+    constructors(
+      where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
+      order_by: { name: asc }
+      distinct_on: name
+    ) {
       name
       ergast_id
       color
@@ -15,6 +19,7 @@ export const GET_CONSTRUCTOR = gql`
     constructors(where: { ergast_id: { _eq: $_id } }) {
       name
       color
+      year
       driver_sessions(
         order_by: { session: { event: { year: asc } } }
         where: { session: { total_laps: { _is_null: false } } }
@@ -46,9 +51,9 @@ export const GET_CONSTRUCTOR = gql`
 export const GET_DRIVERS = gql`
   query GetDrivers {
     drivers(
-      where: { driver_sessions: { session: { date: { _iregex: "2024" } } } }
-      distinct_on: full_name
+      where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
       order_by: { full_name: asc }
+      distinct_on: full_name
     ) {
       full_name
       ergast_id
