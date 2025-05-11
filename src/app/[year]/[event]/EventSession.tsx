@@ -2,9 +2,12 @@
 
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { formatDuration } from '@/lib/helpers';
 import { eventLocationEncode } from '@/lib/utils';
+
+import { CheckboxToggle } from '@/components/Checkbox';
 
 import { GetEventDetailsQuery } from '@/generated/types';
 
@@ -61,6 +64,7 @@ export const EventSession = ({
   time: string;
   children: React.ReactNode;
 }) => {
+  const [showGrid, setShowGrid] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -101,9 +105,16 @@ export const EventSession = ({
           )}
         </div>
       </div>
-
+      {time && new Date(time) < new Date() && (
+        <div className='m-2'>
+          <CheckboxToggle
+            toggle={() => setShowGrid((prev) => !prev)}
+            label='Show Provisional Results'
+          />
+        </div>
+      )}
       {/* Driver Grid */}
-      {children}
+      {showGrid && children}
     </div>
   );
 };
@@ -138,7 +149,7 @@ export const SessionProvisionalGrid = ({
       <p className='mb-2'>Fastest Lap: {formatDuration(Number(fastestLap))}</p>
 
       {/* Driver Grid */}
-      <div className='grid flex-1 grid-flow-col grid-cols-10 grid-rows-2 gap-y-2'>
+      <div className='grid flex-1 grid-cols-2 grid-rows-10 justify-center gap-x-2 md:grid-flow-col md:grid-cols-10 md:grid-rows-2 md:gap-x-0 md:gap-y-2'>
         {driverSessions.map(({ driver }, index) => (
           <DriverHeadshot
             key={driver?.abbreviation || driver?.full_name}
@@ -178,17 +189,20 @@ export const DriverHeadshot = ({
 }) => {
   const { headshot_url, abbreviation } = driver || {};
   return (
-    <div className='border-muted flex items-center border-l-2 pl-1 text-center even:ml-4'>
-      <p className='text-xl opacity-50'>{position}</p>
-      <p className='ml-1 text-sm'>{abbreviation}</p>
-      {headshot_url && (
-        <Image
-          src={headshot_url}
-          width={30}
-          height={30}
-          alt={abbreviation || ''}
-        />
-      )}
+    <div className='items-center text-center even:mt-4 md:flex even:md:mt-0 md:even:ml-4'>
+      <p className='opacity-50'>{position}</p>
+      <div className='border-muted flex flex-col items-center justify-center gap-1 border-t-2 pt-1 md:ml-1 md:flex-row md:border-t-0 md:border-l-2 md:pt-0 md:pl-1'>
+        {headshot_url && (
+          <Image
+            src={headshot_url}
+            width={64}
+            height={64}
+            className='h-16 w-16 md:hidden xl:block xl:h-8 xl:w-8'
+            alt={abbreviation || ''}
+          />
+        )}
+        <p className='md:order-first'>{abbreviation}</p>
+      </div>
     </div>
   );
 };

@@ -15,6 +15,7 @@ import NotFound from '@/app/not-found';
 import {
   GetSeasonEventsQuery,
   GetSeasonEventsQueryVariables,
+  Session_Name_Choices_Enum,
 } from '@/generated/types';
 
 const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
@@ -41,9 +42,9 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
     return <NotFound />;
 
   return (
-    <div className='container'>
+    <div className='container my-4'>
       <CheckboxToggle toggle={toggleSessions} label='Show Sessions' />
-      <main className='my-4 grid sm:grid-cols-2 xl:grid-cols-4'>
+      <main className='my-4 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
         {data?.schedule.map(
           (event) =>
             event.event_name && (
@@ -61,11 +62,11 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
                             key={String(sessionDate)}
                             event={event.location}
                             time={String(sessionDate)}
-                            name={String(
+                            name={
                               event[
                                 `session${sessionNumber}` as keyof typeof event
-                              ],
-                            )}
+                              ] as Session_Name_Choices_Enum
+                            }
                           />
                         ) : null;
                       },

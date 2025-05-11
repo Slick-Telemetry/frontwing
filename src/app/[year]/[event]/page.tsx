@@ -3,13 +3,13 @@
 import { useQuery } from '@apollo/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { use, useMemo, useState } from 'react';
+import { use, useMemo } from 'react';
 
 import { GET_EVENT_DETAILS, GET_EVENT_SCHEDULE } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
 
-import { CheckboxToggle } from '@/components/Checkbox';
 import { FullHeightLoader } from '@/components/Loader';
+import SeasonSelector from '@/components/seasonSelector';
 import { ServerPageError } from '@/components/ServerError';
 import {
   Select,
@@ -40,7 +40,6 @@ const EventPage = ({
   params: Promise<{ year: string; event: string }>;
 }) => {
   const { year, event: eventLoc } = use(params);
-  const [showGrid, setShowGrid] = useState(false);
 
   const { loading, data, error } = useQuery<
     GetEventScheduleQuery,
@@ -97,28 +96,23 @@ const EventPage = ({
 
   const event = data.schedule[0];
   return (
-    <main className='container mt-4 flex grid-cols-4 flex-col gap-4 lg:grid'>
+    <main className='container my-4 flex grid-cols-4 flex-col gap-4 lg:grid'>
       {/* Sidebar  */}
       <Sidebar
         allEvents={data?.dropdown_events}
         event={data.schedule[0]}
         year={year}
       >
-        {/* If event is in the past */}
-        {event.event_date && new Date(event.event_date) < new Date() && (
-          <div className='mb-2'>
-            <CheckboxToggle
-              toggle={() => setShowGrid((prev) => !prev)}
-              label='Show Provisional Results'
-            />
-          </div>
-        )}
+        <div className='mb-2 flex items-center gap-2 md:order-first md:mr-auto'>
+          <h1 className='text-2xl font-black'>Season</h1>
+          <SeasonSelector year={parseInt(year)} />
+        </div>
       </Sidebar>
 
       <div className='col-span-3'>
         <div className='grid gap-4'>
           {/* Sessions */}
-          {Array.from({ length: 5 }, (_, i) => i + 1).map((sessionNumber) => {
+          {Array.from({ length: 5 }, (_, i) => 5 - i).map((sessionNumber) => {
             const sessionDate =
               event[`session${sessionNumber}_date_utc` as keyof typeof event];
             return sessionDate && sessionDate !== 'NaT' ? (
@@ -129,18 +123,17 @@ const EventPage = ({
                 )}
                 key={String(sessionDate)}
               >
-                {showGrid &&
-                  (loadingDetails ? (
-                    // TODO: Replace with sketelon
-                    <SkeletonProvisionalGrid />
-                  ) : (
-                    sessions.length > 0 && (
-                      <SessionProvisionalGrid
-                        key={sessions[sessionNumber - 1]?.name}
-                        session={sessions[sessionNumber - 1]}
-                      />
-                    )
-                  ))}
+                {loadingDetails ? (
+                  // TODO: Replace with sketelon
+                  <SkeletonProvisionalGrid />
+                ) : (
+                  sessions.length > 0 && (
+                    <SessionProvisionalGrid
+                      key={sessions[sessionNumber - 1]?.name}
+                      session={sessions[sessionNumber - 1]}
+                    />
+                  )
+                )}
               </EventSession>
             ) : null;
           })}
@@ -166,10 +159,9 @@ const Sidebar = ({
   // derive link through alternative means
   return (
     <div>
-      {children}
-
       <EventContainer event={{ ...event, event_name: '' }}>
-        <div className='px-4'>
+        <div className='p-4'>
+          {children}
           <Select
             onValueChange={(loc) =>
               router.push(`/${year}/${loc.toLowerCase().replace(/ /g, '-')}`)
@@ -194,7 +186,7 @@ const Sidebar = ({
             </SelectContent>
           </Select>
         </div>
-        <div className='bg-muted mt-4 rounded p-4'>
+        <div className='bg-muted p-4'>
           <Image src={circuit} alt={event.official_event_name || ''} />
         </div>
       </EventContainer>

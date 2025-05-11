@@ -1,12 +1,12 @@
 'use client';
 
+import { ChartLine, Globe2, List } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
-import SeasonSelector from '@/components/seasonSelector';
 import { Button } from '@/components/ui/button';
 
-export const Header = () => {
+const QuickLinks = () => {
   const params = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -14,35 +14,38 @@ export const Header = () => {
 
   // Helper to check if a path is active
   const isActive = (href: string) => {
-    if (href.endsWith('?chart=constructors')) {
-      // Active only if pathname matches and query param is present
-      return (
-        pathname === `/${year}/standings` &&
-        searchParams.get('chart') === 'constructors'
-      );
-    }
-    // For driver standings, active only if pathname matches exactly and no query
-    if (href === `/${year}/standings`) {
-      return pathname === href && !searchParams.get('chart');
-    }
-    // For other links, match the pathname exactly
-    return pathname === href;
+    // get full pathname with searchParams
+    const chartParam = searchParams.get('chart');
+    const chart = chartParam ? `?chart=${chartParam}` : '';
+    const fullPath = pathname + chart;
+
+    // compare href with fullPath
+    return fullPath === href;
   };
 
   return (
-    <header className='container mx-auto flex items-center gap-2'>
-      <div className='flex items-center gap-2'>
-        <h1 className='text-2xl font-black'>Season</h1>
-        <SeasonSelector year={parseInt(year)} />
-      </div>
+    <>
       <Button variant={isActive(`/${year}`) ? 'default' : 'outline'} asChild>
-        <Link href={`/${year}`}>All Events</Link>
+        <Link href={`/${year}`}>
+          <List />
+          All Events
+        </Link>
+      </Button>
+      <Button
+        variant={isActive(`/${year}/map`) ? 'default' : 'outline'}
+        asChild
+      >
+        <Link href={`/${year}/map`}>
+          <Globe2 /> Map
+        </Link>
       </Button>
       <Button
         variant={isActive(`/${year}/standings`) ? 'default' : 'outline'}
         asChild
       >
-        <Link href={`/${year}/standings`}>Driver Standings</Link>
+        <Link href={`/${year}/standings`}>
+          <ChartLine /> Drivers
+        </Link>
       </Button>
       <Button
         variant={
@@ -53,15 +56,19 @@ export const Header = () => {
         asChild
       >
         <Link href={`/${year}/standings?chart=constructors`}>
-          Constructor Standings
+          <ChartLine /> Constructors
         </Link>
       </Button>
-      <Button
-        variant={isActive(`/${year}/map`) ? 'default' : 'outline'}
-        asChild
-      >
-        <Link href={`/${year}/map`}>Travel Map</Link>
-      </Button>
+    </>
+  );
+};
+
+export const Header = () => {
+  return (
+    // <header className='flegap-2 container mx-auto my-4 md:my-0 md:flex-row md:items-center'>
+    <header className='container grid grid-cols-2 gap-2 md:flex'>
+      <QuickLinks />
     </header>
+    // </header>
   );
 };

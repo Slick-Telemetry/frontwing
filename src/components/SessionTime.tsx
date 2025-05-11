@@ -3,28 +3,18 @@ import { useRouter } from 'next/navigation';
 
 import { eventLocationEncode } from '@/lib/utils';
 
-// const sessionTitles: Record<Session_Name_Choices_Enum, string> = {
-//   [Session_Name_Choices_Enum.Practice_1]: 'FP1',
-//   [Session_Name_Choices_Enum.Practice_2]: 'FP2',
-//   [Session_Name_Choices_Enum.Practice_3]: 'FP3',
-//   [Session_Name_Choices_Enum.Race]: 'GP',
-//   [Session_Name_Choices_Enum.Qualifying]: 'Q',
-//   [Session_Name_Choices_Enum.SprintQualifying]: 'SQ',
-//   [Session_Name_Choices_Enum.Sprint]: 'S',
-//   [Session_Name_Choices_Enum.SprintShootout]: 'SS',
-//   [Session_Name_Choices_Enum.TestSession]: '',
-// };
+import { Session_Name_Choices_Enum } from '@/generated/types';
 
-const sessionTitles: Record<string, string> = {
-  'Practice 1': 'FP1',
-  'Practice 2': 'FP2',
-  'Practice 3': 'FP3',
-  Race: 'GP',
-  Qualifying: 'Q',
-  'Sprint Qualifying': 'SQ',
-  Sprint: 'S',
-  'Sprint Shootout': 'SS',
-  'Test Session': 'TEST',
+const sessionTitles: Record<Session_Name_Choices_Enum, string> = {
+  [Session_Name_Choices_Enum.Practice_1]: 'FP1',
+  [Session_Name_Choices_Enum.Practice_2]: 'FP2',
+  [Session_Name_Choices_Enum.Practice_3]: 'FP3',
+  [Session_Name_Choices_Enum.Race]: 'GP',
+  [Session_Name_Choices_Enum.Qualifying]: 'Q',
+  [Session_Name_Choices_Enum.SprintQualifying]: 'SQ',
+  [Session_Name_Choices_Enum.Sprint]: 'S',
+  [Session_Name_Choices_Enum.SprintShootout]: 'SS',
+  [Session_Name_Choices_Enum.TestSession]: '',
 };
 
 export const SessionTime = ({
@@ -33,7 +23,7 @@ export const SessionTime = ({
   name,
 }: {
   time?: string | null;
-  name?: string | null;
+  name?: Session_Name_Choices_Enum | null;
   event?: string | null;
   // name?: Session_Name_Choices_Enum | null;
 }) => {

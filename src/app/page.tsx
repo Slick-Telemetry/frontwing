@@ -8,9 +8,9 @@ export default function Home() {
       className='flex flex-1 bg-cover bg-center bg-no-repeat'
       style={{ backgroundImage: `url(${bg.src})` }}
     >
-      <div className='grid w-full grid-rows-3 items-center bg-black/50 text-white'>
-        <div className='row-start-2 text-center'>
-          <h1 className='h-fit text-4xl font-bold tracking-tighter uppercase md:text-7xl'>
+      <div className='w-full grid-rows-3 items-center bg-black/50 py-16 text-white md:grid md:py-0'>
+        <div className='row-span-2 my-16 text-center md:self-end'>
+          <h1 className='h-fit text-6xl font-bold tracking-tighter uppercase md:text-7xl'>
             Slick Telemetry
           </h1>
           <p className='font-semi-bold sm:text-xl lg:text-3xl'>
