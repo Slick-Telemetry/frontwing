@@ -33,7 +33,7 @@ const titles = {
       <h3 className='text-center text-lg font-semibold'>Fastest Laps</h3>
       <p className='text-center text-sm italic'>
         <svg className='inline size-6' viewBox='0 0 8 8'>
-          <GlyphStar left={4} top={4} size={8} fill='#FFD70099' />
+          <GlyphStar left={4} top={4} size={8} fill='#FFD700' />
         </svg>
         = Potential is total of best sector times
       </p>
@@ -149,14 +149,6 @@ const BestPotentialChart = ({ times }: { times: DriverTimes[] }) => {
       title={titles['potential_best']}
       minMax={[minValue, maxValue]}
     >
-      {/* <BarGroup padding={0}> */}
-      {/* <BarSeries
-          dataKey='Potential Best'
-          data={driverTimes}
-          xAccessor={(d) => d.abbreviation}
-          yAccessor={(d) => d.fastestLap.potential_best}
-          colorAccessor={() => `#FFD70099`}
-          /> */}
       <BarSeries
         dataKey='Lap Time'
         data={driverTimes}
@@ -169,21 +161,20 @@ const BestPotentialChart = ({ times }: { times: DriverTimes[] }) => {
         data={driverTimes}
         xAccessor={(d) => d.abbreviation}
         yAccessor={(d) => d.fastestLap.potential_best}
-        colorAccessor={() => '#FFD70099'}
+        colorAccessor={() => '#FFD700'}
         enableEvents={false} // Disable tooltip effects
         renderGlyph={({ x, y, size, color }) => {
           return (
             <GlyphStar
               left={x}
               top={y}
-              // stroke={glyphOutline}
+              stroke='black'
               fill={color}
               size={size * 10}
             />
           );
         }}
       />
-      {/* </BarGroup> */}
 
       {/* Labels on top of bars */}
       <GlyphSeries
