@@ -1,3 +1,24 @@
+## 0.6.0 (2025-05-12)
+
+### Feat
+
+- lap time comparison and delta to winner
+- session charts: sector times and tires used
+
+### Fix
+
+- FRON-155 proper time for next event and event sessions
+- **utils**: FRON-160 handle sprint qualifying and shootout
+- **session**: FRON-159 qualify DNFs appropriately
+- **map**: FRON-154 incorrect ordering of top 3 drivers
+- wrong tyre color being applied
+- remove moment dependency
+- adjusting links to new routing layout
+
+### Refactor
+
+- FRON-118 sector time charts now horizontal and chart for fastest and potential fastest lap
+
 ## 0.5.2 (2025-04-19)
 
 ### Fix
