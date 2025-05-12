@@ -68,17 +68,17 @@ export const Legend = ({
   }, [standings]);
 
   return (
-    <div className='grid grid-cols-2 gap-1 sm:grid-cols-5 lg:grid-cols-10'>
+    <div className='my-2 grid grid-cols-2 gap-2 sm:grid-cols-5'>
       {Object.entries(constructorsWithDrivers).map(
         ([constructor, { drivers, color }]) => (
           <div
             key={constructor}
-            className='flex flex-col justify-between rounded border p-1 text-sm'
+            className='flex flex-col justify-between rounded border p-1'
             style={{ background: bgGradient(color) }}
           >
             {/* **Constructor Name Toggle** */}
             <span
-              className='block cursor-pointer text-xs'
+              className='block cursor-pointer'
               onClick={() =>
                 toggleConstructorVisibility(
                   constructor,
@@ -98,9 +98,8 @@ export const Legend = ({
             {/* **Drivers under this Constructor** */}
             {chartType === 'drivers' && (
               <div className='mt-1 flex gap-x-2'>
-                {drivers
+                {[...drivers]
                   // Sort drivers by last available points (descending)
-                  .slice() // copy to avoid mutating original
                   .sort((a, b) => {
                     const driverA = standings.drivers.find(
                       (d) => d.abbreviation === a,
@@ -108,18 +107,12 @@ export const Legend = ({
                     const driverB = standings.drivers.find(
                       (d) => d.abbreviation === b,
                     );
-                    const aPointsRaw =
-                      driverA?.driver_standings?.at(-1)?.points ?? 0;
-                    const bPointsRaw =
-                      driverB?.driver_standings?.at(-1)?.points ?? 0;
-                    const aPoints =
-                      typeof aPointsRaw === 'bigint'
-                        ? Number(aPointsRaw)
-                        : aPointsRaw;
-                    const bPoints =
-                      typeof bPointsRaw === 'bigint'
-                        ? Number(bPointsRaw)
-                        : bPointsRaw;
+                    const aPoints = Number(
+                      driverA?.driver_standings?.at(-1)?.points ?? 0,
+                    );
+                    const bPoints = Number(
+                      driverB?.driver_standings?.at(-1)?.points ?? 0,
+                    );
                     return bPoints - aPoints;
                   })
                   .map((driver, driverIndex) => {
