@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const GET_CONSTRUCTORS = gql`
-  query GetConstructors {
+  query GetConstructors @cached {
     constructors(
       where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
       order_by: { name: asc }
@@ -15,7 +15,7 @@ export const GET_CONSTRUCTORS = gql`
 `;
 
 export const GET_CONSTRUCTOR = gql`
-  query GetConstructor($_id: String!) {
+  query GetConstructor($_id: String!) @cached {
     constructors(where: { ergast_id: { _eq: $_id } }) {
       name
       color
@@ -49,7 +49,7 @@ export const GET_CONSTRUCTOR = gql`
 `;
 
 export const GET_DRIVERS = gql`
-  query GetDrivers {
+  query GetDrivers @cached {
     drivers(
       where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
       order_by: { full_name: asc }
@@ -63,7 +63,7 @@ export const GET_DRIVERS = gql`
 `;
 
 export const GET_SEASONS = gql`
-  query GetSeasons {
+  query GetSeasons @cached {
     events(distinct_on: year, order_by: { year: desc }) {
       year
     }
@@ -71,7 +71,7 @@ export const GET_SEASONS = gql`
 `;
 
 export const GET_MAP_EVENTS = gql`
-  query GetMapEvents($year: Int!) {
+  query GetMapEvents($year: Int!) @cached {
     events(where: { year: { _eq: $year } }) {
       round_number
       name
@@ -124,7 +124,7 @@ export const GET_NEXT_EVENT = gql`
 `;
 
 export const GET_SEASON_EVENTS = gql`
-  query GetSeasonEvents($year: Int!) {
+  query GetSeasonEvents($year: Int!) @cached {
     schedule(where: { year: { _eq: $year } }) {
       year
       round_number
@@ -148,7 +148,7 @@ export const GET_SEASON_EVENTS = gql`
 `;
 
 export const GET_EVENT_SCHEDULE = gql`
-  query GetEventSchedule($year: Int!, $event: String!) {
+  query GetEventSchedule($year: Int!, $event: String!) @cached {
     dropdown_events: schedule(
       where: { location: { _neq: $event }, year: { _eq: $year } }
     ) {
@@ -182,7 +182,7 @@ export const GET_EVENT_SCHEDULE = gql`
   }
 `;
 export const GET_EVENT_DETAILS = gql`
-  query GetEventDetails($year: Int!, $event: String!) {
+  query GetEventDetails($year: Int!, $event: String!) @cached {
     events(
       where: { location: { _eq: $event }, year: { _eq: $year } }
       limit: 1
@@ -279,7 +279,7 @@ export const GET_EVENT_DETAILS = gql`
 `;
 
 export const GET_STANDINGS = gql`
-  query GetStandings($season: Int!) {
+  query GetStandings($season: Int!) @cached {
     drivers(where: { driver_standings: { season: { _eq: $season } } }) {
       abbreviation
       full_name
@@ -323,7 +323,7 @@ export const GET_SESSION_RESULTS = gql`
     $year: Int!
     $event: String!
     $session: session_name_choices_enum!
-  ) {
+  ) @cached {
     sessions(
       limit: 1
       where: {
@@ -386,7 +386,7 @@ export const GET_SESSION_STINTS = gql`
     $year: Int!
     $event: String!
     $session: session_name_choices_enum!
-  ) {
+  ) @cached {
     sessions(
       limit: 1
       where: {
@@ -417,7 +417,7 @@ export const GET_SESSION_LAP_TIMES = gql`
     $year: Int!
     $event: String!
     $session: session_name_choices_enum!
-  ) {
+  ) @cached {
     sessions(
       limit: 1
       where: {

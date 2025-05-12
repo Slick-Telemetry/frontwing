@@ -8593,7 +8593,7 @@ export type GetSessionLapTimesQuery = {
 };
 
 export const GetConstructorsDocument = gql`
-  query GetConstructors {
+  query GetConstructors @cached {
     constructors(
       where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
       order_by: { name: asc }
@@ -8676,7 +8676,7 @@ export type GetConstructorsQueryResult = Apollo.QueryResult<
   GetConstructorsQueryVariables
 >;
 export const GetConstructorDocument = gql`
-  query GetConstructor($_id: String!) {
+  query GetConstructor($_id: String!) @cached {
     constructors(where: { ergast_id: { _eq: $_id } }) {
       name
       color
@@ -8784,7 +8784,7 @@ export type GetConstructorQueryResult = Apollo.QueryResult<
   GetConstructorQueryVariables
 >;
 export const GetDriversDocument = gql`
-  query GetDrivers {
+  query GetDrivers @cached {
     drivers(
       where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
       order_by: { full_name: asc }
@@ -8865,7 +8865,7 @@ export type GetDriversQueryResult = Apollo.QueryResult<
   GetDriversQueryVariables
 >;
 export const GetSeasonsDocument = gql`
-  query GetSeasons {
+  query GetSeasons @cached {
     events(distinct_on: year, order_by: { year: desc }) {
       year
     }
@@ -8940,7 +8940,7 @@ export type GetSeasonsQueryResult = Apollo.QueryResult<
   GetSeasonsQueryVariables
 >;
 export const GetMapEventsDocument = gql`
-  query GetMapEvents($year: Int!) {
+  query GetMapEvents($year: Int!) @cached {
     events(where: { year: { _eq: $year } }) {
       round_number
       name
@@ -9141,7 +9141,7 @@ export type GetNextEventQueryResult = Apollo.QueryResult<
   GetNextEventQueryVariables
 >;
 export const GetSeasonEventsDocument = gql`
-  query GetSeasonEvents($year: Int!) {
+  query GetSeasonEvents($year: Int!) @cached {
     schedule(where: { year: { _eq: $year } }) {
       year
       round_number
@@ -9239,7 +9239,7 @@ export type GetSeasonEventsQueryResult = Apollo.QueryResult<
   GetSeasonEventsQueryVariables
 >;
 export const GetEventScheduleDocument = gql`
-  query GetEventSchedule($year: Int!, $event: String!) {
+  query GetEventSchedule($year: Int!, $event: String!) @cached {
     dropdown_events: schedule(
       where: { location: { _neq: $event }, year: { _eq: $year } }
     ) {
@@ -9349,7 +9349,7 @@ export type GetEventScheduleQueryResult = Apollo.QueryResult<
   GetEventScheduleQueryVariables
 >;
 export const GetEventDetailsDocument = gql`
-  query GetEventDetails($year: Int!, $event: String!) {
+  query GetEventDetails($year: Int!, $event: String!) @cached {
     events(
       where: { location: { _eq: $event }, year: { _eq: $year } }
       limit: 1
@@ -9521,7 +9521,7 @@ export type GetEventDetailsQueryResult = Apollo.QueryResult<
   GetEventDetailsQueryVariables
 >;
 export const GetStandingsDocument = gql`
-  query GetStandings($season: Int!) {
+  query GetStandings($season: Int!) @cached {
     drivers(where: { driver_standings: { season: { _eq: $season } } }) {
       abbreviation
       full_name
@@ -9639,7 +9639,7 @@ export const SessionResultsDocument = gql`
     $year: Int!
     $event: String!
     $session: session_name_choices_enum!
-  ) {
+  ) @cached {
     sessions(
       limit: 1
       where: {
@@ -9778,7 +9778,7 @@ export const GetSessionStintsDocument = gql`
     $year: Int!
     $event: String!
     $session: session_name_choices_enum!
-  ) {
+  ) @cached {
     sessions(
       limit: 1
       where: {
@@ -9885,7 +9885,7 @@ export const GetSessionLapTimesDocument = gql`
     $year: Int!
     $event: String!
     $session: session_name_choices_enum!
-  ) {
+  ) @cached {
     sessions(
       limit: 1
       where: {

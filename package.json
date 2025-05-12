@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@apollo/client": "latest",
-    "@apollo/experimental-nextjs-app-support": "latest",
+    "@apollo/client-integration-nextjs": "latest",
     "@graphql-typed-document-node/core": "latest",
     "@radix-ui/react-avatar": "latest",
     "@radix-ui/react-dialog": "latest",
