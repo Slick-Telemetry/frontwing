@@ -283,12 +283,14 @@ const SessionCard = ({
       </div>
       <p className='text-xs leading-2'>{ds.constructorByConstructorId?.name}</p>
       <p>{ds.driver?.full_name}</p>
-      {ds.results?.[0]?.total_race_time && (
+      {ds.results?.[0]?.total_race_time ? (
         <p className='text-muted-foreground text-xs'>
           {index === 0
             ? formatLapTime(ds.results[0].total_race_time)
             : `+${formatLapTime(ds.results[0].total_race_time)}`}
         </p>
+      ) : (
+        <p className='text-muted-foreground text-xs'>&nbsp;</p> // Placeholder to maintain layout
       )}
       <div className='items-cemter my-2 flex justify-between rounded border p-1'>
         <div className='grid'>
