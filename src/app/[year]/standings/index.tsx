@@ -101,9 +101,22 @@ export const Standings = ({ season }: { season: number }) => {
                 );
                 return bPoints - aPoints;
               })
-              .map((driver, i) => {
+              .map((driver, i, sortedDrivers) => {
                 const lastSession =
                   driver.driver_standings[driver.driver_standings.length - 1];
+                const currentPoints = Number(lastSession?.points ?? 0);
+                const previousPoints =
+                  i > 0
+                    ? Number(
+                        sortedDrivers[i - 1].driver_standings[
+                          sortedDrivers[i - 1].driver_standings.length - 1
+                        ]?.points ?? 0,
+                      )
+                    : null;
+                const gap =
+                  previousPoints !== null
+                    ? `-${previousPoints - currentPoints}`
+                    : 'Gap';
 
                 return (
                   <div
@@ -124,6 +137,7 @@ export const Standings = ({ season }: { season: number }) => {
                       <p>{driver.latest_constructor[0].constructor?.name}</p>
                     </div>
                     <p className='w-12 text-center'>{lastSession.points}</p>
+                    <p className='w-12 text-center'>{gap}</p>
                   </div>
                 );
               })
@@ -139,29 +153,51 @@ export const Standings = ({ season }: { season: number }) => {
                 );
                 return bPoints - aPoints;
               })
-              .map((constructor, i) => (
-                <div
-                  className='border-muted flex flex-wrap items-center border'
-                  key={constructor.name}
-                >
-                  <p className='w-8 text-center'>{i + 1}</p>
-                  <p
-                    className='flex-1 p-2 py-1'
-                    style={{
-                      background: bgGradient(constructor.color || 'cccccc'),
-                    }}
+              .map((constructor, i, sortedConstructors) => {
+                const currentPoints = Number(
+                  constructor.constructor_standings[
+                    constructor.constructor_standings.length - 1
+                  ]?.points ?? 0,
+                );
+                const previousPoints =
+                  i > 0
+                    ? Number(
+                        sortedConstructors[i - 1].constructor_standings[
+                          sortedConstructors[i - 1].constructor_standings
+                            .length - 1
+                        ]?.points ?? 0,
+                      )
+                    : null;
+                const gap =
+                  previousPoints !== null
+                    ? `-${previousPoints - currentPoints}`
+                    : 'Gap';
+
+                return (
+                  <div
+                    className='border-muted flex flex-wrap items-center border'
+                    key={constructor.name}
                   >
-                    {constructor.name}
-                  </p>
-                  <p className='w-12 text-center'>
-                    {
-                      constructor.constructor_standings[
-                        constructor.constructor_standings.length - 1
-                      ].points
-                    }
-                  </p>
-                </div>
-              ))}
+                    <p className='w-8 text-center'>{i + 1}</p>
+                    <p
+                      className='flex-1 p-2 py-1'
+                      style={{
+                        background: bgGradient(constructor.color || 'cccccc'),
+                      }}
+                    >
+                      {constructor.name}
+                    </p>
+                    <p className='w-12 text-center'>
+                      {
+                        constructor.constructor_standings[
+                          constructor.constructor_standings.length - 1
+                        ].points
+                      }
+                    </p>
+                    <p className='w-12 text-center'>{gap}</p>
+                  </div>
+                );
+              })}
       </div>
 
       {/* Charts */}
