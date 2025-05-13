@@ -15,8 +15,6 @@ import {
   GetNextEventQueryVariables,
 } from '@/generated/types';
 
-import { Loader } from './Loader';
-
 const getTodayMidnightUTC = () => {
   const now = new Date();
   now.setUTCHours(0, 0, 0, 0); // Set to midnight UTC
@@ -33,8 +31,16 @@ const NextEvent = () => {
 
   if (loading)
     return (
-      <div className='flex min-h-24 items-center justify-center'>
-        <Loader />
+      <div className='mx-auto flex w-[350px] animate-pulse flex-col items-center justify-center gap-1'>
+        {/* <Loader /> */}
+        <div className='size-8 w-full rounded bg-gray-200'></div>
+        <div className='size-8 w-full rounded bg-gray-200'></div>
+        <div className='my-2 flex w-full justify-evenly'>
+          <div className='size-12 animate-pulse rounded bg-gray-200'></div>
+          <div className='size-12 animate-pulse rounded bg-gray-200'></div>
+          <div className='size-12 animate-pulse rounded bg-gray-200'></div>
+          <div className='size-12 animate-pulse rounded bg-gray-200'></div>
+        </div>
       </div>
     );
   if (error || !data?.schedule[0]) return <></>;
