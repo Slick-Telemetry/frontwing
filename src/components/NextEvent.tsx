@@ -33,13 +33,13 @@ const NextEvent = () => {
     return (
       <div className='mx-auto flex w-[350px] animate-pulse flex-col items-center justify-center gap-1'>
         {/* <Loader /> */}
-        <div className='size-8 w-full rounded bg-gray-200'></div>
-        <div className='size-8 w-full rounded bg-gray-200'></div>
+        <div className='size-8 w-full rounded bg-gray-700'></div>
+        <div className='size-8 w-full rounded bg-gray-700'></div>
         <div className='my-2 flex w-full justify-evenly'>
-          <div className='size-12 animate-pulse rounded bg-gray-200'></div>
-          <div className='size-12 animate-pulse rounded bg-gray-200'></div>
-          <div className='size-12 animate-pulse rounded bg-gray-200'></div>
-          <div className='size-12 animate-pulse rounded bg-gray-200'></div>
+          <div className='size-12 animate-pulse rounded bg-gray-700'></div>
+          <div className='size-12 animate-pulse rounded bg-gray-700'></div>
+          <div className='size-12 animate-pulse rounded bg-gray-700'></div>
+          <div className='size-12 animate-pulse rounded bg-gray-700'></div>
         </div>
       </div>
     );
