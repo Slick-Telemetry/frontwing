@@ -1,25 +1,21 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
+import { QueryRef, useReadQuery } from '@apollo/client';
 import Link from 'next/link';
 
-import { GET_CONSTRUCTORS } from '@/lib/queries';
 import { bgGradient } from '@/lib/utils';
 
-import {
-  GetConstructorsQuery,
-  GetConstructorsQueryVariables,
-} from '@/generated/types';
+import { GetConstructorsQuery } from '@/generated/types';
 
 import { ServerComponentError } from '../ServerError';
 
-export function DisplayConstructors() {
-  const { loading, error, data } = useQuery<
-    GetConstructorsQuery,
-    GetConstructorsQueryVariables
-  >(GET_CONSTRUCTORS);
+export function DisplayConstructors({
+  queryRef,
+}: {
+  queryRef: QueryRef<GetConstructorsQuery>;
+}) {
+  const { error, data } = useReadQuery<GetConstructorsQuery>(queryRef);
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <ServerComponentError />;
 
   return data?.constructors.map(({ name, ergast_id, color }) => (

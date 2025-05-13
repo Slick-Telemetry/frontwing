@@ -1,22 +1,20 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
+import { QueryRef, useReadQuery } from '@apollo/client';
 import Link from 'next/link';
 
-import { GET_DRIVERS } from '@/lib/queries';
+import { ServerComponentError } from '@/components/ServerError';
 
-import { GetDriversQuery, GetDriversQueryVariables } from '@/generated/types';
+import { GetDriversQuery } from '@/generated/types';
 
 import { FloatingNumber } from '../FloatingNumber';
-import { ServerComponentError } from '../ServerError';
 
-export function DisplayDrivers() {
-  const { loading, error, data } = useQuery<
-    GetDriversQuery,
-    GetDriversQueryVariables
-  >(GET_DRIVERS);
-
-  if (loading) return <p>Loading...</p>;
+export function DisplayDrivers({
+  queryRef,
+}: {
+  queryRef: QueryRef<GetDriversQuery>;
+}) {
+  const { data, error } = useReadQuery(queryRef);
   if (error) return <ServerComponentError />;
 
   return data?.drivers.map(({ full_name, ergast_id, number }) => (

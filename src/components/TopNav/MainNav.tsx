@@ -1,9 +1,16 @@
 'use client';
 
+import { QueryRef } from '@apollo/client';
 import Link from 'next/link';
 import React from 'react';
 
 import { cn } from '@/lib/utils';
+
+import {
+  GetConstructorsQuery,
+  GetDriversQuery,
+  GetSeasonsQuery,
+} from '@/generated/types';
 
 import { DisplayConstructors } from './Constructors';
 import { DisplayDrivers } from './Drivers';
@@ -18,7 +25,15 @@ import {
   navigationMenuTriggerStyle,
 } from '../ui/navigation-menu';
 
-export function MainNav() {
+export function MainNav({
+  driverQuery,
+  seasonQuery,
+  constructorsQuery,
+}: {
+  driverQuery: QueryRef<GetDriversQuery>;
+  seasonQuery: QueryRef<GetSeasonsQuery>;
+  constructorsQuery: QueryRef<GetConstructorsQuery>;
+}) {
   return (
     <NavigationMenu className='hidden px-4 md:block'>
       <NavigationMenuList>
@@ -26,7 +41,7 @@ export function MainNav() {
           <NavigationMenuTrigger>Seasons</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className='grid gap-3 p-3 md:w-[150px] lg:w-[200px] lg:grid-cols-2'>
-              <DisplaySeasons />
+              <DisplaySeasons queryRef={seasonQuery} />
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -34,7 +49,7 @@ export function MainNav() {
           <NavigationMenuTrigger>Constructors</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className='grid w-[300px] gap-3 p-3 md:grid-cols-2 lg:w-[400px]'>
-              <DisplayConstructors />
+              <DisplayConstructors queryRef={constructorsQuery} />
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -42,7 +57,7 @@ export function MainNav() {
           <NavigationMenuTrigger>Drivers</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className='grid w-[400px] gap-3 p-3 md:w-[500px] md:grid-cols-2 lg:w-[600px] lg:grid-cols-3'>
-              <DisplayDrivers />
+              <DisplayDrivers queryRef={driverQuery} />
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
