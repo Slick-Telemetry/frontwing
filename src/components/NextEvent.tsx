@@ -69,18 +69,15 @@ const NextEvent = () => {
           <p>
             {
               // Use user locale to format the date
-              new Date(nextEvent.session5_date_utc + 'Z').toLocaleString(
-                undefined,
-                {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                  second: 'numeric',
-                },
-              )
+              new Date(nextEvent.session5_date_utc).toLocaleString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+              })
             }
           </p>
         )}

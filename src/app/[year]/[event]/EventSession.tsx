@@ -85,7 +85,7 @@ export const EventSession = ({
           {time && (
             <p>
               {/* <Flag className='inline size-4 fill-green-600' /> */}
-              {new Date(time + 'Z').toLocaleString(undefined, {
+              {new Date(time).toLocaleString(undefined, {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true,
@@ -94,7 +94,7 @@ export const EventSession = ({
           )}
           {time && (
             <p>
-              {new Date(time + 'Z').toLocaleString(undefined, {
+              {new Date(time).toLocaleString(undefined, {
                 month: 'long',
                 day: 'numeric',
                 year: 'numeric',
