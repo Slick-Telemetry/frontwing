@@ -1,3 +1,13 @@
+## 0.6.1 (2025-05-14)
+
+### Fix
+
+- FRON-155 proper time for next event and event sessions
+
+### Perf
+
+- FRON-162 Utilizing caching methods with next, apollo and hasura
+
 ## 0.6.0 (2025-05-12)
 
 ### Feat
