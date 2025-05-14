@@ -10,7 +10,7 @@ const sessionTitles: Record<Session_Name_Choices_Enum, string> = {
   [Session_Name_Choices_Enum.Practice_1]: 'FP1',
   [Session_Name_Choices_Enum.Practice_2]: 'FP2',
   [Session_Name_Choices_Enum.Practice_3]: 'FP3',
-  [Session_Name_Choices_Enum.Race]: 'GP',
+  [Session_Name_Choices_Enum.Race]: 'R',
   [Session_Name_Choices_Enum.Qualifying]: 'Q',
   [Session_Name_Choices_Enum.SprintQualifying]: 'SQ',
   [Session_Name_Choices_Enum.Sprint]: 'S',
