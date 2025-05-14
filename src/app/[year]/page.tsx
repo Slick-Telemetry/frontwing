@@ -43,7 +43,7 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
 
   return (
     <div className='container my-4'>
-      <CheckboxToggle toggle={toggleSessions} label='Show Sessions' />
+      <CheckboxToggle toggle={toggleSessions}>Show Sessions</CheckboxToggle>
       <main className='my-4 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
         {data?.schedule.map(
           (event) =>

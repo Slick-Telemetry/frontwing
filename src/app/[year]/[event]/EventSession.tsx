@@ -70,14 +70,12 @@ export const EventSession = ({
 
   return (
     <div className='rounded border' key={time}>
-      <div className='bg-secondary text-secondary-foreground flex w-full items-center justify-between p-4 py-2'>
+      <div
+        className='bg-secondary text-secondary-foreground flex w-full cursor-pointer items-center justify-between p-4 py-2'
+        onClick={() => router.push(`${pathname}/${eventLocationEncode(name)}`)}
+      >
         <div>
-          <h2
-            onClick={() =>
-              router.push(`${pathname}/${eventLocationEncode(name)}`)
-            }
-            className='mr-auto text-2xl font-black hover:underline'
-          >
+          <h2 className='mr-auto text-2xl font-black hover:underline'>
             {name?.replace(/_/g, ' ')}
           </h2>
         </div>
@@ -105,10 +103,11 @@ export const EventSession = ({
       </div>
       {time && new Date(time) < new Date() && (
         <div className='m-2'>
-          <CheckboxToggle
-            toggle={() => setShowGrid((prev) => !prev)}
-            label='Show Provisional Results'
-          />
+          <label className='flex items-center gap-2'>
+            <CheckboxToggle toggle={() => setShowGrid((prev) => !prev)}>
+              Show Provisional Results
+            </CheckboxToggle>
+          </label>
         </div>
       )}
       {/* Driver Grid */}
@@ -165,8 +164,11 @@ export const SkeletonProvisionalGrid = () => {
     <div className='animate-pulse overflow-hidden p-2'>
       <div className='mb-2 size-6 w-full rounded bg-gray-200'></div>
       <div className='grid w-full flex-1 grid-flow-col grid-cols-10 grid-rows-2 gap-y-2'>
-        {Array.from({ length: 20 }).map(() => (
-          <div key='placeholder' className='rounde w-full pr-4 pl-1 even:ml-4'>
+        {Array.from({ length: 20 }).map((_, index) => (
+          <div
+            key={`placeholder-${index}`}
+            className='rounde w-full pr-4 pl-1 even:ml-4'
+          >
             <div className='size-7 w-full rounded bg-gray-200'></div>
           </div>
         ))}
