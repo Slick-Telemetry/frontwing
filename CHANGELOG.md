@@ -1,3 +1,9 @@
+## 0.6.2 (2025-05-15)
+
+### Fix
+
+- add key prop to Fragment in DeltaToWinner component
+
 ## 0.6.1 (2025-05-14)
 
 ### Fix
