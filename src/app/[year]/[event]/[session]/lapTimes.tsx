@@ -84,10 +84,9 @@ const DeltaToWinner = ({
               };
             });
           return (
-            <>
+            <React.Fragment key={driver.driver?.abbreviation}>
               <LineSeries
                 curve={curveCatmullRom}
-                key={driver.driver?.abbreviation}
                 dataKey={driver.driver?.abbreviation as string}
                 data={lapData}
                 colorAccessor={() => color}
@@ -109,7 +108,7 @@ const DeltaToWinner = ({
                   <GlyphDot cx={x} cy={y} r={4} fill={color} />
                 )}
               /> */}
-            </>
+            </React.Fragment>
           );
         })}
 
