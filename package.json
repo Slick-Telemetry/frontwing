@@ -24,6 +24,7 @@
     "@apollo/client": "latest",
     "@apollo/client-integration-nextjs": "latest",
     "@graphql-typed-document-node/core": "latest",
+    "@radix-ui/react-accordion": "latest",
     "@radix-ui/react-avatar": "latest",
     "@radix-ui/react-dialog": "latest",
     "@radix-ui/react-dropdown-menu": "latest",
@@ -58,7 +59,8 @@
     "react-dom": "latest",
     "react-map-gl": "latest",
     "tailwind-merge": "latest",
-    "tailwindcss-animate": "latest"
+    "tailwindcss-animate": "latest",
+    "vaul": "latest"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",

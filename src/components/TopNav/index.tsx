@@ -2,14 +2,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { MainNav } from './MainNav';
+import { MobileNav } from './MobileNav';
 import { ServerStatus } from './ServerStatus';
 
 export const TopNav = () => {
   return (
-    <div className='container flex h-16 items-center'>
+    <div className='container flex h-12 items-center md:h-16'>
       <Link
         href='/'
-        className='btn btn-ghost flex items-center gap-x-2 text-xl font-extrabold tracking-tight'
+        className='btn btn-ghost flex items-center gap-x-2 font-extrabold tracking-tight md:text-xl'
       >
         <Image
           src='/slick-telemetry-logo.png'
