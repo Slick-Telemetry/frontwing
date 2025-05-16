@@ -12,14 +12,15 @@ import {
 } from '@/generated/types';
 
 import { MainNav } from './MainNav';
+import { MobileNav } from './MobileNav';
 import { ServerStatus } from './ServerStatus';
 
 export const TopNav = () => {
   return (
-    <div className='container flex h-16 items-center'>
+    <div className='container flex h-12 items-center md:h-16'>
       <Link
         href='/'
-        className='btn btn-ghost flex items-center gap-x-2 text-xl font-extrabold tracking-tight'
+        className='btn btn-ghost flex items-center gap-x-2 font-extrabold tracking-tight md:text-xl'
       >
         <Image
           src='/slick-telemetry-logo.png'
@@ -35,31 +36,47 @@ export const TopNav = () => {
             {(seasonQuery) => (
               <PreloadQuery query={GET_CONSTRUCTORS}>
                 {(constructorsQuery) => (
-                  <MainNav
-                    driverQuery={
-                      driverQuery as QueryRef<GetDriversQuery, unknown>
-                    }
-                    seasonQuery={
-                      seasonQuery as QueryRef<GetSeasonsQuery, unknown>
-                    }
-                    constructorsQuery={
-                      constructorsQuery as QueryRef<
-                        GetConstructorsQuery,
-                        unknown
-                      >
-                    }
-                  />
+                  <>
+                    <MainNav
+                      driverQuery={
+                        driverQuery as QueryRef<GetDriversQuery, unknown>
+                      }
+                      seasonQuery={
+                        seasonQuery as QueryRef<GetSeasonsQuery, unknown>
+                      }
+                      constructorsQuery={
+                        constructorsQuery as QueryRef<
+                          GetConstructorsQuery,
+                          unknown
+                        >
+                      }
+                    />
+                    {/* Sidelined for v2 */}
+                    <div className='ml-auto flex items-center space-x-4'>
+                      <MobileNav
+                        driverQuery={
+                          driverQuery as QueryRef<GetDriversQuery, unknown>
+                        }
+                        seasonQuery={
+                          seasonQuery as QueryRef<GetSeasonsQuery, unknown>
+                        }
+                        constructorsQuery={
+                          constructorsQuery as QueryRef<
+                            GetConstructorsQuery,
+                            unknown
+                          >
+                        }
+                      />
+                      {/* <UserNav /> */}
+                      <ServerStatus />
+                    </div>
+                  </>
                 )}
               </PreloadQuery>
             )}
           </PreloadQuery>
         )}
       </PreloadQuery>
-
-      {/* Sidelined for v2 */}
-      <div className='ml-auto flex items-center space-x-4'>
-        <ServerStatus />
-      </div>
     </div>
   );
 };

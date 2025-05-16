@@ -17,7 +17,7 @@ import {
 
 function Footer() {
   return (
-    <div className='container mt-auto grid items-center py-6 md:grid-cols-2'>
+    <div className='container mt-auto mb-20 grid items-center py-6 md:mb-0 md:grid-cols-2'>
       <div className='flex flex-row flex-wrap gap-x-4 md:justify-end'>
         <a className='italic' href='mailto:contact@slicktelemetry.com'>
           <Mail />
