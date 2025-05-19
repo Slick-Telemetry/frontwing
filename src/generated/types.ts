@@ -8481,6 +8481,7 @@ export type SessionResultsQuery = {
       results: Array<{
         __typename?: 'results';
         grid_position?: number | null;
+        finishing_position?: number | null;
         points?: bigint | number | null;
         status?: string | null;
         classified_position?: string | null;
@@ -9638,8 +9639,16 @@ export const SessionResultsDocument = gql`
           number
           headshot_url
         }
-        results(where: { grid_position: { _is_null: false } }) {
+        results(
+          where: {
+            _or: [
+              { grid_position: { _is_null: false } }
+              { finishing_position: { _is_null: false } }
+            ]
+          }
+        ) {
           grid_position
+          finishing_position
           points
           status
           classified_position

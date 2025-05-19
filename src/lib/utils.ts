@@ -4,6 +4,8 @@ import { getAlpha2Code, registerLocale } from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 import { twMerge } from 'tailwind-merge';
 
+import { GetEventDetailsQuery } from '@/generated/types';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -109,6 +111,51 @@ export const eventLocationDecode = (location?: string) => {
   if (!location) {
     return '';
   }
+
+export const fastestLapFinder = (
+  type: string,
+  sessions:
+    | GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
+    | GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
+    | GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'],
+) => {
+  switch (type) {
+    // rely on the fastest lap for competition, race or sprint
+    // case 'competition':
+    //   return (
+    //     sessions as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
+    //   )[0].results[0].classified_position;
+    case 'qualifying':
+      return (
+        sessions as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
+      )[0].results[0].q3_time;
+    default:
+      return (
+        sessions as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
+      )[0].fastest_lap[0].lap_time;
+  }
+};
+
+export const findSessionType = (sessionName: string) => {
+  switch (sessionName) {
+    case 'Sprint_Shootout':
+    case 'Sprint_Qualifying':
+    case 'Qualifying':
+      return 'qualifying';
+
+    case 'Practice_1':
+    case 'Practice_2':
+    case 'Practice_3':
+      return 'practice';
+
+    case 'Sprint':
+    case 'Race':
+      return 'competition';
+
+    default:
+      return 'unknown';
+  }
+};
 
   const decodedLocation = location
     .replace(/-/g, ' ')

@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@apollo/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { GET_SESSION_RESULTS } from '@/lib/queries';
-import { bgGradient, eventLocationDecode } from '@/lib/utils';
+import { bgGradient, eventLocationDecode, findSessionType } from '@/lib/utils';
 
 import { FloatingNumber } from '@/components/FloatingNumber';
 import { ChequeredFlagIcon } from '@/components/icons/ChequeredFlagIcon';
@@ -51,41 +51,55 @@ export const SessionResults = ({
   if (error || !data.sessions) return <ServerPageError />;
 
   const session = data.sessions[0];
-  const eventName = session.event?.name;
   const sessionName = session.name;
+  const eventName = session.event?.name;
   let driverSessions = session.driver_sessions;
-  // Sort by results
-  if (session.driver_sessions[0].results.length > 0) {
-    // Sort by classified_position: integers first (asc), then non-integers
-    driverSessions = [...session.driver_sessions].sort((ds1, ds2) => {
-      const pos1 = ds1.results[0]?.classified_position;
-      const pos2 = ds2.results[0]?.classified_position;
-      const num1 = Number(pos1);
-      const num2 = Number(pos2);
-      const isNum1 =
-        !isNaN(num1) && pos1 !== null && pos1 !== undefined && pos1 !== '';
-      const isNum2 =
-        !isNaN(num2) && pos2 !== null && pos2 !== undefined && pos2 !== '';
 
-      if (isNum1 && isNum2) {
-        return num1 - num2; // both numbers, sort ascending
-      }
-      if (isNum1) return -1; // num1 is number, num2 is not: num1 comes first
-      if (isNum2) return 1; // num2 is number, num1 is not: num2 comes first
-      return 0; // both non-numbers, keep original order
-    });
-  } else if (session.driver_sessions[0].fastest_lap.length > 0) {
-    // Sort by laptime
-    driverSessions = [...session.driver_sessions]
-      .filter((driver) => !!driver.fastest_lap[0].lap_time)
-      .sort((ds1, ds2) => {
-        const lapTime1 = ds1.fastest_lap[0].lap_time
-          ? Number(ds1.fastest_lap[0].lap_time)
-          : 0;
-        const lapTime2 = ds2.fastest_lap[0].lap_time
-          ? Number(ds2.fastest_lap[0].lap_time)
-          : 0;
-        return lapTime1 - lapTime2;
+  const sessionType = findSessionType(session?.name || '');
+
+  // If Practice, sort by fastest lap
+  if (sessionType === 'practice' && driverSessions.length > 0) {
+    driverSessions = (
+      [
+        ...session.driver_sessions,
+      ] as SessionResultsQuery['sessions'][0]['driver_sessions']
+    )
+      .filter((driver) => driver.fastest_lap.length !== 0)
+      .sort((a, b) => {
+        return (
+          Number(a.fastest_lap[0]?.lap_time || 0) -
+          Number(b.fastest_lap[0]?.lap_time || 0)
+        );
+      });
+  }
+  // If Qualifying, sort by finishing position
+  if (sessionType === 'qualifying') {
+    driverSessions = (
+      [
+        ...session.driver_sessions,
+      ] as SessionResultsQuery['sessions'][0]['driver_sessions']
+    )
+      .filter((driver) => !!driver.results[0].finishing_position)
+      .sort((a, b) => {
+        return (
+          Number(a.results[0]?.finishing_position || 0) -
+          Number(b.results[0]?.finishing_position || 0)
+        );
+      });
+  }
+  // If Race or Sprint, sort by classified_position
+  if (sessionType === 'competition') {
+    driverSessions = (
+      [
+        ...session.driver_sessions,
+      ] as SessionResultsQuery['sessions'][0]['driver_sessions']
+    )
+      .filter((driver) => !!driver.results[0].classified_position)
+      .sort((a, b) => {
+        return (
+          Number(a.results[0]?.classified_position || 0) -
+          Number(b.results[0]?.classified_position || 0)
+        );
       });
   }
 
@@ -123,7 +137,11 @@ export const SessionResults = ({
             <SessionCard
               key={ds.driver?.full_name}
               driverSession={ds}
-              position={Number(ds.results?.[0]?.classified_position || i + 1)}
+              position={
+                ds.results?.[0]?.classified_position ||
+                ds.results?.[0]?.finishing_position ||
+                i + 1
+              }
               index={i}
             />
           ))}
@@ -262,7 +280,7 @@ const SessionCard = ({
   driverSession: SessionResultsQuery['sessions'][0]['driver_sessions'][0];
   index: number;
 }) => {
-  const displayPosition = ds.results?.[0]?.classified_position ?? position;
+  // const displayPosition = position;
   const isInteger =
     !isNaN(Number(displayPosition)) &&
     Number.isInteger(Number(displayPosition));
@@ -280,7 +298,7 @@ const SessionCard = ({
         <FloatingNumber
           className={isInteger ? 'text-2xl lg:text-2xl' : 'text-xm lg:text-xm'}
         >
-          {positionDisplay(displayPosition)}
+          {positionDisplay(position)}
         </FloatingNumber>
       </div>
       <p className='text-xs leading-2'>{ds.constructorByConstructorId?.name}</p>

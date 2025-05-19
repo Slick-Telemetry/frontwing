@@ -5,56 +5,15 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { formatDuration } from '@/lib/helpers';
-import { eventLocationEncode } from '@/lib/utils';
+import {
+  eventLocationEncode,
+  fastestLapFinder,
+  findSessionType,
+} from '@/lib/utils';
 
 import { CheckboxToggle } from '@/components/Checkbox';
 
 import { GetEventDetailsQuery } from '@/generated/types';
-
-const fastestLapFinder = (
-  type: string,
-  sessions:
-    | GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
-    | GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
-    | GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'],
-) => {
-  switch (type) {
-    // rely on the fastest lap for competition, race or sprint
-    // case 'competition':
-    //   return (
-    //     sessions as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
-    //   )[0].results[0].classified_position;
-    case 'qualifying':
-      return (
-        sessions as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
-      )[0].results[0].q3_time;
-    default:
-      return (
-        sessions as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
-      )[0].fastest_lap[0].lap_time;
-  }
-};
-
-const findSessionType = (sessionName: string) => {
-  switch (sessionName) {
-    case 'Sprint_Shootout':
-    case 'Sprint_Qualifying':
-    case 'Qualifying':
-      return 'qualifying';
-
-    case 'Practice_1':
-    case 'Practice_2':
-    case 'Practice_3':
-      return 'practice';
-
-    case 'Sprint':
-    case 'Race':
-      return 'competition';
-
-    default:
-      return 'unknown';
-  }
-};
 
 export const EventSession = ({
   name,
