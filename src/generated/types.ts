@@ -8334,12 +8334,6 @@ export type GetEventDetailsQuery = {
       __typename?: 'sessions';
       scheduled_start_time_utc?: string | null;
       name?: Session_Name_Choices_Enum | null;
-      race_control_messages: Array<{
-        __typename?: 'race_control_messages';
-        flag?: Race_Control_Messages_Flags_Enum | null;
-        message?: string | null;
-        time?: string | null;
-      }>;
       driver_sessions: Array<{
         __typename?: 'driver_sessions';
         driver?: {
@@ -8360,18 +8354,17 @@ export type GetEventDetailsQuery = {
           grid_position?: number | null;
           total_race_time?: bigint | null;
         }>;
+        fastest_lap: Array<{
+          __typename?: 'laps';
+          lap_time?: bigint | null;
+          lap_number?: number | null;
+        }>;
       }>;
     }>;
     qualifying: Array<{
       __typename?: 'sessions';
       scheduled_start_time_utc?: string | null;
       name?: Session_Name_Choices_Enum | null;
-      race_control_messages: Array<{
-        __typename?: 'race_control_messages';
-        flag?: Race_Control_Messages_Flags_Enum | null;
-        message?: string | null;
-        time?: string | null;
-      }>;
       driver_sessions: Array<{
         __typename?: 'driver_sessions';
         driver?: {
@@ -8398,12 +8391,6 @@ export type GetEventDetailsQuery = {
       __typename?: 'sessions';
       scheduled_start_time_utc?: string | null;
       name?: Session_Name_Choices_Enum | null;
-      race_control_messages: Array<{
-        __typename?: 'race_control_messages';
-        flag?: Race_Control_Messages_Flags_Enum | null;
-        message?: string | null;
-        time?: string | null;
-      }>;
       driver_sessions: Array<{
         __typename?: 'driver_sessions';
         driver?: {
@@ -9360,11 +9347,6 @@ export const GetEventDetailsDocument = gql`
       ) {
         scheduled_start_time_utc
         name
-        race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
-          flag
-          message
-          time
-        }
         driver_sessions {
           driver {
             abbreviation
@@ -9381,6 +9363,10 @@ export const GetEventDetailsDocument = gql`
             grid_position
             total_race_time
           }
+          fastest_lap: laps(limit: 1, order_by: { lap_time: asc }) {
+            lap_time
+            lap_number
+          }
         }
       }
       qualifying: sessions(
@@ -9391,11 +9377,6 @@ export const GetEventDetailsDocument = gql`
       ) {
         scheduled_start_time_utc
         name
-        race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
-          flag
-          message
-          time
-        }
         driver_sessions {
           driver {
             abbreviation
@@ -9420,11 +9401,6 @@ export const GetEventDetailsDocument = gql`
       ) {
         scheduled_start_time_utc
         name
-        race_control_messages(where: { flag: { _eq: CHEQUERED } }) {
-          flag
-          message
-          time
-        }
         driver_sessions {
           driver {
             abbreviation

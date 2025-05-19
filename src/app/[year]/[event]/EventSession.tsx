@@ -19,14 +19,15 @@ const fastestLapFinder = (
     | GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'],
 ) => {
   switch (type) {
-    case 'competition':
-      return (
-        sessions as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
-      )[0].results[0].classified_position;
+    // rely on the fastest lap for competition, race or sprint
+    // case 'competition':
+    //   return (
+    //     sessions as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
+    //   )[0].results[0].classified_position;
     case 'qualifying':
       return (
         sessions as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
-      )[0].results[0].finishing_position;
+      )[0].results[0].q3_time;
     default:
       return (
         sessions as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
@@ -125,7 +126,6 @@ export const SessionProvisionalGrid = ({
     | 'practices'][number];
 }) => {
   const sessionType = findSessionType(session?.name || '');
-  const fastestLap = fastestLapFinder(sessionType, session.driver_sessions);
 
   const driverSessions =
     sessionType !== 'practice'
@@ -134,12 +134,16 @@ export const SessionProvisionalGrid = ({
           [
             ...session.driver_sessions,
           ] as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
-        ).sort((a, b) => {
-          return (
-            Number(a.fastest_lap[0]?.lap_time || 0) -
-            Number(b.fastest_lap[0]?.lap_time || 0)
-          );
-        });
+        )
+          .filter((driver) => driver.fastest_lap.length !== 0)
+          .sort((a, b) => {
+            return (
+              Number(a.fastest_lap[0]?.lap_time || 0) -
+              Number(b.fastest_lap[0]?.lap_time || 0)
+            );
+          });
+
+  const fastestLap = fastestLapFinder(sessionType, driverSessions);
 
   return (
     <div className='p-2'>
