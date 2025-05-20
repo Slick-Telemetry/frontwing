@@ -15,10 +15,23 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
+import packageJson from '../../../package.json';
+
 function Footer() {
+  const appVersion = packageJson.version;
+
   return (
-    <div className='container mt-auto grid items-center py-6 md:grid-cols-2'>
-      <div className='flex flex-row flex-wrap gap-x-4 md:justify-end'>
+    <div className='container mt-auto grid flex-col items-center justify-center py-6 md:grid-cols-3 md:flex-row'>
+      <div className='mt-4 text-center md:mt-0 md:text-left'>
+        <p>Copyright © 2025, Slick Telemetry</p>
+        <p className='text-xs'>
+          This website is not associated in with any Formula&nbsp;1 companies
+        </p>
+      </div>
+      <div className='mt-4 text-center md:mt-0'>
+        <p className='text-xs'>v{appVersion}</p>
+      </div>
+      <div className='flex flex-row flex-wrap justify-center gap-x-4 md:justify-end'>
         <a className='italic' href='mailto:contact@slicktelemetry.com'>
           <Mail />
         </a>
@@ -58,12 +71,6 @@ function Footer() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </div>
-      <div className='mt-4 md:order-first md:mt-0'>
-        <p>Copyright © 2025, Slick Telemetry</p>
-        <p className='text-xs'>
-          This website is not associated in with any Formula&nbsp;1 companies
-        </p>
       </div>
     </div>
   );
