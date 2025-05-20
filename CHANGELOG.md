@@ -1,3 +1,9 @@
+## 0.6.3 (2025-05-20)
+
+### Refactor
+
+- extract github icon as a component
+
 ## 0.6.2 (2025-05-15)
 
 ### Fix
