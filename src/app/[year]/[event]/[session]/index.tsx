@@ -6,8 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { GET_SESSION_RESULTS } from '@/lib/queries';
 import { bgGradient, eventLocationDecode } from '@/lib/utils';
 
-import { ChequeredFlagIcon } from '@/components/ChequeredFlagIcon';
 import { FloatingNumber } from '@/components/FloatingNumber';
+import { ChequeredFlagIcon } from '@/components/icons/ChequeredFlagIcon';
 import { ServerPageError } from '@/components/ServerError';
 
 import LapTimeContainer from '@/app/[year]/[event]/[session]/lapTimes';
