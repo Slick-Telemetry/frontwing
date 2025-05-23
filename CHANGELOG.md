@@ -1,3 +1,9 @@
+## 0.6.4 (2025-05-23)
+
+### Fix
+
+- **sector-times**: axis labels
+
 ## 0.6.3 (2025-05-20)
 
 ### Refactor
