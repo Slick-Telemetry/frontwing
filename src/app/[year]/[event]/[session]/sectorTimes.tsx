@@ -478,7 +478,7 @@ const BarChart: React.FC<BarChartProps> = ({
 
             <Axis
               orientation='bottom'
-              label='Time (s)'
+              label='Driver'
               // numTicks={5}
               numTicks={driverCount}
               tickLabelProps={() => ({
@@ -489,7 +489,7 @@ const BarChart: React.FC<BarChartProps> = ({
             />
             <Axis
               orientation='left'
-              label='Driver'
+              label='Time (s)'
               labelOffset={20}
               // numTicks={driverCount}
               tickLabelProps={() => ({
