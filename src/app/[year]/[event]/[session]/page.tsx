@@ -4,8 +4,7 @@ import { PreloadQuery } from '@/lib/client';
 import { GET_SESSION_RESULTS } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
 
-import { FullHeightLoader } from '@/components/Loader';
-
+import SessionResultsSkeleton from '@/app/[year]/[event]/[session]/sessionResultsSkeleton';
 import { Session_Name_Choices_Enum } from '@/generated/types';
 
 import { SessionResults } from '.';
@@ -17,7 +16,7 @@ export default async function SessionPage({
 }) {
   const { year, event, session } = await params;
   return (
-    <div className='container mx-auto'>
+    <div className='container mx-auto py-2'>
       <PreloadQuery
         query={GET_SESSION_RESULTS}
         variables={{
@@ -26,9 +25,7 @@ export default async function SessionPage({
           session: eventLocationDecode(session) as Session_Name_Choices_Enum,
         }}
       >
-        <Suspense
-          fallback={<FullHeightLoader>Loading session...</FullHeightLoader>}
-        >
+        <Suspense fallback={<SessionResultsSkeleton />}>
           <SessionResults year={year} event={event} session={session} />
         </Suspense>
       </PreloadQuery>
