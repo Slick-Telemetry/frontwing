@@ -105,9 +105,20 @@ export const getCountryFlagByCountryName = (country_code?: string) => {
 export const eventLocationEncode = (location?: string | null) =>
   !location ? null : location.replace(/ /g, '_').toLowerCase();
 
-export const eventLocationDecode = (location?: string) =>
-  !location
-    ? ''
-    : location
-        .replace(/-/g, ' ')
-        .replace(/(^|_|\s)\w/g, (match) => match.toUpperCase());
+export const eventLocationDecode = (location?: string) => {
+  if (!location) {
+    return '';
+  }
+
+  const decodedLocation = location
+    .replace(/-/g, ' ')
+    .replace(/(^|_|\s)\w/g, (match) => match.toUpperCase());
+
+  // https://slicktelemetry.youtrack.cloud/issue/FRON-170
+  // Handle the specific Spa-Francorchamps case
+  if (decodedLocation === 'Spa Francorchamps') {
+    return 'Spa-Francorchamps';
+  }
+
+  return decodedLocation;
+};
