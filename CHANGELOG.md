@@ -1,3 +1,9 @@
+## 0.6.5 (2025-05-25)
+
+### Fix
+
+- **utils**: FRON-170 edge case for Spa-Froncorchamps
+
 ## 0.6.4 (2025-05-23)
 
 ### Fix
