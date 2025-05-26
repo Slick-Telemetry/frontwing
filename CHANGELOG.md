@@ -1,3 +1,9 @@
+## 0.6.7 (2025-05-26)
+
+### Fix
+
+- FRON-122 error handling for driver grid
+
 ## 0.6.6 (2025-05-26)
 
 ### Fix
