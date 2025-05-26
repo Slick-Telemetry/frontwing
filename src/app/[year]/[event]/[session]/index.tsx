@@ -9,6 +9,8 @@ import {
   eventLocationDecode,
   findSessionType,
   formatLapTime,
+  sortFastestLaps,
+  sortQuali,
 } from '@/lib/utils';
 
 import { FloatingNumber } from '@/components/FloatingNumber';
@@ -64,33 +66,15 @@ export const SessionResults = ({
 
   // If Practice, sort by fastest lap
   if (sessionType === 'practice' && driverSessions.length > 0) {
-    driverSessions = (
-      [
-        ...session.driver_sessions,
-      ] as SessionResultsQuery['sessions'][0]['driver_sessions']
-    )
-      .filter((driver) => driver.fastest_lap.length !== 0)
-      .sort((a, b) => {
-        return (
-          Number(a.fastest_lap[0]?.lap_time || 0) -
-          Number(b.fastest_lap[0]?.lap_time || 0)
-        );
-      });
+    driverSessions = sortFastestLaps([
+      ...session.driver_sessions,
+    ]) as SessionResultsQuery['sessions'][0]['driver_sessions'];
   }
   // If Qualifying, sort by finishing position
   if (sessionType === 'qualifying') {
-    driverSessions = (
-      [
-        ...session.driver_sessions,
-      ] as SessionResultsQuery['sessions'][0]['driver_sessions']
-    )
-      .filter((driver) => !!driver.results[0].finishing_position)
-      .sort((a, b) => {
-        return (
-          Number(a.results[0]?.finishing_position || 0) -
-          Number(b.results[0]?.finishing_position || 0)
-        );
-      });
+    driverSessions = sortQuali([
+      ...session.driver_sessions,
+    ]) as SessionResultsQuery['sessions'][0]['driver_sessions'];
   }
   // If Race or Sprint, sort by classified_position
   if (sessionType === 'competition') {

@@ -9,6 +9,8 @@ import {
   fastestLapFinder,
   findSessionType,
   formatLapTime,
+  sortFastestLaps,
+  sortQuali,
 } from '@/lib/utils';
 
 import { CheckboxToggle } from '@/components/Checkbox';
@@ -86,35 +88,24 @@ export const SessionProvisionalGrid = ({
 }) => {
   const sessionType = findSessionType(session?.name || '');
 
-  const driverSessions =
-    sessionType === 'competition'
-      ? session.driver_sessions
-      : sessionType === 'qualifying' // Sort for qualifying
-        ? (
-            [
-              ...session.driver_sessions,
-            ] as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
-          )
-            .filter((driver) => !!driver.results[0].finishing_position)
-            .sort((a, b) => {
-              return (
-                Number(a.results[0]?.finishing_position || 0) -
-                Number(b.results[0]?.finishing_position || 0)
-              );
-            })
-        : // Sort for practice
-          (
-            [
-              ...session.driver_sessions,
-            ] as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
-          )
-            .filter((driver) => driver.fastest_lap.length !== 0)
-            .sort((a, b) => {
-              return (
-                Number(a.fastest_lap[0]?.lap_time || 0) -
-                Number(b.fastest_lap[0]?.lap_time || 0)
-              );
-            });
+  let driverSessions;
+  switch (sessionType) {
+    case 'competition':
+      driverSessions = session.driver_sessions;
+      break;
+    case 'qualifying':
+      driverSessions = sortQuali([
+        ...session.driver_sessions,
+      ] as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']);
+      break;
+    case 'practice': // Sort for practice
+      driverSessions = sortFastestLaps([
+        ...session.driver_sessions,
+      ] as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']);
+      break;
+    default:
+      driverSessions = session.driver_sessions;
+  }
 
   const fastestLap = fastestLapFinder(sessionType, driverSessions);
 

@@ -4,7 +4,7 @@ import { getAlpha2Code, registerLocale } from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 import { twMerge } from 'tailwind-merge';
 
-import { GetEventDetailsQuery } from '@/generated/types';
+import { GetEventDetailsQuery, SessionResultsQuery } from '@/generated/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -208,4 +208,35 @@ export const formatLapTime = (time: number | bigint) => {
     return `${minutes}:${pad(seconds)}${millis}`;
   }
   return `${hours}:${pad(minutes)}:${pad(seconds)}${millis}`;
+};
+
+export const sortFastestLaps = (
+  sessions:
+    | GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
+    | GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
+    | SessionResultsQuery['sessions'][number]['driver_sessions'],
+) => {
+  return sessions
+    .filter((driver) => driver.fastest_lap.length !== 0)
+    .sort((a, b) => {
+      return (
+        Number(a.fastest_lap[0]?.lap_time || 0) -
+        Number(b.fastest_lap[0]?.lap_time || 0)
+      );
+    });
+};
+
+export const sortQuali = (
+  sessions:
+    | GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
+    | SessionResultsQuery['sessions'][number]['driver_sessions'],
+) => {
+  return sessions
+    .filter((driver) => !!driver.results[0].finishing_position)
+    .sort((a, b) => {
+      return (
+        Number(a.results[0]?.finishing_position || 0) -
+        Number(b.results[0]?.finishing_position || 0)
+      );
+    });
 };
