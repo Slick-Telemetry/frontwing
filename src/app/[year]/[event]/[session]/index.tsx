@@ -264,13 +264,13 @@ const SessionCard = ({
   const isInteger =
     !isNaN(Number(displayPosition)) &&
     Number.isInteger(Number(displayPosition));
+  const constructorColor = ds.constructorByConstructorId?.color;
+
   return (
     <div
       className='relative rounded border p-3'
       style={{
-        background: bgGradient(
-          ds.constructorByConstructorId?.color || 'cccccc',
-        ),
+        background: constructorColor ? bgGradient(constructorColor) : 'initial',
       }}
     >
       <div className='absolute top-2 right-4 flex items-center gap-1'>
