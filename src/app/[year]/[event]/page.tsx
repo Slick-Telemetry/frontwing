@@ -124,7 +124,6 @@ const EventPage = ({
                 key={String(sessionDate)}
               >
                 {loadingDetails ? (
-                  // TODO: Replace with sketelon
                   <SkeletonProvisionalGrid />
                 ) : (
                   sessions.length > 0 && (

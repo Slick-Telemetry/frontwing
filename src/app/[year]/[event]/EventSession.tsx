@@ -4,11 +4,11 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { formatDuration } from '@/lib/helpers';
 import {
   eventLocationEncode,
   fastestLapFinder,
   findSessionType,
+  formatLapTime,
 } from '@/lib/utils';
 
 import { CheckboxToggle } from '@/components/Checkbox';
@@ -87,26 +87,43 @@ export const SessionProvisionalGrid = ({
   const sessionType = findSessionType(session?.name || '');
 
   const driverSessions =
-    sessionType !== 'practice'
+    sessionType === 'competition'
       ? session.driver_sessions
-      : (
-          [
-            ...session.driver_sessions,
-          ] as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
-        )
-          .filter((driver) => driver.fastest_lap.length !== 0)
-          .sort((a, b) => {
-            return (
-              Number(a.fastest_lap[0]?.lap_time || 0) -
-              Number(b.fastest_lap[0]?.lap_time || 0)
-            );
-          });
+      : sessionType === 'qualifying' // Sort for qualifying
+        ? (
+            [
+              ...session.driver_sessions,
+            ] as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
+          )
+            .filter((driver) => !!driver.results[0].finishing_position)
+            .sort((a, b) => {
+              return (
+                Number(a.results[0]?.finishing_position || 0) -
+                Number(b.results[0]?.finishing_position || 0)
+              );
+            })
+        : // Sort for practice
+          (
+            [
+              ...session.driver_sessions,
+            ] as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
+          )
+            .filter((driver) => driver.fastest_lap.length !== 0)
+            .sort((a, b) => {
+              return (
+                Number(a.fastest_lap[0]?.lap_time || 0) -
+                Number(b.fastest_lap[0]?.lap_time || 0)
+              );
+            });
 
   const fastestLap = fastestLapFinder(sessionType, driverSessions);
 
   return (
     <div className='p-2'>
-      <p className='mb-2'>Fastest Lap: {formatDuration(Number(fastestLap))}</p>
+      <p className='mb-2'>
+        Fastest Lap: {formatLapTime(Number(fastestLap.time))}{' '}
+        {fastestLap.driver}
+      </p>
 
       {/* Driver Grid */}
       <div className='grid flex-1 grid-cols-2 grid-rows-10 justify-center gap-x-2 md:grid-flow-col md:grid-cols-10 md:grid-rows-2 md:gap-x-0 md:gap-y-2'>

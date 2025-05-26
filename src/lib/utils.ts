@@ -112,6 +112,19 @@ export const eventLocationDecode = (location?: string) => {
     return '';
   }
 
+  const decodedLocation = location
+    .replace(/-/g, ' ')
+    .replace(/(^|_|\s)\w/g, (match) => match.toUpperCase());
+
+  // https://slicktelemetry.youtrack.cloud/issue/FRON-170
+  // Handle the specific Spa-Francorchamps case
+  if (decodedLocation === 'Spa Francorchamps') {
+    return 'Spa-Francorchamps';
+  }
+
+  return decodedLocation;
+};
+
 export const fastestLapFinder = (
   type: string,
   sessions:
@@ -119,20 +132,39 @@ export const fastestLapFinder = (
     | GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
     | GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'],
 ) => {
+  let driver;
   switch (type) {
     // rely on the fastest lap for competition, race or sprint
-    // case 'competition':
-    //   return (
-    //     sessions as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
-    //   )[0].results[0].classified_position;
+    case 'competition':
+      driver = [
+        ...(sessions as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']),
+      ].sort((driverA, driverB) => {
+        // Fort by fastest lap time
+        return (
+          Number(driverA.fastest_lap[0]?.lap_time || 0) -
+          Number(driverB.fastest_lap[0]?.lap_time || 0)
+        );
+      })[0];
+      return {
+        time: driver.fastest_lap[0].lap_time,
+        driver: driver.driver?.full_name,
+      };
     case 'qualifying':
-      return (
+      driver = (
         sessions as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
-      )[0].results[0].q3_time;
+      )[0];
+      return {
+        time: driver.results[0].q3_time,
+        driver: driver.driver?.full_name,
+      };
     default:
-      return (
+      driver = (
         sessions as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
-      )[0].fastest_lap[0].lap_time;
+      )[0];
+      return {
+        time: driver.fastest_lap[0].lap_time,
+        driver: driver.driver?.full_name,
+      };
   }
 };
 
@@ -157,15 +189,23 @@ export const findSessionType = (sessionName: string) => {
   }
 };
 
-  const decodedLocation = location
-    .replace(/-/g, ' ')
-    .replace(/(^|_|\s)\w/g, (match) => match.toUpperCase());
+export const formatLapTime = (time: number | bigint) => {
+  const date = new Date(Number(time));
+  const iso = date.toISOString();
+  // Convert to numbers to remove leading zeros, but pad seconds/minutes if needed
+  const hours = Number(iso.slice(11, 13));
+  const minutes = Number(iso.slice(14, 16));
+  const seconds = Number(iso.slice(17, 19));
+  const millis = iso.slice(19, -1); // .sss
 
-  // https://slicktelemetry.youtrack.cloud/issue/FRON-170
-  // Handle the specific Spa-Francorchamps case
-  if (decodedLocation === 'Spa Francorchamps') {
-    return 'Spa-Francorchamps';
+  // Helper to pad with zero if needed
+  const pad = (n: number) => n.toString().padStart(2, '0');
+
+  if (hours === 0 && minutes === 0) {
+    return `${seconds}${millis}`;
   }
-
-  return decodedLocation;
+  if (hours === 0) {
+    return `${minutes}:${pad(seconds)}${millis}`;
+  }
+  return `${hours}:${pad(minutes)}:${pad(seconds)}${millis}`;
 };

@@ -4,7 +4,12 @@ import { useSuspenseQuery } from '@apollo/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { GET_SESSION_RESULTS } from '@/lib/queries';
-import { bgGradient, eventLocationDecode, findSessionType } from '@/lib/utils';
+import {
+  bgGradient,
+  eventLocationDecode,
+  findSessionType,
+  formatLapTime,
+} from '@/lib/utils';
 
 import { FloatingNumber } from '@/components/FloatingNumber';
 import { ChequeredFlagIcon } from '@/components/icons/ChequeredFlagIcon';
@@ -231,26 +236,6 @@ const ChartViewController = ({
   );
 };
 
-const formatLapTime = (time: bigint) => {
-  const date = new Date(Number(time));
-  const iso = date.toISOString();
-  // Convert to numbers to remove leading zeros, but pad seconds/minutes if needed
-  const hours = Number(iso.slice(11, 13));
-  const minutes = Number(iso.slice(14, 16));
-  const seconds = Number(iso.slice(17, 19));
-  const millis = iso.slice(19, -1); // .sss
-
-  // Helper to pad with zero if needed
-  const pad = (n: number) => n.toString().padStart(2, '0');
-
-  if (hours === 0 && minutes === 0) {
-    return `${seconds}${millis}`;
-  }
-  if (hours === 0) {
-    return `${minutes}:${pad(seconds)}${millis}`;
-  }
-  return `${hours}:${pad(minutes)}:${pad(seconds)}${millis}`;
-};
 const formatSectorTimes = (time: bigint) =>
   new Date(Number(time)).toISOString().slice(17, -1);
 
@@ -280,10 +265,8 @@ const SessionCard = ({
   driverSession: SessionResultsQuery['sessions'][0]['driver_sessions'][0];
   index: number;
 }) => {
-  // const displayPosition = position;
   const isInteger =
-    !isNaN(Number(displayPosition)) &&
-    Number.isInteger(Number(displayPosition));
+    !isNaN(Number(position)) && Number.isInteger(Number(position));
   const constructorColor = ds.constructorByConstructorId?.color;
 
   return (
