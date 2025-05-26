@@ -172,7 +172,7 @@ const Stints = () => {
 
             {/* Stacked Bars for Stints */}
             {processedData?.flatMap((driverData) => (
-              <BarStack>
+              <BarStack key={driverData.driver}>
                 {driverData.stints.map((stint) => {
                   const compound = stint.tyreCompound.toLowerCase();
                   const type = stint.freshTyre ? 'new' : 'old';
