@@ -6,6 +6,7 @@ import { eventLocationDecode } from '@/lib/utils';
 
 import { FullHeightLoader } from '@/components/Loader';
 
+import { Header } from '@/app/[year]/[event]/Header';
 import { Session_Name_Choices_Enum } from '@/generated/types';
 
 import { SessionResults } from '.';
@@ -17,7 +18,8 @@ export default async function SessionPage({
 }) {
   const { year, event, session } = await params;
   return (
-    <div className='container mx-auto'>
+    <>
+      <Header />
       <PreloadQuery
         query={GET_SESSION_RESULTS}
         variables={{
@@ -32,6 +34,6 @@ export default async function SessionPage({
           <SessionResults year={year} event={event} session={session} />
         </Suspense>
       </PreloadQuery>
-    </div>
+    </>
   );
 }

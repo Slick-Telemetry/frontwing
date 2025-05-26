@@ -8285,6 +8285,36 @@ export type GetSeasonEventsQuery = {
   }>;
 };
 
+export type GetEventQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+  event: Scalars['String']['input'];
+}>;
+
+export type GetEventQuery = {
+  __typename?: 'query_root';
+  schedule: Array<{
+    __typename?: 'schedule';
+    year?: number | null;
+    round_number?: number | null;
+    event_date?: string | null;
+    official_event_name?: string | null;
+    event_name?: string | null;
+    event_format?: Event_Format_Choices_Enum | null;
+    location?: string | null;
+    country?: string | null;
+    session1?: Session_Name_Choices_Enum | null;
+    session1_date_utc?: string | null;
+    session2?: Session_Name_Choices_Enum | null;
+    session2_date_utc?: string | null;
+    session3?: Session_Name_Choices_Enum | null;
+    session3_date_utc?: string | null;
+    session4?: Session_Name_Choices_Enum | null;
+    session4_date_utc?: string | null;
+    session5?: Session_Name_Choices_Enum | null;
+    session5_date_utc?: string | null;
+  }>;
+};
+
 export type GetEventScheduleQueryVariables = Exact<{
   year: Scalars['Int']['input'];
   event: Scalars['String']['input'];
@@ -9237,6 +9267,98 @@ export type GetSeasonEventsSuspenseQueryHookResult = ReturnType<
 export type GetSeasonEventsQueryResult = Apollo.QueryResult<
   GetSeasonEventsQuery,
   GetSeasonEventsQueryVariables
+>;
+export const GetEventDocument = gql`
+  query GetEvent($year: Int!, $event: String!) @cached {
+    schedule(
+      where: { year: { _eq: $year }, location: { _eq: $event } }
+      limit: 1
+    ) {
+      year
+      round_number
+      event_date
+      official_event_name
+      event_name
+      event_format
+      location
+      country
+      session1
+      session1_date_utc
+      session2
+      session2_date_utc
+      session3
+      session3_date_utc
+      session4
+      session4_date_utc
+      session5
+      session5_date_utc
+    }
+  }
+`;
+
+/**
+ * __useGetEventQuery__
+ *
+ * To run a query within a React component, call `useGetEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *      event: // value for 'event'
+ *   },
+ * });
+ */
+export function useGetEventQuery(
+  baseOptions: Apollo.QueryHookOptions<GetEventQuery, GetEventQueryVariables> &
+    ({ variables: GetEventQueryVariables; skip?: boolean } | { skip: boolean }),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetEventQuery, GetEventQueryVariables>(
+    GetEventDocument,
+    options,
+  );
+}
+export function useGetEventLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetEventQuery,
+    GetEventQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetEventQuery, GetEventQueryVariables>(
+    GetEventDocument,
+    options,
+  );
+}
+export function useGetEventSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetEventQuery, GetEventQueryVariables>,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetEventQuery, GetEventQueryVariables>(
+    GetEventDocument,
+    options,
+  );
+}
+export type GetEventQueryHookResult = ReturnType<typeof useGetEventQuery>;
+export type GetEventLazyQueryHookResult = ReturnType<
+  typeof useGetEventLazyQuery
+>;
+export type GetEventSuspenseQueryHookResult = ReturnType<
+  typeof useGetEventSuspenseQuery
+>;
+export type GetEventQueryResult = Apollo.QueryResult<
+  GetEventQuery,
+  GetEventQueryVariables
 >;
 export const GetEventScheduleDocument = gql`
   query GetEventSchedule($year: Int!, $event: String!) @cached {

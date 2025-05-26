@@ -51,8 +51,6 @@ export const SessionResults = ({
   if (error || !data.sessions) return <ServerPageError />;
 
   const session = data.sessions[0];
-  const eventName = session.event?.name;
-  const sessionName = session.name;
   let driverSessions = session.driver_sessions;
   // Sort by results
   if (session.driver_sessions[0].results.length > 0) {
@@ -99,10 +97,18 @@ export const SessionResults = ({
 
   return (
     <>
-      <div>
-        <h2 className='text-2xl'>{sessionName?.replace(/_/g, ' ')}</h2>
-        <h1 className='text-4xl'>{eventName}</h1>
-      </div>
+      <main className='grid grid-cols-3'>
+        <div>
+          {driverSessions.map((ds, i) => (
+            <SessionCard
+              key={ds.driver?.full_name}
+              driverSession={ds}
+              position={Number(ds.results?.[0]?.classified_position || i + 1)}
+              index={i}
+            />
+          ))}
+        </div>
+      </main>
       <div className='grid w-full grid-cols-2 gap-4'>
         <button
           className={`w-full px-4 py-2 text-xs md:text-base ${view === 'grid' ? 'border-b-2 border-blue-600' : ''}`}
@@ -233,8 +239,8 @@ const formatLapTime = (time: bigint) => {
   }
   return `${hours}:${pad(minutes)}:${pad(seconds)}${millis}`;
 };
-const formatSectorTimes = (time: bigint) =>
-  new Date(Number(time)).toISOString().slice(17, -1);
+// const formatSectorTimes = (time: bigint) =>
+// new Date(Number(time)).toISOString().slice(17, -1);
 
 const positionDisplay = (position: string | number) => {
   const map: Record<string, string> = {
@@ -294,7 +300,7 @@ const SessionCard = ({
       ) : (
         <p className='text-muted-foreground text-xs'>&nbsp;</p> // Placeholder to maintain layout
       )}
-      {ds.fastest_lap[0]?.lap_time && (
+      {/* {ds.fastest_lap[0]?.lap_time && (
         <div className='items-cemter my-2 flex justify-between rounded border p-1'>
           <div className='grid'>
             <p className='text-xs'>Fastest Lap</p>
@@ -315,8 +321,8 @@ const SessionCard = ({
             </div>
           </div>
         </div>
-      )}
-      {ds.fastest_lap[0]?.sector1 &&
+      )} */}
+      {/* {ds.fastest_lap[0]?.sector1 &&
         ds.fastest_lap[0]?.sector3 &&
         ds.fastest_lap[0]?.sector3 && (
           <div className='grid grid-cols-3 divide-x rounded border p-1 text-center text-sm'>
@@ -345,7 +351,7 @@ const SessionCard = ({
               </p>
             </div>
           </div>
-        )}
+        )} */}
     </div>
   );
 };

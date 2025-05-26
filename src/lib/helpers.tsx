@@ -2,6 +2,8 @@
 //   return temp * (9 / 5) + 32;
 // };
 
+import { Session_Name_Choices_Enum } from '@/generated/types';
+
 const _second = 1000;
 const _minute = _second * 60;
 const _hour = _minute * 60;
@@ -50,4 +52,16 @@ export const formatDuration = (timeInterval: number) => {
       '.' +
       pad(milliseconds)
     );
+};
+
+export const sessionTitles: Record<Session_Name_Choices_Enum, string> = {
+  [Session_Name_Choices_Enum.Practice_1]: 'FP1',
+  [Session_Name_Choices_Enum.Practice_2]: 'FP2',
+  [Session_Name_Choices_Enum.Practice_3]: 'FP3',
+  [Session_Name_Choices_Enum.Race]: 'R',
+  [Session_Name_Choices_Enum.Qualifying]: 'Q',
+  [Session_Name_Choices_Enum.SprintQualifying]: 'SQ',
+  [Session_Name_Choices_Enum.Sprint]: 'S',
+  [Session_Name_Choices_Enum.SprintShootout]: 'SS',
+  [Session_Name_Choices_Enum.TestSession]: '',
 };

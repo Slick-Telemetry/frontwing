@@ -6,7 +6,7 @@ import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 
-const QuickLinks = () => {
+export const QuickLinks = () => {
   const params = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -60,15 +60,5 @@ const QuickLinks = () => {
         </Link>
       </Button>
     </>
-  );
-};
-
-export const Header = () => {
-  return (
-    // <header className='flegap-2 container mx-auto my-4 md:my-0 md:flex-row md:items-center'>
-    <header className='container grid grid-cols-2 gap-2 md:flex'>
-      <QuickLinks />
-    </header>
-    // </header>
   );
 };
