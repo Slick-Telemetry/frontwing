@@ -12,8 +12,6 @@ import {
   GetSeasonsQuery,
 } from '@/generated/types';
 
-import { DisplayConstructors } from './Constructors';
-import { DisplayDrivers } from './Drivers';
 import { DisplaySeasons } from './Seasons';
 import {
   NavigationMenu,
@@ -26,13 +24,13 @@ import {
 } from '../ui/navigation-menu';
 
 export function MainNav({
-  driverQuery,
   seasonQuery,
-  constructorsQuery,
+  // driverQuery,
+  // constructorsQuery,
 }: {
-  driverQuery: QueryRef<GetDriversQuery>;
   seasonQuery: QueryRef<GetSeasonsQuery>;
-  constructorsQuery: QueryRef<GetConstructorsQuery>;
+  constructorsQuery?: QueryRef<GetConstructorsQuery>;
+  driverQuery?: QueryRef<GetDriversQuery>;
 }) {
   return (
     <NavigationMenu className='hidden px-4 md:block'>
@@ -45,7 +43,7 @@ export function MainNav({
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        {/* <NavigationMenuItem>
           <NavigationMenuTrigger>Constructors</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className='grid w-[300px] gap-3 p-3 md:grid-cols-2 lg:w-[400px]'>
@@ -60,7 +58,7 @@ export function MainNav({
               <DisplayDrivers queryRef={driverQuery} />
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem>
+        </NavigationMenuItem> */}
         <NavigationMenuItem>
           <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
             {/* TODO: Get value from lastest year in schedule */}

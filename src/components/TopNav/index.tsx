@@ -3,13 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { PreloadQuery } from '@/lib/client';
-import { GET_CONSTRUCTORS, GET_DRIVERS, GET_SEASONS } from '@/lib/queries';
+import { GET_SEASONS } from '@/lib/queries';
 
-import {
-  GetConstructorsQuery,
-  GetDriversQuery,
-  GetSeasonsQuery,
-} from '@/generated/types';
+import { GetSeasonsQuery } from '@/generated/types';
 
 import { MainNav } from './MainNav';
 import { ServerStatus } from './ServerStatus';
@@ -29,30 +25,23 @@ export const TopNav = () => {
         />
         Slick Telemetry
       </Link>
-      <PreloadQuery query={GET_DRIVERS}>
-        {(driverQuery) => (
-          <PreloadQuery query={GET_SEASONS}>
-            {(seasonQuery) => (
-              <PreloadQuery query={GET_CONSTRUCTORS}>
-                {(constructorsQuery) => (
-                  <MainNav
-                    driverQuery={
-                      driverQuery as QueryRef<GetDriversQuery, unknown>
-                    }
-                    seasonQuery={
-                      seasonQuery as QueryRef<GetSeasonsQuery, unknown>
-                    }
-                    constructorsQuery={
-                      constructorsQuery as QueryRef<
-                        GetConstructorsQuery,
-                        unknown
-                      >
-                    }
-                  />
-                )}
-              </PreloadQuery>
-            )}
-          </PreloadQuery>
+      <PreloadQuery query={GET_SEASONS}>
+        {(seasonQuery) => (
+          // <PreloadQuery query={GET_DRIVERS}>
+          //   {(driverQuery) => (
+          //         <PreloadQuery query={GET_CONSTRUCTORS}>
+          //           {(constructorsQuery) => (
+          <MainNav
+            seasonQuery={seasonQuery as QueryRef<GetSeasonsQuery, unknown>}
+            // driverQuery={driverQuery as QueryRef<GetDriversQuery, unknown>}
+            // constructorsQuery={
+            //   constructorsQuery as QueryRef<GetConstructorsQuery, unknown>
+            // }
+          />
+          // )}
+          // {/* </PreloadQuery> */}
+          // {/* )} */}
+          // {/* </PreloadQuery> */}
         )}
       </PreloadQuery>
 
