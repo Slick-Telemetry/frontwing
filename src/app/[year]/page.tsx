@@ -7,6 +7,7 @@ import { GET_SEASON_EVENTS } from '@/lib/queries';
 
 import { CheckboxToggle } from '@/components/Checkbox';
 import { FullHeightLoader } from '@/components/Loader';
+import NextEvent from '@/components/NextEvent';
 import { ServerPageError } from '@/components/ServerError';
 import { SessionTime } from '@/components/SessionTime';
 
@@ -42,42 +43,51 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
     return <NotFound />;
 
   return (
-    <div className='container my-4'>
+    <>
       <CheckboxToggle toggle={toggleSessions}>Show Sessions</CheckboxToggle>
-      <main className='my-4 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-        {data?.schedule.map(
-          (event) =>
-            event.event_name && (
-              <EventContainer key={event.event_name} event={event}>
-                {showSessions && (
-                  <div className='bg-secondary divide-background border-background grid divide-y rounded border-2'>
-                    {Array.from({ length: 5 }, (_, i) => i + 1).map(
-                      (sessionNumber) => {
-                        const sessionDate =
-                          event[
-                            `session${sessionNumber}_date` as keyof typeof event
-                          ];
-                        return sessionDate && sessionDate !== 'NaT' ? (
-                          <SessionTime
-                            key={String(sessionDate)}
-                            event={event.location}
-                            time={String(sessionDate)}
-                            name={
-                              event[
-                                `session${sessionNumber}` as keyof typeof event
-                              ] as Session_Name_Choices_Enum
-                            }
-                          />
-                        ) : null;
-                      },
-                    )}
-                  </div>
-                )}
-              </EventContainer>
-            ),
-        )}
+      <main className='grid grid-flow-row gap-8 p-4 sm:grid-cols-2 2xl:grid-cols-3'>
+        <NextEvent />
+        <div className='bg-muted col-start-2 rounded'>Driver Standings</div>
+        <div className='bg-muted col-start-2 rounded'>
+          Constructor Standings
+        </div>
+        <div className='bg-muted col-start-2 rounded'>Map</div>
+        <div className='col-start-1 row-span-2 row-start-2 my-4 grid max-h-96 overflow-scroll'>
+          {/* Schedule */}
+          {data?.schedule.map(
+            (event) =>
+              event.event_name && (
+                <EventContainer key={event.event_name} event={event}>
+                  {showSessions && (
+                    <div className='bg-secondary divide-background border-background grid divide-y rounded border-2'>
+                      {Array.from({ length: 5 }, (_, i) => i + 1).map(
+                        (sessionNumber) => {
+                          const sessionDate =
+                            event[
+                              `session${sessionNumber}_date` as keyof typeof event
+                            ];
+                          return sessionDate && sessionDate !== 'NaT' ? (
+                            <SessionTime
+                              key={String(sessionDate)}
+                              event={event.location}
+                              time={String(sessionDate)}
+                              name={
+                                event[
+                                  `session${sessionNumber}` as keyof typeof event
+                                ] as Session_Name_Choices_Enum
+                              }
+                            />
+                          ) : null;
+                        },
+                      )}
+                    </div>
+                  )}
+                </EventContainer>
+              ),
+          )}
+        </div>
       </main>
-    </div>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -29,15 +30,26 @@ export const EventSession = ({
   const [showGrid, setShowGrid] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const pastEvent = new Date(time) < new Date();
 
   return (
     <div className='rounded border' key={time}>
       <div
-        className='bg-secondary text-secondary-foreground flex w-full cursor-pointer items-center justify-between p-4 py-2'
-        onClick={() => router.push(`${pathname}/${eventLocationEncode(name)}`)}
+        className={clsx(
+          'bg-secondary text-secondary-foreground flex w-full items-center justify-between p-4 py-2',
+          pastEvent && 'hover:bg-secondary/80 cursor-pointer',
+        )}
+        onClick={() =>
+          pastEvent && router.push(`${pathname}/${eventLocationEncode(name)}`)
+        }
       >
         <div>
-          <h2 className='mr-auto text-2xl font-black hover:underline'>
+          <h2
+            className={clsx(
+              'mr-auto text-2xl font-black',
+              pastEvent && 'hover:underline',
+            )}
+          >
             {name?.replace(/_/g, ' ')}
           </h2>
         </div>
@@ -63,7 +75,7 @@ export const EventSession = ({
           )}
         </div>
       </div>
-      {time && new Date(time) < new Date() && (
+      {pastEvent && (
         <div className='m-2'>
           <label className='flex items-center gap-2'>
             <CheckboxToggle toggle={() => setShowGrid((prev) => !prev)}>
