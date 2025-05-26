@@ -1,3 +1,9 @@
+## 0.6.6 (2025-05-26)
+
+### Fix
+
+- **grid**: FRON-166 better visibility for missing constructor
+
 ## 0.6.5 (2025-05-25)
 
 ### Fix
