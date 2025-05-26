@@ -76,15 +76,17 @@ export const SessionResults = ({
     });
   } else if (session.driver_sessions[0].fastest_lap.length > 0) {
     // Sort by laptime
-    driverSessions = [...session.driver_sessions].sort((ds1, ds2) => {
-      const lapTime1 = ds1.fastest_lap[0].lap_time
-        ? Number(ds1.fastest_lap[0].lap_time)
-        : 0;
-      const lapTime2 = ds2.fastest_lap[0].lap_time
-        ? Number(ds2.fastest_lap[0].lap_time)
-        : 0;
-      return lapTime1 - lapTime2;
-    });
+    driverSessions = [...session.driver_sessions]
+      .filter((driver) => !!driver.fastest_lap[0].lap_time)
+      .sort((ds1, ds2) => {
+        const lapTime1 = ds1.fastest_lap[0].lap_time
+          ? Number(ds1.fastest_lap[0].lap_time)
+          : 0;
+        const lapTime2 = ds2.fastest_lap[0].lap_time
+          ? Number(ds2.fastest_lap[0].lap_time)
+          : 0;
+        return lapTime1 - lapTime2;
+      });
   }
 
   const changeView = (
@@ -292,52 +294,58 @@ const SessionCard = ({
       ) : (
         <p className='text-muted-foreground text-xs'>&nbsp;</p> // Placeholder to maintain layout
       )}
-      <div className='items-cemter my-2 flex justify-between rounded border p-1'>
-        <div className='grid'>
-          <p className='text-xs'>Fastest Lap</p>
-          {ds.fastest_lap[0].lap_time && (
+      {ds.fastest_lap[0]?.lap_time && (
+        <div className='items-cemter my-2 flex justify-between rounded border p-1'>
+          <div className='grid'>
+            <p className='text-xs'>Fastest Lap</p>
             <p className='text-2xl leading-6'>
               {formatLapTime(ds.fastest_lap[0].lap_time)}
             </p>
-          )}
-        </div>
-        <div className='ml-auto flex gap-2'>
-          <div className='grid text-center'>
-            <p className='text-xs'>Lap</p>
-            <p className='text-2xl leading-6'>{ds.fastest_lap[0].lap_number}</p>
           </div>
-          <div className='grid text-center'>
-            <p className='text-xs'>Stint</p>
-            <p className='text-2xl leading-6'>{ds.fastest_lap[0].stint}</p>
+          <div className='ml-auto flex gap-2'>
+            <div className='grid text-center'>
+              <p className='text-xs'>Lap</p>
+              <p className='text-2xl leading-6'>
+                {ds.fastest_lap[0]?.lap_number}
+              </p>
+            </div>
+            <div className='grid text-center'>
+              <p className='text-xs'>Stint</p>
+              <p className='text-2xl leading-6'>{ds.fastest_lap[0]?.stint}</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div className='grid grid-cols-3 divide-x rounded border p-1 text-center text-sm'>
-        <div>
-          <span className='text-muted-foreground block text-xs'>S1</span>
-          <p>
-            {ds.fastest_lap[0].sector1
-              ? formatSectorTimes(ds.fastest_lap[0].sector1)
-              : 'N/A'}
-          </p>
-        </div>
-        <div>
-          <span className='text-muted-foreground block text-xs'>S2</span>
-          <p>
-            {ds.fastest_lap[0].sector2
-              ? formatSectorTimes(ds.fastest_lap[0].sector2)
-              : 'N/A'}
-          </p>
-        </div>
-        <div>
-          <span className='text-muted-foreground block text-xs'>S3</span>
-          <p>
-            {ds.fastest_lap[0].sector3
-              ? formatSectorTimes(ds.fastest_lap[0].sector3)
-              : 'N/A'}
-          </p>
-        </div>
-      </div>
+      )}
+      {ds.fastest_lap[0]?.sector1 &&
+        ds.fastest_lap[0]?.sector3 &&
+        ds.fastest_lap[0]?.sector3 && (
+          <div className='grid grid-cols-3 divide-x rounded border p-1 text-center text-sm'>
+            <div>
+              <span className='text-muted-foreground block text-xs'>S1</span>
+              <p>
+                {ds.fastest_lap[0]?.sector1
+                  ? formatSectorTimes(ds.fastest_lap[0].sector1)
+                  : 'N/A'}
+              </p>
+            </div>
+            <div>
+              <span className='text-muted-foreground block text-xs'>S2</span>
+              <p>
+                {ds.fastest_lap[0]?.sector2
+                  ? formatSectorTimes(ds.fastest_lap[0].sector2)
+                  : 'N/A'}
+              </p>
+            </div>
+            <div>
+              <span className='text-muted-foreground block text-xs'>S3</span>
+              <p>
+                {ds.fastest_lap[0]?.sector3
+                  ? formatSectorTimes(ds.fastest_lap[0].sector3)
+                  : 'N/A'}
+              </p>
+            </div>
+          </div>
+        )}
     </div>
   );
 };
