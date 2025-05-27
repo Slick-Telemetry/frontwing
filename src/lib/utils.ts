@@ -148,6 +148,7 @@ export const fastestLapFinder = (
       return {
         time: driver.fastest_lap[0].lap_time,
         driver: driver.driver?.full_name,
+        lap: driver.fastest_lap[0].lap_number,
       };
     case 'qualifying':
       driver = (

@@ -111,9 +111,10 @@ export const SessionProvisionalGrid = ({
 
   return (
     <div className='p-2'>
-      <p className='mb-2'>
-        Fastest Lap: {formatLapTime(Number(fastestLap.time))}{' '}
-        {fastestLap.driver}
+      <p className='mb-2 inline-block border px-2 italic'>
+        Fastest Lap: <strong>{formatLapTime(Number(fastestLap.time))}</strong>{' '}
+        by <strong>{fastestLap.driver}</strong>
+        {fastestLap.lap && ` on Lap ${fastestLap.lap}`}
       </p>
 
       {/* Driver Grid */}
