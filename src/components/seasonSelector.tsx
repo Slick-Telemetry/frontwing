@@ -1,7 +1,12 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
 
 import { GET_SEASONS } from '@/lib/queries';
 
@@ -17,10 +22,11 @@ import {
   SelectValue,
 } from './ui/select';
 
-const SeasonSelector = ({ year }: { year: number }) => {
+const SeasonSelector = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { year } = useParams();
 
   const { data, loading, error } = useQuery<
     GetSeasonsQuery,
@@ -49,7 +55,7 @@ const SeasonSelector = ({ year }: { year: number }) => {
   return (
     <Select onValueChange={(val) => handleSeasonChange(val)}>
       <SelectTrigger className='w-24'>
-        <SelectValue placeholder={year} />
+        <SelectValue placeholder={year || events[0].year} />
       </SelectTrigger>
       <SelectContent>
         {events.map(
