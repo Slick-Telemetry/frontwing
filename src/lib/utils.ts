@@ -136,32 +136,26 @@ export const fastestLapFinder = (
   switch (type) {
     // rely on the fastest lap for competition, race or sprint
     case 'competition':
-      driver = [
+      driver = sortFastestLaps([
         ...(sessions as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']),
-      ].sort((driverA, driverB) => {
-        // Fort by fastest lap time
-        return (
-          Number(driverA.fastest_lap[0]?.lap_time || 0) -
-          Number(driverB.fastest_lap[0]?.lap_time || 0)
-        );
-      })[0];
+      ])[0] as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions'][number];
       return {
         time: driver.fastest_lap[0].lap_time,
         driver: driver.driver?.full_name,
         lap: driver.fastest_lap[0].lap_number,
       };
     case 'qualifying':
-      driver = (
-        sessions as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
-      )[0];
+      driver = sortQuali(
+        sessions as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions'],
+      )[0] as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions'][number];
       return {
         time: driver.results[0].q3_time,
         driver: driver.driver?.full_name,
       };
     default:
-      driver = (
-        sessions as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
-      )[0];
+      driver = sortFastestLaps(
+        sessions as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'],
+      )[0] as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'][number];
       return {
         time: driver.fastest_lap[0].lap_time,
         driver: driver.driver?.full_name,
@@ -218,7 +212,11 @@ export const sortFastestLaps = (
     | SessionResultsQuery['sessions'][number]['driver_sessions'],
 ) => {
   return sessions
-    .filter((driver) => driver.fastest_lap.length !== 0)
+    .filter((driver) => {
+      return (
+        driver.fastest_lap.length !== 0 && !!driver.fastest_lap[0].lap_time
+      );
+    })
     .sort((a, b) => {
       return (
         Number(a.fastest_lap[0]?.lap_time || 0) -
