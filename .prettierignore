@@ -41,3 +41,7 @@ CHANGELOG.md
 pnpm-lock.yaml
 yarn.lock
 package-lock.json
+
+# graphql
+graphql.schema.json
+/src/generated/types.ts

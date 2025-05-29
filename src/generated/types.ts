@@ -2,34 +2,21 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  bigint: { input: bigint; output: bigint };
-  numeric: { input: bigint | number; output: bigint | number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  bigint: { input: bigint; output: bigint; }
+  numeric: { input: bigint | number; output: bigint | number; }
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -119,6 +106,7 @@ export type Circuits = {
   sessions_aggregate: Sessions_Aggregate;
 };
 
+
 /** columns and relationships of "circuits" */
 export type CircuitsSessionsArgs = {
   distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
@@ -127,6 +115,7 @@ export type CircuitsSessionsArgs = {
   order_by?: InputMaybe<Array<Sessions_Order_By>>;
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
+
 
 /** columns and relationships of "circuits" */
 export type CircuitsSessions_AggregateArgs = {
@@ -159,6 +148,7 @@ export type Circuits_Aggregate_Fields = {
   var_samp?: Maybe<Circuits_Var_Samp_Fields>;
   variance?: Maybe<Circuits_Variance_Fields>;
 };
+
 
 /** aggregate fields of "circuits" */
 export type Circuits_Aggregate_FieldsCountArgs = {
@@ -235,7 +225,7 @@ export enum Circuits_Select_Column {
   /** column name */
   Longitude = 'longitude',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** aggregate stddev on columns */
@@ -359,6 +349,7 @@ export type Constructor_Standings_Aggregate_Fields = {
   var_samp?: Maybe<Constructor_Standings_Var_Samp_Fields>;
   variance?: Maybe<Constructor_Standings_Variance_Fields>;
 };
+
 
 /** aggregate fields of "constructor_standings" */
 export type Constructor_Standings_Aggregate_FieldsCountArgs = {
@@ -488,7 +479,7 @@ export enum Constructor_Standings_Select_Column {
   /** column name */
   Season = 'season',
   /** column name */
-  Wins = 'wins',
+  Wins = 'wins'
 }
 
 /** aggregate stddev on columns */
@@ -663,6 +654,7 @@ export type Constructors = {
   year?: Maybe<Scalars['Int']['output']>;
 };
 
+
 /** columns and relationships of "constructors" */
 export type ConstructorsConstructor_StandingsArgs = {
   distinct_on?: InputMaybe<Array<Constructor_Standings_Select_Column>>;
@@ -671,6 +663,7 @@ export type ConstructorsConstructor_StandingsArgs = {
   order_by?: InputMaybe<Array<Constructor_Standings_Order_By>>;
   where?: InputMaybe<Constructor_Standings_Bool_Exp>;
 };
+
 
 /** columns and relationships of "constructors" */
 export type ConstructorsConstructor_Standings_AggregateArgs = {
@@ -681,6 +674,7 @@ export type ConstructorsConstructor_Standings_AggregateArgs = {
   where?: InputMaybe<Constructor_Standings_Bool_Exp>;
 };
 
+
 /** columns and relationships of "constructors" */
 export type ConstructorsDriver_SessionsArgs = {
   distinct_on?: InputMaybe<Array<Driver_Sessions_Select_Column>>;
@@ -689,6 +683,7 @@ export type ConstructorsDriver_SessionsArgs = {
   order_by?: InputMaybe<Array<Driver_Sessions_Order_By>>;
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
+
 
 /** columns and relationships of "constructors" */
 export type ConstructorsDriver_Sessions_AggregateArgs = {
@@ -721,6 +716,7 @@ export type Constructors_Aggregate_Fields = {
   var_samp?: Maybe<Constructors_Var_Samp_Fields>;
   variance?: Maybe<Constructors_Variance_Fields>;
 };
+
 
 /** aggregate fields of "constructors" */
 export type Constructors_Aggregate_FieldsCountArgs = {
@@ -805,7 +801,7 @@ export enum Constructors_Select_Column {
   /** column name */
   StartYear = 'start_year',
   /** column name */
-  Year = 'year',
+  Year = 'year'
 }
 
 /** aggregate stddev on columns */
@@ -881,7 +877,7 @@ export enum Cursor_Ordering {
   /** ascending ordering of the cursor */
   Asc = 'ASC',
   /** descending ordering of the cursor */
-  Desc = 'DESC',
+  Desc = 'DESC'
 }
 
 /** columns and relationships of "driver_sessions" */
@@ -910,6 +906,7 @@ export type Driver_Sessions = {
   telemetries_aggregate: Telemetry_Aggregate;
 };
 
+
 /** columns and relationships of "driver_sessions" */
 export type Driver_SessionsLapsArgs = {
   distinct_on?: InputMaybe<Array<Laps_Select_Column>>;
@@ -918,6 +915,7 @@ export type Driver_SessionsLapsArgs = {
   order_by?: InputMaybe<Array<Laps_Order_By>>;
   where?: InputMaybe<Laps_Bool_Exp>;
 };
+
 
 /** columns and relationships of "driver_sessions" */
 export type Driver_SessionsLaps_AggregateArgs = {
@@ -928,6 +926,7 @@ export type Driver_SessionsLaps_AggregateArgs = {
   where?: InputMaybe<Laps_Bool_Exp>;
 };
 
+
 /** columns and relationships of "driver_sessions" */
 export type Driver_SessionsResultsArgs = {
   distinct_on?: InputMaybe<Array<Results_Select_Column>>;
@@ -936,6 +935,7 @@ export type Driver_SessionsResultsArgs = {
   order_by?: InputMaybe<Array<Results_Order_By>>;
   where?: InputMaybe<Results_Bool_Exp>;
 };
+
 
 /** columns and relationships of "driver_sessions" */
 export type Driver_SessionsResults_AggregateArgs = {
@@ -946,6 +946,7 @@ export type Driver_SessionsResults_AggregateArgs = {
   where?: InputMaybe<Results_Bool_Exp>;
 };
 
+
 /** columns and relationships of "driver_sessions" */
 export type Driver_SessionsTelemetriesArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
@@ -954,6 +955,7 @@ export type Driver_SessionsTelemetriesArgs = {
   order_by?: InputMaybe<Array<Telemetry_Order_By>>;
   where?: InputMaybe<Telemetry_Bool_Exp>;
 };
+
 
 /** columns and relationships of "driver_sessions" */
 export type Driver_SessionsTelemetries_AggregateArgs = {
@@ -989,6 +991,7 @@ export type Driver_Sessions_Aggregate_Fields = {
   max?: Maybe<Driver_Sessions_Max_Fields>;
   min?: Maybe<Driver_Sessions_Min_Fields>;
 };
+
 
 /** aggregate fields of "driver_sessions" */
 export type Driver_Sessions_Aggregate_FieldsCountArgs = {
@@ -1072,7 +1075,7 @@ export enum Driver_Sessions_Select_Column {
   /** column name */
   DriverId = 'driver_id',
   /** column name */
-  SessionId = 'session_id',
+  SessionId = 'session_id'
 }
 
 /** Streaming cursor of the table "driver_sessions" */
@@ -1137,6 +1140,7 @@ export type Driver_Standings_Aggregate_Fields = {
   var_samp?: Maybe<Driver_Standings_Var_Samp_Fields>;
   variance?: Maybe<Driver_Standings_Variance_Fields>;
 };
+
 
 /** aggregate fields of "driver_standings" */
 export type Driver_Standings_Aggregate_FieldsCountArgs = {
@@ -1266,7 +1270,7 @@ export enum Driver_Standings_Select_Column {
   /** column name */
   Season = 'season',
   /** column name */
-  Wins = 'wins',
+  Wins = 'wins'
 }
 
 /** aggregate stddev on columns */
@@ -1446,6 +1450,7 @@ export type Drivers = {
   year?: Maybe<Scalars['Int']['output']>;
 };
 
+
 /** columns and relationships of "drivers" */
 export type DriversDriver_SessionsArgs = {
   distinct_on?: InputMaybe<Array<Driver_Sessions_Select_Column>>;
@@ -1454,6 +1459,7 @@ export type DriversDriver_SessionsArgs = {
   order_by?: InputMaybe<Array<Driver_Sessions_Order_By>>;
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
+
 
 /** columns and relationships of "drivers" */
 export type DriversDriver_Sessions_AggregateArgs = {
@@ -1464,6 +1470,7 @@ export type DriversDriver_Sessions_AggregateArgs = {
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
 
+
 /** columns and relationships of "drivers" */
 export type DriversDriver_StandingsArgs = {
   distinct_on?: InputMaybe<Array<Driver_Standings_Select_Column>>;
@@ -1472,6 +1479,7 @@ export type DriversDriver_StandingsArgs = {
   order_by?: InputMaybe<Array<Driver_Standings_Order_By>>;
   where?: InputMaybe<Driver_Standings_Bool_Exp>;
 };
+
 
 /** columns and relationships of "drivers" */
 export type DriversDriver_Standings_AggregateArgs = {
@@ -1504,6 +1512,7 @@ export type Drivers_Aggregate_Fields = {
   var_samp?: Maybe<Drivers_Var_Samp_Fields>;
   variance?: Maybe<Drivers_Variance_Fields>;
 };
+
 
 /** aggregate fields of "drivers" */
 export type Drivers_Aggregate_FieldsCountArgs = {
@@ -1617,7 +1626,7 @@ export enum Drivers_Select_Column {
   /** column name */
   Number = 'number',
   /** column name */
-  Year = 'year',
+  Year = 'year'
 }
 
 /** aggregate stddev on columns */
@@ -1701,6 +1710,7 @@ export type Event_Format_Choices = {
   value: Scalars['String']['output'];
 };
 
+
 /** columns and relationships of "event_format_choices" */
 export type Event_Format_ChoicesEventsArgs = {
   distinct_on?: InputMaybe<Array<Events_Select_Column>>;
@@ -1709,6 +1719,7 @@ export type Event_Format_ChoicesEventsArgs = {
   order_by?: InputMaybe<Array<Events_Order_By>>;
   where?: InputMaybe<Events_Bool_Exp>;
 };
+
 
 /** columns and relationships of "event_format_choices" */
 export type Event_Format_ChoicesEvents_AggregateArgs = {
@@ -1719,6 +1730,7 @@ export type Event_Format_ChoicesEvents_AggregateArgs = {
   where?: InputMaybe<Events_Bool_Exp>;
 };
 
+
 /** columns and relationships of "event_format_choices" */
 export type Event_Format_ChoicesSchedulesArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
@@ -1727,6 +1739,7 @@ export type Event_Format_ChoicesSchedulesArgs = {
   order_by?: InputMaybe<Array<Schedule_Order_By>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
+
 
 /** columns and relationships of "event_format_choices" */
 export type Event_Format_ChoicesSchedules_AggregateArgs = {
@@ -1751,6 +1764,7 @@ export type Event_Format_Choices_Aggregate_Fields = {
   max?: Maybe<Event_Format_Choices_Max_Fields>;
   min?: Maybe<Event_Format_Choices_Min_Fields>;
 };
+
 
 /** aggregate fields of "event_format_choices" */
 export type Event_Format_Choices_Aggregate_FieldsCountArgs = {
@@ -1781,7 +1795,7 @@ export enum Event_Format_Choices_Enum {
   /** Practice 1, Qualifying, Sprint Shootout, Sprint, Race */
   SprintShootout = 'sprint_shootout',
   /** no fixed session order; mostly Practice sessions */
-  Testing = 'testing',
+  Testing = 'testing'
 }
 
 /** Boolean expression to compare columns of type "event_format_choices_enum". All fields are combined with logical 'AND'. */
@@ -1820,7 +1834,7 @@ export enum Event_Format_Choices_Select_Column {
   /** column name */
   Comment = 'comment',
   /** column name */
-  Value = 'value',
+  Value = 'value'
 }
 
 /** Streaming cursor of the table "event_format_choices" */
@@ -1858,6 +1872,7 @@ export type Events = {
   year?: Maybe<Scalars['Int']['output']>;
 };
 
+
 /** columns and relationships of "events" */
 export type EventsSessionsArgs = {
   distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
@@ -1866,6 +1881,7 @@ export type EventsSessionsArgs = {
   order_by?: InputMaybe<Array<Sessions_Order_By>>;
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
+
 
 /** columns and relationships of "events" */
 export type EventsSessions_AggregateArgs = {
@@ -1925,6 +1941,7 @@ export type Events_Aggregate_Fields = {
   var_samp?: Maybe<Events_Var_Samp_Fields>;
   variance?: Maybe<Events_Variance_Fields>;
 };
+
 
 /** aggregate fields of "events" */
 export type Events_Aggregate_FieldsCountArgs = {
@@ -2065,19 +2082,19 @@ export enum Events_Select_Column {
   /** column name */
   RoundNumber = 'round_number',
   /** column name */
-  Year = 'year',
+  Year = 'year'
 }
 
 /** select "events_aggregate_bool_exp_bool_and_arguments_columns" columns of table "events" */
 export enum Events_Select_Column_Events_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
   /** column name */
-  F1ApiSupport = 'f1_api_support',
+  F1ApiSupport = 'f1_api_support'
 }
 
 /** select "events_aggregate_bool_exp_bool_or_arguments_columns" columns of table "events" */
 export enum Events_Select_Column_Events_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
   /** column name */
-  F1ApiSupport = 'f1_api_support',
+  F1ApiSupport = 'f1_api_support'
 }
 
 /** aggregate stddev on columns */
@@ -2294,6 +2311,7 @@ export type Laps_Aggregate_Fields = {
   var_samp?: Maybe<Laps_Var_Samp_Fields>;
   variance?: Maybe<Laps_Variance_Fields>;
 };
+
 
 /** aggregate fields of "laps" */
 export type Laps_Aggregate_FieldsCountArgs = {
@@ -2605,7 +2623,7 @@ export enum Laps_Select_Column {
   /** column name */
   TrackStatus = 'track_status',
   /** column name */
-  TyreLife = 'tyre_life',
+  TyreLife = 'tyre_life'
 }
 
 /** select "laps_aggregate_bool_exp_bool_and_arguments_columns" columns of table "laps" */
@@ -2619,7 +2637,7 @@ export enum Laps_Select_Column_Laps_Aggregate_Bool_Exp_Bool_And_Arguments_Column
   /** column name */
   IsAccurate = 'is_accurate',
   /** column name */
-  IsPersonalBest = 'is_personal_best',
+  IsPersonalBest = 'is_personal_best'
 }
 
 /** select "laps_aggregate_bool_exp_bool_or_arguments_columns" columns of table "laps" */
@@ -2633,7 +2651,7 @@ export enum Laps_Select_Column_Laps_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns
   /** column name */
   IsAccurate = 'is_accurate',
   /** column name */
-  IsPersonalBest = 'is_personal_best',
+  IsPersonalBest = 'is_personal_best'
 }
 
 /** aggregate stddev on columns */
@@ -3032,7 +3050,7 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last',
+  DescNullsLast = 'desc_nulls_last'
 }
 
 export type Query_Root = {
@@ -3147,6 +3165,7 @@ export type Query_Root = {
   weather_data_aggregate: Weather_Data_Aggregate;
 };
 
+
 export type Query_RootCircuitsArgs = {
   distinct_on?: InputMaybe<Array<Circuits_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3154,6 +3173,7 @@ export type Query_RootCircuitsArgs = {
   order_by?: InputMaybe<Array<Circuits_Order_By>>;
   where?: InputMaybe<Circuits_Bool_Exp>;
 };
+
 
 export type Query_RootCircuits_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Circuits_Select_Column>>;
@@ -3163,6 +3183,7 @@ export type Query_RootCircuits_AggregateArgs = {
   where?: InputMaybe<Circuits_Bool_Exp>;
 };
 
+
 export type Query_RootConstructor_StandingsArgs = {
   distinct_on?: InputMaybe<Array<Constructor_Standings_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3170,6 +3191,7 @@ export type Query_RootConstructor_StandingsArgs = {
   order_by?: InputMaybe<Array<Constructor_Standings_Order_By>>;
   where?: InputMaybe<Constructor_Standings_Bool_Exp>;
 };
+
 
 export type Query_RootConstructor_Standings_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Constructor_Standings_Select_Column>>;
@@ -3179,6 +3201,7 @@ export type Query_RootConstructor_Standings_AggregateArgs = {
   where?: InputMaybe<Constructor_Standings_Bool_Exp>;
 };
 
+
 export type Query_RootConstructorsArgs = {
   distinct_on?: InputMaybe<Array<Constructors_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3186,6 +3209,7 @@ export type Query_RootConstructorsArgs = {
   order_by?: InputMaybe<Array<Constructors_Order_By>>;
   where?: InputMaybe<Constructors_Bool_Exp>;
 };
+
 
 export type Query_RootConstructors_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Constructors_Select_Column>>;
@@ -3195,6 +3219,7 @@ export type Query_RootConstructors_AggregateArgs = {
   where?: InputMaybe<Constructors_Bool_Exp>;
 };
 
+
 export type Query_RootDriver_SessionsArgs = {
   distinct_on?: InputMaybe<Array<Driver_Sessions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3202,6 +3227,7 @@ export type Query_RootDriver_SessionsArgs = {
   order_by?: InputMaybe<Array<Driver_Sessions_Order_By>>;
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
+
 
 export type Query_RootDriver_Sessions_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Driver_Sessions_Select_Column>>;
@@ -3211,6 +3237,7 @@ export type Query_RootDriver_Sessions_AggregateArgs = {
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
 
+
 export type Query_RootDriver_StandingsArgs = {
   distinct_on?: InputMaybe<Array<Driver_Standings_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3218,6 +3245,7 @@ export type Query_RootDriver_StandingsArgs = {
   order_by?: InputMaybe<Array<Driver_Standings_Order_By>>;
   where?: InputMaybe<Driver_Standings_Bool_Exp>;
 };
+
 
 export type Query_RootDriver_Standings_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Driver_Standings_Select_Column>>;
@@ -3227,6 +3255,7 @@ export type Query_RootDriver_Standings_AggregateArgs = {
   where?: InputMaybe<Driver_Standings_Bool_Exp>;
 };
 
+
 export type Query_RootDriversArgs = {
   distinct_on?: InputMaybe<Array<Drivers_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3234,6 +3263,7 @@ export type Query_RootDriversArgs = {
   order_by?: InputMaybe<Array<Drivers_Order_By>>;
   where?: InputMaybe<Drivers_Bool_Exp>;
 };
+
 
 export type Query_RootDrivers_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Drivers_Select_Column>>;
@@ -3243,6 +3273,7 @@ export type Query_RootDrivers_AggregateArgs = {
   where?: InputMaybe<Drivers_Bool_Exp>;
 };
 
+
 export type Query_RootEvent_Format_ChoicesArgs = {
   distinct_on?: InputMaybe<Array<Event_Format_Choices_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3250,6 +3281,7 @@ export type Query_RootEvent_Format_ChoicesArgs = {
   order_by?: InputMaybe<Array<Event_Format_Choices_Order_By>>;
   where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
 };
+
 
 export type Query_RootEvent_Format_Choices_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Event_Format_Choices_Select_Column>>;
@@ -3259,9 +3291,11 @@ export type Query_RootEvent_Format_Choices_AggregateArgs = {
   where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
 };
 
+
 export type Query_RootEvent_Format_Choices_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Query_RootEventsArgs = {
   distinct_on?: InputMaybe<Array<Events_Select_Column>>;
@@ -3271,6 +3305,7 @@ export type Query_RootEventsArgs = {
   where?: InputMaybe<Events_Bool_Exp>;
 };
 
+
 export type Query_RootEvents_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Events_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3278,6 +3313,7 @@ export type Query_RootEvents_AggregateArgs = {
   order_by?: InputMaybe<Array<Events_Order_By>>;
   where?: InputMaybe<Events_Bool_Exp>;
 };
+
 
 export type Query_RootLapsArgs = {
   distinct_on?: InputMaybe<Array<Laps_Select_Column>>;
@@ -3287,6 +3323,7 @@ export type Query_RootLapsArgs = {
   where?: InputMaybe<Laps_Bool_Exp>;
 };
 
+
 export type Query_RootLaps_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Laps_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3294,6 +3331,7 @@ export type Query_RootLaps_AggregateArgs = {
   order_by?: InputMaybe<Array<Laps_Order_By>>;
   where?: InputMaybe<Laps_Bool_Exp>;
 };
+
 
 export type Query_RootRace_Control_MessagesArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
@@ -3303,6 +3341,7 @@ export type Query_RootRace_Control_MessagesArgs = {
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
 
+
 export type Query_RootRace_Control_Messages_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3311,29 +3350,29 @@ export type Query_RootRace_Control_Messages_AggregateArgs = {
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
 
+
 export type Query_RootRace_Control_Messages_CategoriesArgs = {
-  distinct_on?: InputMaybe<
-    Array<Race_Control_Messages_Categories_Select_Column>
-  >;
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Categories_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Race_Control_Messages_Categories_Order_By>>;
   where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
 };
 
+
 export type Query_RootRace_Control_Messages_Categories_AggregateArgs = {
-  distinct_on?: InputMaybe<
-    Array<Race_Control_Messages_Categories_Select_Column>
-  >;
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Categories_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Race_Control_Messages_Categories_Order_By>>;
   where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
 };
+
 
 export type Query_RootRace_Control_Messages_Categories_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Query_RootRace_Control_Messages_FlagsArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Flags_Select_Column>>;
@@ -3343,6 +3382,7 @@ export type Query_RootRace_Control_Messages_FlagsArgs = {
   where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
 };
 
+
 export type Query_RootRace_Control_Messages_Flags_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Flags_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3351,9 +3391,11 @@ export type Query_RootRace_Control_Messages_Flags_AggregateArgs = {
   where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
 };
 
+
 export type Query_RootRace_Control_Messages_Flags_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Query_RootRace_Control_Messages_ScopesArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
@@ -3363,6 +3405,7 @@ export type Query_RootRace_Control_Messages_ScopesArgs = {
   where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
 };
 
+
 export type Query_RootRace_Control_Messages_Scopes_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3371,9 +3414,11 @@ export type Query_RootRace_Control_Messages_Scopes_AggregateArgs = {
   where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
 };
 
+
 export type Query_RootRace_Control_Messages_Scopes_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Query_RootResultsArgs = {
   distinct_on?: InputMaybe<Array<Results_Select_Column>>;
@@ -3383,6 +3428,7 @@ export type Query_RootResultsArgs = {
   where?: InputMaybe<Results_Bool_Exp>;
 };
 
+
 export type Query_RootResults_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Results_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3390,6 +3436,7 @@ export type Query_RootResults_AggregateArgs = {
   order_by?: InputMaybe<Array<Results_Order_By>>;
   where?: InputMaybe<Results_Bool_Exp>;
 };
+
 
 export type Query_RootScheduleArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
@@ -3399,6 +3446,7 @@ export type Query_RootScheduleArgs = {
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
+
 export type Query_RootSchedule_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3406,6 +3454,7 @@ export type Query_RootSchedule_AggregateArgs = {
   order_by?: InputMaybe<Array<Schedule_Order_By>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
+
 
 export type Query_RootSession_Name_ChoicesArgs = {
   distinct_on?: InputMaybe<Array<Session_Name_Choices_Select_Column>>;
@@ -3415,6 +3464,7 @@ export type Query_RootSession_Name_ChoicesArgs = {
   where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
 };
 
+
 export type Query_RootSession_Name_Choices_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Session_Name_Choices_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3423,9 +3473,11 @@ export type Query_RootSession_Name_Choices_AggregateArgs = {
   where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
 };
 
+
 export type Query_RootSession_Name_Choices_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Query_RootSessionsArgs = {
   distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
@@ -3435,6 +3487,7 @@ export type Query_RootSessionsArgs = {
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
 
+
 export type Query_RootSessions_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3442,6 +3495,7 @@ export type Query_RootSessions_AggregateArgs = {
   order_by?: InputMaybe<Array<Sessions_Order_By>>;
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
+
 
 export type Query_RootTelemetryArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
@@ -3451,6 +3505,7 @@ export type Query_RootTelemetryArgs = {
   where?: InputMaybe<Telemetry_Bool_Exp>;
 };
 
+
 export type Query_RootTelemetry_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3458,6 +3513,7 @@ export type Query_RootTelemetry_AggregateArgs = {
   order_by?: InputMaybe<Array<Telemetry_Order_By>>;
   where?: InputMaybe<Telemetry_Bool_Exp>;
 };
+
 
 export type Query_RootTelemetry_Car_StatusArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
@@ -3467,6 +3523,7 @@ export type Query_RootTelemetry_Car_StatusArgs = {
   where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
 };
 
+
 export type Query_RootTelemetry_Car_Status_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3475,9 +3532,11 @@ export type Query_RootTelemetry_Car_Status_AggregateArgs = {
   where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
 };
 
+
 export type Query_RootTelemetry_Car_Status_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Query_RootTelemetry_SourcesArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
@@ -3487,6 +3546,7 @@ export type Query_RootTelemetry_SourcesArgs = {
   where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
 };
 
+
 export type Query_RootTelemetry_Sources_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3495,9 +3555,11 @@ export type Query_RootTelemetry_Sources_AggregateArgs = {
   where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
 };
 
+
 export type Query_RootTelemetry_Sources_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Query_RootTrack_StatusArgs = {
   distinct_on?: InputMaybe<Array<Track_Status_Select_Column>>;
@@ -3507,6 +3569,7 @@ export type Query_RootTrack_StatusArgs = {
   where?: InputMaybe<Track_Status_Bool_Exp>;
 };
 
+
 export type Query_RootTrack_Status_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Track_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3514,6 +3577,7 @@ export type Query_RootTrack_Status_AggregateArgs = {
   order_by?: InputMaybe<Array<Track_Status_Order_By>>;
   where?: InputMaybe<Track_Status_Bool_Exp>;
 };
+
 
 export type Query_RootTyre_CompoundsArgs = {
   distinct_on?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
@@ -3523,6 +3587,7 @@ export type Query_RootTyre_CompoundsArgs = {
   where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
 };
 
+
 export type Query_RootTyre_Compounds_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3531,9 +3596,11 @@ export type Query_RootTyre_Compounds_AggregateArgs = {
   where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
 };
 
+
 export type Query_RootTyre_Compounds_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Query_RootWeather_DataArgs = {
   distinct_on?: InputMaybe<Array<Weather_Data_Select_Column>>;
@@ -3542,6 +3609,7 @@ export type Query_RootWeather_DataArgs = {
   order_by?: InputMaybe<Array<Weather_Data_Order_By>>;
   where?: InputMaybe<Weather_Data_Bool_Exp>;
 };
+
 
 export type Query_RootWeather_Data_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Weather_Data_Select_Column>>;
@@ -3607,6 +3675,7 @@ export type Race_Control_Messages_Aggregate_Fields = {
   variance?: Maybe<Race_Control_Messages_Variance_Fields>;
 };
 
+
 /** aggregate fields of "race_control_messages" */
 export type Race_Control_Messages_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
@@ -3670,6 +3739,7 @@ export type Race_Control_Messages_Categories = {
   value: Scalars['String']['output'];
 };
 
+
 /** columns and relationships of "race_control_messages_categories" */
 export type Race_Control_Messages_CategoriesRace_Control_MessagesArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
@@ -3679,15 +3749,15 @@ export type Race_Control_Messages_CategoriesRace_Control_MessagesArgs = {
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
 
+
 /** columns and relationships of "race_control_messages_categories" */
-export type Race_Control_Messages_CategoriesRace_Control_Messages_AggregateArgs =
-  {
-    distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
-    limit?: InputMaybe<Scalars['Int']['input']>;
-    offset?: InputMaybe<Scalars['Int']['input']>;
-    order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
-    where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
-  };
+export type Race_Control_Messages_CategoriesRace_Control_Messages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
+  where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+};
 
 /** aggregated selection of "race_control_messages_categories" */
 export type Race_Control_Messages_Categories_Aggregate = {
@@ -3703,6 +3773,7 @@ export type Race_Control_Messages_Categories_Aggregate_Fields = {
   max?: Maybe<Race_Control_Messages_Categories_Max_Fields>;
   min?: Maybe<Race_Control_Messages_Categories_Min_Fields>;
 };
+
 
 /** aggregate fields of "race_control_messages_categories" */
 export type Race_Control_Messages_Categories_Aggregate_FieldsCountArgs = {
@@ -3731,7 +3802,7 @@ export enum Race_Control_Messages_Categories_Enum {
   /** Other category */
   Other = 'Other',
   /** Safety car category */
-  SafetyCar = 'SafetyCar',
+  SafetyCar = 'SafetyCar'
 }
 
 /** Boolean expression to compare columns of type "race_control_messages_categories_enum". All fields are combined with logical 'AND'. */
@@ -3769,7 +3840,7 @@ export enum Race_Control_Messages_Categories_Select_Column {
   /** column name */
   Comment = 'comment',
   /** column name */
-  Value = 'value',
+  Value = 'value'
 }
 
 /** Streaming cursor of the table "race_control_messages_categories" */
@@ -3797,6 +3868,7 @@ export type Race_Control_Messages_Flags = {
   value: Scalars['String']['output'];
 };
 
+
 /** columns and relationships of "race_control_messages_flags" */
 export type Race_Control_Messages_FlagsRace_Control_MessagesArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
@@ -3805,6 +3877,7 @@ export type Race_Control_Messages_FlagsRace_Control_MessagesArgs = {
   order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
+
 
 /** columns and relationships of "race_control_messages_flags" */
 export type Race_Control_Messages_FlagsRace_Control_Messages_AggregateArgs = {
@@ -3829,6 +3902,7 @@ export type Race_Control_Messages_Flags_Aggregate_Fields = {
   max?: Maybe<Race_Control_Messages_Flags_Max_Fields>;
   min?: Maybe<Race_Control_Messages_Flags_Min_Fields>;
 };
+
 
 /** aggregate fields of "race_control_messages_flags" */
 export type Race_Control_Messages_Flags_Aggregate_FieldsCountArgs = {
@@ -3865,7 +3939,7 @@ export enum Race_Control_Messages_Flags_Enum {
   /** Red flag */
   Red = 'RED',
   /** Yellow flag */
-  Yellow = 'YELLOW',
+  Yellow = 'YELLOW'
 }
 
 /** Boolean expression to compare columns of type "race_control_messages_flags_enum". All fields are combined with logical 'AND'. */
@@ -3903,7 +3977,7 @@ export enum Race_Control_Messages_Flags_Select_Column {
   /** column name */
   Comment = 'comment',
   /** column name */
-  Value = 'value',
+  Value = 'value'
 }
 
 /** Streaming cursor of the table "race_control_messages_flags" */
@@ -3990,6 +4064,7 @@ export type Race_Control_Messages_Scopes = {
   value: Scalars['String']['output'];
 };
 
+
 /** columns and relationships of "race_control_messages_scopes" */
 export type Race_Control_Messages_ScopesRace_Control_MessagesArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
@@ -3998,6 +4073,7 @@ export type Race_Control_Messages_ScopesRace_Control_MessagesArgs = {
   order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
+
 
 /** columns and relationships of "race_control_messages_scopes" */
 export type Race_Control_Messages_ScopesRace_Control_Messages_AggregateArgs = {
@@ -4023,6 +4099,7 @@ export type Race_Control_Messages_Scopes_Aggregate_Fields = {
   min?: Maybe<Race_Control_Messages_Scopes_Min_Fields>;
 };
 
+
 /** aggregate fields of "race_control_messages_scopes" */
 export type Race_Control_Messages_Scopes_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
@@ -4046,7 +4123,7 @@ export enum Race_Control_Messages_Scopes_Enum {
   /** Sector scope */
   Sector = 'Sector',
   /** Track scope */
-  Track = 'Track',
+  Track = 'Track'
 }
 
 /** Boolean expression to compare columns of type "race_control_messages_scopes_enum". All fields are combined with logical 'AND'. */
@@ -4084,7 +4161,7 @@ export enum Race_Control_Messages_Scopes_Select_Column {
   /** column name */
   Comment = 'comment',
   /** column name */
-  Value = 'value',
+  Value = 'value'
 }
 
 /** Streaming cursor of the table "race_control_messages_scopes" */
@@ -4120,7 +4197,7 @@ export enum Race_Control_Messages_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  Time = 'time',
+  Time = 'time'
 }
 
 /** aggregate stddev on columns */
@@ -4273,6 +4350,7 @@ export type Results_Aggregate_Fields = {
   var_samp?: Maybe<Results_Var_Samp_Fields>;
   variance?: Maybe<Results_Variance_Fields>;
 };
+
 
 /** aggregate fields of "results" */
 export type Results_Aggregate_FieldsCountArgs = {
@@ -4440,7 +4518,7 @@ export enum Results_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  TotalRaceTime = 'total_race_time',
+  TotalRaceTime = 'total_race_time'
 }
 
 /** aggregate stddev on columns */
@@ -4733,6 +4811,7 @@ export type Schedule_Aggregate_Fields = {
   variance?: Maybe<Schedule_Variance_Fields>;
 };
 
+
 /** aggregate fields of "schedule" */
 export type Schedule_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Schedule_Select_Column>>;
@@ -4973,19 +5052,19 @@ export enum Schedule_Select_Column {
   /** column name */
   Session5DateUtc = 'session5_date_utc',
   /** column name */
-  Year = 'year',
+  Year = 'year'
 }
 
 /** select "schedule_aggregate_bool_exp_bool_and_arguments_columns" columns of table "schedule" */
 export enum Schedule_Select_Column_Schedule_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
   /** column name */
-  F1ApiSupport = 'f1_api_support',
+  F1ApiSupport = 'f1_api_support'
 }
 
 /** select "schedule_aggregate_bool_exp_bool_or_arguments_columns" columns of table "schedule" */
 export enum Schedule_Select_Column_Schedule_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
   /** column name */
-  F1ApiSupport = 'f1_api_support',
+  F1ApiSupport = 'f1_api_support'
 }
 
 /** aggregate stddev on columns */
@@ -5146,6 +5225,7 @@ export type Session_Name_Choices = {
   value: Scalars['String']['output'];
 };
 
+
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedulesArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
@@ -5154,6 +5234,7 @@ export type Session_Name_ChoicesSchedulesArgs = {
   order_by?: InputMaybe<Array<Schedule_Order_By>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
+
 
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedulesBySession2Args = {
@@ -5164,6 +5245,7 @@ export type Session_Name_ChoicesSchedulesBySession2Args = {
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
+
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedulesBySession2_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
@@ -5172,6 +5254,7 @@ export type Session_Name_ChoicesSchedulesBySession2_AggregateArgs = {
   order_by?: InputMaybe<Array<Schedule_Order_By>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
+
 
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedulesBySession3Args = {
@@ -5182,6 +5265,7 @@ export type Session_Name_ChoicesSchedulesBySession3Args = {
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
+
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedulesBySession3_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
@@ -5190,6 +5274,7 @@ export type Session_Name_ChoicesSchedulesBySession3_AggregateArgs = {
   order_by?: InputMaybe<Array<Schedule_Order_By>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
+
 
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedulesBySession4Args = {
@@ -5200,6 +5285,7 @@ export type Session_Name_ChoicesSchedulesBySession4Args = {
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
+
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedulesBySession4_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
@@ -5208,6 +5294,7 @@ export type Session_Name_ChoicesSchedulesBySession4_AggregateArgs = {
   order_by?: InputMaybe<Array<Schedule_Order_By>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
+
 
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedulesBySession5Args = {
@@ -5218,6 +5305,7 @@ export type Session_Name_ChoicesSchedulesBySession5Args = {
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
+
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedulesBySession5_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
@@ -5226,6 +5314,7 @@ export type Session_Name_ChoicesSchedulesBySession5_AggregateArgs = {
   order_by?: InputMaybe<Array<Schedule_Order_By>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
+
 
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSchedules_AggregateArgs = {
@@ -5236,6 +5325,7 @@ export type Session_Name_ChoicesSchedules_AggregateArgs = {
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
+
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSessionsArgs = {
   distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
@@ -5244,6 +5334,7 @@ export type Session_Name_ChoicesSessionsArgs = {
   order_by?: InputMaybe<Array<Sessions_Order_By>>;
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
+
 
 /** columns and relationships of "session_name_choices" */
 export type Session_Name_ChoicesSessions_AggregateArgs = {
@@ -5268,6 +5359,7 @@ export type Session_Name_Choices_Aggregate_Fields = {
   max?: Maybe<Session_Name_Choices_Max_Fields>;
   min?: Maybe<Session_Name_Choices_Min_Fields>;
 };
+
 
 /** aggregate fields of "session_name_choices" */
 export type Session_Name_Choices_Aggregate_FieldsCountArgs = {
@@ -5314,7 +5406,7 @@ export enum Session_Name_Choices_Enum {
   /** Sprint Shootout session */
   SprintShootout = 'Sprint_Shootout',
   /** Test session */
-  TestSession = 'Test_Session',
+  TestSession = 'Test_Session'
 }
 
 /** Boolean expression to compare columns of type "session_name_choices_enum". All fields are combined with logical 'AND'. */
@@ -5357,7 +5449,7 @@ export enum Session_Name_Choices_Select_Column {
   /** column name */
   Comment = 'comment',
   /** column name */
-  Value = 'value',
+  Value = 'value'
 }
 
 /** Streaming cursor of the table "session_name_choices" */
@@ -5410,6 +5502,7 @@ export type Sessions = {
   weather_data_aggregate: Weather_Data_Aggregate;
 };
 
+
 /** columns and relationships of "sessions" */
 export type SessionsDriver_SessionsArgs = {
   distinct_on?: InputMaybe<Array<Driver_Sessions_Select_Column>>;
@@ -5418,6 +5511,7 @@ export type SessionsDriver_SessionsArgs = {
   order_by?: InputMaybe<Array<Driver_Sessions_Order_By>>;
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
+
 
 /** columns and relationships of "sessions" */
 export type SessionsDriver_Sessions_AggregateArgs = {
@@ -5428,6 +5522,7 @@ export type SessionsDriver_Sessions_AggregateArgs = {
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
 
+
 /** columns and relationships of "sessions" */
 export type SessionsRace_Control_MessagesArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
@@ -5436,6 +5531,7 @@ export type SessionsRace_Control_MessagesArgs = {
   order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
+
 
 /** columns and relationships of "sessions" */
 export type SessionsRace_Control_Messages_AggregateArgs = {
@@ -5446,6 +5542,7 @@ export type SessionsRace_Control_Messages_AggregateArgs = {
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
 
+
 /** columns and relationships of "sessions" */
 export type SessionsTrack_StatusesArgs = {
   distinct_on?: InputMaybe<Array<Track_Status_Select_Column>>;
@@ -5454,6 +5551,7 @@ export type SessionsTrack_StatusesArgs = {
   order_by?: InputMaybe<Array<Track_Status_Order_By>>;
   where?: InputMaybe<Track_Status_Bool_Exp>;
 };
+
 
 /** columns and relationships of "sessions" */
 export type SessionsTrack_Statuses_AggregateArgs = {
@@ -5464,6 +5562,7 @@ export type SessionsTrack_Statuses_AggregateArgs = {
   where?: InputMaybe<Track_Status_Bool_Exp>;
 };
 
+
 /** columns and relationships of "sessions" */
 export type SessionsWeather_DataArgs = {
   distinct_on?: InputMaybe<Array<Weather_Data_Select_Column>>;
@@ -5472,6 +5571,7 @@ export type SessionsWeather_DataArgs = {
   order_by?: InputMaybe<Array<Weather_Data_Order_By>>;
   where?: InputMaybe<Weather_Data_Bool_Exp>;
 };
+
 
 /** columns and relationships of "sessions" */
 export type SessionsWeather_Data_AggregateArgs = {
@@ -5515,6 +5615,7 @@ export type Sessions_Aggregate_Fields = {
   var_samp?: Maybe<Sessions_Var_Samp_Fields>;
   variance?: Maybe<Sessions_Variance_Fields>;
 };
+
 
 /** aggregate fields of "sessions" */
 export type Sessions_Aggregate_FieldsCountArgs = {
@@ -5668,7 +5769,7 @@ export enum Sessions_Select_Column {
   /** column name */
   StartTime = 'start_time',
   /** column name */
-  TotalLaps = 'total_laps',
+  TotalLaps = 'total_laps'
 }
 
 /** aggregate stddev on columns */
@@ -5955,6 +6056,7 @@ export type Subscription_Root = {
   weather_data_stream: Array<Weather_Data>;
 };
 
+
 export type Subscription_RootCircuitsArgs = {
   distinct_on?: InputMaybe<Array<Circuits_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -5962,6 +6064,7 @@ export type Subscription_RootCircuitsArgs = {
   order_by?: InputMaybe<Array<Circuits_Order_By>>;
   where?: InputMaybe<Circuits_Bool_Exp>;
 };
+
 
 export type Subscription_RootCircuits_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Circuits_Select_Column>>;
@@ -5971,11 +6074,13 @@ export type Subscription_RootCircuits_AggregateArgs = {
   where?: InputMaybe<Circuits_Bool_Exp>;
 };
 
+
 export type Subscription_RootCircuits_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Circuits_Stream_Cursor_Input>>;
   where?: InputMaybe<Circuits_Bool_Exp>;
 };
+
 
 export type Subscription_RootConstructor_StandingsArgs = {
   distinct_on?: InputMaybe<Array<Constructor_Standings_Select_Column>>;
@@ -5985,6 +6090,7 @@ export type Subscription_RootConstructor_StandingsArgs = {
   where?: InputMaybe<Constructor_Standings_Bool_Exp>;
 };
 
+
 export type Subscription_RootConstructor_Standings_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Constructor_Standings_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -5993,11 +6099,13 @@ export type Subscription_RootConstructor_Standings_AggregateArgs = {
   where?: InputMaybe<Constructor_Standings_Bool_Exp>;
 };
 
+
 export type Subscription_RootConstructor_Standings_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Constructor_Standings_Stream_Cursor_Input>>;
   where?: InputMaybe<Constructor_Standings_Bool_Exp>;
 };
+
 
 export type Subscription_RootConstructorsArgs = {
   distinct_on?: InputMaybe<Array<Constructors_Select_Column>>;
@@ -6007,6 +6115,7 @@ export type Subscription_RootConstructorsArgs = {
   where?: InputMaybe<Constructors_Bool_Exp>;
 };
 
+
 export type Subscription_RootConstructors_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Constructors_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6015,11 +6124,13 @@ export type Subscription_RootConstructors_AggregateArgs = {
   where?: InputMaybe<Constructors_Bool_Exp>;
 };
 
+
 export type Subscription_RootConstructors_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Constructors_Stream_Cursor_Input>>;
   where?: InputMaybe<Constructors_Bool_Exp>;
 };
+
 
 export type Subscription_RootDriver_SessionsArgs = {
   distinct_on?: InputMaybe<Array<Driver_Sessions_Select_Column>>;
@@ -6029,6 +6140,7 @@ export type Subscription_RootDriver_SessionsArgs = {
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
 
+
 export type Subscription_RootDriver_Sessions_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Driver_Sessions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6037,11 +6149,13 @@ export type Subscription_RootDriver_Sessions_AggregateArgs = {
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
 
+
 export type Subscription_RootDriver_Sessions_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Driver_Sessions_Stream_Cursor_Input>>;
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
+
 
 export type Subscription_RootDriver_StandingsArgs = {
   distinct_on?: InputMaybe<Array<Driver_Standings_Select_Column>>;
@@ -6051,6 +6165,7 @@ export type Subscription_RootDriver_StandingsArgs = {
   where?: InputMaybe<Driver_Standings_Bool_Exp>;
 };
 
+
 export type Subscription_RootDriver_Standings_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Driver_Standings_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6059,11 +6174,13 @@ export type Subscription_RootDriver_Standings_AggregateArgs = {
   where?: InputMaybe<Driver_Standings_Bool_Exp>;
 };
 
+
 export type Subscription_RootDriver_Standings_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Driver_Standings_Stream_Cursor_Input>>;
   where?: InputMaybe<Driver_Standings_Bool_Exp>;
 };
+
 
 export type Subscription_RootDriversArgs = {
   distinct_on?: InputMaybe<Array<Drivers_Select_Column>>;
@@ -6073,6 +6190,7 @@ export type Subscription_RootDriversArgs = {
   where?: InputMaybe<Drivers_Bool_Exp>;
 };
 
+
 export type Subscription_RootDrivers_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Drivers_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6081,11 +6199,13 @@ export type Subscription_RootDrivers_AggregateArgs = {
   where?: InputMaybe<Drivers_Bool_Exp>;
 };
 
+
 export type Subscription_RootDrivers_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Drivers_Stream_Cursor_Input>>;
   where?: InputMaybe<Drivers_Bool_Exp>;
 };
+
 
 export type Subscription_RootEvent_Format_ChoicesArgs = {
   distinct_on?: InputMaybe<Array<Event_Format_Choices_Select_Column>>;
@@ -6095,6 +6215,7 @@ export type Subscription_RootEvent_Format_ChoicesArgs = {
   where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
 };
 
+
 export type Subscription_RootEvent_Format_Choices_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Event_Format_Choices_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6103,15 +6224,18 @@ export type Subscription_RootEvent_Format_Choices_AggregateArgs = {
   where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
 };
 
+
 export type Subscription_RootEvent_Format_Choices_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootEvent_Format_Choices_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Event_Format_Choices_Stream_Cursor_Input>>;
   where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
 };
+
 
 export type Subscription_RootEventsArgs = {
   distinct_on?: InputMaybe<Array<Events_Select_Column>>;
@@ -6121,6 +6245,7 @@ export type Subscription_RootEventsArgs = {
   where?: InputMaybe<Events_Bool_Exp>;
 };
 
+
 export type Subscription_RootEvents_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Events_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6129,11 +6254,13 @@ export type Subscription_RootEvents_AggregateArgs = {
   where?: InputMaybe<Events_Bool_Exp>;
 };
 
+
 export type Subscription_RootEvents_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Events_Stream_Cursor_Input>>;
   where?: InputMaybe<Events_Bool_Exp>;
 };
+
 
 export type Subscription_RootLapsArgs = {
   distinct_on?: InputMaybe<Array<Laps_Select_Column>>;
@@ -6143,6 +6270,7 @@ export type Subscription_RootLapsArgs = {
   where?: InputMaybe<Laps_Bool_Exp>;
 };
 
+
 export type Subscription_RootLaps_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Laps_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6151,11 +6279,13 @@ export type Subscription_RootLaps_AggregateArgs = {
   where?: InputMaybe<Laps_Bool_Exp>;
 };
 
+
 export type Subscription_RootLaps_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Laps_Stream_Cursor_Input>>;
   where?: InputMaybe<Laps_Bool_Exp>;
 };
+
 
 export type Subscription_RootRace_Control_MessagesArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
@@ -6165,6 +6295,7 @@ export type Subscription_RootRace_Control_MessagesArgs = {
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
 
+
 export type Subscription_RootRace_Control_Messages_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6173,37 +6304,36 @@ export type Subscription_RootRace_Control_Messages_AggregateArgs = {
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
 
+
 export type Subscription_RootRace_Control_Messages_CategoriesArgs = {
-  distinct_on?: InputMaybe<
-    Array<Race_Control_Messages_Categories_Select_Column>
-  >;
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Categories_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Race_Control_Messages_Categories_Order_By>>;
   where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
 };
 
+
 export type Subscription_RootRace_Control_Messages_Categories_AggregateArgs = {
-  distinct_on?: InputMaybe<
-    Array<Race_Control_Messages_Categories_Select_Column>
-  >;
+  distinct_on?: InputMaybe<Array<Race_Control_Messages_Categories_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Race_Control_Messages_Categories_Order_By>>;
   where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
 };
+
 
 export type Subscription_RootRace_Control_Messages_Categories_By_PkArgs = {
   value: Scalars['String']['input'];
 };
 
+
 export type Subscription_RootRace_Control_Messages_Categories_StreamArgs = {
   batch_size: Scalars['Int']['input'];
-  cursor: Array<
-    InputMaybe<Race_Control_Messages_Categories_Stream_Cursor_Input>
-  >;
+  cursor: Array<InputMaybe<Race_Control_Messages_Categories_Stream_Cursor_Input>>;
   where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
 };
+
 
 export type Subscription_RootRace_Control_Messages_FlagsArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Flags_Select_Column>>;
@@ -6213,6 +6343,7 @@ export type Subscription_RootRace_Control_Messages_FlagsArgs = {
   where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
 };
 
+
 export type Subscription_RootRace_Control_Messages_Flags_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Flags_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6221,15 +6352,18 @@ export type Subscription_RootRace_Control_Messages_Flags_AggregateArgs = {
   where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
 };
 
+
 export type Subscription_RootRace_Control_Messages_Flags_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootRace_Control_Messages_Flags_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Race_Control_Messages_Flags_Stream_Cursor_Input>>;
   where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
 };
+
 
 export type Subscription_RootRace_Control_Messages_ScopesArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
@@ -6239,6 +6373,7 @@ export type Subscription_RootRace_Control_Messages_ScopesArgs = {
   where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
 };
 
+
 export type Subscription_RootRace_Control_Messages_Scopes_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Scopes_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6247,9 +6382,11 @@ export type Subscription_RootRace_Control_Messages_Scopes_AggregateArgs = {
   where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
 };
 
+
 export type Subscription_RootRace_Control_Messages_Scopes_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootRace_Control_Messages_Scopes_StreamArgs = {
   batch_size: Scalars['Int']['input'];
@@ -6257,11 +6394,13 @@ export type Subscription_RootRace_Control_Messages_Scopes_StreamArgs = {
   where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
 };
 
+
 export type Subscription_RootRace_Control_Messages_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Race_Control_Messages_Stream_Cursor_Input>>;
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
 };
+
 
 export type Subscription_RootResultsArgs = {
   distinct_on?: InputMaybe<Array<Results_Select_Column>>;
@@ -6271,6 +6410,7 @@ export type Subscription_RootResultsArgs = {
   where?: InputMaybe<Results_Bool_Exp>;
 };
 
+
 export type Subscription_RootResults_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Results_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6279,11 +6419,13 @@ export type Subscription_RootResults_AggregateArgs = {
   where?: InputMaybe<Results_Bool_Exp>;
 };
 
+
 export type Subscription_RootResults_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Results_Stream_Cursor_Input>>;
   where?: InputMaybe<Results_Bool_Exp>;
 };
+
 
 export type Subscription_RootScheduleArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
@@ -6293,6 +6435,7 @@ export type Subscription_RootScheduleArgs = {
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
+
 export type Subscription_RootSchedule_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6301,11 +6444,13 @@ export type Subscription_RootSchedule_AggregateArgs = {
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
 
+
 export type Subscription_RootSchedule_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Schedule_Stream_Cursor_Input>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
 };
+
 
 export type Subscription_RootSession_Name_ChoicesArgs = {
   distinct_on?: InputMaybe<Array<Session_Name_Choices_Select_Column>>;
@@ -6315,6 +6460,7 @@ export type Subscription_RootSession_Name_ChoicesArgs = {
   where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
 };
 
+
 export type Subscription_RootSession_Name_Choices_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Session_Name_Choices_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6323,15 +6469,18 @@ export type Subscription_RootSession_Name_Choices_AggregateArgs = {
   where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
 };
 
+
 export type Subscription_RootSession_Name_Choices_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootSession_Name_Choices_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Session_Name_Choices_Stream_Cursor_Input>>;
   where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
 };
+
 
 export type Subscription_RootSessionsArgs = {
   distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
@@ -6341,6 +6490,7 @@ export type Subscription_RootSessionsArgs = {
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
 
+
 export type Subscription_RootSessions_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6349,11 +6499,13 @@ export type Subscription_RootSessions_AggregateArgs = {
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
 
+
 export type Subscription_RootSessions_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Sessions_Stream_Cursor_Input>>;
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
+
 
 export type Subscription_RootTelemetryArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
@@ -6363,6 +6515,7 @@ export type Subscription_RootTelemetryArgs = {
   where?: InputMaybe<Telemetry_Bool_Exp>;
 };
 
+
 export type Subscription_RootTelemetry_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6370,6 +6523,7 @@ export type Subscription_RootTelemetry_AggregateArgs = {
   order_by?: InputMaybe<Array<Telemetry_Order_By>>;
   where?: InputMaybe<Telemetry_Bool_Exp>;
 };
+
 
 export type Subscription_RootTelemetry_Car_StatusArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
@@ -6379,6 +6533,7 @@ export type Subscription_RootTelemetry_Car_StatusArgs = {
   where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
 };
 
+
 export type Subscription_RootTelemetry_Car_Status_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6387,15 +6542,18 @@ export type Subscription_RootTelemetry_Car_Status_AggregateArgs = {
   where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
 };
 
+
 export type Subscription_RootTelemetry_Car_Status_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootTelemetry_Car_Status_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Telemetry_Car_Status_Stream_Cursor_Input>>;
   where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
 };
+
 
 export type Subscription_RootTelemetry_SourcesArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
@@ -6405,6 +6563,7 @@ export type Subscription_RootTelemetry_SourcesArgs = {
   where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
 };
 
+
 export type Subscription_RootTelemetry_Sources_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6413,9 +6572,11 @@ export type Subscription_RootTelemetry_Sources_AggregateArgs = {
   where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
 };
 
+
 export type Subscription_RootTelemetry_Sources_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootTelemetry_Sources_StreamArgs = {
   batch_size: Scalars['Int']['input'];
@@ -6423,11 +6584,13 @@ export type Subscription_RootTelemetry_Sources_StreamArgs = {
   where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
 };
 
+
 export type Subscription_RootTelemetry_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Telemetry_Stream_Cursor_Input>>;
   where?: InputMaybe<Telemetry_Bool_Exp>;
 };
+
 
 export type Subscription_RootTrack_StatusArgs = {
   distinct_on?: InputMaybe<Array<Track_Status_Select_Column>>;
@@ -6437,6 +6600,7 @@ export type Subscription_RootTrack_StatusArgs = {
   where?: InputMaybe<Track_Status_Bool_Exp>;
 };
 
+
 export type Subscription_RootTrack_Status_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Track_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6445,11 +6609,13 @@ export type Subscription_RootTrack_Status_AggregateArgs = {
   where?: InputMaybe<Track_Status_Bool_Exp>;
 };
 
+
 export type Subscription_RootTrack_Status_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Track_Status_Stream_Cursor_Input>>;
   where?: InputMaybe<Track_Status_Bool_Exp>;
 };
+
 
 export type Subscription_RootTyre_CompoundsArgs = {
   distinct_on?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
@@ -6459,6 +6625,7 @@ export type Subscription_RootTyre_CompoundsArgs = {
   where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
 };
 
+
 export type Subscription_RootTyre_Compounds_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6467,15 +6634,18 @@ export type Subscription_RootTyre_Compounds_AggregateArgs = {
   where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
 };
 
+
 export type Subscription_RootTyre_Compounds_By_PkArgs = {
   value: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootTyre_Compounds_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Tyre_Compounds_Stream_Cursor_Input>>;
   where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
 };
+
 
 export type Subscription_RootWeather_DataArgs = {
   distinct_on?: InputMaybe<Array<Weather_Data_Select_Column>>;
@@ -6485,6 +6655,7 @@ export type Subscription_RootWeather_DataArgs = {
   where?: InputMaybe<Weather_Data_Bool_Exp>;
 };
 
+
 export type Subscription_RootWeather_Data_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Weather_Data_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6492,6 +6663,7 @@ export type Subscription_RootWeather_Data_AggregateArgs = {
   order_by?: InputMaybe<Array<Weather_Data_Order_By>>;
   where?: InputMaybe<Weather_Data_Bool_Exp>;
 };
+
 
 export type Subscription_RootWeather_Data_StreamArgs = {
   batch_size: Scalars['Int']['input'];
@@ -6578,6 +6750,7 @@ export type Telemetry_Aggregate_Fields = {
   var_samp?: Maybe<Telemetry_Var_Samp_Fields>;
   variance?: Maybe<Telemetry_Variance_Fields>;
 };
+
 
 /** aggregate fields of "telemetry" */
 export type Telemetry_Aggregate_FieldsCountArgs = {
@@ -6675,6 +6848,7 @@ export type Telemetry_Car_Status = {
   value: Scalars['String']['output'];
 };
 
+
 /** columns and relationships of "telemetry_car_status" */
 export type Telemetry_Car_StatusTelemetriesArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
@@ -6683,6 +6857,7 @@ export type Telemetry_Car_StatusTelemetriesArgs = {
   order_by?: InputMaybe<Array<Telemetry_Order_By>>;
   where?: InputMaybe<Telemetry_Bool_Exp>;
 };
+
 
 /** columns and relationships of "telemetry_car_status" */
 export type Telemetry_Car_StatusTelemetries_AggregateArgs = {
@@ -6708,6 +6883,7 @@ export type Telemetry_Car_Status_Aggregate_Fields = {
   min?: Maybe<Telemetry_Car_Status_Min_Fields>;
 };
 
+
 /** aggregate fields of "telemetry_car_status" */
 export type Telemetry_Car_Status_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Telemetry_Car_Status_Select_Column>>;
@@ -6729,7 +6905,7 @@ export enum Telemetry_Car_Status_Enum {
   /** Car is off track */
   OffTrack = 'OffTrack',
   /** Car is on track */
-  OnTrack = 'OnTrack',
+  OnTrack = 'OnTrack'
 }
 
 /** Boolean expression to compare columns of type "telemetry_car_status_enum". All fields are combined with logical 'AND'. */
@@ -6767,7 +6943,7 @@ export enum Telemetry_Car_Status_Select_Column {
   /** column name */
   Comment = 'comment',
   /** column name */
-  Value = 'value',
+  Value = 'value'
 }
 
 /** Streaming cursor of the table "telemetry_car_status" */
@@ -6931,19 +7107,19 @@ export enum Telemetry_Select_Column {
   /** column name */
   Y = 'y',
   /** column name */
-  Z = 'z',
+  Z = 'z'
 }
 
 /** select "telemetry_aggregate_bool_exp_bool_and_arguments_columns" columns of table "telemetry" */
 export enum Telemetry_Select_Column_Telemetry_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
   /** column name */
-  Brake = 'brake',
+  Brake = 'brake'
 }
 
 /** select "telemetry_aggregate_bool_exp_bool_or_arguments_columns" columns of table "telemetry" */
 export enum Telemetry_Select_Column_Telemetry_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
   /** column name */
-  Brake = 'brake',
+  Brake = 'brake'
 }
 
 /** columns and relationships of "telemetry_sources" */
@@ -6957,6 +7133,7 @@ export type Telemetry_Sources = {
   value: Scalars['String']['output'];
 };
 
+
 /** columns and relationships of "telemetry_sources" */
 export type Telemetry_SourcesTelemetriesArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
@@ -6965,6 +7142,7 @@ export type Telemetry_SourcesTelemetriesArgs = {
   order_by?: InputMaybe<Array<Telemetry_Order_By>>;
   where?: InputMaybe<Telemetry_Bool_Exp>;
 };
+
 
 /** columns and relationships of "telemetry_sources" */
 export type Telemetry_SourcesTelemetries_AggregateArgs = {
@@ -6990,6 +7168,7 @@ export type Telemetry_Sources_Aggregate_Fields = {
   min?: Maybe<Telemetry_Sources_Min_Fields>;
 };
 
+
 /** aggregate fields of "telemetry_sources" */
 export type Telemetry_Sources_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Telemetry_Sources_Select_Column>>;
@@ -7013,7 +7192,7 @@ export enum Telemetry_Sources_Enum {
   /** Interpolation telemetry source */
   Interpolation = 'interpolation',
   /** Position telemetry source */
-  Pos = 'pos',
+  Pos = 'pos'
 }
 
 /** Boolean expression to compare columns of type "telemetry_sources_enum". All fields are combined with logical 'AND'. */
@@ -7051,7 +7230,7 @@ export enum Telemetry_Sources_Select_Column {
   /** column name */
   Comment = 'comment',
   /** column name */
-  Value = 'value',
+  Value = 'value'
 }
 
 /** Streaming cursor of the table "telemetry_sources" */
@@ -7389,6 +7568,7 @@ export type Track_Status_Aggregate_Fields = {
   variance?: Maybe<Track_Status_Variance_Fields>;
 };
 
+
 /** aggregate fields of "track_status" */
 export type Track_Status_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Track_Status_Select_Column>>;
@@ -7485,7 +7665,7 @@ export enum Track_Status_Select_Column {
   /** column name */
   SessionTime = 'session_time',
   /** column name */
-  Status = 'status',
+  Status = 'status'
 }
 
 /** aggregate stddev on columns */
@@ -7592,6 +7772,7 @@ export type Tyre_Compounds = {
   value: Scalars['String']['output'];
 };
 
+
 /** columns and relationships of "tyre_compounds" */
 export type Tyre_CompoundsLapsArgs = {
   distinct_on?: InputMaybe<Array<Laps_Select_Column>>;
@@ -7600,6 +7781,7 @@ export type Tyre_CompoundsLapsArgs = {
   order_by?: InputMaybe<Array<Laps_Order_By>>;
   where?: InputMaybe<Laps_Bool_Exp>;
 };
+
 
 /** columns and relationships of "tyre_compounds" */
 export type Tyre_CompoundsLaps_AggregateArgs = {
@@ -7624,6 +7806,7 @@ export type Tyre_Compounds_Aggregate_Fields = {
   max?: Maybe<Tyre_Compounds_Max_Fields>;
   min?: Maybe<Tyre_Compounds_Min_Fields>;
 };
+
 
 /** aggregate fields of "tyre_compounds" */
 export type Tyre_Compounds_Aggregate_FieldsCountArgs = {
@@ -7664,7 +7847,7 @@ export enum Tyre_Compounds_Enum {
   /** Unknown tyre compound */
   Unknown = 'UNKNOWN',
   /** Wet tyre compound */
-  Wet = 'WET',
+  Wet = 'WET'
 }
 
 /** Boolean expression to compare columns of type "tyre_compounds_enum". All fields are combined with logical 'AND'. */
@@ -7702,7 +7885,7 @@ export enum Tyre_Compounds_Select_Column {
   /** column name */
   Comment = 'comment',
   /** column name */
-  Value = 'value',
+  Value = 'value'
 }
 
 /** Streaming cursor of the table "tyre_compounds" */
@@ -7784,6 +7967,7 @@ export type Weather_Data_Aggregate_Fields = {
   var_samp?: Maybe<Weather_Data_Var_Samp_Fields>;
   variance?: Maybe<Weather_Data_Variance_Fields>;
 };
+
 
 /** aggregate fields of "weather_data" */
 export type Weather_Data_Aggregate_FieldsCountArgs = {
@@ -7929,19 +8113,19 @@ export enum Weather_Data_Select_Column {
   /** column name */
   WindDirection = 'wind_direction',
   /** column name */
-  WindSpeed = 'wind_speed',
+  WindSpeed = 'wind_speed'
 }
 
 /** select "weather_data_aggregate_bool_exp_bool_and_arguments_columns" columns of table "weather_data" */
 export enum Weather_Data_Select_Column_Weather_Data_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
   /** column name */
-  Rainfall = 'rainfall',
+  Rainfall = 'rainfall'
 }
 
 /** select "weather_data_aggregate_bool_exp_bool_or_arguments_columns" columns of table "weather_data" */
 export enum Weather_Data_Select_Column_Weather_Data_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
   /** column name */
-  Rainfall = 'rainfall',
+  Rainfall = 'rainfall'
 }
 
 /** aggregate stddev on columns */
@@ -8126,331 +8310,71 @@ export type Weather_Data_Variance_Order_By = {
   wind_speed?: InputMaybe<Order_By>;
 };
 
-export type GetConstructorsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetConstructorsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetConstructorsQuery = {
-  __typename?: 'query_root';
-  constructors: Array<{
-    __typename?: 'constructors';
-    name?: string | null;
-    ergast_id?: string | null;
-    color?: string | null;
-  }>;
-};
+
+export type GetConstructorsQuery = { __typename?: 'query_root', constructors: Array<{ __typename?: 'constructors', name?: string | null, ergast_id?: string | null, color?: string | null }> };
 
 export type GetConstructorQueryVariables = Exact<{
   _id: Scalars['String']['input'];
 }>;
 
-export type GetConstructorQuery = {
-  __typename?: 'query_root';
-  constructors: Array<{
-    __typename?: 'constructors';
-    name?: string | null;
-    color?: string | null;
-    year?: number | null;
-    driver_sessions: Array<{
-      __typename?: 'driver_sessions';
-      driver?: {
-        __typename?: 'drivers';
-        full_name?: string | null;
-        number?: string | null;
-        headshot_url?: string | null;
-        country_code?: string | null;
-      } | null;
-      session?: {
-        __typename?: 'sessions';
-        name?: Session_Name_Choices_Enum | null;
-        event?: {
-          __typename?: 'events';
-          round_number?: number | null;
-          name?: string | null;
-          year?: number | null;
-        } | null;
-      } | null;
-      results: Array<{
-        __typename?: 'results';
-        points?: bigint | number | null;
-        classified_position?: string | null;
-        grid_position?: number | null;
-      }>;
-    }>;
-  }>;
-};
 
-export type GetDriversQueryVariables = Exact<{ [key: string]: never }>;
+export type GetConstructorQuery = { __typename?: 'query_root', constructors: Array<{ __typename?: 'constructors', name?: string | null, color?: string | null, year?: number | null, driver_sessions: Array<{ __typename?: 'driver_sessions', driver?: { __typename?: 'drivers', full_name?: string | null, number?: string | null, headshot_url?: string | null, country_code?: string | null } | null, session?: { __typename?: 'sessions', name?: Session_Name_Choices_Enum | null, event?: { __typename?: 'events', round_number?: number | null, name?: string | null, year?: number | null } | null } | null, results: Array<{ __typename?: 'results', points?: bigint | number | null, classified_position?: string | null, grid_position?: number | null }> }> }> };
 
-export type GetDriversQuery = {
-  __typename?: 'query_root';
-  drivers: Array<{
-    __typename?: 'drivers';
-    full_name?: string | null;
-    ergast_id?: string | null;
-    number?: string | null;
-  }>;
-};
+export type GetDriversQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetSeasonsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetSeasonsQuery = {
-  __typename?: 'query_root';
-  events: Array<{ __typename?: 'events'; year?: number | null }>;
-};
+export type GetDriversQuery = { __typename?: 'query_root', drivers: Array<{ __typename?: 'drivers', full_name?: string | null, ergast_id?: string | null, number?: string | null }> };
+
+export type GetSeasonsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSeasonsQuery = { __typename?: 'query_root', events: Array<{ __typename?: 'events', year?: number | null }> };
 
 export type GetMapEventsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
 
-export type GetMapEventsQuery = {
-  __typename?: 'query_root';
-  events: Array<{
-    __typename?: 'events';
-    round_number?: number | null;
-    name?: string | null;
-    location?: string | null;
-    date?: string | null;
-    country?: string | null;
-    format?: Event_Format_Choices_Enum | null;
-    sessions: Array<{
-      __typename?: 'sessions';
-      circuit?: {
-        __typename?: 'circuits';
-        country?: string | null;
-        latitude?: bigint | number | null;
-        longitude?: bigint | number | null;
-      } | null;
-      driver_sessions: Array<{
-        __typename?: 'driver_sessions';
-        results: Array<{
-          __typename?: 'results';
-          classified_position?: string | null;
-        }>;
-        driver?: {
-          __typename?: 'drivers';
-          full_name?: string | null;
-          headshot_url?: string | null;
-        } | null;
-        constructorByConstructorId?: {
-          __typename?: 'constructors';
-          name?: string | null;
-          color?: string | null;
-        } | null;
-      }>;
-    }>;
-  }>;
-};
+
+export type GetMapEventsQuery = { __typename?: 'query_root', events: Array<{ __typename?: 'events', round_number?: number | null, name?: string | null, location?: string | null, date?: string | null, country?: string | null, format?: Event_Format_Choices_Enum | null, sessions: Array<{ __typename?: 'sessions', circuit?: { __typename?: 'circuits', country?: string | null, latitude?: bigint | number | null, longitude?: bigint | number | null } | null, driver_sessions: Array<{ __typename?: 'driver_sessions', results: Array<{ __typename?: 'results', classified_position?: string | null }>, driver?: { __typename?: 'drivers', full_name?: string | null, headshot_url?: string | null } | null, constructorByConstructorId?: { __typename?: 'constructors', name?: string | null, color?: string | null } | null }> }> }> };
 
 export type GetNextEventQueryVariables = Exact<{
   today: Scalars['String']['input'];
 }>;
 
-export type GetNextEventQuery = {
-  __typename?: 'query_root';
-  schedule: Array<{
-    __typename?: 'schedule';
-    year?: number | null;
-    event_name?: string | null;
-    location?: string | null;
-    country?: string | null;
-    event_format?: Event_Format_Choices_Enum | null;
-    session5_date_utc?: string | null;
-  }>;
-};
+
+export type GetNextEventQuery = { __typename?: 'query_root', schedule: Array<{ __typename?: 'schedule', year?: number | null, event_name?: string | null, location?: string | null, country?: string | null, event_format?: Event_Format_Choices_Enum | null, session5_date_utc?: string | null }> };
 
 export type GetSeasonEventsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
 
-export type GetSeasonEventsQuery = {
-  __typename?: 'query_root';
-  schedule: Array<{
-    __typename?: 'schedule';
-    year?: number | null;
-    round_number?: number | null;
-    event_name?: string | null;
-    event_format?: Event_Format_Choices_Enum | null;
-    event_date?: string | null;
-    location?: string | null;
-    country?: string | null;
-    session1?: Session_Name_Choices_Enum | null;
-    session1_date?: string | null;
-    session2?: Session_Name_Choices_Enum | null;
-    session2_date?: string | null;
-    session3?: Session_Name_Choices_Enum | null;
-    session3_date?: string | null;
-    session4?: Session_Name_Choices_Enum | null;
-    session4_date?: string | null;
-    session5?: Session_Name_Choices_Enum | null;
-    session5_date?: string | null;
-  }>;
-};
+
+export type GetSeasonEventsQuery = { __typename?: 'query_root', schedule: Array<{ __typename?: 'schedule', year?: number | null, round_number?: number | null, event_name?: string | null, event_format?: Event_Format_Choices_Enum | null, event_date?: string | null, location?: string | null, country?: string | null, session1?: Session_Name_Choices_Enum | null, session1_date?: string | null, session2?: Session_Name_Choices_Enum | null, session2_date?: string | null, session3?: Session_Name_Choices_Enum | null, session3_date?: string | null, session4?: Session_Name_Choices_Enum | null, session4_date?: string | null, session5?: Session_Name_Choices_Enum | null, session5_date?: string | null }> };
 
 export type GetEventScheduleQueryVariables = Exact<{
   year: Scalars['Int']['input'];
   event: Scalars['String']['input'];
 }>;
 
-export type GetEventScheduleQuery = {
-  __typename?: 'query_root';
-  dropdown_events: Array<{
-    __typename?: 'schedule';
-    event_name?: string | null;
-    round_number?: number | null;
-    location?: string | null;
-  }>;
-  schedule: Array<{
-    __typename?: 'schedule';
-    year?: number | null;
-    round_number?: number | null;
-    event_date?: string | null;
-    official_event_name?: string | null;
-    event_name?: string | null;
-    event_format?: Event_Format_Choices_Enum | null;
-    location?: string | null;
-    country?: string | null;
-    session1?: Session_Name_Choices_Enum | null;
-    session1_date_utc?: string | null;
-    session2?: Session_Name_Choices_Enum | null;
-    session2_date_utc?: string | null;
-    session3?: Session_Name_Choices_Enum | null;
-    session3_date_utc?: string | null;
-    session4?: Session_Name_Choices_Enum | null;
-    session4_date_utc?: string | null;
-    session5?: Session_Name_Choices_Enum | null;
-    session5_date_utc?: string | null;
-  }>;
-};
+
+export type GetEventScheduleQuery = { __typename?: 'query_root', dropdown_events: Array<{ __typename?: 'schedule', event_name?: string | null, round_number?: number | null, location?: string | null }>, schedule: Array<{ __typename?: 'schedule', year?: number | null, round_number?: number | null, event_date?: string | null, official_event_name?: string | null, event_name?: string | null, event_format?: Event_Format_Choices_Enum | null, location?: string | null, country?: string | null, session1?: Session_Name_Choices_Enum | null, session1_date_utc?: string | null, session2?: Session_Name_Choices_Enum | null, session2_date_utc?: string | null, session3?: Session_Name_Choices_Enum | null, session3_date_utc?: string | null, session4?: Session_Name_Choices_Enum | null, session4_date_utc?: string | null, session5?: Session_Name_Choices_Enum | null, session5_date_utc?: string | null }> };
 
 export type GetEventDetailsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
   event: Scalars['String']['input'];
 }>;
 
-export type GetEventDetailsQuery = {
-  __typename?: 'query_root';
-  events: Array<{
-    __typename?: 'events';
-    competition: Array<{
-      __typename?: 'sessions';
-      scheduled_start_time_utc?: string | null;
-      name?: Session_Name_Choices_Enum | null;
-      driver_sessions: Array<{
-        __typename?: 'driver_sessions';
-        driver?: {
-          __typename?: 'drivers';
-          abbreviation?: string | null;
-          full_name?: string | null;
-          number?: string | null;
-          headshot_url?: string | null;
-        } | null;
-        constructorByConstructorId?: {
-          __typename?: 'constructors';
-          color?: string | null;
-        } | null;
-        results: Array<{
-          __typename?: 'results';
-          finishing_position?: number | null;
-          classified_position?: string | null;
-          grid_position?: number | null;
-          total_race_time?: bigint | null;
-        }>;
-        fastest_lap: Array<{
-          __typename?: 'laps';
-          lap_time?: bigint | null;
-          lap_number?: number | null;
-        }>;
-      }>;
-    }>;
-    qualifying: Array<{
-      __typename?: 'sessions';
-      scheduled_start_time_utc?: string | null;
-      name?: Session_Name_Choices_Enum | null;
-      driver_sessions: Array<{
-        __typename?: 'driver_sessions';
-        driver?: {
-          __typename?: 'drivers';
-          abbreviation?: string | null;
-          full_name?: string | null;
-          number?: string | null;
-          headshot_url?: string | null;
-        } | null;
-        constructorByConstructorId?: {
-          __typename?: 'constructors';
-          color?: string | null;
-        } | null;
-        results: Array<{
-          __typename?: 'results';
-          finishing_position?: number | null;
-          q1_time?: bigint | null;
-          q2_time?: bigint | null;
-          q3_time?: bigint | null;
-        }>;
-      }>;
-    }>;
-    practices: Array<{
-      __typename?: 'sessions';
-      scheduled_start_time_utc?: string | null;
-      name?: Session_Name_Choices_Enum | null;
-      driver_sessions: Array<{
-        __typename?: 'driver_sessions';
-        driver?: {
-          __typename?: 'drivers';
-          abbreviation?: string | null;
-          full_name?: string | null;
-          number?: string | null;
-          headshot_url?: string | null;
-        } | null;
-        constructorByConstructorId?: {
-          __typename?: 'constructors';
-          color?: string | null;
-        } | null;
-        fastest_lap: Array<{
-          __typename?: 'laps';
-          lap_time?: bigint | null;
-          lap_number?: number | null;
-        }>;
-      }>;
-    }>;
-  }>;
-};
+
+export type GetEventDetailsQuery = { __typename?: 'query_root', events: Array<{ __typename?: 'events', competition: Array<{ __typename?: 'sessions', scheduled_start_time_utc?: string | null, name?: Session_Name_Choices_Enum | null, driver_sessions: Array<{ __typename?: 'driver_sessions', driver?: { __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null, number?: string | null, headshot_url?: string | null } | null, constructorByConstructorId?: { __typename?: 'constructors', color?: string | null } | null, results: Array<{ __typename?: 'results', finishing_position?: number | null, classified_position?: string | null, grid_position?: number | null, total_race_time?: bigint | null }>, fastest_lap: Array<{ __typename?: 'laps', lap_time?: bigint | null, lap_number?: number | null }> }> }>, qualifying: Array<{ __typename?: 'sessions', scheduled_start_time_utc?: string | null, name?: Session_Name_Choices_Enum | null, driver_sessions: Array<{ __typename?: 'driver_sessions', driver?: { __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null, number?: string | null, headshot_url?: string | null } | null, constructorByConstructorId?: { __typename?: 'constructors', color?: string | null } | null, results: Array<{ __typename?: 'results', finishing_position?: number | null, q1_time?: bigint | null, q2_time?: bigint | null, q3_time?: bigint | null }> }> }>, practices: Array<{ __typename?: 'sessions', scheduled_start_time_utc?: string | null, name?: Session_Name_Choices_Enum | null, driver_sessions: Array<{ __typename?: 'driver_sessions', driver?: { __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null, number?: string | null, headshot_url?: string | null } | null, constructorByConstructorId?: { __typename?: 'constructors', color?: string | null } | null, fastest_lap: Array<{ __typename?: 'laps', lap_time?: bigint | null, lap_number?: number | null }> }> }> }> };
 
 export type GetStandingsQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
-export type GetStandingsQuery = {
-  __typename?: 'query_root';
-  drivers: Array<{
-    __typename?: 'drivers';
-    abbreviation?: string | null;
-    full_name?: string | null;
-    latest_constructor: Array<{
-      __typename?: 'driver_sessions';
-      constructor?: {
-        __typename?: 'constructors';
-        name?: string | null;
-        color?: string | null;
-      } | null;
-    }>;
-    driver_standings: Array<{
-      __typename?: 'driver_standings';
-      round?: number | null;
-      points?: bigint | number | null;
-      position?: number | null;
-    }>;
-  }>;
-  constructors: Array<{
-    __typename?: 'constructors';
-    name?: string | null;
-    color?: string | null;
-    constructor_standings: Array<{
-      __typename?: 'constructor_standings';
-      round?: number | null;
-      points?: bigint | number | null;
-      position?: number | null;
-    }>;
-  }>;
-};
+
+export type GetStandingsQuery = { __typename?: 'query_root', drivers: Array<{ __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null, latest_constructor: Array<{ __typename?: 'driver_sessions', constructor?: { __typename?: 'constructors', name?: string | null, color?: string | null } | null }>, driver_standings: Array<{ __typename?: 'driver_standings', round?: number | null, points?: bigint | number | null, position?: number | null }> }>, constructors: Array<{ __typename?: 'constructors', name?: string | null, color?: string | null, constructor_standings: Array<{ __typename?: 'constructor_standings', round?: number | null, points?: bigint | number | null, position?: number | null }> }> };
 
 export type SessionResultsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -8458,47 +8382,8 @@ export type SessionResultsQueryVariables = Exact<{
   session: Session_Name_Choices_Enum;
 }>;
 
-export type SessionResultsQuery = {
-  __typename?: 'query_root';
-  sessions: Array<{
-    __typename?: 'sessions';
-    name?: Session_Name_Choices_Enum | null;
-    event?: { __typename?: 'events'; name?: string | null } | null;
-    driver_sessions: Array<{
-      __typename?: 'driver_sessions';
-      constructorByConstructorId?: {
-        __typename?: 'constructors';
-        name?: string | null;
-        color?: string | null;
-      } | null;
-      driver?: {
-        __typename?: 'drivers';
-        abbreviation?: string | null;
-        full_name?: string | null;
-        number?: string | null;
-        headshot_url?: string | null;
-      } | null;
-      results: Array<{
-        __typename?: 'results';
-        grid_position?: number | null;
-        finishing_position?: number | null;
-        points?: bigint | number | null;
-        status?: string | null;
-        classified_position?: string | null;
-        total_race_time?: bigint | null;
-      }>;
-      fastest_lap: Array<{
-        __typename?: 'laps';
-        lap_number?: number | null;
-        stint?: number | null;
-        lap_time?: bigint | null;
-        sector1?: bigint | null;
-        sector2?: bigint | null;
-        sector3?: bigint | null;
-      }>;
-    }>;
-  }>;
-};
+
+export type SessionResultsQuery = { __typename?: 'query_root', sessions: Array<{ __typename?: 'sessions', name?: Session_Name_Choices_Enum | null, event?: { __typename?: 'events', name?: string | null } | null, driver_sessions: Array<{ __typename?: 'driver_sessions', constructorByConstructorId?: { __typename?: 'constructors', name?: string | null, color?: string | null } | null, driver?: { __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null, number?: string | null, headshot_url?: string | null } | null, results: Array<{ __typename?: 'results', grid_position?: number | null, finishing_position?: number | null, points?: bigint | number | null, status?: string | null, classified_position?: string | null, total_race_time?: bigint | null }>, fastest_lap: Array<{ __typename?: 'laps', lap_number?: number | null, stint?: number | null, lap_time?: bigint | null }> }> }> };
 
 export type GetSessionFastestTimesQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -8506,50 +8391,8 @@ export type GetSessionFastestTimesQueryVariables = Exact<{
   session: Session_Name_Choices_Enum;
 }>;
 
-export type GetSessionFastestTimesQuery = {
-  __typename?: 'query_root';
-  sessions: Array<{
-    __typename?: 'sessions';
-    name?: Session_Name_Choices_Enum | null;
-    event?: { __typename?: 'events'; name?: string | null } | null;
-    driver_sessions: Array<{
-      __typename?: 'driver_sessions';
-      constructorByConstructorId?: {
-        __typename?: 'constructors';
-        name?: string | null;
-        color?: string | null;
-      } | null;
-      driver?: { __typename?: 'drivers'; abbreviation?: string | null } | null;
-      fastest_lap: Array<{
-        __typename?: 'laps';
-        lap_number?: number | null;
-        stint?: number | null;
-        lap_time?: bigint | null;
-        sector1?: bigint | null;
-        sector2?: bigint | null;
-        sector3?: bigint | null;
-      }>;
-      fastest_sector1: Array<{
-        __typename?: 'laps';
-        lap_number?: number | null;
-        stint?: number | null;
-        sector1?: bigint | null;
-      }>;
-      fastest_sector2: Array<{
-        __typename?: 'laps';
-        lap_number?: number | null;
-        stint?: number | null;
-        sector2?: bigint | null;
-      }>;
-      fastest_sector3: Array<{
-        __typename?: 'laps';
-        lap_number?: number | null;
-        stint?: number | null;
-        sector3?: bigint | null;
-      }>;
-    }>;
-  }>;
-};
+
+export type GetSessionFastestTimesQuery = { __typename?: 'query_root', sessions: Array<{ __typename?: 'sessions', name?: Session_Name_Choices_Enum | null, event?: { __typename?: 'events', name?: string | null } | null, driver_sessions: Array<{ __typename?: 'driver_sessions', constructorByConstructorId?: { __typename?: 'constructors', name?: string | null, color?: string | null } | null, driver?: { __typename?: 'drivers', abbreviation?: string | null } | null, fastest_lap: Array<{ __typename?: 'laps', lap_number?: number | null, stint?: number | null, lap_time?: bigint | null, sector1?: bigint | null, sector2?: bigint | null, sector3?: bigint | null }>, fastest_sector1: Array<{ __typename?: 'laps', lap_number?: number | null, stint?: number | null, sector1?: bigint | null }>, fastest_sector2: Array<{ __typename?: 'laps', lap_number?: number | null, stint?: number | null, sector2?: bigint | null }>, fastest_sector3: Array<{ __typename?: 'laps', lap_number?: number | null, stint?: number | null, sector3?: bigint | null }> }> }> };
 
 export type GetSessionStintsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -8557,27 +8400,8 @@ export type GetSessionStintsQueryVariables = Exact<{
   session: Session_Name_Choices_Enum;
 }>;
 
-export type GetSessionStintsQuery = {
-  __typename?: 'query_root';
-  sessions: Array<{
-    __typename?: 'sessions';
-    driver_sessions: Array<{
-      __typename?: 'driver_sessions';
-      driver?: {
-        __typename?: 'drivers';
-        abbreviation?: string | null;
-        full_name?: string | null;
-      } | null;
-      laps: Array<{
-        __typename?: 'laps';
-        stint?: number | null;
-        tyre_life?: number | null;
-        fresh_tyre?: boolean | null;
-        tyre_compound?: { __typename?: 'tyre_compounds'; value: string } | null;
-      }>;
-    }>;
-  }>;
-};
+
+export type GetSessionStintsQuery = { __typename?: 'query_root', sessions: Array<{ __typename?: 'sessions', driver_sessions: Array<{ __typename?: 'driver_sessions', driver?: { __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null } | null, laps: Array<{ __typename?: 'laps', stint?: number | null, tyre_life?: number | null, fresh_tyre?: boolean | null, tyre_compound?: { __typename?: 'tyre_compounds', value: string } | null }> }> }> };
 
 export type GetSessionLapTimesQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -8585,47 +8409,23 @@ export type GetSessionLapTimesQueryVariables = Exact<{
   session: Session_Name_Choices_Enum;
 }>;
 
-export type GetSessionLapTimesQuery = {
-  __typename?: 'query_root';
-  sessions: Array<{
-    __typename?: 'sessions';
-    driver_sessions: Array<{
-      __typename?: 'driver_sessions';
-      constructorByConstructorId?: {
-        __typename?: 'constructors';
-        name?: string | null;
-        color?: string | null;
-      } | null;
-      driver?: {
-        __typename?: 'drivers';
-        abbreviation?: string | null;
-        full_name?: string | null;
-        number?: string | null;
-      } | null;
-      laps: Array<{
-        __typename?: 'laps';
-        lap_number?: number | null;
-        lap_time?: bigint | null;
-        compound?: Tyre_Compounds_Enum | null;
-        session_time?: bigint | null;
-      }>;
-    }>;
-  }>;
-};
+
+export type GetSessionLapTimesQuery = { __typename?: 'query_root', sessions: Array<{ __typename?: 'sessions', driver_sessions: Array<{ __typename?: 'driver_sessions', constructorByConstructorId?: { __typename?: 'constructors', name?: string | null, color?: string | null } | null, driver?: { __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null, number?: string | null } | null, laps: Array<{ __typename?: 'laps', lap_number?: number | null, lap_time?: bigint | null, compound?: Tyre_Compounds_Enum | null, session_time?: bigint | null }> }> }> };
+
 
 export const GetConstructorsDocument = gql`
-  query GetConstructors @cached {
-    constructors(
-      where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
-      order_by: { name: asc }
-      distinct_on: name
-    ) {
-      name
-      ergast_id
-      color
-    }
+    query GetConstructors @cached {
+  constructors(
+    where: {driver_sessions: {session: {date: {_iregex: "2025"}}}}
+    order_by: {name: asc}
+    distinct_on: name
+  ) {
+    name
+    ergast_id
+    color
   }
-`;
+}
+    `;
 
 /**
  * __useGetConstructorsQuery__
@@ -8642,93 +8442,55 @@ export const GetConstructorsDocument = gql`
  *   },
  * });
  */
-export function useGetConstructorsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetConstructorsQuery,
-    GetConstructorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetConstructorsQuery, GetConstructorsQueryVariables>(
-    GetConstructorsDocument,
-    options,
-  );
-}
-export function useGetConstructorsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetConstructorsQuery,
-    GetConstructorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetConstructorsQuery,
-    GetConstructorsQueryVariables
-  >(GetConstructorsDocument, options);
-}
-export function useGetConstructorsSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetConstructorsQuery,
-        GetConstructorsQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetConstructorsQuery,
-    GetConstructorsQueryVariables
-  >(GetConstructorsDocument, options);
-}
-export type GetConstructorsQueryHookResult = ReturnType<
-  typeof useGetConstructorsQuery
->;
-export type GetConstructorsLazyQueryHookResult = ReturnType<
-  typeof useGetConstructorsLazyQuery
->;
-export type GetConstructorsSuspenseQueryHookResult = ReturnType<
-  typeof useGetConstructorsSuspenseQuery
->;
-export type GetConstructorsQueryResult = Apollo.QueryResult<
-  GetConstructorsQuery,
-  GetConstructorsQueryVariables
->;
+export function useGetConstructorsQuery(baseOptions?: Apollo.QueryHookOptions<GetConstructorsQuery, GetConstructorsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetConstructorsQuery, GetConstructorsQueryVariables>(GetConstructorsDocument, options);
+      }
+export function useGetConstructorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetConstructorsQuery, GetConstructorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetConstructorsQuery, GetConstructorsQueryVariables>(GetConstructorsDocument, options);
+        }
+export function useGetConstructorsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetConstructorsQuery, GetConstructorsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetConstructorsQuery, GetConstructorsQueryVariables>(GetConstructorsDocument, options);
+        }
+export type GetConstructorsQueryHookResult = ReturnType<typeof useGetConstructorsQuery>;
+export type GetConstructorsLazyQueryHookResult = ReturnType<typeof useGetConstructorsLazyQuery>;
+export type GetConstructorsSuspenseQueryHookResult = ReturnType<typeof useGetConstructorsSuspenseQuery>;
+export type GetConstructorsQueryResult = Apollo.QueryResult<GetConstructorsQuery, GetConstructorsQueryVariables>;
 export const GetConstructorDocument = gql`
-  query GetConstructor($_id: String!) @cached {
-    constructors(where: { ergast_id: { _eq: $_id } }) {
-      name
-      color
-      year
-      driver_sessions(
-        order_by: { session: { event: { year: asc } } }
-        where: { session: { total_laps: { _is_null: false } } }
-      ) {
-        driver {
-          full_name
-          number
-          headshot_url
-          country_code
-        }
-        session {
+    query GetConstructor($_id: String!) @cached {
+  constructors(where: {ergast_id: {_eq: $_id}}) {
+    name
+    color
+    year
+    driver_sessions(
+      order_by: {session: {event: {year: asc}}}
+      where: {session: {total_laps: {_is_null: false}}}
+    ) {
+      driver {
+        full_name
+        number
+        headshot_url
+        country_code
+      }
+      session {
+        name
+        event {
+          round_number
           name
-          event {
-            round_number
-            name
-            year
-          }
+          year
         }
-        results {
-          points
-          classified_position
-          grid_position
-        }
+      }
+      results {
+        points
+        classified_position
+        grid_position
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetConstructorQuery__
@@ -8746,77 +8508,35 @@ export const GetConstructorDocument = gql`
  *   },
  * });
  */
-export function useGetConstructorQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetConstructorQuery,
-    GetConstructorQueryVariables
-  > &
-    (
-      | { variables: GetConstructorQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetConstructorQuery, GetConstructorQueryVariables>(
-    GetConstructorDocument,
-    options,
-  );
-}
-export function useGetConstructorLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetConstructorQuery,
-    GetConstructorQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetConstructorQuery, GetConstructorQueryVariables>(
-    GetConstructorDocument,
-    options,
-  );
-}
-export function useGetConstructorSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetConstructorQuery,
-        GetConstructorQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetConstructorQuery,
-    GetConstructorQueryVariables
-  >(GetConstructorDocument, options);
-}
-export type GetConstructorQueryHookResult = ReturnType<
-  typeof useGetConstructorQuery
->;
-export type GetConstructorLazyQueryHookResult = ReturnType<
-  typeof useGetConstructorLazyQuery
->;
-export type GetConstructorSuspenseQueryHookResult = ReturnType<
-  typeof useGetConstructorSuspenseQuery
->;
-export type GetConstructorQueryResult = Apollo.QueryResult<
-  GetConstructorQuery,
-  GetConstructorQueryVariables
->;
+export function useGetConstructorQuery(baseOptions: Apollo.QueryHookOptions<GetConstructorQuery, GetConstructorQueryVariables> & ({ variables: GetConstructorQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetConstructorQuery, GetConstructorQueryVariables>(GetConstructorDocument, options);
+      }
+export function useGetConstructorLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetConstructorQuery, GetConstructorQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetConstructorQuery, GetConstructorQueryVariables>(GetConstructorDocument, options);
+        }
+export function useGetConstructorSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetConstructorQuery, GetConstructorQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetConstructorQuery, GetConstructorQueryVariables>(GetConstructorDocument, options);
+        }
+export type GetConstructorQueryHookResult = ReturnType<typeof useGetConstructorQuery>;
+export type GetConstructorLazyQueryHookResult = ReturnType<typeof useGetConstructorLazyQuery>;
+export type GetConstructorSuspenseQueryHookResult = ReturnType<typeof useGetConstructorSuspenseQuery>;
+export type GetConstructorQueryResult = Apollo.QueryResult<GetConstructorQuery, GetConstructorQueryVariables>;
 export const GetDriversDocument = gql`
-  query GetDrivers @cached {
-    drivers(
-      where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
-      order_by: { full_name: asc }
-      distinct_on: full_name
-    ) {
-      full_name
-      ergast_id
-      number
-    }
+    query GetDrivers @cached {
+  drivers(
+    where: {driver_sessions: {session: {date: {_iregex: "2025"}}}}
+    order_by: {full_name: asc}
+    distinct_on: full_name
+  ) {
+    full_name
+    ergast_id
+    number
   }
-`;
+}
+    `;
 
 /**
  * __useGetDriversQuery__
@@ -8833,65 +8553,29 @@ export const GetDriversDocument = gql`
  *   },
  * });
  */
-export function useGetDriversQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetDriversQuery,
-    GetDriversQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetDriversQuery, GetDriversQueryVariables>(
-    GetDriversDocument,
-    options,
-  );
-}
-export function useGetDriversLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetDriversQuery,
-    GetDriversQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetDriversQuery, GetDriversQueryVariables>(
-    GetDriversDocument,
-    options,
-  );
-}
-export function useGetDriversSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetDriversQuery,
-        GetDriversQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetDriversQuery, GetDriversQueryVariables>(
-    GetDriversDocument,
-    options,
-  );
-}
+export function useGetDriversQuery(baseOptions?: Apollo.QueryHookOptions<GetDriversQuery, GetDriversQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDriversQuery, GetDriversQueryVariables>(GetDriversDocument, options);
+      }
+export function useGetDriversLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDriversQuery, GetDriversQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDriversQuery, GetDriversQueryVariables>(GetDriversDocument, options);
+        }
+export function useGetDriversSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetDriversQuery, GetDriversQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetDriversQuery, GetDriversQueryVariables>(GetDriversDocument, options);
+        }
 export type GetDriversQueryHookResult = ReturnType<typeof useGetDriversQuery>;
-export type GetDriversLazyQueryHookResult = ReturnType<
-  typeof useGetDriversLazyQuery
->;
-export type GetDriversSuspenseQueryHookResult = ReturnType<
-  typeof useGetDriversSuspenseQuery
->;
-export type GetDriversQueryResult = Apollo.QueryResult<
-  GetDriversQuery,
-  GetDriversQueryVariables
->;
+export type GetDriversLazyQueryHookResult = ReturnType<typeof useGetDriversLazyQuery>;
+export type GetDriversSuspenseQueryHookResult = ReturnType<typeof useGetDriversSuspenseQuery>;
+export type GetDriversQueryResult = Apollo.QueryResult<GetDriversQuery, GetDriversQueryVariables>;
 export const GetSeasonsDocument = gql`
-  query GetSeasons @cached {
-    events(distinct_on: year, order_by: { year: desc }) {
-      year
-    }
+    query GetSeasons @cached {
+  events(distinct_on: year, order_by: {year: desc}) {
+    year
   }
-`;
+}
+    `;
 
 /**
  * __useGetSeasonsQuery__
@@ -8908,93 +8592,57 @@ export const GetSeasonsDocument = gql`
  *   },
  * });
  */
-export function useGetSeasonsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetSeasonsQuery,
-    GetSeasonsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetSeasonsQuery, GetSeasonsQueryVariables>(
-    GetSeasonsDocument,
-    options,
-  );
-}
-export function useGetSeasonsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSeasonsQuery,
-    GetSeasonsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetSeasonsQuery, GetSeasonsQueryVariables>(
-    GetSeasonsDocument,
-    options,
-  );
-}
-export function useGetSeasonsSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetSeasonsQuery,
-        GetSeasonsQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetSeasonsQuery, GetSeasonsQueryVariables>(
-    GetSeasonsDocument,
-    options,
-  );
-}
-export type GetSeasonsQueryHookResult = ReturnType<typeof useGetSeasonsQuery>;
-export type GetSeasonsLazyQueryHookResult = ReturnType<
-  typeof useGetSeasonsLazyQuery
->;
-export type GetSeasonsSuspenseQueryHookResult = ReturnType<
-  typeof useGetSeasonsSuspenseQuery
->;
-export type GetSeasonsQueryResult = Apollo.QueryResult<
-  GetSeasonsQuery,
-  GetSeasonsQueryVariables
->;
-export const GetMapEventsDocument = gql`
-  query GetMapEvents($year: Int!) @cached {
-    events(where: { year: { _eq: $year } }) {
-      round_number
-      name
-      location
-      date
-      country
-      format
-      sessions(limit: 1, where: { name: { _eq: Race } }) {
-        circuit {
-          country
-          latitude
-          longitude
+export function useGetSeasonsQuery(baseOptions?: Apollo.QueryHookOptions<GetSeasonsQuery, GetSeasonsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSeasonsQuery, GetSeasonsQueryVariables>(GetSeasonsDocument, options);
+      }
+export function useGetSeasonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSeasonsQuery, GetSeasonsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSeasonsQuery, GetSeasonsQueryVariables>(GetSeasonsDocument, options);
         }
-        driver_sessions(
-          limit: 3
-          where: { results: { classified_position: { _in: ["1", "2", "3"] } } }
-        ) {
-          results {
-            classified_position
-          }
-          driver {
-            full_name
-            headshot_url
-          }
-          constructorByConstructorId {
-            name
-            color
-          }
+export function useGetSeasonsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetSeasonsQuery, GetSeasonsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetSeasonsQuery, GetSeasonsQueryVariables>(GetSeasonsDocument, options);
+        }
+export type GetSeasonsQueryHookResult = ReturnType<typeof useGetSeasonsQuery>;
+export type GetSeasonsLazyQueryHookResult = ReturnType<typeof useGetSeasonsLazyQuery>;
+export type GetSeasonsSuspenseQueryHookResult = ReturnType<typeof useGetSeasonsSuspenseQuery>;
+export type GetSeasonsQueryResult = Apollo.QueryResult<GetSeasonsQuery, GetSeasonsQueryVariables>;
+export const GetMapEventsDocument = gql`
+    query GetMapEvents($year: Int!) @cached {
+  events(where: {year: {_eq: $year}}) {
+    round_number
+    name
+    location
+    date
+    country
+    format
+    sessions(limit: 1, where: {name: {_eq: Race}}) {
+      circuit {
+        country
+        latitude
+        longitude
+      }
+      driver_sessions(
+        limit: 3
+        where: {results: {classified_position: {_in: ["1", "2", "3"]}}}
+      ) {
+        results {
+          classified_position
+        }
+        driver {
+          full_name
+          headshot_url
+        }
+        constructorByConstructorId {
+          name
+          color
         }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetMapEventsQuery__
@@ -9012,80 +8660,38 @@ export const GetMapEventsDocument = gql`
  *   },
  * });
  */
-export function useGetMapEventsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMapEventsQuery,
-    GetMapEventsQueryVariables
-  > &
-    (
-      | { variables: GetMapEventsQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetMapEventsQuery, GetMapEventsQueryVariables>(
-    GetMapEventsDocument,
-    options,
-  );
-}
-export function useGetMapEventsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMapEventsQuery,
-    GetMapEventsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetMapEventsQuery, GetMapEventsQueryVariables>(
-    GetMapEventsDocument,
-    options,
-  );
-}
-export function useGetMapEventsSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetMapEventsQuery,
-        GetMapEventsQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetMapEventsQuery, GetMapEventsQueryVariables>(
-    GetMapEventsDocument,
-    options,
-  );
-}
-export type GetMapEventsQueryHookResult = ReturnType<
-  typeof useGetMapEventsQuery
->;
-export type GetMapEventsLazyQueryHookResult = ReturnType<
-  typeof useGetMapEventsLazyQuery
->;
-export type GetMapEventsSuspenseQueryHookResult = ReturnType<
-  typeof useGetMapEventsSuspenseQuery
->;
-export type GetMapEventsQueryResult = Apollo.QueryResult<
-  GetMapEventsQuery,
-  GetMapEventsQueryVariables
->;
+export function useGetMapEventsQuery(baseOptions: Apollo.QueryHookOptions<GetMapEventsQuery, GetMapEventsQueryVariables> & ({ variables: GetMapEventsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMapEventsQuery, GetMapEventsQueryVariables>(GetMapEventsDocument, options);
+      }
+export function useGetMapEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMapEventsQuery, GetMapEventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMapEventsQuery, GetMapEventsQueryVariables>(GetMapEventsDocument, options);
+        }
+export function useGetMapEventsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMapEventsQuery, GetMapEventsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMapEventsQuery, GetMapEventsQueryVariables>(GetMapEventsDocument, options);
+        }
+export type GetMapEventsQueryHookResult = ReturnType<typeof useGetMapEventsQuery>;
+export type GetMapEventsLazyQueryHookResult = ReturnType<typeof useGetMapEventsLazyQuery>;
+export type GetMapEventsSuspenseQueryHookResult = ReturnType<typeof useGetMapEventsSuspenseQuery>;
+export type GetMapEventsQueryResult = Apollo.QueryResult<GetMapEventsQuery, GetMapEventsQueryVariables>;
 export const GetNextEventDocument = gql`
-  query GetNextEvent($today: String!) {
-    schedule(
-      where: { event_date: { _gte: $today } }
-      order_by: { event_date: asc }
-      limit: 1
-    ) {
-      year
-      event_name
-      location
-      country
-      event_format
-      session5_date_utc
-    }
+    query GetNextEvent($today: String!) {
+  schedule(
+    where: {event_date: {_gte: $today}}
+    order_by: {event_date: asc}
+    limit: 1
+  ) {
+    year
+    event_name
+    location
+    country
+    event_format
+    session5_date_utc
   }
-`;
+}
+    `;
 
 /**
  * __useGetNextEventQuery__
@@ -9103,87 +8709,45 @@ export const GetNextEventDocument = gql`
  *   },
  * });
  */
-export function useGetNextEventQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetNextEventQuery,
-    GetNextEventQueryVariables
-  > &
-    (
-      | { variables: GetNextEventQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetNextEventQuery, GetNextEventQueryVariables>(
-    GetNextEventDocument,
-    options,
-  );
-}
-export function useGetNextEventLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetNextEventQuery,
-    GetNextEventQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetNextEventQuery, GetNextEventQueryVariables>(
-    GetNextEventDocument,
-    options,
-  );
-}
-export function useGetNextEventSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetNextEventQuery,
-        GetNextEventQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetNextEventQuery, GetNextEventQueryVariables>(
-    GetNextEventDocument,
-    options,
-  );
-}
-export type GetNextEventQueryHookResult = ReturnType<
-  typeof useGetNextEventQuery
->;
-export type GetNextEventLazyQueryHookResult = ReturnType<
-  typeof useGetNextEventLazyQuery
->;
-export type GetNextEventSuspenseQueryHookResult = ReturnType<
-  typeof useGetNextEventSuspenseQuery
->;
-export type GetNextEventQueryResult = Apollo.QueryResult<
-  GetNextEventQuery,
-  GetNextEventQueryVariables
->;
+export function useGetNextEventQuery(baseOptions: Apollo.QueryHookOptions<GetNextEventQuery, GetNextEventQueryVariables> & ({ variables: GetNextEventQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNextEventQuery, GetNextEventQueryVariables>(GetNextEventDocument, options);
+      }
+export function useGetNextEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNextEventQuery, GetNextEventQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNextEventQuery, GetNextEventQueryVariables>(GetNextEventDocument, options);
+        }
+export function useGetNextEventSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetNextEventQuery, GetNextEventQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetNextEventQuery, GetNextEventQueryVariables>(GetNextEventDocument, options);
+        }
+export type GetNextEventQueryHookResult = ReturnType<typeof useGetNextEventQuery>;
+export type GetNextEventLazyQueryHookResult = ReturnType<typeof useGetNextEventLazyQuery>;
+export type GetNextEventSuspenseQueryHookResult = ReturnType<typeof useGetNextEventSuspenseQuery>;
+export type GetNextEventQueryResult = Apollo.QueryResult<GetNextEventQuery, GetNextEventQueryVariables>;
 export const GetSeasonEventsDocument = gql`
-  query GetSeasonEvents($year: Int!) @cached {
-    schedule(where: { year: { _eq: $year } }) {
-      year
-      round_number
-      event_name
-      event_format
-      event_date
-      location
-      country
-      session1
-      session1_date
-      session2
-      session2_date
-      session3
-      session3_date
-      session4
-      session4_date
-      session5
-      session5_date
-    }
+    query GetSeasonEvents($year: Int!) @cached {
+  schedule(where: {year: {_eq: $year}}) {
+    year
+    round_number
+    event_name
+    event_format
+    event_date
+    location
+    country
+    session1
+    session1_date
+    session2
+    session2_date
+    session3
+    session3_date
+    session4
+    session4_date
+    session5
+    session5_date
   }
-`;
+}
+    `;
 
 /**
  * __useGetSeasonEventsQuery__
@@ -9201,98 +8765,51 @@ export const GetSeasonEventsDocument = gql`
  *   },
  * });
  */
-export function useGetSeasonEventsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetSeasonEventsQuery,
-    GetSeasonEventsQueryVariables
-  > &
-    (
-      | { variables: GetSeasonEventsQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetSeasonEventsQuery, GetSeasonEventsQueryVariables>(
-    GetSeasonEventsDocument,
-    options,
-  );
-}
-export function useGetSeasonEventsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSeasonEventsQuery,
-    GetSeasonEventsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetSeasonEventsQuery,
-    GetSeasonEventsQueryVariables
-  >(GetSeasonEventsDocument, options);
-}
-export function useGetSeasonEventsSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetSeasonEventsQuery,
-        GetSeasonEventsQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetSeasonEventsQuery,
-    GetSeasonEventsQueryVariables
-  >(GetSeasonEventsDocument, options);
-}
-export type GetSeasonEventsQueryHookResult = ReturnType<
-  typeof useGetSeasonEventsQuery
->;
-export type GetSeasonEventsLazyQueryHookResult = ReturnType<
-  typeof useGetSeasonEventsLazyQuery
->;
-export type GetSeasonEventsSuspenseQueryHookResult = ReturnType<
-  typeof useGetSeasonEventsSuspenseQuery
->;
-export type GetSeasonEventsQueryResult = Apollo.QueryResult<
-  GetSeasonEventsQuery,
-  GetSeasonEventsQueryVariables
->;
+export function useGetSeasonEventsQuery(baseOptions: Apollo.QueryHookOptions<GetSeasonEventsQuery, GetSeasonEventsQueryVariables> & ({ variables: GetSeasonEventsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSeasonEventsQuery, GetSeasonEventsQueryVariables>(GetSeasonEventsDocument, options);
+      }
+export function useGetSeasonEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSeasonEventsQuery, GetSeasonEventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSeasonEventsQuery, GetSeasonEventsQueryVariables>(GetSeasonEventsDocument, options);
+        }
+export function useGetSeasonEventsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetSeasonEventsQuery, GetSeasonEventsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetSeasonEventsQuery, GetSeasonEventsQueryVariables>(GetSeasonEventsDocument, options);
+        }
+export type GetSeasonEventsQueryHookResult = ReturnType<typeof useGetSeasonEventsQuery>;
+export type GetSeasonEventsLazyQueryHookResult = ReturnType<typeof useGetSeasonEventsLazyQuery>;
+export type GetSeasonEventsSuspenseQueryHookResult = ReturnType<typeof useGetSeasonEventsSuspenseQuery>;
+export type GetSeasonEventsQueryResult = Apollo.QueryResult<GetSeasonEventsQuery, GetSeasonEventsQueryVariables>;
 export const GetEventScheduleDocument = gql`
-  query GetEventSchedule($year: Int!, $event: String!) @cached {
-    dropdown_events: schedule(
-      where: { location: { _neq: $event }, year: { _eq: $year } }
-    ) {
-      event_name
-      round_number
-      location
-    }
-    schedule(
-      where: { year: { _eq: $year }, location: { _eq: $event } }
-      limit: 1
-    ) {
-      year
-      round_number
-      event_date
-      official_event_name
-      event_name
-      event_format
-      location
-      country
-      session1
-      session1_date_utc
-      session2
-      session2_date_utc
-      session3
-      session3_date_utc
-      session4
-      session4_date_utc
-      session5
-      session5_date_utc
-    }
+    query GetEventSchedule($year: Int!, $event: String!) @cached {
+  dropdown_events: schedule(where: {location: {_neq: $event}, year: {_eq: $year}}) {
+    event_name
+    round_number
+    location
   }
-`;
+  schedule(where: {year: {_eq: $year}, location: {_eq: $event}}, limit: 1) {
+    year
+    round_number
+    event_date
+    official_event_name
+    event_name
+    event_format
+    location
+    country
+    session1
+    session1_date_utc
+    session2
+    session2_date_utc
+    session3
+    session3_date_utc
+    session4
+    session4_date_utc
+    session5
+    session5_date_utc
+  }
+}
+    `;
 
 /**
  * __useGetEventScheduleQuery__
@@ -9311,149 +8828,99 @@ export const GetEventScheduleDocument = gql`
  *   },
  * });
  */
-export function useGetEventScheduleQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetEventScheduleQuery,
-    GetEventScheduleQueryVariables
-  > &
-    (
-      | { variables: GetEventScheduleQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetEventScheduleQuery, GetEventScheduleQueryVariables>(
-    GetEventScheduleDocument,
-    options,
-  );
-}
-export function useGetEventScheduleLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEventScheduleQuery,
-    GetEventScheduleQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetEventScheduleQuery,
-    GetEventScheduleQueryVariables
-  >(GetEventScheduleDocument, options);
-}
-export function useGetEventScheduleSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetEventScheduleQuery,
-        GetEventScheduleQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetEventScheduleQuery,
-    GetEventScheduleQueryVariables
-  >(GetEventScheduleDocument, options);
-}
-export type GetEventScheduleQueryHookResult = ReturnType<
-  typeof useGetEventScheduleQuery
->;
-export type GetEventScheduleLazyQueryHookResult = ReturnType<
-  typeof useGetEventScheduleLazyQuery
->;
-export type GetEventScheduleSuspenseQueryHookResult = ReturnType<
-  typeof useGetEventScheduleSuspenseQuery
->;
-export type GetEventScheduleQueryResult = Apollo.QueryResult<
-  GetEventScheduleQuery,
-  GetEventScheduleQueryVariables
->;
+export function useGetEventScheduleQuery(baseOptions: Apollo.QueryHookOptions<GetEventScheduleQuery, GetEventScheduleQueryVariables> & ({ variables: GetEventScheduleQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEventScheduleQuery, GetEventScheduleQueryVariables>(GetEventScheduleDocument, options);
+      }
+export function useGetEventScheduleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventScheduleQuery, GetEventScheduleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEventScheduleQuery, GetEventScheduleQueryVariables>(GetEventScheduleDocument, options);
+        }
+export function useGetEventScheduleSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEventScheduleQuery, GetEventScheduleQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetEventScheduleQuery, GetEventScheduleQueryVariables>(GetEventScheduleDocument, options);
+        }
+export type GetEventScheduleQueryHookResult = ReturnType<typeof useGetEventScheduleQuery>;
+export type GetEventScheduleLazyQueryHookResult = ReturnType<typeof useGetEventScheduleLazyQuery>;
+export type GetEventScheduleSuspenseQueryHookResult = ReturnType<typeof useGetEventScheduleSuspenseQuery>;
+export type GetEventScheduleQueryResult = Apollo.QueryResult<GetEventScheduleQuery, GetEventScheduleQueryVariables>;
 export const GetEventDetailsDocument = gql`
-  query GetEventDetails($year: Int!, $event: String!) @cached {
-    events(
-      where: { location: { _eq: $event }, year: { _eq: $year } }
-      limit: 1
+    query GetEventDetails($year: Int!, $event: String!) @cached {
+  events(where: {location: {_eq: $event}, year: {_eq: $year}}, limit: 1) {
+    competition: sessions(where: {name: {_in: [Sprint, Race]}}, limit: 2) {
+      scheduled_start_time_utc
+      name
+      driver_sessions {
+        driver {
+          abbreviation
+          full_name
+          number
+          headshot_url
+        }
+        constructorByConstructorId {
+          color
+        }
+        results {
+          finishing_position
+          classified_position
+          grid_position
+          total_race_time
+        }
+        fastest_lap: laps(limit: 1, order_by: {lap_time: asc}) {
+          lap_time
+          lap_number
+        }
+      }
+    }
+    qualifying: sessions(
+      where: {name: {_in: [Sprint_Shootout, Sprint_Qualifying, Qualifying]}}
+      limit: 2
     ) {
-      competition: sessions(
-        where: { name: { _in: [Sprint, Race] } }
-        limit: 2
-      ) {
-        scheduled_start_time_utc
-        name
-        driver_sessions {
-          driver {
-            abbreviation
-            full_name
-            number
-            headshot_url
-          }
-          constructorByConstructorId {
-            color
-          }
-          results {
-            finishing_position
-            classified_position
-            grid_position
-            total_race_time
-          }
-          fastest_lap: laps(limit: 1, order_by: { lap_time: asc }) {
-            lap_time
-            lap_number
-          }
+      scheduled_start_time_utc
+      name
+      driver_sessions {
+        driver {
+          abbreviation
+          full_name
+          number
+          headshot_url
+        }
+        constructorByConstructorId {
+          color
+        }
+        results {
+          finishing_position
+          q1_time
+          q2_time
+          q3_time
         }
       }
-      qualifying: sessions(
-        where: {
-          name: { _in: [Sprint_Shootout, Sprint_Qualifying, Qualifying] }
+    }
+    practices: sessions(
+      limit: 3
+      where: {name: {_in: [Practice_1, Practice_2, Practice_3]}}
+    ) {
+      scheduled_start_time_utc
+      name
+      driver_sessions {
+        driver {
+          abbreviation
+          full_name
+          number
+          headshot_url
         }
-        limit: 2
-      ) {
-        scheduled_start_time_utc
-        name
-        driver_sessions {
-          driver {
-            abbreviation
-            full_name
-            number
-            headshot_url
-          }
-          constructorByConstructorId {
-            color
-          }
-          results {
-            finishing_position
-            q1_time
-            q2_time
-            q3_time
-          }
+        constructorByConstructorId {
+          color
         }
-      }
-      practices: sessions(
-        limit: 3
-        where: { name: { _in: [Practice_1, Practice_2, Practice_3] } }
-      ) {
-        scheduled_start_time_utc
-        name
-        driver_sessions {
-          driver {
-            abbreviation
-            full_name
-            number
-            headshot_url
-          }
-          constructorByConstructorId {
-            color
-          }
-          fastest_lap: laps(limit: 1, order_by: { lap_time: asc }) {
-            lap_time
-            lap_number
-          }
+        fastest_lap: laps(limit: 1, order_by: {lap_time: asc}) {
+          lap_time
+          lap_number
         }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetEventDetailsQuery__
@@ -9472,103 +8939,50 @@ export const GetEventDetailsDocument = gql`
  *   },
  * });
  */
-export function useGetEventDetailsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetEventDetailsQuery,
-    GetEventDetailsQueryVariables
-  > &
-    (
-      | { variables: GetEventDetailsQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetEventDetailsQuery, GetEventDetailsQueryVariables>(
-    GetEventDetailsDocument,
-    options,
-  );
-}
-export function useGetEventDetailsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEventDetailsQuery,
-    GetEventDetailsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetEventDetailsQuery,
-    GetEventDetailsQueryVariables
-  >(GetEventDetailsDocument, options);
-}
-export function useGetEventDetailsSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetEventDetailsQuery,
-        GetEventDetailsQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetEventDetailsQuery,
-    GetEventDetailsQueryVariables
-  >(GetEventDetailsDocument, options);
-}
-export type GetEventDetailsQueryHookResult = ReturnType<
-  typeof useGetEventDetailsQuery
->;
-export type GetEventDetailsLazyQueryHookResult = ReturnType<
-  typeof useGetEventDetailsLazyQuery
->;
-export type GetEventDetailsSuspenseQueryHookResult = ReturnType<
-  typeof useGetEventDetailsSuspenseQuery
->;
-export type GetEventDetailsQueryResult = Apollo.QueryResult<
-  GetEventDetailsQuery,
-  GetEventDetailsQueryVariables
->;
-export const GetStandingsDocument = gql`
-  query GetStandings($season: Int!) @cached {
-    drivers(where: { driver_standings: { season: { _eq: $season } } }) {
-      abbreviation
-      full_name
-      latest_constructor: driver_sessions(
-        limit: 1
-        order_by: { session: { date: desc } }
-      ) {
-        constructor: constructorByConstructorId {
-          name
-          color
-        }
+export function useGetEventDetailsQuery(baseOptions: Apollo.QueryHookOptions<GetEventDetailsQuery, GetEventDetailsQueryVariables> & ({ variables: GetEventDetailsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEventDetailsQuery, GetEventDetailsQueryVariables>(GetEventDetailsDocument, options);
       }
-      driver_standings(
-        where: { season: { _eq: $season } }
-        order_by: { round: asc }
-      ) {
-        round
-        points
-        position
+export function useGetEventDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventDetailsQuery, GetEventDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEventDetailsQuery, GetEventDetailsQueryVariables>(GetEventDetailsDocument, options);
+        }
+export function useGetEventDetailsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEventDetailsQuery, GetEventDetailsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetEventDetailsQuery, GetEventDetailsQueryVariables>(GetEventDetailsDocument, options);
+        }
+export type GetEventDetailsQueryHookResult = ReturnType<typeof useGetEventDetailsQuery>;
+export type GetEventDetailsLazyQueryHookResult = ReturnType<typeof useGetEventDetailsLazyQuery>;
+export type GetEventDetailsSuspenseQueryHookResult = ReturnType<typeof useGetEventDetailsSuspenseQuery>;
+export type GetEventDetailsQueryResult = Apollo.QueryResult<GetEventDetailsQuery, GetEventDetailsQueryVariables>;
+export const GetStandingsDocument = gql`
+    query GetStandings($season: Int!) @cached {
+  drivers(where: {driver_standings: {season: {_eq: $season}}}) {
+    abbreviation
+    full_name
+    latest_constructor: driver_sessions(limit: 1, order_by: {session: {date: desc}}) {
+      constructor: constructorByConstructorId {
+        name
+        color
       }
     }
-    constructors(
-      where: { constructor_standings: { season: { _eq: $season } } }
-    ) {
-      name
-      color
-      constructor_standings(
-        where: { season: { _eq: $season } }
-        order_by: { round: asc }
-      ) {
-        round
-        points
-        position
-      }
+    driver_standings(where: {season: {_eq: $season}}, order_by: {round: asc}) {
+      round
+      points
+      position
     }
   }
-`;
+  constructors(where: {constructor_standings: {season: {_eq: $season}}}) {
+    name
+    color
+    constructor_standings(where: {season: {_eq: $season}}, order_by: {round: asc}) {
+      round
+      points
+      position
+    }
+  }
+}
+    `;
 
 /**
  * __useGetStandingsQuery__
@@ -9586,119 +9000,62 @@ export const GetStandingsDocument = gql`
  *   },
  * });
  */
-export function useGetStandingsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetStandingsQuery,
-    GetStandingsQueryVariables
-  > &
-    (
-      | { variables: GetStandingsQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetStandingsQuery, GetStandingsQueryVariables>(
-    GetStandingsDocument,
-    options,
-  );
-}
-export function useGetStandingsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetStandingsQuery,
-    GetStandingsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetStandingsQuery, GetStandingsQueryVariables>(
-    GetStandingsDocument,
-    options,
-  );
-}
-export function useGetStandingsSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetStandingsQuery,
-        GetStandingsQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetStandingsQuery, GetStandingsQueryVariables>(
-    GetStandingsDocument,
-    options,
-  );
-}
-export type GetStandingsQueryHookResult = ReturnType<
-  typeof useGetStandingsQuery
->;
-export type GetStandingsLazyQueryHookResult = ReturnType<
-  typeof useGetStandingsLazyQuery
->;
-export type GetStandingsSuspenseQueryHookResult = ReturnType<
-  typeof useGetStandingsSuspenseQuery
->;
-export type GetStandingsQueryResult = Apollo.QueryResult<
-  GetStandingsQuery,
-  GetStandingsQueryVariables
->;
+export function useGetStandingsQuery(baseOptions: Apollo.QueryHookOptions<GetStandingsQuery, GetStandingsQueryVariables> & ({ variables: GetStandingsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetStandingsQuery, GetStandingsQueryVariables>(GetStandingsDocument, options);
+      }
+export function useGetStandingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStandingsQuery, GetStandingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetStandingsQuery, GetStandingsQueryVariables>(GetStandingsDocument, options);
+        }
+export function useGetStandingsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetStandingsQuery, GetStandingsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetStandingsQuery, GetStandingsQueryVariables>(GetStandingsDocument, options);
+        }
+export type GetStandingsQueryHookResult = ReturnType<typeof useGetStandingsQuery>;
+export type GetStandingsLazyQueryHookResult = ReturnType<typeof useGetStandingsLazyQuery>;
+export type GetStandingsSuspenseQueryHookResult = ReturnType<typeof useGetStandingsSuspenseQuery>;
+export type GetStandingsQueryResult = Apollo.QueryResult<GetStandingsQuery, GetStandingsQueryVariables>;
 export const SessionResultsDocument = gql`
-  query SessionResults(
-    $year: Int!
-    $event: String!
-    $session: session_name_choices_enum!
-  ) @cached {
-    sessions(
-      limit: 1
-      where: {
-        event: { year: { _eq: $year }, location: { _eq: $event } }
-        name: { _eq: $session }
-      }
-    ) {
+    query SessionResults($year: Int!, $event: String!, $session: session_name_choices_enum!) @cached {
+  sessions(
+    limit: 1
+    where: {event: {year: {_eq: $year}, location: {_eq: $event}}, name: {_eq: $session}}
+  ) {
+    name
+    event {
       name
-      event {
+    }
+    driver_sessions {
+      constructorByConstructorId {
         name
+        color
       }
-      driver_sessions {
-        constructorByConstructorId {
-          name
-          color
-        }
-        driver {
-          abbreviation
-          full_name
-          number
-          headshot_url
-        }
-        results(
-          where: {
-            _or: [
-              { grid_position: { _is_null: false } }
-              { finishing_position: { _is_null: false } }
-            ]
-          }
-        ) {
-          grid_position
-          finishing_position
-          points
-          status
-          classified_position
-          total_race_time
-        }
-        fastest_lap: laps(order_by: { lap_time: asc }, limit: 1) {
-          lap_number
-          stint
-          lap_time
-          sector1
-          sector2
-          sector3
-        }
+      driver {
+        abbreviation
+        full_name
+        number
+        headshot_url
+      }
+      results(
+        where: {_or: [{grid_position: {_is_null: false}}, {finishing_position: {_is_null: false}}]}
+      ) {
+        grid_position
+        finishing_position
+        points
+        status
+        classified_position
+        total_race_time
+      }
+      fastest_lap: laps(order_by: {lap_time: asc}, limit: 1) {
+        lap_number
+        stint
+        lap_time
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useSessionResultsQuery__
@@ -9718,116 +9075,67 @@ export const SessionResultsDocument = gql`
  *   },
  * });
  */
-export function useSessionResultsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    SessionResultsQuery,
-    SessionResultsQueryVariables
-  > &
-    (
-      | { variables: SessionResultsQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SessionResultsQuery, SessionResultsQueryVariables>(
-    SessionResultsDocument,
-    options,
-  );
-}
-export function useSessionResultsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    SessionResultsQuery,
-    SessionResultsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<SessionResultsQuery, SessionResultsQueryVariables>(
-    SessionResultsDocument,
-    options,
-  );
-}
-export function useSessionResultsSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        SessionResultsQuery,
-        SessionResultsQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    SessionResultsQuery,
-    SessionResultsQueryVariables
-  >(SessionResultsDocument, options);
-}
-export type SessionResultsQueryHookResult = ReturnType<
-  typeof useSessionResultsQuery
->;
-export type SessionResultsLazyQueryHookResult = ReturnType<
-  typeof useSessionResultsLazyQuery
->;
-export type SessionResultsSuspenseQueryHookResult = ReturnType<
-  typeof useSessionResultsSuspenseQuery
->;
-export type SessionResultsQueryResult = Apollo.QueryResult<
-  SessionResultsQuery,
-  SessionResultsQueryVariables
->;
+export function useSessionResultsQuery(baseOptions: Apollo.QueryHookOptions<SessionResultsQuery, SessionResultsQueryVariables> & ({ variables: SessionResultsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SessionResultsQuery, SessionResultsQueryVariables>(SessionResultsDocument, options);
+      }
+export function useSessionResultsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SessionResultsQuery, SessionResultsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SessionResultsQuery, SessionResultsQueryVariables>(SessionResultsDocument, options);
+        }
+export function useSessionResultsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SessionResultsQuery, SessionResultsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SessionResultsQuery, SessionResultsQueryVariables>(SessionResultsDocument, options);
+        }
+export type SessionResultsQueryHookResult = ReturnType<typeof useSessionResultsQuery>;
+export type SessionResultsLazyQueryHookResult = ReturnType<typeof useSessionResultsLazyQuery>;
+export type SessionResultsSuspenseQueryHookResult = ReturnType<typeof useSessionResultsSuspenseQuery>;
+export type SessionResultsQueryResult = Apollo.QueryResult<SessionResultsQuery, SessionResultsQueryVariables>;
 export const GetSessionFastestTimesDocument = gql`
-  query GetSessionFastestTimes(
-    $year: Int!
-    $event: String!
-    $session: session_name_choices_enum!
-  ) @cached {
-    sessions(
-      limit: 1
-      where: {
-        event: { year: { _eq: $year }, location: { _eq: $event } }
-        name: { _eq: $session }
-      }
-    ) {
+    query GetSessionFastestTimes($year: Int!, $event: String!, $session: session_name_choices_enum!) @cached {
+  sessions(
+    limit: 1
+    where: {event: {year: {_eq: $year}, location: {_eq: $event}}, name: {_eq: $session}}
+  ) {
+    name
+    event {
       name
-      event {
+    }
+    driver_sessions {
+      constructorByConstructorId {
         name
+        color
       }
-      driver_sessions {
-        constructorByConstructorId {
-          name
-          color
-        }
-        driver {
-          abbreviation
-        }
-        fastest_lap: laps(order_by: { lap_time: asc }, limit: 1) {
-          lap_number
-          stint
-          lap_time
-          sector1
-          sector2
-          sector3
-        }
-        fastest_sector1: laps(order_by: { sector1: asc }, limit: 1) {
-          lap_number
-          stint
-          sector1
-        }
-        fastest_sector2: laps(order_by: { sector2: asc }, limit: 1) {
-          lap_number
-          stint
-          sector2
-        }
-        fastest_sector3: laps(order_by: { sector3: asc }, limit: 1) {
-          lap_number
-          stint
-          sector3
-        }
+      driver {
+        abbreviation
+      }
+      fastest_lap: laps(order_by: {lap_time: asc}, limit: 1) {
+        lap_number
+        stint
+        lap_time
+        sector1
+        sector2
+        sector3
+      }
+      fastest_sector1: laps(order_by: {sector1: asc}, limit: 1) {
+        lap_number
+        stint
+        sector1
+      }
+      fastest_sector2: laps(order_by: {sector2: asc}, limit: 1) {
+        lap_number
+        stint
+        sector2
+      }
+      fastest_sector3: laps(order_by: {sector3: asc}, limit: 1) {
+        lap_number
+        stint
+        sector3
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetSessionFastestTimesQuery__
@@ -9847,94 +9155,45 @@ export const GetSessionFastestTimesDocument = gql`
  *   },
  * });
  */
-export function useGetSessionFastestTimesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetSessionFastestTimesQuery,
-    GetSessionFastestTimesQueryVariables
-  > &
-    (
-      | { variables: GetSessionFastestTimesQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetSessionFastestTimesQuery,
-    GetSessionFastestTimesQueryVariables
-  >(GetSessionFastestTimesDocument, options);
-}
-export function useGetSessionFastestTimesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSessionFastestTimesQuery,
-    GetSessionFastestTimesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetSessionFastestTimesQuery,
-    GetSessionFastestTimesQueryVariables
-  >(GetSessionFastestTimesDocument, options);
-}
-export function useGetSessionFastestTimesSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetSessionFastestTimesQuery,
-        GetSessionFastestTimesQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetSessionFastestTimesQuery,
-    GetSessionFastestTimesQueryVariables
-  >(GetSessionFastestTimesDocument, options);
-}
-export type GetSessionFastestTimesQueryHookResult = ReturnType<
-  typeof useGetSessionFastestTimesQuery
->;
-export type GetSessionFastestTimesLazyQueryHookResult = ReturnType<
-  typeof useGetSessionFastestTimesLazyQuery
->;
-export type GetSessionFastestTimesSuspenseQueryHookResult = ReturnType<
-  typeof useGetSessionFastestTimesSuspenseQuery
->;
-export type GetSessionFastestTimesQueryResult = Apollo.QueryResult<
-  GetSessionFastestTimesQuery,
-  GetSessionFastestTimesQueryVariables
->;
-export const GetSessionStintsDocument = gql`
-  query GetSessionStints(
-    $year: Int!
-    $event: String!
-    $session: session_name_choices_enum!
-  ) @cached {
-    sessions(
-      limit: 1
-      where: {
-        event: { year: { _eq: $year }, location: { _eq: $event } }
-        name: { _eq: $session }
+export function useGetSessionFastestTimesQuery(baseOptions: Apollo.QueryHookOptions<GetSessionFastestTimesQuery, GetSessionFastestTimesQueryVariables> & ({ variables: GetSessionFastestTimesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSessionFastestTimesQuery, GetSessionFastestTimesQueryVariables>(GetSessionFastestTimesDocument, options);
       }
-    ) {
-      driver_sessions {
-        driver {
-          abbreviation
-          full_name
+export function useGetSessionFastestTimesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSessionFastestTimesQuery, GetSessionFastestTimesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSessionFastestTimesQuery, GetSessionFastestTimesQueryVariables>(GetSessionFastestTimesDocument, options);
         }
-        laps {
-          stint
-          tyre_compound {
-            value
-          }
-          tyre_life
-          fresh_tyre
+export function useGetSessionFastestTimesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetSessionFastestTimesQuery, GetSessionFastestTimesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetSessionFastestTimesQuery, GetSessionFastestTimesQueryVariables>(GetSessionFastestTimesDocument, options);
         }
+export type GetSessionFastestTimesQueryHookResult = ReturnType<typeof useGetSessionFastestTimesQuery>;
+export type GetSessionFastestTimesLazyQueryHookResult = ReturnType<typeof useGetSessionFastestTimesLazyQuery>;
+export type GetSessionFastestTimesSuspenseQueryHookResult = ReturnType<typeof useGetSessionFastestTimesSuspenseQuery>;
+export type GetSessionFastestTimesQueryResult = Apollo.QueryResult<GetSessionFastestTimesQuery, GetSessionFastestTimesQueryVariables>;
+export const GetSessionStintsDocument = gql`
+    query GetSessionStints($year: Int!, $event: String!, $session: session_name_choices_enum!) @cached {
+  sessions(
+    limit: 1
+    where: {event: {year: {_eq: $year}, location: {_eq: $event}}, name: {_eq: $session}}
+  ) {
+    driver_sessions {
+      driver {
+        abbreviation
+        full_name
+      }
+      laps {
+        stint
+        tyre_compound {
+          value
+        }
+        tyre_life
+        fresh_tyre
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetSessionStintsQuery__
@@ -9954,97 +9213,48 @@ export const GetSessionStintsDocument = gql`
  *   },
  * });
  */
-export function useGetSessionStintsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetSessionStintsQuery,
-    GetSessionStintsQueryVariables
-  > &
-    (
-      | { variables: GetSessionStintsQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetSessionStintsQuery, GetSessionStintsQueryVariables>(
-    GetSessionStintsDocument,
-    options,
-  );
-}
-export function useGetSessionStintsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSessionStintsQuery,
-    GetSessionStintsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetSessionStintsQuery,
-    GetSessionStintsQueryVariables
-  >(GetSessionStintsDocument, options);
-}
-export function useGetSessionStintsSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetSessionStintsQuery,
-        GetSessionStintsQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetSessionStintsQuery,
-    GetSessionStintsQueryVariables
-  >(GetSessionStintsDocument, options);
-}
-export type GetSessionStintsQueryHookResult = ReturnType<
-  typeof useGetSessionStintsQuery
->;
-export type GetSessionStintsLazyQueryHookResult = ReturnType<
-  typeof useGetSessionStintsLazyQuery
->;
-export type GetSessionStintsSuspenseQueryHookResult = ReturnType<
-  typeof useGetSessionStintsSuspenseQuery
->;
-export type GetSessionStintsQueryResult = Apollo.QueryResult<
-  GetSessionStintsQuery,
-  GetSessionStintsQueryVariables
->;
-export const GetSessionLapTimesDocument = gql`
-  query GetSessionLapTimes(
-    $year: Int!
-    $event: String!
-    $session: session_name_choices_enum!
-  ) @cached {
-    sessions(
-      limit: 1
-      where: {
-        event: { year: { _eq: $year }, location: { _eq: $event } }
-        name: { _eq: $session }
+export function useGetSessionStintsQuery(baseOptions: Apollo.QueryHookOptions<GetSessionStintsQuery, GetSessionStintsQueryVariables> & ({ variables: GetSessionStintsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSessionStintsQuery, GetSessionStintsQueryVariables>(GetSessionStintsDocument, options);
       }
-    ) {
-      driver_sessions {
-        constructorByConstructorId {
-          name
-          color
+export function useGetSessionStintsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSessionStintsQuery, GetSessionStintsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSessionStintsQuery, GetSessionStintsQueryVariables>(GetSessionStintsDocument, options);
         }
-        driver {
-          abbreviation
-          full_name
-          number
+export function useGetSessionStintsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetSessionStintsQuery, GetSessionStintsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetSessionStintsQuery, GetSessionStintsQueryVariables>(GetSessionStintsDocument, options);
         }
-        laps(order_by: { lap_number: asc }) {
-          lap_number
-          lap_time
-          compound
-          session_time
-        }
+export type GetSessionStintsQueryHookResult = ReturnType<typeof useGetSessionStintsQuery>;
+export type GetSessionStintsLazyQueryHookResult = ReturnType<typeof useGetSessionStintsLazyQuery>;
+export type GetSessionStintsSuspenseQueryHookResult = ReturnType<typeof useGetSessionStintsSuspenseQuery>;
+export type GetSessionStintsQueryResult = Apollo.QueryResult<GetSessionStintsQuery, GetSessionStintsQueryVariables>;
+export const GetSessionLapTimesDocument = gql`
+    query GetSessionLapTimes($year: Int!, $event: String!, $session: session_name_choices_enum!) @cached {
+  sessions(
+    limit: 1
+    where: {event: {year: {_eq: $year}, location: {_eq: $event}}, name: {_eq: $session}}
+  ) {
+    driver_sessions {
+      constructorByConstructorId {
+        name
+        color
+      }
+      driver {
+        abbreviation
+        full_name
+        number
+      }
+      laps(order_by: {lap_number: asc}) {
+        lap_number
+        lap_time
+        compound
+        session_time
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetSessionLapTimesQuery__
@@ -10064,61 +9274,19 @@ export const GetSessionLapTimesDocument = gql`
  *   },
  * });
  */
-export function useGetSessionLapTimesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetSessionLapTimesQuery,
-    GetSessionLapTimesQueryVariables
-  > &
-    (
-      | { variables: GetSessionLapTimesQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetSessionLapTimesQuery,
-    GetSessionLapTimesQueryVariables
-  >(GetSessionLapTimesDocument, options);
-}
-export function useGetSessionLapTimesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSessionLapTimesQuery,
-    GetSessionLapTimesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetSessionLapTimesQuery,
-    GetSessionLapTimesQueryVariables
-  >(GetSessionLapTimesDocument, options);
-}
-export function useGetSessionLapTimesSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetSessionLapTimesQuery,
-        GetSessionLapTimesQueryVariables
-      >,
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetSessionLapTimesQuery,
-    GetSessionLapTimesQueryVariables
-  >(GetSessionLapTimesDocument, options);
-}
-export type GetSessionLapTimesQueryHookResult = ReturnType<
-  typeof useGetSessionLapTimesQuery
->;
-export type GetSessionLapTimesLazyQueryHookResult = ReturnType<
-  typeof useGetSessionLapTimesLazyQuery
->;
-export type GetSessionLapTimesSuspenseQueryHookResult = ReturnType<
-  typeof useGetSessionLapTimesSuspenseQuery
->;
-export type GetSessionLapTimesQueryResult = Apollo.QueryResult<
-  GetSessionLapTimesQuery,
-  GetSessionLapTimesQueryVariables
->;
+export function useGetSessionLapTimesQuery(baseOptions: Apollo.QueryHookOptions<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables> & ({ variables: GetSessionLapTimesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>(GetSessionLapTimesDocument, options);
+      }
+export function useGetSessionLapTimesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>(GetSessionLapTimesDocument, options);
+        }
+export function useGetSessionLapTimesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>(GetSessionLapTimesDocument, options);
+        }
+export type GetSessionLapTimesQueryHookResult = ReturnType<typeof useGetSessionLapTimesQuery>;
+export type GetSessionLapTimesLazyQueryHookResult = ReturnType<typeof useGetSessionLapTimesLazyQuery>;
+export type GetSessionLapTimesSuspenseQueryHookResult = ReturnType<typeof useGetSessionLapTimesSuspenseQuery>;
+export type GetSessionLapTimesQueryResult = Apollo.QueryResult<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>;
