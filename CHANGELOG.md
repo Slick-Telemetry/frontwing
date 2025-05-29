@@ -1,3 +1,10 @@
+## 0.6.8 (2025-05-29)
+
+### Fix
+
+- FRON-164 sorting of quali, proper fastest lap, reuse util time format
+- FRON-164 Provisional grid corrections
+
 ## 0.6.7 (2025-05-26)
 
 ### Fix
