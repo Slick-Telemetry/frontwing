@@ -1,5 +1,6 @@
 'use client';
 
+import { useQuery } from '@apollo/client';
 import { GlyphStar } from '@visx/glyph';
 import { ParentSize } from '@visx/responsive';
 import {
@@ -12,9 +13,21 @@ import {
   XYChart,
 } from '@visx/xychart';
 import clsx from 'clsx';
+import { useParams } from 'next/navigation';
 import React, { useMemo } from 'react';
 
-import { SessionResultsQuery } from '@/generated/types';
+import { GET_SESSION_FASTEST_TIMES } from '@/lib/queries';
+import { eventLocationDecode } from '@/lib/utils';
+
+import { ServerPageError } from '@/components/ServerError';
+
+import {
+  GetSessionFastestTimesQuery,
+  GetSessionFastestTimesQueryVariables,
+  Session_Name_Choices_Enum,
+} from '@/generated/types';
+
+import { BarChartSkeleton } from './BarChartSkeleton';
 
 const margin = { top: 20, right: 30, bottom: 50, left: 60 };
 const titles = {
@@ -65,9 +78,31 @@ interface DriverTimes {
   color: string;
 }
 
-const SectorTimes: React.FC<{
-  driverSessions: SessionResultsQuery['sessions'][0]['driver_sessions'];
-}> = ({ driverSessions }) => {
+const SectorTimes = () => {
+  const { year, event, session: sessionParam } = useParams();
+  const { data, loading, error } = useQuery<
+    GetSessionFastestTimesQuery,
+    GetSessionFastestTimesQueryVariables
+  >(GET_SESSION_FASTEST_TIMES, {
+    variables: {
+      year: parseInt(year as string),
+      event: eventLocationDecode(event as string),
+      session: eventLocationDecode(
+        sessionParam as string,
+      ) as Session_Name_Choices_Enum,
+    },
+  });
+
+  if (error) {
+    return (
+      <div className='my-16'>
+        <ServerPageError msg='Issue loading sectors times' />
+      </div>
+    );
+  }
+
+  const driverSessions = data?.sessions[0].driver_sessions || [];
+
   const driverTimes: DriverTimes[] = driverSessions.map((ds) => {
     const sector1 = Number(ds.fastest_sector1[0].sector1) / 1000;
     const sector2 = Number(ds.fastest_sector2[0].sector2) / 1000;
@@ -105,12 +140,22 @@ const SectorTimes: React.FC<{
   });
 
   return (
-    <div className='grid gap-4'>
-      {/* <StackedSectors times={driverTimes}/> */}
-      <BestPotentialChart times={driverTimes} />
-      <SectorChart times={driverTimes} sectorKey='sector1' />
-      <SectorChart times={driverTimes} sectorKey='sector2' />
-      <SectorChart times={driverTimes} sectorKey='sector3' />
+    <div className={clsx('grid gap-4', { 'animate-pulse': loading })}>
+      {loading ? (
+        <>
+          <BarChartSkeleton title={titles['potential_best']} />
+          <BarChartSkeleton title={titles['sector1']} />
+          <BarChartSkeleton title={titles['sector2']} />
+          <BarChartSkeleton title={titles['sector3']} />
+        </>
+      ) : (
+        <>
+          <BestPotentialChart times={driverTimes} />
+          <SectorChart times={driverTimes} sectorKey='sector1' />
+          <SectorChart times={driverTimes} sectorKey='sector2' />
+          <SectorChart times={driverTimes} sectorKey='sector3' />
+        </>
+      )}
     </div>
   );
 };
@@ -133,9 +178,9 @@ const BestPotentialChart = ({ times }: { times: DriverTimes[] }) => {
   // Ensure we have valid min and max values
   const minValue =
     Math.min(
-      ...(driverTimes || []).map((d) =>
-        Number(d.fastestLap.potential_best || 0),
-      ),
+      ...(driverTimes || [])
+        .filter((d) => d.fastestLap.potential_best !== 0)
+        .map((d) => Number(d.fastestLap.potential_best || 0)),
     ) - 0.05;
 
   const maxValue =
@@ -158,7 +203,7 @@ const BestPotentialChart = ({ times }: { times: DriverTimes[] }) => {
       />
       <GlyphSeries
         dataKey='Potential Best'
-        data={driverTimes}
+        data={driverTimes.filter((d) => d.fastestLap.potential_best !== 0)}
         xAccessor={(d) => d.abbreviation}
         yAccessor={(d) => d.fastestLap.potential_best}
         colorAccessor={() => '#FFD700'}
@@ -225,7 +270,11 @@ const BestPotentialChart = ({ times }: { times: DriverTimes[] }) => {
                   <p>{driverStats.sectors.sector1.time}s</p>
                   <p>{driverStats.sectors.sector2.time}s</p>
                   <p>{driverStats.sectors.sector3.time}s</p>
-                  <p>{driverStats.fastestLap.potential_best}s</p>
+                  <p>
+                    {driverStats.fastestLap.potential_best
+                      ? `${driverStats.fastestLap.potential_best}s`
+                      : 'Not Found'}
+                  </p>
                 </div>
               </div>
             </>
@@ -350,98 +399,6 @@ const SectorChart = ({
   );
 };
 
-// Stacked Sectors Times of Fastest Lao
-// const StackedSectors = ({ times }: { times: DriverTimes[] }) => {
-//   const driverTimes = [...times].sort(
-//     (a, b) =>
-//       Number(a.fastestLap.lap_time || 0) - Number(b.fastestLap.lap_time || 0),
-//   );
-//   // Ensure we have valid min and max values
-//   const minValue =
-//     Math.min(
-//       ...(driverTimes || []).map((d) =>
-//         Number(d.fastestLap.potential_best || 0),
-//       ),
-//     ) - 0.05;
-
-//   const maxValue =
-//     Math.max(
-//       ...(driverTimes || []).map((d) => Number(d.fastestLap.lap_time || 0)),
-//     ) + 0.05;
-
-//   return (
-//     <BarChart
-//       driverCount={driverTimes.length}
-//       title={titles['potential_best']}
-//       minMax={[minValue, maxValue]}
-//     >
-//       <BarStack>
-//         <BarSeries
-//           dataKey='Sector 1'
-//           data={driverTimes}
-//           yAccessor={(d) => d.abbreviation}
-//           xAccessor={(d) => d.sectors.sector1}
-//           colorAccessor={(d) => `#${d.color}`}
-//         />
-//         <BarSeries
-//           dataKey='Sector 2'
-//           data={driverTimes}
-//           yAccessor={(d) => d.abbreviation}
-//           xAccessor={(d) => d.sectors.sector2}
-//           colorAccessor={(d) => `#${d.color}99`}
-//         />
-//         <BarSeries
-//           dataKey='Sector 3'
-//           data={driverTimes}
-//           yAccessor={(d) => d.abbreviation}
-//           xAccessor={(d) => d.sectors.sector3}
-//           colorAccessor={(d) => `#${d.color}`}
-//         />
-//       </BarStack>
-
-//       {/* Labels on top of bars */}
-//       <GlyphSeries
-//         dataKey='Sector Time Labels'
-//         data={driverTimes}
-//         yAccessor={(d) => d.abbreviation}
-//         xAccessor={(d) => d.fastestLap.lap_time}
-//         renderGlyph={({ x, y, datum }) => (
-//           <text
-//             x={x}
-//             y={y - 5} // Position slightly above the bar
-//             fontSize={10}
-//             className='fill-foreground'
-//             textAnchor='middle'
-//           >
-//             {Number(datum.fastestLap.lap_time).toFixed(3)}s
-//           </text>
-//         )}
-//       />
-
-//       <Tooltip
-//         snapTooltipToDatumX
-//         snapTooltipToDatumY
-//         showVerticalCrosshair
-//         showHorizontalCrosshair
-//         renderTooltip={({ tooltipData }) => {
-//           const driverStats = tooltipData?.nearestDatum?.datum as DriverTimes;
-//           return (
-//             <>
-//               {/** date */}
-//               {(driverStats && driverStats.abbreviation) || 'No Driver'}
-//               <br />
-//               <div>
-//                 <p>Best: {driverStats.fastestLap.lap_time}</p>
-//                 <p>Potential: {driverStats.fastestLap.potential_best}</p>
-//               </div>
-//             </>
-//           );
-//         }}
-//       />
-//     </BarChart>
-//   );
-// };
-
 interface BarChartProps {
   driverCount: number;
   minMax: [number, number];
@@ -449,7 +406,7 @@ interface BarChartProps {
   children: React.ReactNode;
 }
 
-const BarChart: React.FC<BarChartProps> = ({
+export const BarChart: React.FC<BarChartProps> = ({
   title,
   driverCount,
   minMax,
@@ -479,7 +436,6 @@ const BarChart: React.FC<BarChartProps> = ({
             <Axis
               orientation='bottom'
               label='Driver'
-              // numTicks={5}
               numTicks={driverCount}
               tickLabelProps={() => ({
                 fill: 'var(--color-foreground)',
@@ -487,11 +443,11 @@ const BarChart: React.FC<BarChartProps> = ({
               labelClassName='fill-foreground'
               tickClassName='fill-foreground'
             />
+
             <Axis
               orientation='left'
               label='Time (s)'
               labelOffset={20}
-              // numTicks={driverCount}
               tickLabelProps={() => ({
                 fill: 'var(--color-foreground)',
               })}

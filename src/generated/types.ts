@@ -8496,6 +8496,39 @@ export type SessionResultsQuery = {
         sector2?: bigint | null;
         sector3?: bigint | null;
       }>;
+    }>;
+  }>;
+};
+
+export type GetSessionFastestTimesQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+  event: Scalars['String']['input'];
+  session: Session_Name_Choices_Enum;
+}>;
+
+export type GetSessionFastestTimesQuery = {
+  __typename?: 'query_root';
+  sessions: Array<{
+    __typename?: 'sessions';
+    name?: Session_Name_Choices_Enum | null;
+    event?: { __typename?: 'events'; name?: string | null } | null;
+    driver_sessions: Array<{
+      __typename?: 'driver_sessions';
+      constructorByConstructorId?: {
+        __typename?: 'constructors';
+        name?: string | null;
+        color?: string | null;
+      } | null;
+      driver?: { __typename?: 'drivers'; abbreviation?: string | null } | null;
+      fastest_lap: Array<{
+        __typename?: 'laps';
+        lap_number?: number | null;
+        stint?: number | null;
+        lap_time?: bigint | null;
+        sector1?: bigint | null;
+        sector2?: bigint | null;
+        sector3?: bigint | null;
+      }>;
       fastest_sector1: Array<{
         __typename?: 'laps';
         lap_number?: number | null;
@@ -9662,21 +9695,6 @@ export const SessionResultsDocument = gql`
           sector2
           sector3
         }
-        fastest_sector1: laps(order_by: { sector1: asc }, limit: 1) {
-          lap_number
-          stint
-          sector1
-        }
-        fastest_sector2: laps(order_by: { sector2: asc }, limit: 1) {
-          lap_number
-          stint
-          sector2
-        }
-        fastest_sector3: laps(order_by: { sector3: asc }, limit: 1) {
-          lap_number
-          stint
-          sector3
-        }
       }
     }
   }
@@ -9757,6 +9775,135 @@ export type SessionResultsSuspenseQueryHookResult = ReturnType<
 export type SessionResultsQueryResult = Apollo.QueryResult<
   SessionResultsQuery,
   SessionResultsQueryVariables
+>;
+export const GetSessionFastestTimesDocument = gql`
+  query GetSessionFastestTimes(
+    $year: Int!
+    $event: String!
+    $session: session_name_choices_enum!
+  ) @cached {
+    sessions(
+      limit: 1
+      where: {
+        event: { year: { _eq: $year }, location: { _eq: $event } }
+        name: { _eq: $session }
+      }
+    ) {
+      name
+      event {
+        name
+      }
+      driver_sessions {
+        constructorByConstructorId {
+          name
+          color
+        }
+        driver {
+          abbreviation
+        }
+        fastest_lap: laps(order_by: { lap_time: asc }, limit: 1) {
+          lap_number
+          stint
+          lap_time
+          sector1
+          sector2
+          sector3
+        }
+        fastest_sector1: laps(order_by: { sector1: asc }, limit: 1) {
+          lap_number
+          stint
+          sector1
+        }
+        fastest_sector2: laps(order_by: { sector2: asc }, limit: 1) {
+          lap_number
+          stint
+          sector2
+        }
+        fastest_sector3: laps(order_by: { sector3: asc }, limit: 1) {
+          lap_number
+          stint
+          sector3
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetSessionFastestTimesQuery__
+ *
+ * To run a query within a React component, call `useGetSessionFastestTimesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSessionFastestTimesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSessionFastestTimesQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *      event: // value for 'event'
+ *      session: // value for 'session'
+ *   },
+ * });
+ */
+export function useGetSessionFastestTimesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetSessionFastestTimesQuery,
+    GetSessionFastestTimesQueryVariables
+  > &
+    (
+      | { variables: GetSessionFastestTimesQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetSessionFastestTimesQuery,
+    GetSessionFastestTimesQueryVariables
+  >(GetSessionFastestTimesDocument, options);
+}
+export function useGetSessionFastestTimesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSessionFastestTimesQuery,
+    GetSessionFastestTimesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetSessionFastestTimesQuery,
+    GetSessionFastestTimesQueryVariables
+  >(GetSessionFastestTimesDocument, options);
+}
+export function useGetSessionFastestTimesSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetSessionFastestTimesQuery,
+        GetSessionFastestTimesQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetSessionFastestTimesQuery,
+    GetSessionFastestTimesQueryVariables
+  >(GetSessionFastestTimesDocument, options);
+}
+export type GetSessionFastestTimesQueryHookResult = ReturnType<
+  typeof useGetSessionFastestTimesQuery
+>;
+export type GetSessionFastestTimesLazyQueryHookResult = ReturnType<
+  typeof useGetSessionFastestTimesLazyQuery
+>;
+export type GetSessionFastestTimesSuspenseQueryHookResult = ReturnType<
+  typeof useGetSessionFastestTimesSuspenseQuery
+>;
+export type GetSessionFastestTimesQueryResult = Apollo.QueryResult<
+  GetSessionFastestTimesQuery,
+  GetSessionFastestTimesQueryVariables
 >;
 export const GetSessionStintsDocument = gql`
   query GetSessionStints(

@@ -354,6 +354,41 @@ export const GET_SESSION_RESULTS = gql`
           lap_number
           stint
           lap_time
+        }
+      }
+    }
+  }
+`;
+
+export const GET_SESSION_FASTEST_TIMES = gql`
+  query GetSessionFastestTimes(
+    $year: Int!
+    $event: String!
+    $session: session_name_choices_enum!
+  ) @cached {
+    sessions(
+      limit: 1
+      where: {
+        event: { year: { _eq: $year }, location: { _eq: $event } }
+        name: { _eq: $session }
+      }
+    ) {
+      name
+      event {
+        name
+      }
+      driver_sessions {
+        constructorByConstructorId {
+          name
+          color
+        }
+        driver {
+          abbreviation
+        }
+        fastest_lap: laps(order_by: { lap_time: asc }, limit: 1) {
+          lap_number
+          stint
+          lap_time
           sector1
           sector2
           sector3

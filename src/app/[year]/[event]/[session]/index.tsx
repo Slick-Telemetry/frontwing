@@ -17,18 +17,15 @@ import { FloatingNumber } from '@/components/FloatingNumber';
 import { ChequeredFlagIcon } from '@/components/icons/ChequeredFlagIcon';
 import { ServerPageError } from '@/components/ServerError';
 
-import LapTimeContainer from '@/app/[year]/[event]/[session]/lapTimes';
-import SectorTimes from '@/app/[year]/[event]/[session]/sectorTimes';
-import Stints from '@/app/[year]/[event]/[session]/stints';
 import {
   Session_Name_Choices_Enum,
   SessionResultsQuery,
   SessionResultsQueryVariables,
 } from '@/generated/types';
 
-// import LapTimeContainer from './lapTimes';
-// import SectorTimes from './sectorTimes';
-// import Stints from './stints';
+import LapTimeContainer from './lapTimes';
+import SectorTimes from './sectorTimes';
+import Stints from './stints';
 
 export const SessionResults = ({
   year,
@@ -142,7 +139,9 @@ export const SessionResults = ({
         >
           {chart === 'laps' && <LapTimeContainer />}
           {chart === 'sectors' && (
-            <SectorTimes driverSessions={driverSessions} />
+            <>
+              <SectorTimes />
+            </>
           )}
           {chart === 'stints' && <Stints />}
         </ChartViewController>
@@ -220,8 +219,8 @@ const ChartViewController = ({
   );
 };
 
-const formatSectorTimes = (time: bigint) =>
-  new Date(Number(time)).toISOString().slice(17, -1);
+// const formatSectorTimes = (time: bigint) =>
+//   new Date(Number(time)).toISOString().slice(17, -1);
 
 const positionDisplay = (position: string | number) => {
   const map: Record<string, string> = {
@@ -301,36 +300,6 @@ const SessionCard = ({
           </div>
         </div>
       )}
-      {ds.fastest_lap[0]?.sector1 &&
-        ds.fastest_lap[0]?.sector3 &&
-        ds.fastest_lap[0]?.sector3 && (
-          <div className='grid grid-cols-3 divide-x rounded border p-1 text-center text-sm'>
-            <div>
-              <span className='text-muted-foreground block text-xs'>S1</span>
-              <p>
-                {ds.fastest_lap[0]?.sector1
-                  ? formatSectorTimes(ds.fastest_lap[0].sector1)
-                  : 'N/A'}
-              </p>
-            </div>
-            <div>
-              <span className='text-muted-foreground block text-xs'>S2</span>
-              <p>
-                {ds.fastest_lap[0]?.sector2
-                  ? formatSectorTimes(ds.fastest_lap[0].sector2)
-                  : 'N/A'}
-              </p>
-            </div>
-            <div>
-              <span className='text-muted-foreground block text-xs'>S3</span>
-              <p>
-                {ds.fastest_lap[0]?.sector3
-                  ? formatSectorTimes(ds.fastest_lap[0].sector3)
-                  : 'N/A'}
-              </p>
-            </div>
-          </div>
-        )}
     </div>
   );
 };
