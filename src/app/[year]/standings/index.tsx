@@ -60,9 +60,20 @@ export const Standings = ({ season }: { season: number }) => {
     if (!driver) return;
     setHiddenDrivers((prev) => {
       const newState = { ...prev, [driver]: !prev[driver] };
-      if (!newState[driver]) {
+
+      // Check if all drivers for this constructor are hidden
+      const allDriversHidden = standings.drivers
+        .filter(
+          (d) => d.latest_constructor?.[0]?.constructor?.name === constructor,
+        )
+        .every((d) => newState[d.abbreviation || '']);
+
+      if (allDriversHidden) {
+        setHiddenTeams((prev) => ({ ...prev, [constructor]: true }));
+      } else {
         setHiddenTeams((prev) => ({ ...prev, [constructor]: false }));
       }
+
       return newState;
     });
   };
