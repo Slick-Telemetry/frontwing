@@ -147,9 +147,28 @@ const LapTimes = ({
 
   if (error || !data.sessions) return <ServerPageError />;
 
-  // Find fastest lap of race
-  // This will be used to compare other laptimes
-  const baselineLap = data.sessions[0].driver_sessions[0].laps[0].lap_time;
+  const driverSessions = data.sessions[0]?.driver_sessions || [];
+
+  // Find the first driver session with at least one lap that has a lap_time
+  const driverWithFirstLap = driverSessions.find(
+    (driverSession) =>
+      driverSession.laps &&
+      driverSession.laps.some((lap) => lap.lap_time !== null),
+  );
+
+  // Determine the baselineLap from the first completed lap of the found driver
+  const baselineLap = driverWithFirstLap?.laps?.find(
+    (lap) => lap.lap_time !== null,
+  )?.lap_time;
+
+  // If no completed laps are found across all drivers, display a message
+  if (baselineLap === null || baselineLap === undefined) {
+    return (
+      <div className='grid gap-4'>
+        No completed laps found to display raw lap times.
+      </div>
+    );
+  }
 
   return (
     <div className='grid gap-4'>
