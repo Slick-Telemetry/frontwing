@@ -1,16 +1,9 @@
 'use client';
 
-import { QueryRef } from '@apollo/client';
 import Link from 'next/link';
 import React from 'react';
 
 import { cn } from '@/lib/utils';
-
-import {
-  GetConstructorsQuery,
-  GetDriversQuery,
-  GetSeasonsQuery,
-} from '@/generated/types';
 
 import { DisplaySeasons } from './Seasons';
 import {
@@ -23,15 +16,7 @@ import {
   navigationMenuTriggerStyle,
 } from '../ui/navigation-menu';
 
-export function MainNav({
-  seasonQuery,
-  // driverQuery,
-  // constructorsQuery,
-}: {
-  seasonQuery: QueryRef<GetSeasonsQuery>;
-  constructorsQuery?: QueryRef<GetConstructorsQuery>;
-  driverQuery?: QueryRef<GetDriversQuery>;
-}) {
+export function MainNav() {
   return (
     <NavigationMenu className='hidden px-4 md:block'>
       <NavigationMenuList>
@@ -39,7 +24,7 @@ export function MainNav({
           <NavigationMenuTrigger>Seasons</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className='grid gap-3 p-3 md:w-[150px] lg:w-[200px] lg:grid-cols-2'>
-              <DisplaySeasons queryRef={seasonQuery} />
+              <DisplaySeasons />
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>

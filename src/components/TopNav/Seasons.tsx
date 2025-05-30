@@ -1,18 +1,24 @@
 'use client';
 
-import { QueryRef, useReadQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import Link from 'next/link';
+
+import { GET_SEASONS } from '@/lib/queries';
 
 import { ServerComponentError } from '@/components/ServerError';
 
-import { GetSeasonsQuery } from '@/generated/types';
+import { GetSeasonsQuery, GetSeasonsQueryVariables } from '@/generated/types';
 
-export function DisplaySeasons({
-  queryRef,
-}: {
-  queryRef: QueryRef<GetSeasonsQuery>;
-}) {
-  const { data, error } = useReadQuery<GetSeasonsQuery>(queryRef);
+export function DisplaySeasons() {
+  const { data, loading, error } = useQuery<
+    GetSeasonsQuery,
+    GetSeasonsQueryVariables
+  >(GET_SEASONS);
+
+  if (loading) {
+    return <div>Loading Seasons...</div>;
+  }
+
   if (error) return <ServerComponentError />;
 
   return data?.events.map(({ year }) => (
