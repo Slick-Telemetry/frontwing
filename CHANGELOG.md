@@ -1,3 +1,10 @@
+## 0.6.9 (2025-05-30)
+
+### Fix
+
+- **provisional-grid**: FRON-175 incorrect spacing
+- **standings**: FRON-167 disable team legend item with all drivers
+
 ## 0.6.8 (2025-05-29)
 
 ### Fix
