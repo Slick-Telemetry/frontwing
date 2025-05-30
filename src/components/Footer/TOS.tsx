@@ -1,5 +1,5 @@
 export const TOS = () => (
-  <div className='[&_h2]:font-black [&_h3]:font-bold [&_p]:mb-4 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-4'>
+  <div className='[&_a]:underline [&_h2]:font-black [&_h3]:font-bold [&_p]:mb-4 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-4'>
     <p>
       Please read these terms and conditions carefully before using Our Service.
     </p>
@@ -50,15 +50,7 @@ export const TOS = () => (
           <strong>Terms and Conditions</strong> (also referred as
           &quot;Terms&quot;) mean these Terms and Conditions that form the
           entire agreement between You and the Company regarding the use of the
-          Service. This Terms and Conditions agreement has been created with the
-          help of the{' '}
-          <a
-            href='https://www.freeprivacypolicy.com/free-terms-and-conditions-generator/'
-            target='_blank'
-          >
-            Free Terms and Conditions Generator
-          </a>
-          .
+          Service.
         </p>
       </li>
       <li>
@@ -276,10 +268,9 @@ export const TOS = () => (
     <h2>Contact Us</h2>
     <p>
       If you have any questions about these Terms and Conditions, You can
-      contact us:
+      contact us at{' '}
+      <a href='mailto:contact@slicktelemetry.com'>contact@slicktelemetry.com</a>
+      .
     </p>
-    <ul>
-      <li>By email: contact@slicktelemetry.com</li>
-    </ul>
   </div>
 );

@@ -2,6 +2,7 @@
 
 import { Mail } from 'lucide-react';
 
+import { AboutUs } from '@/components/Footer/AboutUs';
 import { TOS } from '@/components/Footer/TOS';
 import { GitHubIcon } from '@/components/icons/GitHubIcon';
 import { Button } from '@/components/ui/button';
@@ -53,6 +54,25 @@ function Footer() {
               </DialogDescription>
             </DialogHeader>
             <TOS />
+            <DialogFooter className='sm:justify-start'>
+              <DialogClose asChild>
+                <Button type='button' variant='secondary'>
+                  Close
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+        <Dialog>
+          <DialogTrigger>About Us</DialogTrigger>
+          <DialogContent className='max-h-[400px] overflow-scroll py-8 sm:max-h-[600px]'>
+            <DialogHeader className='text-left'>
+              <DialogTitle>About Slick Telemetry</DialogTitle>
+              <DialogDescription>
+                {/* You can add a brief tagline or date here if needed */}
+              </DialogDescription>
+            </DialogHeader>
+            <AboutUs />
             <DialogFooter className='sm:justify-start'>
               <DialogClose asChild>
                 <Button type='button' variant='secondary'>
