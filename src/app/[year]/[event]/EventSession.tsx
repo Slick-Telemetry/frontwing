@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 import {
@@ -28,13 +29,14 @@ export const EventSession = ({
 }) => {
   const [showGrid, setShowGrid] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
+
+  const url = `${pathname}/${eventLocationEncode(name)}`;
 
   return (
     <div className='rounded border' key={time}>
-      <div
+      <Link
+        href={url}
         className='bg-secondary text-secondary-foreground flex w-full cursor-pointer items-center justify-between p-4 py-2'
-        onClick={() => router.push(`${pathname}/${eventLocationEncode(name)}`)}
       >
         <div>
           <h2 className='mr-auto text-2xl font-black hover:underline'>
@@ -62,7 +64,7 @@ export const EventSession = ({
             </p>
           )}
         </div>
-      </div>
+      </Link>
       {time && new Date(time) < new Date() && (
         <div className='m-2'>
           <label className='flex items-center gap-2'>
