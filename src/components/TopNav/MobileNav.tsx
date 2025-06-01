@@ -1,9 +1,6 @@
-import { QueryRef } from '@apollo/client';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 
-import { DisplayConstructors } from '@/components/TopNav/Constructors';
-import { DisplayDrivers } from '@/components/TopNav/Drivers';
 import { DisplaySeasons } from '@/components/TopNav/Seasons';
 import {
   Accordion,
@@ -23,23 +20,9 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 
-import {
-  GetConstructorsQuery,
-  GetDriversQuery,
-  GetSeasonsQuery,
-} from '@/generated/types';
-
-export const MobileNav = ({
-  driverQuery,
-  seasonQuery,
-  constructorsQuery,
-}: {
-  driverQuery: QueryRef<GetDriversQuery>;
-  seasonQuery: QueryRef<GetSeasonsQuery>;
-  constructorsQuery: QueryRef<GetConstructorsQuery>;
-}) => {
+export const MobileNav = () => {
   return (
-    <nav className='bg-muted ring-primary fixed right-4 bottom-4 mx-auto flex h-12 w-12 items-center justify-center rounded ring md:hidden'>
+    <nav className='bg-muted ring-primary fixed right-4 bottom-4 z-50 mx-auto flex h-12 w-12 items-center justify-center rounded opacity-70 ring hover:opacity-100 md:hidden'>
       {/* Mobile Nav */}
       <Drawer>
         <DrawerTrigger>
@@ -57,19 +40,7 @@ export const MobileNav = ({
               <AccordionItem value='season'>
                 <AccordionTrigger>Season</AccordionTrigger>
                 <AccordionContent className='grid max-h-40 grid-cols-4 gap-2 overflow-scroll'>
-                  <DisplaySeasons queryRef={seasonQuery} asDrawer />
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value='drivers'>
-                <AccordionTrigger>Drivers</AccordionTrigger>
-                <AccordionContent className='grid max-h-40 grid-cols-2 gap-2 overflow-scroll'>
-                  <DisplayDrivers queryRef={driverQuery} asDrawer />
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value='constructors'>
-                <AccordionTrigger>Constructors</AccordionTrigger>
-                <AccordionContent className='grid max-h-40 grid-cols-2 gap-2 overflow-scroll'>
-                  <DisplayConstructors queryRef={constructorsQuery} asDrawer />
+                  <DisplaySeasons asDrawer />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

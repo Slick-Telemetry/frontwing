@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { MobileNav } from '@/components/TopNav/MobileNav';
+import { ServerStatus } from '@/components/TopNav/ServerStatus';
+
 import { MainNav } from './MainNav';
-import { MobileNav } from './MobileNav';
-import { ServerStatus } from './ServerStatus';
 
 export const TopNav = () => {
   return (
@@ -21,6 +22,7 @@ export const TopNav = () => {
         Slick Telemetry
       </Link>
       <MainNav />
+      <MobileNav />
 
       {/* Sidelined for v2 */}
       <div className='ml-auto flex items-center space-x-4'>

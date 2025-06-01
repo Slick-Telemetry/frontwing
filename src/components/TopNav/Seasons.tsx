@@ -10,7 +10,7 @@ import { DrawerClose } from '@/components/ui/drawer';
 
 import { GetSeasonsQuery, GetSeasonsQueryVariables } from '@/generated/types';
 
-export function DisplaySeasons() {
+export function DisplaySeasons({ asDrawer }: { asDrawer?: boolean }) {
   const { data, loading, error } = useQuery<
     GetSeasonsQuery,
     GetSeasonsQueryVariables
