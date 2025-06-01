@@ -226,20 +226,6 @@ const ChartViewController = ({
 };
 
 // const formatSectorTimes = (time: bigint) =>
-//   new Date(Number(time)).toISOString().slice(17, -1);
-
-  // Helper to pad with zero if needed
-  const pad = (n: number) => n.toString().padStart(2, '0');
-
-  if (hours === 0 && minutes === 0) {
-    return `${seconds}${millis}`;
-  }
-  if (hours === 0) {
-    return `${minutes}:${pad(seconds)}${millis}`;
-  }
-  return `${hours}:${pad(minutes)}:${pad(seconds)}${millis}`;
-};
-// const formatSectorTimes = (time: bigint) =>
 // new Date(Number(time)).toISOString().slice(17, -1);
 
 const positionDisplay = (position: string | number) => {
@@ -299,14 +285,14 @@ const SessionCard = ({
         <p className='text-muted-foreground text-xs'>&nbsp;</p> // Placeholder to maintain layout
       )}
       {/* {ds.fastest_lap[0]?.lap_time && (
-        <div className='items-cemter my-2 flex justify-between rounded border p-1'>
+        <div className='flex justify-between p-1 my-2 border rounded items-cemter'>
           <div className='grid'>
             <p className='text-xs'>Fastest Lap</p>
             <p className='text-2xl leading-6'>
               {formatLapTime(ds.fastest_lap[0].lap_time)}
             </p>
           </div>
-          <div className='ml-auto flex gap-2'>
+          <div className='flex gap-2 ml-auto'>
             <div className='grid text-center'>
               <p className='text-xs'>Lap</p>
               <p className='text-2xl leading-6'>
@@ -323,9 +309,9 @@ const SessionCard = ({
       {/* {ds.fastest_lap[0]?.sector1 &&
         ds.fastest_lap[0]?.sector3 &&
         ds.fastest_lap[0]?.sector3 && (
-          <div className='grid grid-cols-3 divide-x rounded border p-1 text-center text-sm'>
+          <div className='grid grid-cols-3 p-1 text-sm text-center border divide-x rounded'>
             <div>
-              <span className='text-muted-foreground block text-xs'>S1</span>
+              <span className='block text-xs text-muted-foreground'>S1</span>
               <p>
                 {ds.fastest_lap[0]?.sector1
                   ? formatSectorTimes(ds.fastest_lap[0].sector1)
@@ -333,7 +319,7 @@ const SessionCard = ({
               </p>
             </div>
             <div>
-              <span className='text-muted-foreground block text-xs'>S2</span>
+              <span className='block text-xs text-muted-foreground'>S2</span>
               <p>
                 {ds.fastest_lap[0]?.sector2
                   ? formatSectorTimes(ds.fastest_lap[0].sector2)
@@ -341,7 +327,7 @@ const SessionCard = ({
               </p>
             </div>
             <div>
-              <span className='text-muted-foreground block text-xs'>S3</span>
+              <span className='block text-xs text-muted-foreground'>S3</span>
               <p>
                 {ds.fastest_lap[0]?.sector3
                   ? formatSectorTimes(ds.fastest_lap[0].sector3)

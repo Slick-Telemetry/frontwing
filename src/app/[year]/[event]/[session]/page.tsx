@@ -4,8 +4,7 @@ import { PreloadQuery } from '@/lib/client';
 import { GET_SESSION_RESULTS } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
 
-import { FullHeightLoader } from '@/components/Loader';
-
+import SessionResultsSkeleton from '@/app/[year]/[event]/[session]/sessionResultsSkeleton';
 import { Header } from '@/app/[year]/[event]/Header';
 import { Session_Name_Choices_Enum } from '@/generated/types';
 
