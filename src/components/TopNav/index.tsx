@@ -1,9 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { PreloadQuery } from '@/lib/client';
-import { GET_SEASONS } from '@/lib/queries';
-
 import { MainNav } from './MainNav';
 import { ServerStatus } from './ServerStatus';
 
@@ -22,9 +19,7 @@ export const TopNav = () => {
         />
         Slick Telemetry
       </Link>
-      <PreloadQuery query={GET_SEASONS}>
-        <MainNav />
-      </PreloadQuery>
+      <MainNav />
 
       {/* Sidelined for v2 */}
       <div className='ml-auto flex items-center space-x-4'>
