@@ -1,3 +1,11 @@
+## 0.6.10 (2025-06-01)
+
+### Fix
+
+- **seasons-dropdown**: FRON-171 preload query not utilized
+- **seasons-dropdown**: FRON-171 use useQuery for fetching
+- **lap-times**: FRON-173 handle empty laps
+
 ## 0.6.9 (2025-05-30)
 
 ### Fix
