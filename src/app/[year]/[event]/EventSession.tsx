@@ -163,7 +163,7 @@ export const DriverHeadshot = ({
 }) => {
   const { headshot_url, abbreviation } = driver || {};
   return (
-    <div className='items-center text-center md:flex'>
+    <div className='items-center text-center even:mt-4 md:flex even:md:mt-0 md:even:ml-4'>
       <p className='opacity-50'>{position}</p>
       <div className='border-muted flex flex-col items-center justify-center gap-1 border-t-2 pt-1 md:ml-1 md:flex-row md:border-t-0 md:border-l-2 md:pt-0 md:pl-1'>
         {headshot_url && (
@@ -171,7 +171,7 @@ export const DriverHeadshot = ({
             src={headshot_url}
             width={64}
             height={64}
-            className='h-16 w-16 md:hidden xl:block xl:h-8 xl:w-8'
+            className='h-16 w-16 md:hidden xl:h-8 xl:w-8 2xl:block'
             alt={abbreviation || ''}
           />
         )}
