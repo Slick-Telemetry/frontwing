@@ -3,7 +3,7 @@
 import { useQuery } from '@apollo/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { use, useMemo } from 'react';
+import { use, useEffect, useMemo } from 'react';
 
 import { GET_EVENT_DETAILS, GET_EVENT_SCHEDULE } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
@@ -40,6 +40,7 @@ const EventPage = ({
   params: Promise<{ year: string; event: string }>;
 }) => {
   const { year, event: eventLoc } = use(params);
+  const abortController = useMemo(() => new AbortController(), []);
 
   const { loading, data, error } = useQuery<
     GetEventScheduleQuery,
@@ -64,6 +65,7 @@ const EventPage = ({
       year: parseInt(year),
       event: eventLocationDecode(eventLoc),
     },
+    context: { fetch: { signal: abortController.signal } },
   });
 
   const sessions = useMemo(() => {
@@ -86,6 +88,13 @@ const EventPage = ({
           ),
       );
   }, [eventDetailsData]);
+
+  useEffect(() => {
+    return () => {
+      // Cleanup abort controller on unmount
+      abortController.abort();
+    };
+  }, [abortController]);
 
   if (loading) return <FullHeightLoader />;
   if (error) return <ServerPageError msg='Failed to load event details.' />;
