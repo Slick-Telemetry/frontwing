@@ -47,7 +47,10 @@ const SeasonSelector = ({ year }: { year: number }) => {
   };
 
   return (
-    <Select onValueChange={(val) => handleSeasonChange(val)}>
+    <Select
+      value={year.toString()}
+      onValueChange={(val) => handleSeasonChange(val)}
+    >
       <SelectTrigger className='w-24'>
         <SelectValue placeholder={year} />
       </SelectTrigger>
@@ -55,7 +58,7 @@ const SeasonSelector = ({ year }: { year: number }) => {
         {events.map(
           ({ year }) =>
             year && (
-              <SelectItem key={year} value={year + ''}>
+              <SelectItem key={year} value={year.toString()}>
                 {year}
               </SelectItem>
             ),
