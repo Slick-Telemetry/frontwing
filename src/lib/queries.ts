@@ -307,6 +307,29 @@ export const GET_STANDINGS = gql`
   }
 `;
 
+export const GET_SESSION = gql`
+  query Session(
+    $year: Int!
+    $event: String!
+    $session: session_name_choices_enum!
+  ) @cached {
+    sessions(
+      limit: 1
+      where: {
+        event: { year: { _eq: $year }, location: { _eq: $event } }
+        name: { _eq: $session }
+      }
+    ) {
+      name
+      scheduled_laps
+      scheduled_start_time_utc
+      event {
+        name
+      }
+    }
+  }
+`;
+
 export const GET_SESSION_RESULTS = gql`
   query SessionResults(
     $year: Int!

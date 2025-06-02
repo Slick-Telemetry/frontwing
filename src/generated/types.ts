@@ -8376,6 +8376,15 @@ export type GetStandingsQueryVariables = Exact<{
 
 export type GetStandingsQuery = { __typename?: 'query_root', drivers: Array<{ __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null, latest_constructor: Array<{ __typename?: 'driver_sessions', constructor?: { __typename?: 'constructors', name?: string | null, color?: string | null } | null }>, driver_standings: Array<{ __typename?: 'driver_standings', round?: number | null, points?: bigint | number | null, position?: number | null }> }>, constructors: Array<{ __typename?: 'constructors', name?: string | null, color?: string | null, constructor_standings: Array<{ __typename?: 'constructor_standings', round?: number | null, points?: bigint | number | null, position?: number | null }> }> };
 
+export type SessionQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+  event: Scalars['String']['input'];
+  session: Session_Name_Choices_Enum;
+}>;
+
+
+export type SessionQuery = { __typename?: 'query_root', sessions: Array<{ __typename?: 'sessions', name?: Session_Name_Choices_Enum | null, scheduled_laps?: number | null, scheduled_start_time_utc?: string | null, event?: { __typename?: 'events', name?: string | null } | null }> };
+
 export type SessionResultsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
   event: Scalars['String']['input'];
@@ -9016,6 +9025,56 @@ export type GetStandingsQueryHookResult = ReturnType<typeof useGetStandingsQuery
 export type GetStandingsLazyQueryHookResult = ReturnType<typeof useGetStandingsLazyQuery>;
 export type GetStandingsSuspenseQueryHookResult = ReturnType<typeof useGetStandingsSuspenseQuery>;
 export type GetStandingsQueryResult = Apollo.QueryResult<GetStandingsQuery, GetStandingsQueryVariables>;
+export const SessionDocument = gql`
+    query Session($year: Int!, $event: String!, $session: session_name_choices_enum!) @cached {
+  sessions(
+    limit: 1
+    where: {event: {year: {_eq: $year}, location: {_eq: $event}}, name: {_eq: $session}}
+  ) {
+    name
+    scheduled_laps
+    scheduled_start_time_utc
+    event {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useSessionQuery__
+ *
+ * To run a query within a React component, call `useSessionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSessionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSessionQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *      event: // value for 'event'
+ *      session: // value for 'session'
+ *   },
+ * });
+ */
+export function useSessionQuery(baseOptions: Apollo.QueryHookOptions<SessionQuery, SessionQueryVariables> & ({ variables: SessionQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SessionQuery, SessionQueryVariables>(SessionDocument, options);
+      }
+export function useSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SessionQuery, SessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SessionQuery, SessionQueryVariables>(SessionDocument, options);
+        }
+export function useSessionSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SessionQuery, SessionQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SessionQuery, SessionQueryVariables>(SessionDocument, options);
+        }
+export type SessionQueryHookResult = ReturnType<typeof useSessionQuery>;
+export type SessionLazyQueryHookResult = ReturnType<typeof useSessionLazyQuery>;
+export type SessionSuspenseQueryHookResult = ReturnType<typeof useSessionSuspenseQuery>;
+export type SessionQueryResult = Apollo.QueryResult<SessionQuery, SessionQueryVariables>;
 export const SessionResultsDocument = gql`
     query SessionResults($year: Int!, $event: String!, $session: session_name_choices_enum!) @cached {
   sessions(

@@ -239,3 +239,20 @@ export const sortQuali = (
       );
     });
 };
+
+export const positionDisplay = (position: string | number) => {
+  const map: Record<string, string> = {
+    R: 'Retired',
+    D: 'Disqualified',
+    E: 'Excluded',
+    W: 'Withdrawn',
+    F: 'Failed to Qualify',
+    N: 'Not Classified',
+  };
+  // If position is a number or a string that can be converted to a number, show the number
+  if (!isNaN(Number(position))) {
+    return position + positionEnding(position);
+  }
+  // Otherwise, show the mapped value or the original string
+  return map[String(position)] || position;
+};
