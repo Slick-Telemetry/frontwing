@@ -14,7 +14,6 @@ import {
 } from '@/lib/utils';
 
 import { EventTypeBadge } from '@/components/EventTypeBadge';
-import { FloatingNumber } from '@/components/FloatingNumber';
 
 import { MapEvent } from '@/generated/customTypes';
 
@@ -94,13 +93,12 @@ export const MapPopup = ({
       maxWidth='unset'
       className='overflow-hidden text-sm shadow'
     >
-      <div className='relative grid'>
-        {/* Floating Round Number */}
-        <FloatingNumber className='-top-8 right-4'></FloatingNumber>
-
+      <div className='grid'>
         {/* Top Row */}
-        <div className='flex items-center justify-between'>
-          <div className='flex gap-2'>
+        <div className='flex items-center justify-between gap-2'>
+          <div className='divide-foreground flex items-center gap-2 divide-x [&>:not(:last-child)]:pr-2'>
+            <p>Round {event.round_number}</p>
+
             {/* ZoomIn and ZoomOut as one */}
             <div
               onClick={toggleZoom}
@@ -119,9 +117,9 @@ export const MapPopup = ({
         {/* Event Name Link */}
         <Link
           href={`/${eventUrl || ''}`}
-          className='text-xl font-medium hover:underline'
+          className='my-2 w-fit text-xl leading-6 font-medium hover:underline'
         >
-          {event.round_number} {event.name}{' '}
+          {event.name}{' '}
           {circuit &&
             circuit.country &&
             getCountryFlagByCountryName(circuit.country)}
@@ -158,14 +156,14 @@ const TopThreeDrivers = ({
   });
 
   return (
-    <div className='grid grid-cols-3 gap-2'>
+    <div className='grid-cols-3 gap-2'>
       {sortedSessions.map(
         ({ driver, constructorByConstructorId, results }) =>
           driver &&
           constructorByConstructorId && (
             <div
               key={driver.full_name}
-              className='flex flex-col justify-end rounded-lg p-2'
+              className='flex items-center justify-start gap-2 rounded-lg p-1 px-2'
               style={{
                 background: constructorByConstructorId.color
                   ? bgGradient(constructorByConstructorId.color)
@@ -174,7 +172,7 @@ const TopThreeDrivers = ({
             >
               <div className='flex items-center justify-center'>
                 {results && results[0].classified_position && (
-                  <p className='-mr-4 pb-2 text-center text-4xl font-medium italic opacity-75'>
+                  <p className='-mr-2 text-center text-2xl font-medium italic opacity-75'>
                     {results[0].classified_position}
                     <span className='text-base'>
                       {positionEnding(results[0].classified_position)}
@@ -185,8 +183,8 @@ const TopThreeDrivers = ({
                   <Image
                     className='z-10'
                     src={driver.headshot_url}
-                    width={64}
-                    height={64}
+                    width={40}
+                    height={40}
                     alt={driver?.full_name || ''}
                   />
                 )}
