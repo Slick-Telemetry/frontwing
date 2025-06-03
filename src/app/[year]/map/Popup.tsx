@@ -92,16 +92,14 @@ export const MapPopup = ({
       closeButton={false}
       anchor='bottom'
       maxWidth='unset'
-      className='overflow-hidden text-sm'
+      className='overflow-hidden text-sm shadow'
     >
-      <div className='relative grid min-w-xs'>
+      <div className='relative grid'>
         {/* Floating Round Number */}
-        <FloatingNumber className='-top-8 right-4'>
-          {event.round_number}
-        </FloatingNumber>
+        <FloatingNumber className='-top-8 right-4'></FloatingNumber>
 
         {/* Top Row */}
-        <div className='mb-1 flex items-center justify-between'>
+        <div className='flex items-center justify-between'>
           <div className='flex gap-2'>
             {/* ZoomIn and ZoomOut as one */}
             <div
@@ -121,9 +119,9 @@ export const MapPopup = ({
         {/* Event Name Link */}
         <Link
           href={`/${eventUrl || ''}`}
-          className='mb-1 text-2xl font-medium hover:underline'
+          className='text-xl font-medium hover:underline'
         >
-          {event.name}{' '}
+          {event.round_number} {event.name}{' '}
           {circuit &&
             circuit.country &&
             getCountryFlagByCountryName(circuit.country)}
@@ -167,16 +165,16 @@ const TopThreeDrivers = ({
           constructorByConstructorId && (
             <div
               key={driver.full_name}
-              className='grid items-center gap-1 rounded-lg p-2 nth-2:mt-2 nth-3:mt-4'
+              className='flex flex-col justify-end rounded-lg p-2'
               style={{
                 background: constructorByConstructorId.color
                   ? bgGradient(constructorByConstructorId.color)
                   : 'initial',
               }}
             >
-              <div className='flex'>
+              <div className='flex items-center justify-center'>
                 {results && results[0].classified_position && (
-                  <p className='flex items-start text-4xl font-medium italic opacity-75'>
+                  <p className='-mr-4 pb-2 text-center text-4xl font-medium italic opacity-75'>
                     {results[0].classified_position}
                     <span className='text-base'>
                       {positionEnding(results[0].classified_position)}
@@ -185,10 +183,10 @@ const TopThreeDrivers = ({
                 )}
                 {driver.headshot_url && (
                   <Image
-                    className='mx-auto'
+                    className='z-10'
                     src={driver.headshot_url}
-                    width={60}
-                    height={60}
+                    width={64}
+                    height={64}
                     alt={driver?.full_name || ''}
                   />
                 )}

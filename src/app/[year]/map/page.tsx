@@ -3,7 +3,8 @@
 import { useQuery } from '@apollo/client';
 import clsx from 'clsx';
 import { Earth } from 'lucide-react';
-import React, { Fragment, use, useEffect, useMemo, useState } from 'react';
+import { useParams } from 'next/navigation';
+import React, { Fragment, useMemo, useState } from 'react';
 import Map from 'react-map-gl/mapbox';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -32,8 +33,30 @@ const initialView = {
   zoom: 2,
 };
 
-const WorldMap = ({ params }: { params: Promise<{ year: string }> }) => {
-  const { year } = use(params);
+const WorldMap = () => {
+  // We custom load state for map to load
+  // This prevents issues rending the custom line layers
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <div className='relative flex h-[700px] w-full items-center justify-center'>
+      <Map
+        reuseMaps
+        initialViewState={initialView}
+        mapStyle='mapbox://styles/mapbox/standard-satellite' // Use any Mapbox style
+        mapboxAccessToken={MAPBOX_TOKEN}
+        projection={{ name: 'globe' }}
+        onLoad={() => setLoading(false)}
+      >
+        {!loading && <MapContent />}
+      </Map>
+      <MapLoader loading={loading} />
+    </div>
+  );
+};
+
+const MapContent = () => {
+  const { year } = useParams<{ year: string }>();
 
   const { data, error } = useQuery<
     GetMapEventsQuery,
@@ -42,15 +65,12 @@ const WorldMap = ({ params }: { params: Promise<{ year: string }> }) => {
     variables: { year: parseInt(year) },
   });
 
-  // We custom load state for map to load
-  // This prevents issues rending the custom line layers
-  const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<MapEvent | null>(null);
 
   // Set focus on first locatoin
-  useEffect(() => {
-    if (data?.events) setSelectedEvent(data.events[0]);
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.events) setSelectedEvent(data.events[0]);
+  // }, [data]);
 
   // Legend Element
   const LegendMemo = useMemo(() => {
@@ -74,13 +94,11 @@ const WorldMap = ({ params }: { params: Promise<{ year: string }> }) => {
           />
 
           {/* Map needs to load first */}
-          {loading ? null : (
-            <ConnectionLine event={event} color={color} prevEvent={nextEvent} />
-          )}
+          <ConnectionLine event={event} color={color} prevEvent={nextEvent} />
         </Fragment>
       );
     });
-  }, [data, loading]);
+  }, [data]);
 
   if (error) return <ServerPageError />;
 
@@ -98,38 +116,27 @@ const WorldMap = ({ params }: { params: Promise<{ year: string }> }) => {
   };
 
   return (
-    <div className='relative flex h-[700px] w-full items-center justify-center'>
-      <Map
-        reuseMaps
-        initialViewState={initialView}
-        mapStyle='mapbox://styles/mapbox/standard-satellite' // Use any Mapbox style
-        mapboxAccessToken={MAPBOX_TOKEN}
-        projection={{ name: 'globe' }}
-        onLoad={() => setLoading(false)}
-      >
-        {/* Legend */}
-        {LegendMemo}
+    <>
+      {/* Legend */}
+      {LegendMemo}
 
-        {/* Markers & Connecting Lines */}
-        {MarkersLinesMemo}
+      {/* Markers & Connecting Lines */}
+      {MarkersLinesMemo}
 
-        {/* Popup */}
-        {selectedEvent && (
-          <MapPopup
-            event={selectedEvent}
-            handleClose={() => setSelectedEvent(null)}
-          >
-            {/* Prev and Next Event Buttons */}
-            <PrevNextButtons
-              events={data?.events}
-              selectedEvent={selectedEvent}
-              handleAdjacent={handleAdjacent}
-            />
-          </MapPopup>
-        )}
-      </Map>
-      <MapLoader loading={loading} />
-    </div>
+      {/* Popup */}
+      {selectedEvent && (
+        <MapPopup
+          event={selectedEvent}
+          handleClose={() => setSelectedEvent(null)}
+        >
+          <PrevNextButtons
+            events={data?.events}
+            selectedEvent={selectedEvent}
+            handleAdjacent={handleAdjacent}
+          />
+        </MapPopup>
+      )}
+    </>
   );
 };
 

@@ -20,7 +20,7 @@ export const PrevNextButtons = ({
   )?.location;
 
   return (
-    <div className='border-background mt-2 -mb-1 grid grid-cols-2 gap-4 border-t pt-2'>
+    <div className='border-background -mb-1 grid grid-cols-2 gap-4 border-t pt-2'>
       {prevLocation && (
         <div
           className='mr-auto flex cursor-pointer items-center'
