@@ -16,9 +16,9 @@ import { useMemo } from 'react';
 import { GET_SESSION_STINTS } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
 
-import { Loader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
 
+import { StintSkeleton } from '@/app/[year]/[event]/[session]/StintSelecton';
 import {
   GetSessionStintsQuery,
   GetSessionStintsQueryVariables,
@@ -101,148 +101,145 @@ const Stints = () => {
 
   const { processedData, maxLaps } = data;
 
-  if (loading)
-    return (
-      <div className='flex h-96 items-center justify-center'>
-        <Loader />
-      </div>
-    );
+  if (loading) return <StintSkeleton />;
   if (error || !sessionData) return <ServerPageError />;
 
   return (
-    <div className='h-[600px] rounded border p-2'>
-      <h3 className='text-center text-lg font-semibold'>Tyre Analysis</h3>
-      <ParentSize key='stintTyres'>
-        {({ width, height }) => (
-          <XYChart
-            xScale={{ type: 'linear', domain: [0, maxLaps + 1] }}
-            yScale={{ type: 'band', padding: 0.2 }}
-            width={width}
-            height={height}
-            margin={margin}
-          >
-            {/* Define Patterns in <defs> */}
-            <defs>
-              {processedData?.flatMap((driverData) =>
-                driverData.stints.map((stint) => {
-                  if (!stint.freshTyre) {
+    <>
+      <div className='h-[600px] rounded border p-2'>
+        <h3 className='text-center text-lg font-semibold'>Tyre Analysis</h3>
+        <ParentSize key='stintTyres'>
+          {({ width, height }) => (
+            <XYChart
+              xScale={{ type: 'linear', domain: [0, maxLaps + 1] }}
+              yScale={{ type: 'band', padding: 0.2 }}
+              width={width}
+              height={height}
+              margin={margin}
+            >
+              {/* Define Patterns in <defs> */}
+              <defs>
+                {processedData?.flatMap((driverData) =>
+                  driverData.stints.map((stint) => {
+                    if (!stint.freshTyre) {
+                      const compound = stint.tyreCompound.toLowerCase();
+                      const type = stint.freshTyre ? 'new' : 'old';
+                      const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
+
+                      return (
+                        <PatternLines
+                          key={patternId}
+                          id={patternId}
+                          height={6}
+                          width={6}
+                          stroke='black'
+                          strokeWidth={1}
+                          orientation={['diagonal']}
+                          background={`var(--${compound}-${type})`} // Use the calculated compoundColor
+                        />
+                      );
+                    }
+                    return null;
+                  }),
+                )}
+              </defs>
+              {/* X and Y Axes */}
+              <Axis
+                orientation='bottom'
+                label='Lap Number'
+                tickLabelProps={() => ({
+                  fill: 'var(--color-foreground)',
+                })}
+                labelClassName='fill-foreground'
+                tickClassName='fill-foreground'
+              />
+              <Axis
+                orientation='left'
+                labelOffset={16}
+                numTicks={processedData?.length}
+                label='Drivers'
+                tickStroke='white'
+                tickLabelProps={() => ({
+                  fill: 'var(--color-foreground)',
+                })}
+                labelClassName='fill-foreground'
+                tickClassName='fill-foreground'
+              />
+
+              {/* Stacked Bars for Stints */}
+              {processedData?.flatMap((driverData) => (
+                <BarStack key={driverData.driver}>
+                  {driverData.stints.map((stint) => {
                     const compound = stint.tyreCompound.toLowerCase();
                     const type = stint.freshTyre ? 'new' : 'old';
-                    const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
 
+                    // Define a pattern ID for old tyres
+                    const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
                     return (
-                      <PatternLines
-                        key={patternId}
-                        id={patternId}
-                        height={6}
-                        width={6}
-                        stroke='black'
-                        strokeWidth={1}
-                        orientation={['diagonal']}
-                        background={`var(--${compound}-${type})`} // Use the calculated compoundColor
+                      <AnimatedBarSeries
+                        radius={4}
+                        radiusAll
+                        key={`${driverData.driver}-stint-${stint.startLap}`}
+                        dataKey={`${driverData.driver}-stint-${stint.startLap}`}
+                        data={[stint]}
+                        xAccessor={(d) => d.endLap - d.startLap + 1}
+                        yAccessor={(d) => d.driver}
+                        colorAccessor={() =>
+                          stint.freshTyre
+                            ? `var(--${compound}-${type})`
+                            : `url(#${patternId})`
+                        } // Use pattern for old tyres
                       />
                     );
-                  }
-                  return null;
-                }),
-              )}
-            </defs>
-            {/* X and Y Axes */}
-            <Axis
-              orientation='bottom'
-              label='Lap Number'
-              tickLabelProps={() => ({
-                fill: 'var(--color-foreground)',
-              })}
-              labelClassName='fill-foreground'
-              tickClassName='fill-foreground'
-            />
-            <Axis
-              orientation='left'
-              labelOffset={16}
-              numTicks={processedData?.length}
-              label='Drivers'
-              tickStroke='white'
-              tickLabelProps={() => ({
-                fill: 'var(--color-foreground)',
-              })}
-              labelClassName='fill-foreground'
-              tickClassName='fill-foreground'
-            />
+                  })}
+                </BarStack>
+              ))}
 
-            {/* Stacked Bars for Stints */}
-            {processedData?.flatMap((driverData) => (
-              <BarStack key={driverData.driver}>
-                {driverData.stints.map((stint) => {
-                  const compound = stint.tyreCompound.toLowerCase();
-                  const type = stint.freshTyre ? 'new' : 'old';
-
-                  // Define a pattern ID for old tyres
-                  const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
+              {/* Tooltip */}
+              <Tooltip
+                showVerticalCrosshair
+                renderTooltip={({ tooltipData }) => {
+                  if (!tooltipData?.nearestDatum) return null;
+                  const {
+                    startLap,
+                    endLap,
+                    tyreLife,
+                    stint,
+                    tyreCompound,
+                    freshTyre,
+                    driver,
+                  } = tooltipData.nearestDatum.datum as Stint;
                   return (
-                    <AnimatedBarSeries
-                      radius={4}
-                      radiusAll
-                      key={`${driverData.driver}-stint-${stint.startLap}`}
-                      dataKey={`${driverData.driver}-stint-${stint.startLap}`}
-                      data={[stint]}
-                      xAccessor={(d) => d.endLap - d.startLap + 1}
-                      yAccessor={(d) => d.driver}
-                      colorAccessor={() =>
-                        stint.freshTyre
-                          ? `var(--${compound}-${type})`
-                          : `url(#${patternId})`
-                      } // Use pattern for old tyres
-                    />
+                    <>
+                      <div>
+                        <strong>
+                          <u>{driver}</u>
+                        </strong>
+                      </div>
+                      <div>
+                        <strong>Stint:</strong> {stint}
+                      </div>
+                      <div>
+                        <strong>Laps:</strong> {startLap} - {endLap}
+                      </div>
+                      <div>
+                        <strong>Tyre Life:</strong> {tyreLife}
+                      </div>
+                      <div>
+                        <strong>Compound:</strong> {tyreCompound}
+                      </div>
+                      <div>
+                        <strong>Condition:</strong> {freshTyre ? 'NEW' : 'OLD'}
+                      </div>
+                    </>
                   );
-                })}
-              </BarStack>
-            ))}
-
-            {/* Tooltip */}
-            <Tooltip
-              showVerticalCrosshair
-              renderTooltip={({ tooltipData }) => {
-                if (!tooltipData?.nearestDatum) return null;
-                const {
-                  startLap,
-                  endLap,
-                  tyreLife,
-                  stint,
-                  tyreCompound,
-                  freshTyre,
-                  driver,
-                } = tooltipData.nearestDatum.datum as Stint;
-                return (
-                  <>
-                    <div>
-                      <strong>
-                        <u>{driver}</u>
-                      </strong>
-                    </div>
-                    <div>
-                      <strong>Stint:</strong> {stint}
-                    </div>
-                    <div>
-                      <strong>Laps:</strong> {startLap} - {endLap}
-                    </div>
-                    <div>
-                      <strong>Tyre Life:</strong> {tyreLife}
-                    </div>
-                    <div>
-                      <strong>Compound:</strong> {tyreCompound}
-                    </div>
-                    <div>
-                      <strong>Condition:</strong> {freshTyre ? 'NEW' : 'OLD'}
-                    </div>
-                  </>
-                );
-              }}
-            />
-          </XYChart>
-        )}
-      </ParentSize>
-    </div>
+                }}
+              />
+            </XYChart>
+          )}
+        </ParentSize>
+      </div>
+    </>
   );
 };
 

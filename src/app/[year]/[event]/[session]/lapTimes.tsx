@@ -1,18 +1,18 @@
 'use client';
 
-import { QueryRef, useBackgroundQuery, useReadQuery } from '@apollo/client';
+import { QueryResult, useQuery } from '@apollo/client';
 import { curveCatmullRom } from '@visx/curve';
 import { ParentSize } from '@visx/responsive';
 import { Axis, Grid, LineSeries, Tooltip, XYChart } from '@visx/xychart';
 import { useParams } from 'next/navigation';
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import { GET_SESSION_LAP_TIMES } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
 
-import { FullHeightLoader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
 
+import { LineChartSkeleton } from '@/app/[year]/[event]/[session]/LineChartSkeleton';
 import {
   GetSessionLapTimesQuery,
   GetSessionLapTimesQueryVariables,
@@ -24,7 +24,7 @@ const margin = { top: 20, right: 30, bottom: 50, left: 60 };
 const LapTimeContainer = () => {
   const { year, event, session } = useParams();
 
-  const [queryRef] = useBackgroundQuery<
+  const queryState = useQuery<
     GetSessionLapTimesQuery,
     GetSessionLapTimesQueryVariables
   >(GET_SESSION_LAP_TIMES, {
@@ -45,56 +45,58 @@ const LapTimeContainer = () => {
     'qualifying',
   ].includes(session as string);
 
+  if (queryState.error || (!queryState.data?.sessions && !queryState.loading))
+    return <ServerPageError />;
+
   return (
-    <Suspense fallback={<FullHeightLoader />}>
-      {session && competition && <DeltaToWinner queryRef={queryRef} />}
-      {/* {session && competition && <PositionChanges queryRef={queryRef} />} */}
-      <LapTimes queryRef={queryRef} />
-    </Suspense>
+    <div className='grid gap-4'>
+      {session && competition && <DeltaToWinner {...queryState} />}
+      <LapTimes {...queryState} />
+    </div>
   );
 };
 
 const DeltaToWinner = ({
-  queryRef,
-}: {
-  queryRef: QueryRef<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>;
-}) => {
-  const { data, error } = useReadQuery(queryRef);
+  data,
+  loading,
+}: QueryResult<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>) => {
+  if (loading) {
+    return (
+      <LineChartSkeleton title='Delta to Fastest Lap (Practice) or Winner' />
+    );
+  }
 
-  if (error || !data.sessions) return <ServerPageError />;
-
-  const driverData = data.sessions[0].driver_sessions;
-  const firstPlaceLaps = driverData[0].laps;
+  const driverData = data?.sessions[0].driver_sessions || [];
+  const firstPlaceLaps = driverData[0]?.laps;
 
   return (
-    <div className='grid gap-4'>
-      <LineChart title='Delta to Fastest Lap (Practice) or Winner'>
-        {driverData.map((driver) => {
-          const color = `#${driver.constructorByConstructorId?.color || 'cccccc'}`;
-          const lapData = driver.laps
-            .filter((lap) => !!lap.lap_number)
-            .map((lap, i) => {
-              return {
-                ...lap,
-                delta_time:
-                  (Number(firstPlaceLaps[i]?.session_time || 0) -
-                    Number(lap.session_time || 0)) /
-                  1000,
-                color: color,
-              };
-            });
-          return (
-            <React.Fragment key={driver.driver?.abbreviation}>
-              <LineSeries
-                curve={curveCatmullRom}
-                dataKey={driver.driver?.abbreviation as string}
-                data={lapData}
-                colorAccessor={() => color}
-                strokeWidth={2}
-                xAccessor={(d) => d.lap_number}
-                yAccessor={(d) => d.delta_time}
-              />
-              {/* <GlyphSeries
+    <LineChart title='Delta to Fastest Lap (Practice) or Winner'>
+      {driverData.map((driver) => {
+        const color = `#${driver.constructorByConstructorId?.color || 'cccccc'}`;
+        const lapData = driver.laps
+          .filter((lap) => !!lap.lap_number)
+          .map((lap, i) => {
+            return {
+              ...lap,
+              delta_time:
+                (Number(firstPlaceLaps[i]?.session_time || 0) -
+                  Number(lap.session_time || 0)) /
+                1000,
+              color: color,
+            };
+          });
+        return (
+          <React.Fragment key={driver.driver?.abbreviation}>
+            <LineSeries
+              curve={curveCatmullRom}
+              dataKey={driver.driver?.abbreviation as string}
+              data={lapData}
+              colorAccessor={() => color}
+              strokeWidth={2}
+              xAccessor={(d) => d.lap_number}
+              yAccessor={(d) => d.delta_time}
+            />
+            {/* <GlyphSeries
                 key={`${driver.driver?.abbreviation}-glyphs`}
                 dataKey={`${driver.driver?.abbreviation}-glyphs`}
                 data={lapData}
@@ -108,46 +110,44 @@ const DeltaToWinner = ({
                   <GlyphDot cx={x} cy={y} r={4} fill={color} />
                 )}
               /> */}
-            </React.Fragment>
-          );
-        })}
+          </React.Fragment>
+        );
+      })}
 
-        <Tooltip
-          snapTooltipToDatumX
-          snapTooltipToDatumY
-          showVerticalCrosshair
-          showHorizontalCrosshair
-          renderTooltip={({ tooltipData }) => {
-            // console.log('tooltipData', tooltipData);
-            const driverStats = tooltipData?.nearestDatum;
-            return (
-              <>
-                {(driverStats && driverStats.key) || 'No Driver'}
-                <br />
-                <div>
-                  {/* TODO:  Convert to min, seconds, milliseconds */}
-                  {/* <p>{driverStats.datum.delta_time}</p>
+      <Tooltip
+        snapTooltipToDatumX
+        snapTooltipToDatumY
+        showVerticalCrosshair
+        showHorizontalCrosshair
+        renderTooltip={({ tooltipData }) => {
+          // console.log('tooltipData', tooltipData);
+          const driverStats = tooltipData?.nearestDatum;
+          return (
+            <>
+              {(driverStats && driverStats.key) || 'No Driver'}
+              <br />
+              <div>
+                {/* TODO:  Convert to min, seconds, milliseconds */}
+                {/* <p>{driverStats.datum.delta_time}</p>
                   <p>{driverStats.datum.compound}</p> */}
-                </div>
-              </>
-            );
-          }}
-        />
-      </LineChart>
-    </div>
+              </div>
+            </>
+          );
+        }}
+      />
+    </LineChart>
   );
 };
 
 const LapTimes = ({
-  queryRef,
-}: {
-  queryRef: QueryRef<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>;
-}) => {
-  const { data, error } = useReadQuery(queryRef);
+  data,
+  loading,
+}: QueryResult<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>) => {
+  if (loading) {
+    return <LineChartSkeleton title='Raw Lap Times' />;
+  }
 
-  if (error || !data.sessions) return <ServerPageError />;
-
-  const driverSessions = data.sessions[0]?.driver_sessions || [];
+  const driverSessions = data?.sessions[0]?.driver_sessions || [];
 
   // Find the first driver session with at least one lap that has a lap_time
   const driverWithFirstLap = driverSessions.find(
@@ -162,7 +162,11 @@ const LapTimes = ({
   )?.lap_time;
 
   // If no completed laps are found across all drivers, display a message
-  if (baselineLap === null || baselineLap === undefined) {
+  if (
+    baselineLap === null ||
+    baselineLap === undefined ||
+    driverSessions.length === 0
+  ) {
     return (
       <div className='grid gap-4'>
         No completed laps found to display raw lap times.
@@ -171,56 +175,53 @@ const LapTimes = ({
   }
 
   return (
-    <div className='grid gap-4'>
-      <LineChart title='Raw Lap Times' yScaleType='log'>
-        {data.sessions[0].driver_sessions.map((driver) => {
-          // console.log('lap difference',  Number(driver.laps[0].lap_time) - Number(fastestLap))
-          const color = `#${driver.constructorByConstructorId?.color || 'cccccc'}`;
-          return (
-            <LineSeries
-              curve={curveCatmullRom}
-              key={driver.driver?.abbreviation}
-              dataKey={driver.driver?.abbreviation as string}
-              data={driver.laps
-                .filter((lap) => !!lap.lap_number)
-                .map((lap) => {
-                  return {
-                    ...lap,
-                    delta_time:
-                      (Number(baselineLap) - Number(lap.lap_time)) / 1000,
-                    color: color,
-                  };
-                })}
-              colorAccessor={() => color}
-              strokeWidth={2}
-              xAccessor={(d) => d.lap_number}
-              yAccessor={(d) => d.lap_time}
-            />
-          );
-        })}
+    <LineChart title='Raw Lap Times' yScaleType='log'>
+      {driverSessions.map((driver) => {
+        // console.log('lap difference',  Number(driver.laps[0].lap_time) - Number(fastestLap))
+        const color = `#${driver.constructorByConstructorId?.color || 'cccccc'}`;
+        return (
+          <LineSeries
+            curve={curveCatmullRom}
+            key={driver.driver?.abbreviation}
+            dataKey={driver.driver?.abbreviation as string}
+            data={driver.laps
+              .filter((lap) => !!lap.lap_number)
+              .map((lap) => {
+                return {
+                  ...lap,
+                  delta_time:
+                    (Number(baselineLap) - Number(lap.lap_time)) / 1000,
+                  color: color,
+                };
+              })}
+            colorAccessor={() => color}
+            strokeWidth={2}
+            xAccessor={(d) => d.lap_number}
+            yAccessor={(d) => d.lap_time}
+          />
+        );
+      })}
 
-        <Tooltip
-          snapTooltipToDatumX
-          snapTooltipToDatumY
-          showVerticalCrosshair
-          showHorizontalCrosshair
-          renderTooltip={({ tooltipData }) => {
-            // console.log('tooltipData', tooltipData);
-            const driverStats = tooltipData?.nearestDatum;
-            return (
-              <>
-                {(driverStats && driverStats.key) || 'No Driver'}
-                <br />
-                <div>
-                  {/* TODO:  Convert to min, seconds, milliseconds */}
-                  {/* <p>{driverStats.datum.lap_time}</p> */}
-                </div>
-              </>
-            );
-          }}
-        />
-      </LineChart>
-    </div>
+      <Tooltip
+        snapTooltipToDatumX
+        snapTooltipToDatumY
+        showVerticalCrosshair
+        showHorizontalCrosshair
+        renderTooltip={({ tooltipData }) => {
+          const driverStats = tooltipData?.nearestDatum;
+          return (
+            <>
+              {(driverStats && driverStats.key) || 'No Driver'}
+              <br />
+              <div>
+                {/* TODO:  Convert to min, seconds, milliseconds */}
+                {/* <p>{driverStats.datum.lap_time}</p> */}
+              </div>
+            </>
+          );
+        }}
+      />
+    </LineChart>
   );
 };
 
@@ -230,7 +231,7 @@ interface LineChartProps {
   children: React.ReactNode;
 }
 
-const LineChart: React.FC<LineChartProps> = ({
+export const LineChart: React.FC<LineChartProps> = ({
   title,
   children,
   yScaleType = 'linear',
@@ -247,7 +248,6 @@ const LineChart: React.FC<LineChartProps> = ({
             yScale={{
               type: yScaleType,
               nice: yScaleType === 'linear',
-              //   domain: [-25000, 0]
             }}
             margin={margin}
           >
