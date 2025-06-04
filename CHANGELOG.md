@@ -1,3 +1,9 @@
+## 0.6.11 (2025-06-04)
+
+### Refactor
+
+- reduced size map pop-up
+
 ## 0.6.10 (2025-06-01)
 
 ### Fix
