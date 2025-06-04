@@ -4,6 +4,14 @@ import { bgGradient } from '@/lib/utils';
 
 import { GetStandingsQuery } from '@/generated/types';
 
+const calculateGap = (currentPoints: number, previousPoints: number | null) => {
+  if (previousPoints === null) {
+    return 'Gap';
+  }
+  const diff = previousPoints - currentPoints;
+  return diff === 0 ? '0' : `-${diff}`;
+};
+
 export const DriversTable = ({
   drivers,
   hiddenDrivers,
@@ -37,8 +45,7 @@ export const DriversTable = ({
               ]?.points ?? 0,
             )
           : null;
-      const gap =
-        previousPoints !== null ? `-${previousPoints - currentPoints}` : 'Gap';
+      const gap = calculateGap(currentPoints, previousPoints);
 
       return (
         <div
@@ -109,8 +116,7 @@ export const ConstructorsTable = ({
               ]?.points ?? 0,
             )
           : null;
-      const gap =
-        previousPoints !== null ? `-${previousPoints - currentPoints}` : 'Gap';
+      const gap = calculateGap(currentPoints, previousPoints);
 
       return (
         <div
