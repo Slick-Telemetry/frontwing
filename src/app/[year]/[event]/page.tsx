@@ -166,7 +166,7 @@ const Sidebar = ({
               router.push(`/${year}/${loc.toLowerCase().replace(/ /g, '-')}`)
             }
           >
-            <SelectTrigger className='h-fit bg-inherit p-2 text-left text-lg font-black outline-0 outline-offset-4'>
+            <SelectTrigger className='h-fit w-full overflow-hidden bg-inherit p-2 text-left text-lg font-black text-ellipsis whitespace-nowrap outline-0 outline-offset-4'>
               {event.event_name}
             </SelectTrigger>
             <SelectContent align='center'>
