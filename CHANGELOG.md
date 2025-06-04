@@ -1,3 +1,9 @@
+## 0.6.12 (2025-06-04)
+
+### Fix
+
+- **event-selector**: FRON-177 overflow outside its parent
+
 ## 0.6.11 (2025-06-04)
 
 ### Refactor
