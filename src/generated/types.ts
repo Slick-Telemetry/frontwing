@@ -8374,7 +8374,7 @@ export type GetStandingsQueryVariables = Exact<{
 }>;
 
 
-export type GetStandingsQuery = { __typename?: 'query_root', drivers: Array<{ __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null, latest_constructor: Array<{ __typename?: 'driver_sessions', constructor?: { __typename?: 'constructors', name?: string | null, color?: string | null } | null }>, driver_standings: Array<{ __typename?: 'driver_standings', round?: number | null, points?: bigint | number | null, position?: number | null }> }>, constructors: Array<{ __typename?: 'constructors', name?: string | null, color?: string | null, constructor_standings: Array<{ __typename?: 'constructor_standings', round?: number | null, points?: bigint | number | null, position?: number | null }> }> };
+export type GetStandingsQuery = { __typename?: 'query_root', events: Array<{ __typename?: 'events', round_number?: number | null, name?: string | null }>, drivers: Array<{ __typename?: 'drivers', abbreviation?: string | null, full_name?: string | null, latest_constructor: Array<{ __typename?: 'driver_sessions', constructor?: { __typename?: 'constructors', name?: string | null, color?: string | null } | null }>, driver_standings: Array<{ __typename?: 'driver_standings', round?: number | null, points?: bigint | number | null, position?: number | null }> }>, constructors: Array<{ __typename?: 'constructors', name?: string | null, color?: string | null, constructor_standings: Array<{ __typename?: 'constructor_standings', round?: number | null, points?: bigint | number | null, position?: number | null }> }> };
 
 export type SessionQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -8966,6 +8966,10 @@ export type GetEventDetailsSuspenseQueryHookResult = ReturnType<typeof useGetEve
 export type GetEventDetailsQueryResult = Apollo.QueryResult<GetEventDetailsQuery, GetEventDetailsQueryVariables>;
 export const GetStandingsDocument = gql`
     query GetStandings($season: Int!) @cached {
+  events(where: {year: {_eq: $season}}) {
+    round_number
+    name
+  }
   drivers(where: {driver_standings: {season: {_eq: $season}}}) {
     abbreviation
     full_name

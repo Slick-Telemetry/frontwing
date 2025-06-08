@@ -25,6 +25,7 @@ type ConstructorStandings =
 
 export type Standings = (DriverStanding | ConstructorStandings) & {
   color: string;
+  eventName?: string;
 };
 
 export const accessors = {
@@ -120,11 +121,13 @@ export const Standings = ({ season }: { season: number }) => {
           {chartType === 'drivers' ? (
             <DriverStandingsChart
               standingsByDriver={standings.drivers}
+              events={standings.events}
               hiddenDrivers={hiddenDrivers}
             />
           ) : (
             <ConstructorStandingsChart
               standingsByConstructor={standings.constructors}
+              events={standings.events}
               hiddenConstructors={hiddenTeams}
             />
           )}

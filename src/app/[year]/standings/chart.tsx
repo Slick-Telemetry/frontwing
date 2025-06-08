@@ -58,9 +58,15 @@ export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
                 if (!tooltipData) return null;
                 return (
                   <div>
-                    <p className='text-lg'>
+                    <p>
                       {tooltipData.nearestDatum &&
                         `Round: ${(tooltipData.nearestDatum.datum as Standings).round}`}
+                    </p>
+                    <p className='text-lg'>
+                      {tooltipData.nearestDatum?.datum.eventName?.replace(
+                        'Grand Prix',
+                        'GP',
+                      )}
                     </p>
                     {tooltipData.datumByKey &&
                       Object.keys(tooltipData.datumByKey)

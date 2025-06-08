@@ -7,9 +7,11 @@ import { GetStandingsQuery } from '@/generated/types';
 import { accessors } from '.';
 
 export const DriverStandingsChart = ({
+  events,
   standingsByDriver,
   hiddenDrivers,
 }: {
+  events: GetStandingsQuery['events'];
   standingsByDriver: GetStandingsQuery['drivers'];
   hiddenDrivers: Record<string, boolean>;
 }) => {
@@ -64,6 +66,8 @@ export const DriverStandingsChart = ({
         data={driver.driver_standings.map((ds) => ({
           ...ds,
           color,
+          eventName:
+            events.find((event) => event.round_number === ds.round)?.name || '',
         }))}
         colorAccessor={() => color}
         strokeDasharray={strokeDasharray}
