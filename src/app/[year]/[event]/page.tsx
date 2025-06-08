@@ -105,7 +105,7 @@ const EventPage = ({
       >
         <div className='mb-2 flex items-center gap-2 md:order-first md:mr-auto'>
           <h1 className='text-2xl font-black'>Season</h1>
-          <SeasonSelector year={parseInt(year)} />
+          <SeasonSelector />
         </div>
       </Sidebar>
 

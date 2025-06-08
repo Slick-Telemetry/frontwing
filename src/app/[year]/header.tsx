@@ -4,6 +4,7 @@ import { ChartLine, Globe2, List } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
+import SeasonSelector from '@/components/seasonSelector';
 import { Button } from '@/components/ui/button';
 
 const QuickLinks = () => {
@@ -25,6 +26,9 @@ const QuickLinks = () => {
 
   return (
     <>
+      <div>
+        <SeasonSelector />
+      </div>
       <Button variant={isActive(`/${year}`) ? 'default' : 'outline'} asChild>
         <Link href={`/${year}`}>
           <List />
@@ -65,7 +69,7 @@ const QuickLinks = () => {
 
 export const Header = () => {
   return (
-    // <header className='flegap-2 container mx-auto my-4 md:my-0 md:flex-row md:items-center'>
+    // <header className='container mx-auto my-4 flegap-2 md:my-0 md:flex-row md:items-center'>
     <header className='container grid grid-cols-2 gap-2 md:flex'>
       <QuickLinks />
     </header>
