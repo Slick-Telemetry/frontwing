@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { use, useCallback, useState } from 'react';
+import { use, useCallback, useEffect, useState } from 'react';
 
 import { GET_SEASON_EVENTS } from '@/lib/queries';
 
@@ -20,7 +20,19 @@ import {
 
 const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
   const { year } = use(params);
-  const [showSessions, setShowSessions] = useState(false);
+  const [showSessions, setShowSessions] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedValue = localStorage.getItem('showSessions');
+      return storedValue === 'true';
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('showSessions', String(showSessions));
+    }
+  }, [showSessions]);
 
   const { loading, error, data } = useQuery<
     GetSeasonEventsQuery,
@@ -43,7 +55,9 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
 
   return (
     <div className='container my-4'>
-      <CheckboxToggle toggle={toggleSessions}>Show Sessions</CheckboxToggle>
+      <CheckboxToggle toggle={toggleSessions} checked={showSessions}>
+        Show Sessions
+      </CheckboxToggle>
       <main className='my-4 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
         {data?.schedule.map(
           (event) =>
