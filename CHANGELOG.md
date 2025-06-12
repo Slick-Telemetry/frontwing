@@ -1,3 +1,9 @@
+## 0.6.14 (2025-06-12)
+
+### Fix
+
+- show laps for race sessions only
+
 ## 0.6.13 (2025-06-12)
 
 ### Fix
