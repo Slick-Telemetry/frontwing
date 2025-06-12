@@ -1,3 +1,9 @@
+## 0.6.13 (2025-06-12)
+
+### Fix
+
+- use total_laps instead of scheduled_laps
+
 ## 0.6.12 (2025-06-04)
 
 ### Fix
