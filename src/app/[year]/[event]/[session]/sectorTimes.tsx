@@ -55,8 +55,8 @@ const titles = {
 };
 
 type Sector = {
-  time: number;
-  lap?: number;
+  time: number | null;
+  lap?: number | null;
 };
 
 interface DriverSectors {
@@ -66,8 +66,8 @@ interface DriverSectors {
 }
 
 interface DriverFastestLap extends DriverSectors {
-  lap_number: number;
-  lap_time: number;
+  lap_number: number | null;
+  lap_time: number | null;
   potential_best: string | 0;
 }
 
@@ -104,18 +104,48 @@ const SectorTimes = () => {
   const driverSessions = data?.sessions[0].driver_sessions || [];
 
   const driverTimes: DriverTimes[] = driverSessions.map((ds) => {
-    const sector1 = Number(ds.fastest_sector1[0].sector1) / 1000;
-    const sector2 = Number(ds.fastest_sector2[0].sector2) / 1000;
-    const sector3 = Number(ds.fastest_sector3[0].sector3) / 1000;
+    const sector1 =
+      ds.fastest_sector1.length > 0 && ds.fastest_sector1[0].sector1 !== null
+        ? Number(ds.fastest_sector1[0].sector1) / 1000
+        : null;
+    const sector2 =
+      ds.fastest_sector2.length > 0 && ds.fastest_sector2[0].sector2 !== null
+        ? Number(ds.fastest_sector2[0].sector2) / 1000
+        : null;
+    const sector3 =
+      ds.fastest_sector3.length > 0 && ds.fastest_sector3[0].sector3 !== null
+        ? Number(ds.fastest_sector3[0].sector3) / 1000
+        : null;
 
     return {
       abbreviation: ds.driver?.abbreviation || 'N/A',
       fastestLap: {
-        lap_number: Number(ds.fastest_lap[0].lap_number),
-        lap_time: Number(ds.fastest_lap[0].lap_time) / 1000,
-        sector1: { time: Number(ds.fastest_lap[0].sector1) / 1000 },
-        sector2: { time: Number(ds.fastest_lap[0].sector2) / 1000 },
-        sector3: { time: Number(ds.fastest_lap[0].sector3) / 1000 },
+        lap_number:
+          ds.fastest_lap.length > 0 && ds.fastest_lap[0].lap_number !== null
+            ? Number(ds.fastest_lap[0].lap_number)
+            : null,
+        lap_time:
+          ds.fastest_lap.length > 0 && ds.fastest_lap[0].lap_time !== null
+            ? Number(ds.fastest_lap[0].lap_time) / 1000
+            : null,
+        sector1: {
+          time:
+            ds.fastest_lap.length > 0 && ds.fastest_lap[0].sector1 !== null
+              ? Number(ds.fastest_lap[0].sector1) / 1000
+              : null,
+        },
+        sector2: {
+          time:
+            ds.fastest_lap.length > 0 && ds.fastest_lap[0].sector2 !== null
+              ? Number(ds.fastest_lap[0].sector2) / 1000
+              : null,
+        },
+        sector3: {
+          time:
+            ds.fastest_lap.length > 0 && ds.fastest_lap[0].sector3 !== null
+              ? Number(ds.fastest_lap[0].sector3) / 1000
+              : null,
+        },
         potential_best:
           sector1 && sector2 && sector3
             ? (sector1 + sector2 + sector3).toFixed(3)
@@ -124,15 +154,27 @@ const SectorTimes = () => {
       sectors: {
         sector1: {
           time: sector1,
-          lap: Number(ds.fastest_sector1[0].lap_number),
+          lap:
+            ds.fastest_sector1.length > 0 &&
+            ds.fastest_sector1[0].lap_number !== null
+              ? Number(ds.fastest_sector1[0].lap_number)
+              : null,
         },
         sector2: {
           time: sector2,
-          lap: Number(ds.fastest_sector2[0].lap_number),
+          lap:
+            ds.fastest_sector2.length > 0 &&
+            ds.fastest_sector2[0].lap_number !== null
+              ? Number(ds.fastest_sector2[0].lap_number)
+              : null,
         },
         sector3: {
           time: sector3,
-          lap: Number(ds.fastest_sector3[0].lap_number),
+          lap:
+            ds.fastest_sector3.length > 0 &&
+            ds.fastest_sector3[0].lap_number !== null
+              ? Number(ds.fastest_sector3[0].lap_number)
+              : null,
         },
       },
       color: ds.constructorByConstructorId?.color || 'cccccc',
@@ -260,20 +302,48 @@ const BestPotentialChart = ({ times }: { times: DriverTimes[] }) => {
                 </div>
                 <div className='grid divide-y border-r text-center'>
                   <p>Fastest Lap</p>
-                  <p>{driverStats.fastestLap.sector1.time}s</p>
-                  <p>{driverStats.fastestLap.sector2.time}s</p>
-                  <p>{driverStats.fastestLap.sector3.time}s</p>
-                  <p>{driverStats.fastestLap.lap_time}s</p>
+                  <p>
+                    {driverStats.fastestLap.sector1.time !== null
+                      ? `${driverStats.fastestLap.sector1.time}s`
+                      : 'N/A'}
+                  </p>
+                  <p>
+                    {driverStats.fastestLap.sector2.time !== null
+                      ? `${driverStats.fastestLap.sector2.time}s`
+                      : 'N/A'}
+                  </p>
+                  <p>
+                    {driverStats.fastestLap.sector3.time !== null
+                      ? `${driverStats.fastestLap.sector3.time}s`
+                      : 'N/A'}
+                  </p>
+                  <p>
+                    {driverStats.fastestLap.lap_time !== null
+                      ? `${driverStats.fastestLap.lap_time}s`
+                      : 'N/A'}
+                  </p>
                 </div>
                 <div className='grid divide-y text-center'>
                   <p>Best Sectors</p>
-                  <p>{driverStats.sectors.sector1.time}s</p>
-                  <p>{driverStats.sectors.sector2.time}s</p>
-                  <p>{driverStats.sectors.sector3.time}s</p>
+                  <p>
+                    {driverStats.sectors.sector1.time !== null
+                      ? `${driverStats.sectors.sector1.time}s`
+                      : 'N/A'}
+                  </p>
+                  <p>
+                    {driverStats.sectors.sector2.time !== null
+                      ? `${driverStats.sectors.sector2.time}s`
+                      : 'N/A'}
+                  </p>
+                  <p>
+                    {driverStats.sectors.sector3.time !== null
+                      ? `${driverStats.sectors.sector3.time}s`
+                      : 'N/A'}
+                  </p>
                   <p>
                     {driverStats.fastestLap.potential_best
                       ? `${driverStats.fastestLap.potential_best}s`
-                      : 'Not Found'}
+                      : 'N/A'}
                   </p>
                 </div>
               </div>
@@ -294,7 +364,10 @@ const SectorChart = ({
 }) => {
   // Sort by fastest sector times
   const driverTimes = [...times]
-    .filter((d) => d.sectors[sectorKey].time !== 0)
+    .filter(
+      (d) =>
+        d.sectors[sectorKey].time !== null && d.sectors[sectorKey].time > 0,
+    )
     .sort(
       (a, b) =>
         Number(a.sectors[sectorKey].time || 0) -
@@ -302,19 +375,25 @@ const SectorChart = ({
     );
 
   // Ensure we have valid min and max values
-  const minValue =
-    Math.min(
-      ...(driverTimes || []).map((d) =>
-        Number(d.sectors?.[sectorKey].time || 0),
-      ),
-    ) - 0.05;
+  let minValue: number;
+  let maxValue: number;
 
-  const maxValue =
-    Math.max(
-      ...(driverTimes || []).map((d) =>
-        Number(d.sectors?.[sectorKey].time || 0),
-      ),
-    ) + 0.05;
+  if (driverTimes.length === 0) {
+    // If no valid data, set a default small range
+    minValue = 0;
+    maxValue = 1;
+  } else {
+    minValue =
+      Math.min(
+        ...(driverTimes || []).map((d) => Number(d.sectors?.[sectorKey].time)),
+      ) - 0.05;
+
+    maxValue =
+      Math.max(
+        ...(driverTimes || []).map((d) => Number(d.sectors?.[sectorKey].time)),
+      ) + 0.05;
+  }
+
   return (
     <BarChart
       driverCount={driverTimes.length}
