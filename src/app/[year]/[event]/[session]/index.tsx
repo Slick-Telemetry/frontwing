@@ -49,8 +49,13 @@ export const SessionHeader = () => {
       <h1 className='text-4xl'>{event?.name}</h1>
       <h2 className='text-2xl'>{name?.replace(/_/g, ' ')}</h2>
       <span className='italic'>
-        {total_laps} Laps
-        <br />
+        {(name === Session_Name_Choices_Enum.Race ||
+          name === Session_Name_Choices_Enum.Sprint) && (
+          <>
+            {total_laps} Laps
+            <br />
+          </>
+        )}
         {new Date(scheduled_start_time_utc as string).toLocaleString(
           undefined,
           {
