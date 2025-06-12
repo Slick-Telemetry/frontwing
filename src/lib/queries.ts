@@ -325,7 +325,7 @@ export const GET_SESSION = gql`
       }
     ) {
       name
-      scheduled_laps
+      total_laps
       scheduled_start_time_utc
       event {
         name

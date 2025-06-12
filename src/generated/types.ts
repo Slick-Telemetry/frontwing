@@ -8383,7 +8383,7 @@ export type SessionQueryVariables = Exact<{
 }>;
 
 
-export type SessionQuery = { __typename?: 'query_root', sessions: Array<{ __typename?: 'sessions', name?: Session_Name_Choices_Enum | null, scheduled_laps?: number | null, scheduled_start_time_utc?: string | null, event?: { __typename?: 'events', name?: string | null } | null }> };
+export type SessionQuery = { __typename?: 'query_root', sessions: Array<{ __typename?: 'sessions', name?: Session_Name_Choices_Enum | null, total_laps?: number | null, scheduled_start_time_utc?: string | null, event?: { __typename?: 'events', name?: string | null } | null }> };
 
 export type SessionResultsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -9036,7 +9036,7 @@ export const SessionDocument = gql`
     where: {event: {year: {_eq: $year}, location: {_eq: $event}}, name: {_eq: $session}}
   ) {
     name
-    scheduled_laps
+    total_laps
     scheduled_start_time_utc
     event {
       name

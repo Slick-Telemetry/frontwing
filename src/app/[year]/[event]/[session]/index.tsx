@@ -41,7 +41,7 @@ export const SessionHeader = () => {
   }
   if (error || !data?.sessions) return <ServerPageError />;
 
-  const { event, name, scheduled_laps, scheduled_start_time_utc } =
+  const { event, name, total_laps, scheduled_start_time_utc } =
     data.sessions[0];
 
   return (
@@ -49,7 +49,8 @@ export const SessionHeader = () => {
       <h1 className='text-4xl'>{event?.name}</h1>
       <h2 className='text-2xl'>{name?.replace(/_/g, ' ')}</h2>
       <span className='italic'>
-        {scheduled_laps} Laps{' '}
+        {total_laps} Laps
+        <br />
         {new Date(scheduled_start_time_utc as string).toLocaleString(
           undefined,
           {
