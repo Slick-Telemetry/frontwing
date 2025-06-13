@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   eventLocationEncode,
@@ -27,7 +27,19 @@ export const EventSession = ({
   time: string;
   children: React.ReactNode;
 }) => {
-  const [showGrid, setShowGrid] = useState(false);
+  const [showGrid, setShowGrid] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedValue = localStorage.getItem(`showGrid-${name}`);
+      return storedValue === 'true';
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`showGrid-${name}`, String(showGrid));
+    }
+  }, [showGrid, name]);
   const pathname = usePathname();
 
   const url = `${pathname}/${eventLocationEncode(name)}`;
@@ -68,7 +80,10 @@ export const EventSession = ({
       {time && new Date(time) < new Date() && (
         <div className='m-2'>
           <label className='flex items-center gap-2'>
-            <CheckboxToggle toggle={() => setShowGrid((prev) => !prev)}>
+            <CheckboxToggle
+              toggle={() => setShowGrid((prev) => !prev)}
+              checked={showGrid}
+            >
               Show Provisional Results
             </CheckboxToggle>
           </label>
