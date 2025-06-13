@@ -1,3 +1,9 @@
+## 0.6.15 (2025-06-13)
+
+### Fix
+
+- **sector-times**: handle missing and null values
+
 ## 0.6.14 (2025-06-12)
 
 ### Fix
