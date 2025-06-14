@@ -1,7 +1,12 @@
-import { curveCatmullRom } from '@visx/curve';
-import { LineSeries } from '@visx/xychart';
+'use client';
 
-import { LineChart } from '@/app/[year]/[event]/[session]/lapTimes';
+import { LineChart } from 'echarts/charts';
+import { GridComponent, TooltipComponent } from 'echarts/components';
+import * as echarts from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import React, { useEffect, useRef } from 'react';
+
+echarts.use([LineChart, TooltipComponent, GridComponent, CanvasRenderer]);
 
 const NUM_LINES = 10;
 const NUM_LAPS = 20;
@@ -14,23 +19,73 @@ function generateRandomLineData() {
 }
 
 export const LineChartSkeleton = ({ title }: { title?: React.ReactNode }) => {
-  const lines = Array.from({ length: NUM_LINES }, () =>
-    generateRandomLineData(),
-  );
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chartRef.current) {
+      const chart = echarts.init(chartRef.current);
+
+      const lines = Array.from({ length: NUM_LINES }, () =>
+        generateRandomLineData(),
+      );
+
+      const series = lines.map((data, i) => ({
+        name: `skeleton-${i}`,
+        type: 'line',
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          color: '#cccccc50',
+          width: 2,
+        },
+        itemStyle: {
+          color: '#cccccc50',
+        },
+        data: data.map((d) => [d.lap, d.value]),
+      }));
+
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'cross' },
+        },
+        grid: {
+          left: '2%',
+          right: '2%',
+          bottom: '5%',
+          containLabel: true,
+        },
+        xAxis: {
+          type: 'value',
+          name: 'Lap Number',
+          nameLocation: 'middle',
+          nameGap: 30,
+          axisLabel: {
+            formatter: '{value}',
+          },
+          max: NUM_LAPS,
+        },
+        yAxis: {
+          type: 'value',
+          name: 'Value',
+          nameLocation: 'middle',
+          nameGap: 40,
+        },
+        series: series,
+      };
+
+      chart.setOption(option);
+
+      return () => {
+        chart.dispose();
+      };
+    }
+  }, []);
 
   return (
-    <LineChart title={title || ''} yScaleType='linear'>
-      {lines.map((data, i) => (
-        <LineSeries
-          curve={curveCatmullRom}
-          key={i}
-          dataKey={`skeleton-${i}`}
-          data={data}
-          xAccessor={(val) => val.lap}
-          yAccessor={(val) => val.value}
-          colorAccessor={() => '#cccccc50'}
-        />
-      ))}
-    </LineChart>
+    <div className='rounded border p-2'>
+      {title && <div className='mb-2 text-lg font-semibold'>{title}</div>}
+      <div ref={chartRef} style={{ width: '100%', height: '500px' }} />
+    </div>
   );
 };
