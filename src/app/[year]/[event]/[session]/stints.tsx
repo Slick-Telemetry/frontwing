@@ -1,15 +1,6 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { PatternLines } from '@visx/pattern';
-import { ParentSize } from '@visx/responsive';
-import {
-  AnimatedBarSeries,
-  Axis,
-  BarStack,
-  Tooltip,
-  XYChart,
-} from '@visx/xychart';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 
@@ -18,14 +9,14 @@ import { eventLocationDecode } from '@/lib/utils';
 
 import { ServerPageError } from '@/components/ServerError';
 
-import { StintSkeleton } from '@/app/[year]/[event]/[session]/StintSelecton';
+import { StintSkeleton } from '@/app/[year]/[event]/[session]/StintSkeleton';
 import {
   GetSessionStintsQuery,
   GetSessionStintsQueryVariables,
   Session_Name_Choices_Enum,
 } from '@/generated/types';
 
-const margin = { top: 0, right: 30, bottom: 72, left: 60 };
+import StintsEchartsChart from './StintsEchartsChart';
 
 type Stint = {
   stint: number;
@@ -108,136 +99,7 @@ const Stints = () => {
     <>
       <div className='h-[600px] rounded border p-2'>
         <h3 className='text-center text-lg font-semibold'>Tyre Analysis</h3>
-        <ParentSize key='stintTyres'>
-          {({ width, height }) => (
-            <XYChart
-              xScale={{ type: 'linear', domain: [0, maxLaps + 1] }}
-              yScale={{ type: 'band', padding: 0.2 }}
-              width={width}
-              height={height}
-              margin={margin}
-            >
-              {/* Define Patterns in <defs> */}
-              <defs>
-                {processedData?.flatMap((driverData) =>
-                  driverData.stints.map((stint) => {
-                    if (!stint.freshTyre) {
-                      const compound = stint.tyreCompound.toLowerCase();
-                      const type = stint.freshTyre ? 'new' : 'old';
-                      const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
-
-                      return (
-                        <PatternLines
-                          key={patternId}
-                          id={patternId}
-                          height={6}
-                          width={6}
-                          stroke='black'
-                          strokeWidth={1}
-                          orientation={['diagonal']}
-                          background={`var(--${compound}-${type})`} // Use the calculated compoundColor
-                        />
-                      );
-                    }
-                    return null;
-                  }),
-                )}
-              </defs>
-              {/* X and Y Axes */}
-              <Axis
-                orientation='bottom'
-                label='Lap Number'
-                tickLabelProps={() => ({
-                  fill: 'var(--color-foreground)',
-                })}
-                labelClassName='fill-foreground'
-                tickClassName='fill-foreground'
-              />
-              <Axis
-                orientation='left'
-                labelOffset={16}
-                numTicks={processedData?.length}
-                label='Drivers'
-                tickStroke='white'
-                tickLabelProps={() => ({
-                  fill: 'var(--color-foreground)',
-                })}
-                labelClassName='fill-foreground'
-                tickClassName='fill-foreground'
-              />
-
-              {/* Stacked Bars for Stints */}
-              {processedData?.flatMap((driverData) => (
-                <BarStack key={driverData.driver}>
-                  {driverData.stints.map((stint) => {
-                    const compound = stint.tyreCompound.toLowerCase();
-                    const type = stint.freshTyre ? 'new' : 'old';
-
-                    // Define a pattern ID for old tyres
-                    const patternId = `${driverData.driver}-stint-${stint.startLap}-pattern`;
-                    return (
-                      <AnimatedBarSeries
-                        radius={4}
-                        radiusAll
-                        key={`${driverData.driver}-stint-${stint.startLap}`}
-                        dataKey={`${driverData.driver}-stint-${stint.startLap}`}
-                        data={[stint]}
-                        xAccessor={(d) => d.endLap - d.startLap + 1}
-                        yAccessor={(d) => d.driver}
-                        colorAccessor={() =>
-                          stint.freshTyre
-                            ? `var(--${compound}-${type})`
-                            : `url(#${patternId})`
-                        } // Use pattern for old tyres
-                      />
-                    );
-                  })}
-                </BarStack>
-              ))}
-
-              {/* Tooltip */}
-              <Tooltip
-                showVerticalCrosshair
-                renderTooltip={({ tooltipData }) => {
-                  if (!tooltipData?.nearestDatum) return null;
-                  const {
-                    startLap,
-                    endLap,
-                    tyreLife,
-                    stint,
-                    tyreCompound,
-                    freshTyre,
-                    driver,
-                  } = tooltipData.nearestDatum.datum as Stint;
-                  return (
-                    <>
-                      <div>
-                        <strong>
-                          <u>{driver}</u>
-                        </strong>
-                      </div>
-                      <div>
-                        <strong>Stint:</strong> {stint}
-                      </div>
-                      <div>
-                        <strong>Laps:</strong> {startLap} - {endLap}
-                      </div>
-                      <div>
-                        <strong>Tyre Life:</strong> {tyreLife}
-                      </div>
-                      <div>
-                        <strong>Compound:</strong> {tyreCompound}
-                      </div>
-                      <div>
-                        <strong>Condition:</strong> {freshTyre ? 'NEW' : 'OLD'}
-                      </div>
-                    </>
-                  );
-                }}
-              />
-            </XYChart>
-          )}
-        </ParentSize>
+        <StintsEchartsChart processedData={processedData} maxLaps={maxLaps} />
       </div>
     </>
   );
