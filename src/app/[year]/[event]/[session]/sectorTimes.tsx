@@ -14,7 +14,7 @@ import {
 } from '@visx/xychart';
 import clsx from 'clsx';
 import { useParams } from 'next/navigation';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { GET_SESSION_FASTEST_TIMES } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
@@ -28,6 +28,7 @@ import {
 } from '@/generated/types';
 
 import { BarChartSkeleton } from './BarChartSkeleton';
+import FastestLapECharts from './FastestLapECharts';
 
 const margin = { top: 20, right: 30, bottom: 50, left: 60 };
 const titles = {
@@ -71,7 +72,7 @@ interface DriverFastestLap extends DriverSectors {
   potential_best: string | 0;
 }
 
-interface DriverTimes {
+export interface DriverTimes {
   abbreviation: string;
   fastestLap: DriverFastestLap;
   sectors: DriverSectors;
@@ -192,166 +193,13 @@ const SectorTimes = () => {
         </>
       ) : (
         <>
-          <BestPotentialChart times={driverTimes} />
+          <FastestLapECharts times={driverTimes} />
           <SectorChart times={driverTimes} sectorKey='sector1' />
           <SectorChart times={driverTimes} sectorKey='sector2' />
           <SectorChart times={driverTimes} sectorKey='sector3' />
         </>
       )}
     </div>
-  );
-};
-
-{
-  /* Best Lap Compared to Potential Best */
-}
-const BestPotentialChart = ({ times }: { times: DriverTimes[] }) => {
-  const driverTimes = useMemo(
-    () =>
-      [...times]
-        .filter((d) => d.fastestLap.lap_time !== 0)
-        .sort(
-          (a, b) =>
-            Number(a.fastestLap.lap_time || 0) -
-            Number(b.fastestLap.lap_time || 0),
-        ),
-    [times],
-  );
-  // Ensure we have valid min and max values
-  const minValue =
-    Math.min(
-      ...(driverTimes || [])
-        .filter((d) => d.fastestLap.potential_best !== 0)
-        .map((d) => Number(d.fastestLap.potential_best || 0)),
-    ) - 0.05;
-
-  const maxValue =
-    Math.max(
-      ...(driverTimes || []).map((d) => Number(d.fastestLap.lap_time || 0)),
-    ) + 0.05;
-
-  return (
-    <BarChart
-      driverCount={driverTimes.length}
-      title={titles['potential_best']}
-      minMax={[minValue, maxValue]}
-    >
-      <BarSeries
-        dataKey='Lap Time'
-        data={driverTimes}
-        xAccessor={(d) => d.abbreviation}
-        yAccessor={(d) => d.fastestLap.lap_time}
-        colorAccessor={(d) => `#${d.color}`}
-      />
-      <GlyphSeries
-        dataKey='Potential Best'
-        data={driverTimes.filter((d) => d.fastestLap.potential_best !== 0)}
-        xAccessor={(d) => d.abbreviation}
-        yAccessor={(d) => d.fastestLap.potential_best}
-        colorAccessor={() => '#FFD700'}
-        enableEvents={false} // Disable tooltip effects
-        renderGlyph={({ x, y, size, color }) => {
-          return (
-            <GlyphStar
-              left={x}
-              top={y}
-              stroke='black'
-              fill={color}
-              size={size * 10}
-            />
-          );
-        }}
-      />
-
-      {/* Labels on top of bars */}
-      <GlyphSeries
-        dataKey='Sector Time Labels'
-        data={driverTimes}
-        xAccessor={(d) => d.abbreviation}
-        yAccessor={(d) => d.fastestLap.lap_time}
-        renderGlyph={({ x, y, datum }) => (
-          <text
-            x={x}
-            y={y - 4} // Position slightly above the bar
-            fontSize={10}
-            className='fill-foreground'
-            textAnchor='middle'
-          >
-            {Number(datum.fastestLap.lap_time).toFixed(3)}s
-          </text>
-        )}
-      />
-
-      <Tooltip
-        snapTooltipToDatumX
-        renderTooltip={({ tooltipData }) => {
-          const driverStats = tooltipData?.nearestDatum?.datum as DriverTimes;
-          return (
-            <>
-              {/** date */}
-
-              <div className='divide-foreground [&>*]:divide-foreground flex gap-y-1 divide-x font-normal **:[p]:px-1 **:[p]:py-0.5'>
-                <div className='grid divide-y text-center'>
-                  <p className='font-bold'>
-                    {(driverStats && driverStats.abbreviation) || 'No Driver'}
-                  </p>
-                  <p>S1</p>
-                  <p>S2</p>
-                  <p>S3</p>
-                  <p>Lap</p>
-                </div>
-                <div className='grid divide-y border-r text-center'>
-                  <p>Fastest Lap</p>
-                  <p>
-                    {driverStats.fastestLap.sector1.time !== null
-                      ? `${driverStats.fastestLap.sector1.time}s`
-                      : 'N/A'}
-                  </p>
-                  <p>
-                    {driverStats.fastestLap.sector2.time !== null
-                      ? `${driverStats.fastestLap.sector2.time}s`
-                      : 'N/A'}
-                  </p>
-                  <p>
-                    {driverStats.fastestLap.sector3.time !== null
-                      ? `${driverStats.fastestLap.sector3.time}s`
-                      : 'N/A'}
-                  </p>
-                  <p>
-                    {driverStats.fastestLap.lap_time !== null
-                      ? `${driverStats.fastestLap.lap_time}s`
-                      : 'N/A'}
-                  </p>
-                </div>
-                <div className='grid divide-y text-center'>
-                  <p>Best Sectors</p>
-                  <p>
-                    {driverStats.sectors.sector1.time !== null
-                      ? `${driverStats.sectors.sector1.time}s`
-                      : 'N/A'}
-                  </p>
-                  <p>
-                    {driverStats.sectors.sector2.time !== null
-                      ? `${driverStats.sectors.sector2.time}s`
-                      : 'N/A'}
-                  </p>
-                  <p>
-                    {driverStats.sectors.sector3.time !== null
-                      ? `${driverStats.sectors.sector3.time}s`
-                      : 'N/A'}
-                  </p>
-                  <p>
-                    {driverStats.fastestLap.potential_best
-                      ? `${driverStats.fastestLap.potential_best}s`
-                      : 'N/A'}
-                  </p>
-                </div>
-              </div>
-            </>
-          );
-        }}
-      />
-    </BarChart>
   );
 };
 
