@@ -1,19 +1,19 @@
 import { AnimatedLineSeries } from '@visx/xychart';
 
-import { GetStandingsQuery } from '@/generated/types';
+import { GetSeasonEventsQuery, GetStandingsQuery } from '@/generated/types';
 
 import { accessors } from '.';
 
 export const ConstructorStandingsChart = ({
   events,
-  standingsByConstructor,
+  constructors,
   hiddenConstructors,
 }: {
-  events: GetStandingsQuery['events'];
-  standingsByConstructor: GetStandingsQuery['constructors'];
+  constructors: GetStandingsQuery['constructors'];
   hiddenConstructors: Record<string, boolean>;
+  events?: GetSeasonEventsQuery['schedule'];
 }) => {
-  return standingsByConstructor.map((constructor) =>
+  return constructors.map((constructor) =>
     constructor && !hiddenConstructors[constructor.name || ''] ? (
       <AnimatedLineSeries
         key={constructor.name}
@@ -22,7 +22,8 @@ export const ConstructorStandingsChart = ({
           ...cs,
           color: `#${constructor.color || 'cccccc'}`,
           eventName:
-            events.find((event) => event.round_number === cs.round)?.name || '',
+            events?.find((event) => event.round_number === cs.round)
+              ?.event_name || '',
         }))}
         colorAccessor={() => `#${constructor.color || 'cccccc'}`}
         {...accessors}

@@ -15,13 +15,13 @@ const calculateGap = (currentPoints: number, previousPoints: number | null) => {
 export const DriversTable = ({
   drivers,
   hiddenDrivers,
-  toggleDriverVisibility,
+  // toggleDriverVisibility,
 }: {
   drivers: GetStandingsQuery['drivers'];
-  toggleDriverVisibility: (constructor: string, driver: string) => void;
+  // toggleDriverVisibility: (constructor: string, driver: string) => void;
   hiddenDrivers: Record<string, boolean>;
 }) =>
-  [...drivers]
+  [...(drivers ?? [])]
     .sort((a, b) => {
       const aPoints = Number(
         a.driver_standings[a.driver_standings.length - 1]?.points ?? 0,
@@ -49,32 +49,34 @@ export const DriversTable = ({
 
       return (
         <div
-          onClick={() =>
-            toggleDriverVisibility(
-              driver.latest_constructor[0].constructor?.name as string,
-              driver.abbreviation as string,
-            )
-          }
+          // onClick={() =>
+          //   toggleDriverVisibility(
+          //     driver.latest_constructor[0].constructor?.name as string,
+          //     driver.abbreviation as string,
+          //   )
+          // }
           className={clsx(
             { 'opacity-50': hiddenDrivers[driver.abbreviation as string] },
-            'border-muted flex flex-wrap items-center border',
+            'border-muted flex items-center gap-1 border px-1',
           )}
           key={driver?.abbreviation || driver?.full_name}
         >
           <p className='w-8 text-center'>{i + 1}</p>
           <div
-            className='flex flex-1 justify-between p-2 py-1'
+            className='flex flex-1 items-center justify-between px-2 py-1'
             style={{
               background: bgGradient(
                 driver.latest_constructor[0].constructor?.color || 'cccccc',
               ),
             }}
           >
-            <p>{driver.full_name}</p>
-            <p>{driver.latest_constructor[0].constructor?.name}</p>
+            <p className='text-sm'>{driver.full_name}</p>
+            <p className='text-right text-xs'>
+              {driver.latest_constructor[0].constructor?.name}
+            </p>
           </div>
-          <p className='w-12 text-center'>{lastSession.points}</p>
-          <p className='w-12 text-center'>{gap}</p>
+          <p className='w-8 text-center'>{lastSession.points}</p>
+          <p className='w-8 text-center'>{gap}</p>
         </div>
       );
     });
@@ -82,13 +84,13 @@ export const DriversTable = ({
 export const ConstructorsTable = ({
   constructors,
   hiddenConstructors,
-  toggleConstructorVisibility,
+  // toggleConstructorVisibility,
 }: {
   constructors: GetStandingsQuery['constructors'];
-  toggleConstructorVisibility: (constructor: string, drivers: string[]) => void;
+  // toggleConstructorVisibility: (constructor: string, drivers: string[]) => void;
   hiddenConstructors: Record<string, boolean>;
 }) =>
-  [...constructors]
+  [...(constructors ?? [])]
     .sort((a, b) => {
       const aPoints = Number(
         a.constructor_standings[a.constructor_standings.length - 1]?.points ??
@@ -120,12 +122,12 @@ export const ConstructorsTable = ({
 
       return (
         <div
-          onClick={() =>
-            toggleConstructorVisibility(constructor.name as string, [])
-          }
+          // onClick={() =>
+          //   toggleConstructorVisibility(constructor.name as string, [])
+          // }
           className={clsx(
             { 'opacity-50': hiddenConstructors[constructor.name as string] },
-            'border-muted flex flex-wrap items-center border',
+            'border-muted flex items-center gap-1 border px-1',
           )}
           key={constructor.name}
         >
@@ -138,14 +140,14 @@ export const ConstructorsTable = ({
           >
             {constructor.name}
           </p>
-          <p className='w-12 text-center'>
+          <p className='w-8 text-center'>
             {
               constructor.constructor_standings[
                 constructor.constructor_standings.length - 1
               ].points
             }
           </p>
-          <p className='w-12 text-center'>{gap}</p>
+          <p className='w-8 text-center'>{gap}</p>
         </div>
       );
     });

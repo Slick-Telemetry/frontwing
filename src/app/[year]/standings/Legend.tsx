@@ -68,7 +68,7 @@ export const Legend = ({
   }, [standings]);
 
   return (
-    <div className='my-2 grid grid-cols-2 gap-2 sm:grid-cols-5'>
+    <div className='mt-2 grid grid-cols-2 gap-2 sm:grid-cols-5'>
       {Object.entries(constructorsWithDrivers).map(
         ([constructor, { drivers, color }]) => (
           <div

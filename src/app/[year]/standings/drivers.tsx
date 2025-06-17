@@ -2,23 +2,23 @@
 
 import { AnimatedLineSeries } from '@visx/xychart';
 
-import { GetStandingsQuery } from '@/generated/types';
+import { GetSeasonEventsQuery, GetStandingsQuery } from '@/generated/types';
 
 import { accessors } from '.';
 
 export const DriverStandingsChart = ({
   events,
-  standingsByDriver,
+  drivers,
   hiddenDrivers,
 }: {
-  events: GetStandingsQuery['events'];
-  standingsByDriver: GetStandingsQuery['drivers'];
+  drivers: GetStandingsQuery['drivers'];
   hiddenDrivers: Record<string, boolean>;
+  events?: GetSeasonEventsQuery['schedule'];
 }) => {
   // Group drivers by constructor
   const constructorDriverCount = new Map<string, number>();
 
-  standingsByDriver.forEach((driver) => {
+  drivers.forEach((driver) => {
     if (!driver) return;
     const constructorName =
       driver.latest_constructor[0]?.constructor?.name || '';
@@ -28,7 +28,7 @@ export const DriverStandingsChart = ({
     );
   });
 
-  return standingsByDriver.map((driver) => {
+  return drivers.map((driver) => {
     if (!driver || hiddenDrivers[driver.abbreviation || '']) return null;
 
     const constructor = driver.latest_constructor[0]?.constructor;
@@ -36,7 +36,7 @@ export const DriverStandingsChart = ({
     const color = `#${constructor?.color || 'cccccc'}`;
 
     // Find all drivers for this constructor
-    const driversInConstructor = standingsByDriver.filter(
+    const driversInConstructor = drivers.filter(
       (d) => d.latest_constructor[0]?.constructor?.name === constructorName,
     );
 
@@ -67,7 +67,8 @@ export const DriverStandingsChart = ({
           ...ds,
           color,
           eventName:
-            events.find((event) => event.round_number === ds.round)?.name || '',
+            events?.find((event) => event.round_number === ds.round)
+              ?.event_name || '',
         }))}
         colorAccessor={() => color}
         strokeDasharray={strokeDasharray}

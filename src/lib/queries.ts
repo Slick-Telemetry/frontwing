@@ -269,10 +269,6 @@ export const GET_EVENT_DETAILS = gql`
 
 export const GET_STANDINGS = gql`
   query GetStandings($season: Int!) @cached {
-    events(where: { year: { _eq: $season } }) {
-      round_number
-      name
-    }
     drivers(where: { driver_standings: { season: { _eq: $season } } }) {
       abbreviation
       full_name
@@ -294,6 +290,7 @@ export const GET_STANDINGS = gql`
         position
       }
     }
+
     constructors(
       where: { constructor_standings: { season: { _eq: $season } } }
     ) {

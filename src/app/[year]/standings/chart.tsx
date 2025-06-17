@@ -6,7 +6,7 @@ import { Standings } from '.';
 
 export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='h-[300px] rounded border lg:h-[450px]'>
+    <div className='h-[300px] rounded border lg:h-[500px]'>
       <ParentSize initialSize={{ height: 300 }}>
         {({ height, width }) => (
           <XYChart
