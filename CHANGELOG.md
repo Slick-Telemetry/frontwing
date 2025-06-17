@@ -1,3 +1,9 @@
+## 0.6.16 (2025-06-17)
+
+### Fix
+
+- FRON-178 show sessions checkbox now respects user's intention
+
 ## 0.6.15 (2025-06-13)
 
 ### Fix
