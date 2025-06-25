@@ -51,6 +51,7 @@
     "clsx": "latest",
     "country-flag-icons": "latest",
     "echarts": "latest",
+    "echarts-gl": "latest",
     "graphql": "latest",
     "i18n-iso-countries": "latest",
     "lucide-react": "latest",
