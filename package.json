@@ -51,6 +51,7 @@
     "clsx": "latest",
     "country-flag-icons": "latest",
     "echarts": "latest",
+    "echarts-gl": "latest",
     "graphql": "latest",
     "i18n-iso-countries": "latest",
     "lucide-react": "latest",
@@ -114,5 +115,5 @@
     "node": "22.x",
     "pnpm": "10.x"
   },
-  "packageManager": "pnpm@10.12.1"
+  "packageManager": "pnpm@10.12.3"
 }
