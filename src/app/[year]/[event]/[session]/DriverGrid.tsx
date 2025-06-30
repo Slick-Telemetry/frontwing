@@ -69,7 +69,7 @@ export const DriverGrid = () => {
         ...session.driver_sessions,
       ] as SessionResultsQuery['sessions'][0]['driver_sessions']
     )
-      .filter((driver) => !!driver.results[0].classified_position)
+      .filter((driver) => !!driver.results?.[0]?.classified_position)
       .sort((a, b) => {
         return (
           Number(a.results[0]?.classified_position || 0) -
