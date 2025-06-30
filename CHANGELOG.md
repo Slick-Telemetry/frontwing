@@ -1,3 +1,9 @@
+## 0.6.17 (2025-06-30)
+
+### Fix
+
+- **driver-grid**: FRON-184 handle empty results list
+
 ## 0.6.16 (2025-06-17)
 
 ### Fix
