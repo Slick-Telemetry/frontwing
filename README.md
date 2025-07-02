@@ -83,7 +83,6 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 - <u> _**NEVER MERGE YOUR OWN CODE; ALWAYS RAISE A PR AGAINST `dev`!**_ </u>
 
 - **Always pull latest changes**
-
   - There are several developers working on this project. Always pull the latest from the line you intend to commit your changes to. Since we are using `Rebase and merge` PR merge strategy (more information below), there would be times when `git pull` will fail.
   - If there are no local staged/unstaged changes, you can use `git pull --force`.
   - If there are local staged/unstaged changes, please stash or discard them as appropriate and then use `git pull --force`.
@@ -94,7 +93,6 @@ This project is using [conventional commits](https://www.conventionalcommits.org
     - [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) (free)
 
 - **Branches**:
-
   - `main` is the production mainline.
   - `dev` is the development line.
 
@@ -123,11 +121,9 @@ This project is using [conventional commits](https://www.conventionalcommits.org
 > Cypress does not officially support Next v14. If you enncounter any errors or issues please report them [here](https://github.com/Slick-Telemetry/frontend/issues)
 
 - **Background**
-
   - Cypress uses chai based assertions
 
 - **Running Cypress**
-
   - `pnpm run cypress:open`
 
 ## Deployment
