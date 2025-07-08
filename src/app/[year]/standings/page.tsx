@@ -1,22 +1,20 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/client';
 import { useParams, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { GET_STANDINGS } from '@/lib/queries';
 
 import { ServerPageError } from '@/components/ServerError';
 
-import { StandingsChart } from '@/app/[year]/standings/chart';
 import { ConstructorsTable, DriversTable } from '@/app/[year]/standings/Tables';
-import {
+import type {
   GetStandingsQuery,
   GetStandingsQueryVariables,
 } from '@/generated/types';
 
-import { ConstructorStandingsChart } from './constructors';
-import { DriverStandingsChart } from './drivers';
+import { StandingsChart } from './EChartsStandings';
 import { Legend } from './Legend';
 
 type DriverStanding = GetStandingsQuery['drivers'][0]['driver_standings'][0];
@@ -34,29 +32,50 @@ export const accessors = {
 };
 
 const Standings = () => {
-  // const router = useRouter();
   const { year: season } = useParams<{ year: string }>();
   const searchParams = useSearchParams();
-  // const season = selectedSeason || Number(searchParams.get('season')) || 2024;
-  const chartType = searchParams.get('chart') || 'drivers';
+  const chartType = (searchParams.get('chart') || 'drivers') as
+    | 'drivers'
+    | 'constructors';
+  const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstance = useRef<StandingsChart | null>(null);
 
   const [hiddenTeams, setHiddenTeams] = useState<Record<string, boolean>>({});
   const [hiddenDrivers, setHiddenDrivers] = useState<Record<string, boolean>>(
     {},
   );
 
-  const { data: standings, error } = useQuery<
+  const { data: standings, error } = useSuspenseQuery<
     GetStandingsQuery,
     GetStandingsQueryVariables
   >(GET_STANDINGS, { variables: { season: parseInt(season) } });
 
-  if (error || !standings) return <ServerPageError />;
+  useEffect(() => {
+    if (!chartRef.current) return;
 
-  // const changeChartType = (chart: 'drivers' | 'constructors') => {
-  //   const params = new URLSearchParams(searchParams);
-  //   params.set('chart', chart);
-  //   router.replace(`?${params.toString()}`);
-  // };
+    chartInstance.current = new StandingsChart(chartRef.current);
+
+    const handleResize = () => chartInstance.current?.resize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      chartInstance.current?.dispose();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!chartInstance.current || !standings) return;
+
+    chartInstance.current.update(
+      standings,
+      chartType,
+      hiddenDrivers,
+      hiddenTeams,
+    );
+  }, [standings, chartType, hiddenDrivers, hiddenTeams]);
+
+  if (error || !standings) return <ServerPageError />;
 
   const toggleDriverVisibility = (constructor: string, driver: string) => {
     if (!driver) return;
@@ -98,50 +117,34 @@ const Standings = () => {
   };
 
   return (
-    <div className='container mx-auto'>
-      <div className='my-4 grid grid-cols-3 gap-4'>
-        <div>
-          {/* Table */}
-          {chartType === 'drivers' ? (
-            <DriversTable
-              drivers={standings.drivers}
-              hiddenDrivers={hiddenDrivers}
-              toggleDriverVisibility={toggleDriverVisibility}
-            />
-          ) : (
-            <ConstructorsTable
-              constructors={standings.constructors}
-              hiddenConstructors={hiddenTeams}
-              toggleConstructorVisibility={toggleConstructorVisibility}
-            />
-          )}
-        </div>
-
-        {/* Charts */}
-        <div className='col-span-2'>
-          <StandingsChart>
-            {chartType === 'drivers' ? (
-              <DriverStandingsChart
-                standingsByDriver={standings.drivers}
-                events={standings.events}
-                hiddenDrivers={hiddenDrivers}
-              />
-            ) : (
-              <ConstructorStandingsChart
-                standingsByConstructor={standings.constructors}
-                events={standings.events}
-                hiddenConstructors={hiddenTeams}
-              />
-            )}
-          </StandingsChart>
-          <Legend
-            standings={standings}
+    <div className='my-4 grid grid-cols-5 gap-4'>
+      <div className='col-span-2'>
+        {chartType === 'drivers' ? (
+          <DriversTable
+            drivers={standings.drivers}
             toggleDriverVisibility={toggleDriverVisibility}
-            toggleConstructorVisibility={toggleConstructorVisibility}
             hiddenDrivers={hiddenDrivers}
+          />
+        ) : (
+          <ConstructorsTable
+            constructors={standings.constructors}
+            toggleConstructorVisibility={toggleConstructorVisibility}
             hiddenConstructors={hiddenTeams}
           />
-        </div>
+        )}
+      </div>
+      <div className='col-span-3'>
+        <div
+          className='relative h-[300px] rounded border lg:h-[450px]'
+          ref={chartRef}
+        />
+        <Legend
+          standings={standings}
+          toggleDriverVisibility={toggleDriverVisibility}
+          toggleConstructorVisibility={toggleConstructorVisibility}
+          hiddenDrivers={hiddenDrivers}
+          hiddenConstructors={hiddenTeams}
+        />
       </div>
     </div>
   );
