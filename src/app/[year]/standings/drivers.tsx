@@ -2,9 +2,8 @@
 
 import { AnimatedLineSeries } from '@visx/xychart';
 
+import { accessors } from '@/app/[year]/standings/page';
 import { GetStandingsQuery } from '@/generated/types';
-
-import { accessors } from '.';
 
 export const DriverStandingsChart = ({
   events,

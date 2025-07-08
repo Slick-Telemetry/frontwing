@@ -22,7 +22,6 @@
   },
   "dependencies": {
     "@apollo/client": "latest",
-    "@apollo/client-integration-nextjs": "latest",
     "@graphql-typed-document-node/core": "latest",
     "@radix-ui/react-accordion": "latest",
     "@radix-ui/react-avatar": "latest",

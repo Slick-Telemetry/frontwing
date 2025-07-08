@@ -2,7 +2,7 @@ import { ParentSize } from '@visx/responsive';
 import { Axis, darkTheme, Grid, Tooltip, XYChart } from '@visx/xychart';
 import clsx from 'clsx';
 
-import { Standings } from '.';
+import { Standings } from '@/app/[year]/standings/page';
 
 export const StandingsChart = ({ children }: { children: React.ReactNode }) => {
   return (

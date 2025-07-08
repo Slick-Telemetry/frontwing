@@ -9,7 +9,7 @@ import './globals.css';
 import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
 
-import { ApolloWrapper } from './apollo-provider';
+import { ApolloProvider } from '@/app/apollo-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,10 +26,10 @@ export default async function RootLayout({
   return (
     <html lang='en' className='dark'>
       <body className={clsx('flex min-h-screen flex-col', inter.className)}>
-        <ApolloWrapper>
+        <ApolloProvider>
           <TopNav />
           {children}
-        </ApolloWrapper>
+        </ApolloProvider>
         <Footer />
         <Analytics />
         <SpeedInsights />
