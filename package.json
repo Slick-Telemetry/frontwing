@@ -6,9 +6,9 @@
   "version": "0.6.18",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
-    "cypress:open": "cypress open",
+    "cy:open": "cypress open",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "next lint",
@@ -112,5 +112,5 @@
     "node": "22.17.x",
     "pnpm": "10.x"
   },
-  "packageManager": "pnpm@10.12.4"
+  "packageManager": "pnpm@10.13.1"
 }

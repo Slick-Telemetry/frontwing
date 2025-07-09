@@ -21,7 +21,9 @@ export function MainNav() {
     <NavigationMenu className='hidden px-4 md:block'>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Seasons</NavigationMenuTrigger>
+          <NavigationMenuTrigger data-cy='season-selector'>
+            Seasons
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className='grid gap-3 p-3 md:w-[150px] lg:w-[200px] lg:grid-cols-2'>
               <DisplaySeasons />

@@ -26,7 +26,7 @@ export const ServerStatus = () => {
   if (!error) return null;
 
   return (
-    <div title='Server Error'>
+    <div data-cy='server-error' title='Server Error'>
       <ServerOffIcon stroke='red' />
     </div>
   );
