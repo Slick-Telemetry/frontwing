@@ -31,7 +31,9 @@ function Footer() {
         </p>
       </div>
       <div className='mt-4 text-center md:mt-0'>
-        <p className='text-xs'>v{appVersion}</p>
+        <p className='text-xs' data-cy='app-version'>
+          v{appVersion}
+        </p>
       </div>
       <div className='flex flex-row flex-wrap justify-center gap-x-4 md:justify-end'>
         <a className='italic' href='mailto:contact@slicktelemetry.com'>
@@ -56,7 +58,11 @@ function Footer() {
             <TOS />
             <DialogFooter className='sm:justify-start'>
               <DialogClose asChild>
-                <Button type='button' variant='secondary'>
+                <Button
+                  data-cy='dialog-close-toc'
+                  type='button'
+                  variant='secondary'
+                >
                   Close
                 </Button>
               </DialogClose>
@@ -75,7 +81,11 @@ function Footer() {
             <AboutUs />
             <DialogFooter className='sm:justify-start'>
               <DialogClose asChild>
-                <Button type='button' variant='secondary'>
+                <Button
+                  data-cy='dialog-close-about-us'
+                  type='button'
+                  variant='secondary'
+                >
                   Close
                 </Button>
               </DialogClose>

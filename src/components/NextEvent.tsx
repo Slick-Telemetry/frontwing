@@ -59,6 +59,7 @@ const NextEvent = () => {
           <Link
             className='hover:underline'
             href={`/${nextEvent.year}/${eventLocationEncode(nextEvent?.location)}`}
+            data-cy='next-event-name'
           >
             {nextEvent.event_name}{' '}
             {nextEvent.country &&
