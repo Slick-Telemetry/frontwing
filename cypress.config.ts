@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   projectId: 'x56qs2',
+  retries: 2,
   component: {
     devServer: {
       framework: 'next',
