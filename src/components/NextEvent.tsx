@@ -47,6 +47,14 @@ const NextEvent = () => {
 
   const nextEvent = data.schedule[0];
 
+  // If session5_date_utc is older than today midnight UTC, don't show the event
+  if (
+    nextEvent.session5_date_utc &&
+    new Date(nextEvent.session5_date_utc) < new Date(getTodayMidnightUTC())
+  ) {
+    return <></>;
+  }
+
   return (
     <div className='mx-auto flex w-fit flex-col rounded-lg p-2'>
       {nextEvent.event_format && (
