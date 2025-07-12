@@ -20,7 +20,7 @@ export function DisplaySeasons({ asDrawer }: { asDrawer?: boolean }) {
     return <div data-cy='season-selector-loading'>Loading Seasons...</div>;
   }
 
-  if (error) return <ServerComponentError data-cy='season-selector-error' />;
+  if (error) return <ServerComponentError />;
 
   if (asDrawer) {
     return data?.events.map(({ year }) => (
