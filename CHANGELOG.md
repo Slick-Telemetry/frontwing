@@ -1,3 +1,9 @@
+## 0.6.18 (2025-07-16)
+
+### Fix
+
+- correct export of Standings default component
+
 ## 0.6.17 (2025-06-30)
 
 ### Fix
