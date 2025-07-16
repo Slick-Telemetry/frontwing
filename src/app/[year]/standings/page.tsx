@@ -33,7 +33,7 @@ export const accessors = {
   yAccessor: (d: Standings) => d?.points || 0,
 };
 
-export const Standings = () => {
+const Standings = () => {
   // const router = useRouter();
   const { year: season } = useParams<{ year: string }>();
   const searchParams = useSearchParams();
@@ -146,3 +146,5 @@ export const Standings = () => {
     </div>
   );
 };
+
+export default Standings;
