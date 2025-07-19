@@ -1,5 +1,3 @@
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import clsx from 'clsx';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -8,6 +6,7 @@ import './globals.css';
 
 import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
+import { Vercel } from '@/components/vercel';
 
 import { ApolloProvider } from '@/app/apollo-provider';
 
@@ -31,8 +30,7 @@ export default async function RootLayout({
           {children}
         </ApolloProvider>
         <Footer />
-        <Analytics />
-        <SpeedInsights />
+        <Vercel />
       </body>
     </html>
   );
