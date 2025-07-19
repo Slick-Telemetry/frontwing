@@ -32,8 +32,6 @@
     "@radix-ui/react-slot": "latest",
     "@tailwindcss/postcss": "latest",
     "@turf/turf": "latest",
-    "@vercel/analytics": "latest",
-    "@vercel/speed-insights": "latest",
     "@visx/curve": "latest",
     "@visx/event": "latest",
     "@visx/glyph": "latest",
