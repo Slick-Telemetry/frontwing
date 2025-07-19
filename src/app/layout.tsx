@@ -6,6 +6,7 @@ import './globals.css';
 
 import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
+import { VercelObservability } from '@/components/vercel';
 
 import { ApolloProvider } from '@/app/apollo-provider';
 
@@ -29,8 +30,7 @@ export default async function RootLayout({
           {children}
         </ApolloProvider>
         <Footer />
-        {/* <Analytics />
-        <SpeedInsights /> */}
+        <VercelObservability />
       </body>
     </html>
   );
