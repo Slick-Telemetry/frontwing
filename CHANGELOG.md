@@ -1,3 +1,9 @@
+## 0.6.19 (2025-07-20)
+
+### Fix
+
+- omit vercel component when running cypress testing
+
 ## 0.6.18 (2025-07-16)
 
 ### Fix
