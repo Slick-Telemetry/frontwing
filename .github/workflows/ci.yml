@@ -1,4 +1,4 @@
-name: Lint, Release and Deploy
+name: Lint, Test, Release and Deploy
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -38,17 +38,16 @@ jobs:
       - name: 💅 Prettier check
         run: pnpm format:check
 
-      # - name: Install Cypress binary
-      #   run: npx cypress install
+      - name: Install Cypress binary
+        run: npx cypress install
 
-      # - name: ✅ Cypress tests
-      #   uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a
-      #   with:
-      #     browser: chrome
-      #     build: pnpm build
-      #     component: true
-      #     start: pnpm start
-      #     wait-on: 'http://localhost:3000'
+      - name: Build and start app
+        run: |
+          TESTING=true pnpm build
+          pnpm start & npx wait-on http://localhost:3000
+
+      - name: ✅ Run Cypress tests
+        run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
 
   release:
     # create a release following the logic below:
