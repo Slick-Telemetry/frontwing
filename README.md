@@ -82,6 +82,8 @@ pnpm cypress install # if you dont have cypress installed
 pnpm cy:open
 ```
 
+Run `pnpm build:test` to **build for testing**, when trying to test production code we need to omit certain components from vercel
+
 ## Deployment
 
 The site is deployed at https://slicktelemetry.com using Vercel.

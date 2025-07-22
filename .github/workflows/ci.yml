@@ -43,7 +43,7 @@ jobs:
 
       - name: Build and start app
         run: |
-          TESTING=true pnpm build
+          pnpm build:test
           pnpm start & npx wait-on http://localhost:3000
 
       - name: ✅ Run Cypress tests

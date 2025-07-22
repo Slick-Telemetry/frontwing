@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
+    "build:test": "TESTING=true next build",
     "cy:open": "cypress open",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
