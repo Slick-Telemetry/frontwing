@@ -251,26 +251,160 @@ describe('Next Event', () => {
   });
 });
 
+describe('Countdown Timer', () => {
+  it('shows countdown timer when a future event is available', () => {
+    // Set a target date a few days in the future for the countdown
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 5); // 5 days from now
+    futureDate.setHours(futureDate.getHours() + 10); // 10 hours from now
+    futureDate.setMinutes(futureDate.getMinutes() + 30); // 30 minutes from now
+
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'GetNextEvent') {
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              schedule: [
+                {
+                  year: 2024,
+                  event_name: 'Future Event',
+                  location: 'Future Location',
+                  country: 'Future Country',
+                  event_format: 'conventional',
+                  session5_date_utc: futureDate.toISOString(),
+                },
+              ],
+            },
+          },
+        });
+      }
+    }).as('getNextEventFuture');
+
+    cy.visit('/');
+    cy.wait('@getNextEventFuture');
+
+    // Assert that the countdown digits are visible and contain plausible values
+    cy.get('[data-cy="countdown-timer"]').should('be.visible'); // The container for the digits
+
+    // Check for days, hours, minutes, seconds digits
+    cy.get('[data-cy="countdown-digit-day"]')
+      .find('[data-cy="countdown-value"]')
+      .should('be.visible')
+      .invoke('text')
+      .then(parseInt)
+      .should('be.gte', 0); // Days
+    cy.get('[data-cy="countdown-digit-hour"]')
+      .find('[data-cy="countdown-value"]')
+      .should('be.visible')
+      .invoke('text')
+      .then(parseInt)
+      .should('be.gte', 0); // Hours
+    cy.get('[data-cy="countdown-digit-min"]')
+      .find('[data-cy="countdown-value"]')
+      .should('be.visible')
+      .invoke('text')
+      .then(parseInt)
+      .should('be.gte', 0); // Minutes
+    cy.get('[data-cy="countdown-digit-sec"]')
+      .find('[data-cy="countdown-value"]')
+      .should('be.visible')
+      .invoke('text')
+      .then(parseInt)
+      .should('be.gte', 0); // Seconds
+  });
+
+  it('does not show countdown timer when no future event is available', () => {
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'GetNextEvent') {
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              schedule: [],
+            },
+          },
+        });
+      }
+    }).as('getNextEventEmpty');
+
+    cy.visit('/');
+    cy.wait('@getNextEventEmpty');
+    cy.get('[data-cy="countdown-timer"]').should('not.exist');
+  });
+
+  it('does not show countdown timer when event is in the past', () => {
+    // Set a date in the past for session5_date_utc
+    const pastDate = new Date();
+    pastDate.setFullYear(pastDate.getFullYear() - 1); // Set to last year
+
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'GetNextEvent') {
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              schedule: [
+                {
+                  year: pastDate.getFullYear(),
+                  event_name: 'Past Event',
+                  location: 'Old Location',
+                  country: 'Old Country',
+                  event_format: 'conventional',
+                  session5_date_utc: pastDate.toISOString(),
+                },
+              ],
+            },
+          },
+        });
+      }
+    }).as('getNextEventPast');
+
+    cy.visit('/');
+    cy.wait('@getNextEventPast');
+    cy.get('[data-cy="countdown-timer"]').should('not.exist');
+  });
+});
+
 describe('Top Navigation', () => {
   beforeEach(() => {
     cy.visit('/');
   });
 
   it('navigates to home page when clicking on the logo', () => {
-    cy.get('a.btn.btn-ghost').click();
+    cy.get('[data-cy="home-logo-link"]').click();
     cy.url().should('eq', Cypress.config('baseUrl') + '/');
   });
 
   it('navigates to Standings page', () => {
     const currentYear = new Date().getFullYear();
-    cy.get('nav a[href*="/standings"]').click();
+    cy.get('[data-cy="nav-link-standings"]').click();
     cy.url().should('include', `/${currentYear}/standings`);
   });
 
   it('navigates to Map page', () => {
     const currentYear = new Date().getFullYear();
-    cy.get('nav a[href*="/map"]').click();
+    cy.get('[data-cy="nav-link-map"]').click();
     cy.url().should('include', `/${currentYear}/map`);
+  });
+
+  it('shows loading and then error message when network error occurs for seasons', () => {
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'GetSeasons') {
+        req.reply({
+          forceNetworkError: true,
+        });
+      }
+    }).as('getSeasonsError');
+
+    cy.get('[data-cy="season-selector"]').click();
+    cy.wait('@getSeasonsError');
+    cy.get('[data-cy="season-selector-error"]')
+      .should('be.visible')
+      .contains('Server Error');
+    cy.get('[data-cy="season-selector-error"]')
+      .should('be.visible')
+      .contains('Please try again');
   });
 });
 
@@ -323,30 +457,27 @@ describe('Footer', () => {
   });
 });
 
-describe('Seasons Dropdown', () => {
-  beforeEach(() => {
+describe('Background Image', () => {
+  it('successfully loads the background image', () => {
+    cy.request('/slick-telemetry-bg.png').its('status').should('eq', 200);
+  });
+});
+
+describe('Responsive Design', () => {
+  it('displays navigation elements correctly on desktop', () => {
+    cy.viewport(1280, 720); // Desktop resolution
     cy.visit('/');
+    cy.get('[data-cy="season-selector"]').should('be.visible');
+    cy.get('[data-cy="nav-link-standings"]').should('be.visible');
+    cy.get('[data-cy="nav-link-map"]').should('be.visible');
   });
 
-  it('shows loading and then error message when network error occurs for seasons', () => {
-    cy.intercept('POST', '**/graphql', (req) => {
-      if (req.body.operationName === 'GetSeasons') {
-        req.reply({
-          forceNetworkError: true,
-        });
-      }
-    }).as('getSeasonsError');
-
-    cy.get('[data-cy="season-selector"]').click();
-    // cy.get('[data-cy="season-selector-loading"]')
-    //   .should('be.visible')
-    //   .contains('Loading Seasons...');
-    cy.wait('@getSeasonsError');
-    cy.get('[data-cy="season-selector-error"]')
-      .should('be.visible')
-      .contains('Server Error');
-    cy.get('[data-cy="season-selector-error"]')
-      .should('be.visible')
-      .contains('Please try again');
+  it('displays mobile navigation elements correctly on mobile', () => {
+    cy.viewport(375, 667); // iPhone X resolution
+    cy.visit('/');
+    cy.get('[data-cy="mobile-menu-button"]').should('be.visible');
+    cy.get('[data-cy="season-selector"]').should('not.be.visible');
+    cy.get('[data-cy="nav-link-standings"]').should('not.be.visible');
+    cy.get('[data-cy="nav-link-map"]').should('not.be.visible');
   });
 });

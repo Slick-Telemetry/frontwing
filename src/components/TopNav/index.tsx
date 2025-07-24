@@ -12,6 +12,7 @@ export const TopNav = () => {
       <Link
         href='/'
         className='btn btn-ghost flex items-center gap-x-2 font-extrabold tracking-tight md:text-xl'
+        data-cy='home-logo-link'
       >
         <Image
           src='/slick-telemetry-logo.png'

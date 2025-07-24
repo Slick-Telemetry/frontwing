@@ -49,7 +49,10 @@ export function MainNav() {
         <NavigationMenuItem>
           <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
             {/* TODO: Get value from lastest year in schedule */}
-            <Link href={`/${new Date().getFullYear()}/standings`}>
+            <Link
+              href={`/${new Date().getFullYear()}/standings`}
+              data-cy='nav-link-standings'
+            >
               Standings
             </Link>
           </NavigationMenuLink>
@@ -57,7 +60,12 @@ export function MainNav() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
             {/* TODO: Get value from lastest year in schedule */}
-            <Link href={`/${new Date().getFullYear()}/map`}>Map</Link>
+            <Link
+              href={`/${new Date().getFullYear()}/map`}
+              data-cy='nav-link-map'
+            >
+              Map
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

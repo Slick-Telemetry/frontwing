@@ -25,7 +25,7 @@ export const MobileNav = () => {
     <nav className='bg-muted ring-primary fixed right-4 bottom-4 z-50 mx-auto flex h-12 w-12 items-center justify-center rounded opacity-70 ring hover:opacity-100 md:hidden'>
       {/* Mobile Nav */}
       <Drawer>
-        <DrawerTrigger>
+        <DrawerTrigger data-cy='mobile-menu-button'>
           <Menu size={32} />
         </DrawerTrigger>
         <DrawerContent className='shadow-primary/75 max-w-dvw shadow-[0_0_6px]'>

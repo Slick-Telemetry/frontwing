@@ -93,13 +93,22 @@ const NextEvent = () => {
       </div>
       <hr className='mt-2 mb-4' />
       {nextEvent.session5_date_utc && (
-        <Countdown targetDate={nextEvent.session5_date_utc} />
+        <Countdown
+          targetDate={nextEvent.session5_date_utc}
+          data-cy='countdown-timer'
+        />
       )}
     </div>
   );
 };
 
-const Countdown = ({ targetDate }: { targetDate: string | Date }) => {
+const Countdown = ({
+  targetDate,
+  'data-cy': dataCy,
+}: {
+  targetDate: string | Date;
+  'data-cy'?: string;
+}) => {
   const calculateTimeLeft = useCallback(() => {
     const now = new Date();
     const target = new Date(targetDate);
@@ -128,22 +137,33 @@ const Countdown = ({ targetDate }: { targetDate: string | Date }) => {
   }, [calculateTimeLeft]);
 
   return (
-    <div className='grid w-full grid-cols-4 gap-2'>
+    <div className='grid w-full grid-cols-4 gap-2' data-cy={dataCy}>
       {Object.keys(timeLeft).map((key) => (
         <Digit
           key={key}
           time={timeLeft[key as keyof typeof timeLeft] ?? 0}
           name={key}
+          data-cy={`countdown-digit-${key}`}
         />
       ))}
     </div>
   );
 };
 
-const Digit = ({ time, name }: { time: number; name: string }) => {
+const Digit = ({
+  time,
+  name,
+  'data-cy': dataCy,
+}: {
+  time: number;
+  name: string;
+  'data-cy'?: string;
+}) => {
   return (
-    <div className='grid w-[64px] text-center'>
-      <p className='font-mono text-2xl leading-6'>{time}</p>
+    <div className='grid w-[64px] text-center' data-cy={dataCy}>
+      <p className='font-mono text-2xl leading-6' data-cy='countdown-value'>
+        {time}
+      </p>
       <p className='text-xs leading-6 uppercase'>
         {name}
         {time > 1 && 's'}
