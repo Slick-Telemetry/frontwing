@@ -47,7 +47,9 @@ function Footer() {
           <GitHubIcon />
         </a>
         <Dialog>
-          <DialogTrigger>Terms of Service</DialogTrigger>
+          <DialogTrigger className='cursor-pointer'>
+            Terms of Service
+          </DialogTrigger>
           <DialogContent className='max-h-[400px] overflow-scroll py-8 sm:max-h-[600px]'>
             <DialogHeader className='text-left'>
               <DialogTitle>Terms and Conditions</DialogTitle>
@@ -70,7 +72,7 @@ function Footer() {
           </DialogContent>
         </Dialog>
         <Dialog>
-          <DialogTrigger>About Us</DialogTrigger>
+          <DialogTrigger className='cursor-pointer'>About Us</DialogTrigger>
           <DialogContent className='max-h-[400px] overflow-scroll py-8 sm:max-h-[600px]'>
             <DialogHeader className='text-left'>
               <DialogTitle>About Slick Telemetry</DialogTitle>
