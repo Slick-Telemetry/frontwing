@@ -9,7 +9,7 @@ import React, { useEffect, useRef } from 'react';
 echarts.use([LineChart, TooltipComponent, GridComponent, CanvasRenderer]);
 
 const NUM_LINES = 10;
-const NUM_LAPS = 20;
+const NUM_LAPS = 50;
 
 function generateRandomLineData() {
   return Array.from({ length: NUM_LAPS }, (_, i) => ({
@@ -45,10 +45,6 @@ export const LineChartSkeleton = ({ title }: { title?: React.ReactNode }) => {
       }));
 
       const option = {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: { type: 'cross' },
-        },
         grid: {
           left: '2%',
           right: '2%',
@@ -57,19 +53,16 @@ export const LineChartSkeleton = ({ title }: { title?: React.ReactNode }) => {
         },
         xAxis: {
           type: 'value',
-          name: 'Lap Number',
-          nameLocation: 'middle',
-          nameGap: 30,
-          axisLabel: {
-            formatter: '{value}',
-          },
           max: NUM_LAPS,
+          interval: 2,
+          splitLine: {
+            lineStyle: {
+              type: 'dashed',
+            },
+          },
         },
         yAxis: {
           type: 'value',
-          name: 'Value',
-          nameLocation: 'middle',
-          nameGap: 40,
         },
         series: series,
       };

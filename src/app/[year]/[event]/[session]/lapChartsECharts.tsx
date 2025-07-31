@@ -19,18 +19,16 @@ import {
 import { LineChartSkeleton } from './LineChartSkeleton';
 
 interface ChartProps {
-  title: string;
   loading: boolean;
   children: React.ReactNode;
 }
 
-const ChartContainer: React.FC<ChartProps> = ({ title, loading, children }) => {
+const ChartContainer: React.FC<ChartProps> = ({ loading, children }) => {
   if (loading) {
-    return <LineChartSkeleton title={`Loading ${title}...`} />;
+    return <LineChartSkeleton title='Loading ...' />;
   }
   return (
     <div className='rounded border p-2'>
-      {title}
       <div className='h-[500px]'>{children}</div>
     </div>
   );
@@ -47,40 +45,113 @@ export const DeltaToWinnerECharts = ({
       const chart = echarts.init(chartRef.current);
 
       const driverData = data?.sessions[0].driver_sessions || [];
-      const firstPlaceLaps = driverData[0]?.laps;
 
-      // Create a map for driver abbreviation to constructor color
+      // Create a map for driver abbreviation to constructor color and prepare lap data
       const driverColorMap = new Map<string, string>();
+      const lapTimesByDriver = new Map<string, number[]>();
+      const driverFinalPositions = new Map<string, number>();
+
+      // First pass: collect all lap times and create color map
       driverData.forEach((driver) => {
         if (driver.driver?.abbreviation) {
+          // Set color mapping
           driverColorMap.set(
             driver.driver.abbreviation,
             `#${driver.constructorByConstructorId?.color || 'cccccc'}`,
           );
+
+          // Collect lap times
+          const validLaps = driver.laps
+            .filter((lap) => !!lap.lap_number && lap.lap_time !== null)
+            .map((lap) => Number(lap.lap_time));
+          lapTimesByDriver.set(driver.driver.abbreviation, validLaps);
+
+          // Store final position based on their completion time
+          const finalTime = driver.laps.reduce(
+            (sum, lap) => sum + Number(lap.lap_time || 0),
+            0,
+          );
+          driverFinalPositions.set(
+            driver.driver.abbreviation,
+            finalTime > 0 ? finalTime : Number.POSITIVE_INFINITY,
+          );
         }
       });
 
-      const series = driverData.map((driver) => {
-        const color = `#${driver.constructorByConstructorId?.color || 'cccccc'}`;
-        const lapData = driver.laps
-          .filter((lap) => !!lap.lap_number)
-          .map((lap, i) => {
-            return [
-              lap.lap_number,
-              (Number(firstPlaceLaps[i]?.session_time || 0) -
-                Number(lap.session_time || 0)) /
-                1000,
-            ];
-          });
+      // Calculate median lap times for each lap number
+      const maxLaps = Math.max(
+        ...Array.from(lapTimesByDriver.values()).map((laps) => laps.length),
+      );
+      const medianLapTimes: number[] = [];
+
+      for (let lap = 0; lap < maxLaps; lap++) {
+        const lapTimes = Array.from(lapTimesByDriver.values())
+          .map((times) => times[lap])
+          .filter((time) => time !== undefined && !isNaN(time));
+
+        if (lapTimes.length > 0) {
+          const sortedTimes = lapTimes.sort((a, b) => a - b);
+          const mid = Math.floor(sortedTimes.length / 2);
+          medianLapTimes[lap] =
+            sortedTimes.length % 2 === 0
+              ? (sortedTimes[mid - 1] + sortedTimes[mid]) / 2
+              : sortedTimes[mid];
+        }
+      }
+
+      // Calculate cumulative medians
+      const cumulativeMedians = medianLapTimes.reduce(
+        (acc: number[], curr: number) => {
+          const prev = acc.length > 0 ? acc[acc.length - 1] : 0;
+          acc.push(prev + curr);
+          return acc;
+        },
+        [],
+      );
+
+      // Sort drivers by final position
+      const sortedDrivers = Array.from(driverFinalPositions.entries())
+        .sort(([, posA], [, posB]) => posA - posB)
+        .map(([driver]) => driver);
+
+      // Create series data with calculated offsets
+      const series = sortedDrivers.map((driverAbbr, index) => {
+        const color = driverColorMap.get(driverAbbr) || '#cccccc';
+        const driverLapTimes = lapTimesByDriver.get(driverAbbr) || [];
+
+        // Calculate cumulative times for this driver
+        const cumulativeTimes = driverLapTimes.reduce(
+          (acc: number[], curr: number) => {
+            const prev = acc.length > 0 ? acc[acc.length - 1] : 0;
+            acc.push(prev + curr);
+            return acc;
+          },
+          [],
+        );
+
+        // Calculate delta to median pace
+        const lapData = cumulativeTimes.map((time, lap) => {
+          const medianTime = cumulativeMedians[lap] || 0;
+          return [lap + 1, -(time - medianTime) / 1000]; // Convert to seconds
+        });
+
+        // Determine line style based on index
+        const lineStyles = ['-', '-.', '--', ':', '-', '-'];
+        const lineStyle = lineStyles[index % lineStyles.length];
+
+        const position = driverFinalPositions.get(driverAbbr);
+        const positionStr =
+          position === Number.POSITIVE_INFINITY ? 'DNF ' : `${position}. `;
 
         return {
-          name: driver.driver?.abbreviation,
+          name: `${positionStr}${driverAbbr}`,
           type: 'line',
-          smooth: true,
+          smooth: false,
           showSymbol: false,
           lineStyle: {
             color: color,
             width: 2,
+            type: lineStyle as 'solid' | 'dashed' | 'dotted',
           },
           itemStyle: {
             color: color,
@@ -90,6 +161,15 @@ export const DeltaToWinnerECharts = ({
       });
 
       const option: EChartsOption = {
+        title: {
+          text: 'Delta to Fastest Lap (Practice) or Winner',
+          left: 'center',
+          top: 'top',
+          textStyle: {
+            color: '#fff',
+            fontSize: 16,
+          },
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: { type: 'cross' },
@@ -142,10 +222,17 @@ export const DeltaToWinnerECharts = ({
                 return (b.value as number[])[1] - (a.value as number[])[1];
               });
               typedParams.forEach((item) => {
-                const driverAbbr = item.seriesName;
-                const driverColor = driverColorMap.get(driverAbbr) || '#FFFFFF';
                 if (item.value) {
-                  tooltipContent += `<div><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${driverColor};"></span><span style="color:${driverColor}">${item.seriesName}</span>: ${(item.value as number[])[1]?.toFixed(3)}</div>`;
+                  const seriesName = item.seriesName.split(' ');
+                  const driverAbbr = seriesName[seriesName.length - 1];
+                  const driverColor =
+                    driverColorMap.get(driverAbbr) || '#FFFFFF';
+                  const deltaTime = (item.value as number[])[1];
+                  const deltaStr =
+                    deltaTime > 0
+                      ? `+${deltaTime.toFixed(3)}s`
+                      : `${deltaTime.toFixed(3)}s`;
+                  tooltipContent += `<div><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${driverColor};"></span><span style="color:${driverColor}">${driverAbbr}</span>: ${deltaStr}</div>`;
                 }
               });
             }
@@ -167,10 +254,16 @@ export const DeltaToWinnerECharts = ({
             formatter: '{value}',
           },
           max: 'dataMax',
+          interval: 2,
+          splitLine: {
+            lineStyle: {
+              type: 'dashed',
+            },
+          },
         },
         yAxis: {
           type: 'value',
-          name: 'Times',
+          name: 'Time offset from Average Pace (s)',
           nameLocation: 'middle',
           nameGap: 40,
           axisLabel: {
@@ -190,10 +283,7 @@ export const DeltaToWinnerECharts = ({
   }, [data, loading]);
 
   return (
-    <ChartContainer
-      title='Delta to Fastest Lap (Practice) or Winner'
-      loading={loading}
-    >
+    <ChartContainer loading={loading}>
       <div ref={chartRef} style={{ width: '100%', height: '100%' }} />
     </ChartContainer>
   );
@@ -270,6 +360,15 @@ export const LapTimesECharts = ({
       });
 
       const option: EChartsOption = {
+        title: {
+          text: 'Lap Times',
+          left: 'center',
+          top: 'top',
+          textStyle: {
+            color: '#fff',
+            fontSize: 16,
+          },
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: { type: 'cross' },
@@ -375,7 +474,7 @@ export const LapTimesECharts = ({
   }, [data, loading]);
 
   return (
-    <ChartContainer title='Raw Lap Times' loading={loading}>
+    <ChartContainer loading={loading}>
       <div ref={chartRef} style={{ width: '100%', height: '100%' }} />
     </ChartContainer>
   );
