@@ -15,10 +15,7 @@ import {
 import * as echarts from 'echarts/core';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import type {
-  CallbackDataParams,
-  TooltipPositionCallback,
-} from 'echarts/types/dist/shared';
+import type { CallbackDataParams } from 'echarts/types/dist/shared';
 
 import type { GetStandingsQuery } from '@/generated/types';
 
@@ -180,37 +177,15 @@ export class StandingsChart {
           );
 
     const option: ECOption = {
-      darkMode: true,
       backgroundColor: 'transparent',
       // @ts-expect-error: ECharts tooltip types are complex and difficult to align perfectly with strict TypeScript.
       tooltip: {
         trigger: 'axis',
-        axisPointer: { type: 'cross' },
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        axisPointer: { type: 'cross', label: { precision: 0 } },
+        backgroundColor: 'rgba(0, 0, 0, 1)',
         borderColor: '#333',
         textStyle: { color: '#fff' },
-        position: (
-          pos: number[],
-          params: CallbackDataParams | CallbackDataParams[],
-          dom: HTMLDivElement | echarts.graphic.Text | null,
-          rect: { x: number; y: number; width: number; height: number } | null,
-          size: { contentSize: [number, number]; viewSize: [number, number] },
-        ): ReturnType<TooltipPositionCallback> => {
-          const chartHeight = rect?.height || 0;
-          const tooltipHeight = size?.contentSize?.[1] || 0;
-
-          let top = pos[1] + 10;
-
-          const minTop = 10;
-          const maxTop = chartHeight - tooltipHeight - 10;
-
-          top = Math.max(minTop, Math.min(top, maxTop));
-
-          return {
-            left: pos[0] + 20,
-            top: top,
-          };
-        },
+        confine: true,
         formatter: (params: CallbackDataParams[]) => {
           if (!Array.isArray(params) || !params.length) return '';
 
@@ -241,25 +216,20 @@ export class StandingsChart {
         left: '4%',
         right: '4%',
         bottom: '7%',
-        containLabel: true,
       },
       xAxis: {
         type: 'category',
-        boundaryGap: false,
+        axisTick: { show: true, alignWithLabel: true },
         data: allRounds,
-        axisLabel: { color: '#fff' },
         name: 'Round',
         nameLocation: 'middle',
         nameGap: 35,
-        nameTextStyle: { color: '#fff' },
       },
       yAxis: {
         type: 'value',
-        axisLabel: { color: '#fff' },
         name: 'Points',
         nameLocation: 'middle',
         nameGap: 35,
-        nameTextStyle: { color: '#fff' },
       },
       series: seriesFiltered,
     };

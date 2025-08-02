@@ -38,6 +38,7 @@ interface CustomBarDataItem {
       symbolKeepAspect: boolean;
       color: string;
       dashArrayX: number[];
+      dashArrayY: number[];
     };
   };
 }
@@ -109,9 +110,10 @@ const StintsEchartsChart: React.FC<StintsEchartsChartProps> = ({
                   : {
                       symbol: 'rect',
                       symbolSize: 1,
-                      rotation: 45,
                       color: 'rgba(0,0,0,0.2)',
-                      dashArrayX: [1, 5],
+                      dashArrayX: [1, 0],
+                      dashArrayY: [2, 5],
+                      rotation: -Math.PI / 4,
                     },
               },
             } as CustomBarDataItem);
@@ -128,9 +130,10 @@ const StintsEchartsChart: React.FC<StintsEchartsChartProps> = ({
                 decal: {
                   symbol: 'rect',
                   symbolSize: 1,
-                  rotation: 45,
                   color: 'rgba(0,0,0,0.2)',
-                  dashArrayX: [1, 5],
+                  dashArrayX: [1, 0],
+                  dashArrayY: [2, 5],
+                  rotation: -Math.PI / 4,
                 },
               },
             } as CustomBarDataItem);
@@ -174,7 +177,7 @@ const StintsEchartsChart: React.FC<StintsEchartsChartProps> = ({
           axisPointer: {
             type: 'shadow',
           },
-          backgroundColor: 'rgba(28, 30, 33, 0.9)', // Dark background
+          backgroundColor: 'rgba(0, 0, 0, 1)', // Dark background
           borderColor: '#60A5FA', // Light blue border
           borderWidth: 1,
           borderRadius: 4,

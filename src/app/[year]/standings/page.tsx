@@ -17,20 +17,6 @@ import type {
 import { StandingsChart } from './EChartsStandings';
 import { Legend } from './Legend';
 
-type DriverStanding = GetStandingsQuery['drivers'][0]['driver_standings'][0];
-type ConstructorStandings =
-  GetStandingsQuery['constructors'][0]['constructor_standings'][0];
-
-export type Standings = (DriverStanding | ConstructorStandings) & {
-  color: string;
-  eventName?: string;
-};
-
-export const accessors = {
-  xAccessor: (d: Standings) => d?.round || 0,
-  yAccessor: (d: Standings) => d?.points || 0,
-};
-
 const Standings = () => {
   const { year: season } = useParams<{ year: string }>();
   const searchParams = useSearchParams();
