@@ -1,3 +1,9 @@
+## 0.6.21 (2025-08-03)
+
+### Fix
+
+- **driver-grid**: correctly sort drivers
+
 ## 0.6.20 (2025-07-25)
 
 ### Fix
