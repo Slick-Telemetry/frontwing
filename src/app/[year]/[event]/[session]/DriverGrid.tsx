@@ -62,20 +62,32 @@ export const DriverGrid = () => {
       ...session.driver_sessions,
     ]) as SessionResultsQuery['sessions'][0]['driver_sessions'];
   }
-  // If Race or Sprint, sort by classified_position
+  // If Race or Sprint, sort by position
   if (sessionType === 'competition') {
     driverSessions = (
       [
         ...session.driver_sessions,
       ] as SessionResultsQuery['sessions'][0]['driver_sessions']
-    )
-      .filter((driver) => !!driver.results?.[0]?.classified_position)
-      .sort((a, b) => {
-        return (
-          Number(a.results[0]?.classified_position || 0) -
-          Number(b.results[0]?.classified_position || 0)
-        );
-      });
+    ).sort((a, b) => {
+      const posA =
+        a.results?.[0]?.classified_position ||
+        a.results?.[0]?.finishing_position;
+      const posB =
+        b.results?.[0]?.classified_position ||
+        b.results?.[0]?.finishing_position;
+
+      // If both have numeric positions, compare them
+      if (!isNaN(Number(posA)) && !isNaN(Number(posB))) {
+        return Number(posA) - Number(posB);
+      }
+
+      // If only one has a numeric position, the other should come after
+      if (!isNaN(Number(posA))) return -1;
+      if (!isNaN(Number(posB))) return 1;
+
+      // If neither has a numeric position, maintain their original order
+      return 0;
+    });
   }
   return (
     <div className='grid gap-4 py-4 lg:grid-cols-5'>
