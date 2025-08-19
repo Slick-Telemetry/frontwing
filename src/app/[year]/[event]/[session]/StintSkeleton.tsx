@@ -53,7 +53,7 @@ export const StintSkeleton = () => {
     if (chartRef.current) {
       chartInstance = echarts.init(chartRef.current);
 
-      const xAxisMax = 60; // Max lap number from original visx config
+      const xAxisMax = 60;
       const yAxisCategoryData = processedData.map((d) => d.driver);
 
       const finalSeries: SeriesOption[] = [];
@@ -209,7 +209,7 @@ export const StintSkeleton = () => {
           right: margin.right,
           bottom: margin.bottom,
           top: margin.top,
-          containLabel: false, // Similar to visx behavior, where margins are outside labels
+          containLabel: false,
         },
         series: finalSeries,
       };
