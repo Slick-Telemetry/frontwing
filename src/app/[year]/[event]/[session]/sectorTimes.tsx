@@ -1,20 +1,17 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { GlyphStar } from '@visx/glyph';
-import { ParentSize } from '@visx/responsive';
+import { BarChart } from 'echarts/charts';
 import {
-  Axis,
-  BarSeries,
-  darkTheme,
-  GlyphSeries,
-  Grid,
-  Tooltip,
-  XYChart,
-} from '@visx/xychart';
-import clsx from 'clsx';
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+} from 'echarts/components';
+import * as echarts from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import type { EChartsOption } from 'echarts/types/dist/echarts';
 import { useParams } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { GET_SESSION_FASTEST_TIMES } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
@@ -30,7 +27,15 @@ import {
 import { BarChartSkeleton } from './BarChartSkeleton';
 import FastestLapECharts from './FastestLapECharts';
 
-const margin = { top: 20, right: 30, bottom: 50, left: 60 };
+// Register the required components
+echarts.use([
+  BarChart,
+  GridComponent,
+  TooltipComponent,
+  TitleComponent,
+  CanvasRenderer,
+]);
+
 const titles = {
   lap_time: (
     <>
@@ -46,10 +51,7 @@ const titles = {
     <>
       <h3 className='text-center text-lg font-semibold'>Fastest Laps</h3>
       <p className='text-center text-sm italic'>
-        <svg className='inline size-6' viewBox='0 0 8 8'>
-          <GlyphStar left={4} top={4} size={8} fill='#FFD700' />
-        </svg>
-        = Potential is total of best sector times
+        ⭐ = Potential is total of best sector times
       </p>
     </>
   ),
@@ -183,7 +185,7 @@ const SectorTimes = () => {
   });
 
   return (
-    <div className={clsx('grid gap-4', { 'animate-pulse': loading })}>
+    <div className='grid gap-4'>
       {loading ? (
         <>
           <BarChartSkeleton title={titles['potential_best']} />
@@ -194,22 +196,24 @@ const SectorTimes = () => {
       ) : (
         <>
           <FastestLapECharts times={driverTimes} />
-          <SectorChart times={driverTimes} sectorKey='sector1' />
-          <SectorChart times={driverTimes} sectorKey='sector2' />
-          <SectorChart times={driverTimes} sectorKey='sector3' />
+          <SectorChartECharts times={driverTimes} sectorKey='sector1' />
+          <SectorChartECharts times={driverTimes} sectorKey='sector2' />
+          <SectorChartECharts times={driverTimes} sectorKey='sector3' />
         </>
       )}
     </div>
   );
 };
 
-const SectorChart = ({
+const SectorChartECharts = ({
   sectorKey,
   times,
 }: {
   sectorKey: keyof DriverSectors;
   times: DriverTimes[];
 }) => {
+  const chartRef = useRef<HTMLDivElement>(null);
+
   // Sort by fastest sector times
   const driverTimes = [...times]
     .filter(
@@ -222,170 +226,189 @@ const SectorChart = ({
         Number(b.sectors[sectorKey].time || 0),
     );
 
-  // Ensure we have valid min and max values
-  let minValue: number;
-  let maxValue: number;
+  useEffect(() => {
+    let chartInstance: echarts.ECharts | undefined;
+    if (chartRef.current && driverTimes.length > 0) {
+      chartInstance = echarts.init(chartRef.current, 'dark');
+
+      const abbreviations = driverTimes.map((d) => d.abbreviation);
+      const sectorTimes = driverTimes.map((d) => d.sectors[sectorKey].time);
+      const lapNumbers = driverTimes.map((d) => d.sectors[sectorKey].lap);
+      const colors = driverTimes.map((d) => `#${d.color}`);
+
+      const option: EChartsOption = {
+        backgroundColor: 'transparent',
+        title: {
+          text:
+            sectorKey === 'sector1'
+              ? 'Sector 1'
+              : sectorKey === 'sector2'
+                ? 'Sector 2'
+                : 'Sector 3',
+          left: 'center',
+          textStyle: {
+            color: '#fff',
+            fontSize: 18,
+            fontWeight: 'bold',
+          },
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' },
+          confine: true,
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          formatter: (params: unknown) => {
+            if (!Array.isArray(params) || !params.length) return '';
+
+            const param = params[0] as { dataIndex: number };
+            const hoveredDriverIndex = param.dataIndex;
+
+            let tableHtml = `
+              <div style="border: 2px solid #c23531; border-radius: 4px; background-color: #282c34; padding: 10px; box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);">
+                <table style="width: 100%; border-collapse: collapse; color: #fff; font-family: 'Arial', sans-serif;">
+                  <thead>
+                    <tr>
+                      <th style="text-align: left; padding: 5px; font-weight: normal;"></th>
+                      <th style="text-align: left; padding: 5px; font-weight: normal;">Time</th>
+                      <th style="text-align: left; padding: 5px; font-weight: normal;">Lap</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+            `;
+
+            driverTimes.forEach((driver, index) => {
+              const isHovered = index === hoveredDriverIndex;
+              const style = isHovered
+                ? 'background-color: rgba(255, 255, 255, 0.2);'
+                : '';
+              const time = driver.sectors[sectorKey].time;
+              const lap = driver.sectors[sectorKey].lap;
+
+              tableHtml += `
+                <tr style="${style}">
+                  <td style="font-weight: bold; text-align: left; padding: 5px;">${driver.abbreviation}</td>
+                  <td style="text-align: left; padding: 5px;">${
+                    time ? `${time.toFixed(3)}s` : 'N/A'
+                  }</td>
+                  <td style="text-align: left; padding: 5px;">${lap || 'N/A'}</td>
+                </tr>
+              `;
+            });
+
+            tableHtml += `
+                  </tbody>
+                </table>
+              </div>
+            `;
+
+            return tableHtml;
+          },
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '15%',
+          top: '15%',
+          containLabel: true,
+        },
+        xAxis: {
+          type: 'category',
+          data: abbreviations,
+          axisLabel: {
+            color: '#fff',
+            fontSize: 12,
+          },
+          axisTick: {
+            alignWithLabel: true,
+          },
+          name: 'Driver',
+          nameLocation: 'middle',
+          nameGap: 35,
+          nameTextStyle: {
+            color: '#fff',
+            fontSize: 14,
+          },
+        },
+        yAxis: {
+          type: 'value',
+          name: 'Time (s)',
+          nameLocation: 'middle',
+          nameGap: 40,
+          min: 'dataMin',
+          nameTextStyle: {
+            color: '#fff',
+            fontSize: 14,
+          },
+          axisLabel: {
+            color: '#fff',
+            formatter: '{value}s',
+          },
+          splitLine: {
+            lineStyle: {
+              type: 'dashed',
+              color: 'rgba(255,255,255,0.3)',
+            },
+          },
+        },
+        series: [
+          {
+            name: `Sector ${sectorKey.slice(-1)}`,
+            type: 'bar',
+            data: sectorTimes.map((value, index) => ({
+              value: value,
+              itemStyle: {
+                color: colors[index],
+              },
+            })),
+            label: {
+              show: true,
+              position: 'top',
+              formatter: (params: unknown) => {
+                const param = params as { dataIndex: number; value: number };
+                const driverIndex = param.dataIndex;
+                const lap = lapNumbers[driverIndex];
+                return `Lap ${lap}\n${Number(param.value).toFixed(3)}s`;
+              },
+              color: '#fff',
+              fontSize: 10,
+            },
+            barWidth: '60%',
+          },
+        ],
+      };
+
+      chartInstance.setOption(option);
+
+      const handleResize = () => {
+        chartInstance?.resize();
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        chartInstance?.dispose();
+      };
+    }
+  }, [driverTimes, sectorKey]);
 
   if (driverTimes.length === 0) {
-    // If no valid data, set a default small range
-    minValue = 0;
-    maxValue = 1;
-  } else {
-    minValue =
-      Math.min(
-        ...(driverTimes || []).map((d) => Number(d.sectors?.[sectorKey].time)),
-      ) - 0.05;
-
-    maxValue =
-      Math.max(
-        ...(driverTimes || []).map((d) => Number(d.sectors?.[sectorKey].time)),
-      ) + 0.05;
+    return (
+      <div className='rounded border p-2'>
+        {titles[sectorKey]}
+        <div className='flex h-[500px] items-center justify-center text-gray-500'>
+          No data available
+        </div>
+      </div>
+    );
   }
 
   return (
-    <BarChart
-      driverCount={driverTimes.length}
-      title={titles[sectorKey]}
-      minMax={[minValue, maxValue]}
-    >
-      <BarSeries
-        dataKey='sector3'
-        data={driverTimes}
-        xAccessor={(d) => d.abbreviation}
-        yAccessor={(d) => d.sectors[sectorKey].time}
-        colorAccessor={(d) => `#${d.color}`}
-      />
-
-      {/* Labels on top of bars */}
-      <GlyphSeries
-        dataKey='Sector Time Labels'
-        data={driverTimes}
-        xAccessor={(d) => d.abbreviation}
-        yAccessor={(d) => d.sectors[sectorKey].time}
-        renderGlyph={({ x, y, datum }) => (
-          <>
-            <text
-              x={x}
-              y={y - 16} // Position slightly above the bar
-              fontSize={10}
-              className='fill-foreground'
-              textAnchor='middle'
-            >
-              Lap {datum.sectors[sectorKey].lap}
-            </text>
-            <text
-              x={x}
-              y={y - 4} // Position slightly above the bar
-              fontSize={10}
-              className='fill-foreground'
-              textAnchor='middle'
-            >
-              {Number(datum.sectors[sectorKey].time).toFixed(3)}s
-            </text>
-          </>
-        )}
-      />
-
-      <Tooltip
-        snapTooltipToDatumX
-        renderTooltip={({ tooltipData }) => {
-          const driverStats = tooltipData?.nearestDatum?.datum as DriverTimes;
-          return (
-            <div className='grid divide-y'>
-              <div className='grid grid-cols-3'>
-                <p></p>
-                <p>Time</p>
-                <p className='text-right'>Lap</p>
-              </div>
-              {driverTimes.map((d) => {
-                const activeDriver =
-                  driverStats.abbreviation === d.abbreviation;
-                const classList = activeDriver
-                  ? 'font-black border-y border-foreground'
-                  : 'font-light opacity-80';
-                return (
-                  <div
-                    className='grid grid-cols-3'
-                    key={`tooltip-${d.abbreviation}`}
-                  >
-                    <p className={clsx(classList)}>{d.abbreviation}</p>
-                    <p className={clsx(classList)}>
-                      {d.sectors[sectorKey].time}s
-                    </p>
-                    <p className={clsx('text-right', classList)}>
-                      {d.sectors[sectorKey].lap}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        }}
-      />
-    </BarChart>
+    <div className='rounded border p-2'>
+      <div ref={chartRef} style={{ width: '100%', height: '500px' }} />
+    </div>
   );
 };
-
-interface BarChartProps {
-  driverCount: number;
-  minMax: [number, number];
-  title: React.ReactNode;
-  children: React.ReactNode;
-}
-
-export const BarChart: React.FC<BarChartProps> = ({
-  title,
-  driverCount,
-  minMax,
-  children,
-}) => (
-  <div className='rounded border p-2'>
-    {title}
-    <div className='h-[500px]'>
-      <ParentSize>
-        {({ width, height }) => (
-          <XYChart
-            theme={darkTheme}
-            height={height}
-            width={width}
-            xScale={{ type: 'band', padding: 0.1 }}
-            yScale={{
-              type: 'log',
-              domain: minMax,
-            }}
-            margin={margin}
-          >
-            {children}
-
-            <Grid strokeDasharray='3 3' columns={false} />
-            {/* Axis labels */}
-
-            <Axis
-              orientation='bottom'
-              label='Driver'
-              numTicks={driverCount}
-              tickLabelProps={() => ({
-                fill: 'var(--color-foreground)',
-              })}
-              labelClassName='fill-foreground'
-              tickClassName='fill-foreground'
-            />
-
-            <Axis
-              orientation='left'
-              label='Time (s)'
-              labelOffset={20}
-              tickLabelProps={() => ({
-                fill: 'var(--color-foreground)',
-              })}
-              labelClassName='fill-foreground'
-              tickClassName='fill-foreground'
-            />
-          </XYChart>
-        )}
-      </ParentSize>
-    </div>
-  </div>
-);
 
 export default SectorTimes;
