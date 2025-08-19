@@ -1,3 +1,9 @@
+## 0.6.23 (2025-08-19)
+
+### Refactor
+
+- reduce files related to charts
+
 ## 0.6.22 (2025-08-19)
 
 ### Fix
