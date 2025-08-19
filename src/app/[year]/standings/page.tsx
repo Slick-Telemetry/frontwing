@@ -14,8 +14,8 @@ import type {
   GetStandingsQueryVariables,
 } from '@/generated/types';
 
-import { StandingsChart } from './EChartsStandings';
 import { Legend } from './Legend';
+import { StandingsChart } from './StandingsChart';
 
 const StandingsContent = () => {
   const { year: season } = useParams<{ year: string }>();

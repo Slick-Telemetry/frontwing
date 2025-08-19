@@ -14,9 +14,9 @@ import {
 
 import { FloatingNumber } from '@/components/FloatingNumber';
 import { ChequeredFlagIcon } from '@/components/icons/ChequeredFlagIcon';
+import { Loader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
 
-import SessionResultsSkeleton from '@/app/[year]/[event]/[session]/sessionResultsSkeleton';
 import {
   Session_Name_Choices_Enum,
   SessionResultsQuery,
@@ -41,7 +41,7 @@ export const DriverGrid = () => {
   });
 
   if (loading) {
-    return <SessionResultsSkeleton />;
+    return <Loader />;
   }
   if (error || !data?.sessions) return <ServerPageError />;
 

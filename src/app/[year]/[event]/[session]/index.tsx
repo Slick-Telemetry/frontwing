@@ -6,10 +6,10 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { GET_SESSION } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
 
+import { Loader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
 
 import { DriverGrid } from '@/app/[year]/[event]/[session]/DriverGrid';
-import { SessionHeaderSkeleton } from '@/app/[year]/[event]/[session]/sessionResultsSkeleton';
 import {
   Session_Name_Choices_Enum,
   SessionQuery,
@@ -37,7 +37,7 @@ export const SessionHeader = () => {
   });
 
   if (loading) {
-    return <SessionHeaderSkeleton />;
+    return <Loader />;
   }
   if (error || !data?.sessions) return <ServerPageError />;
 
