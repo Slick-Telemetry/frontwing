@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { GET_STANDINGS } from '@/lib/queries';
 
-import { ServerPageError } from '@/components/ServerError';
+import { ApolloErrorBoundary } from '@/components/ApolloErrorBoundary';
 
 import { ConstructorsTable, DriversTable } from '@/app/[year]/standings/Tables';
 import type {
@@ -17,7 +17,7 @@ import type {
 import { StandingsChart } from './EChartsStandings';
 import { Legend } from './Legend';
 
-const Standings = () => {
+const StandingsContent = () => {
   const { year: season } = useParams<{ year: string }>();
   const searchParams = useSearchParams();
   const chartType = (searchParams.get('chart') || 'drivers') as
@@ -31,7 +31,7 @@ const Standings = () => {
     {},
   );
 
-  const { data: standings, error } = useSuspenseQuery<
+  const { data: standings } = useSuspenseQuery<
     GetStandingsQuery,
     GetStandingsQueryVariables
   >(GET_STANDINGS, { variables: { season: parseInt(season) } });
@@ -61,7 +61,7 @@ const Standings = () => {
     );
   }, [standings, chartType, hiddenDrivers, hiddenTeams]);
 
-  if (error || !standings) return <ServerPageError />;
+  if (!standings) return null;
 
   const toggleDriverVisibility = (constructor: string, driver: string) => {
     if (!driver) return;
@@ -133,6 +133,14 @@ const Standings = () => {
         />
       </div>
     </div>
+  );
+};
+
+const Standings = () => {
+  return (
+    <ApolloErrorBoundary>
+      <StandingsContent />
+    </ApolloErrorBoundary>
   );
 };
 
