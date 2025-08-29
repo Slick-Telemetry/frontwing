@@ -3,8 +3,6 @@
 import Link from 'next/link';
 import React from 'react';
 
-import { cn } from '@/lib/utils';
-
 import { DisplaySeasons } from './Seasons';
 import {
   NavigationMenu,
@@ -25,7 +23,7 @@ export function MainNav() {
             Seasons
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className='grid gap-3 p-3 md:w-[150px] lg:w-[200px] lg:grid-cols-2'>
+            <ul className='grid w-[120px] gap-2 p-2'>
               <DisplaySeasons />
             </ul>
           </NavigationMenuContent>
@@ -72,29 +70,3 @@ export function MainNav() {
     </NavigationMenu>
   );
 }
-
-const ListItem = React.forwardRef<
-  React.ElementRef<'a'>,
-  React.ComponentPropsWithoutRef<'a'>
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors select-none',
-            className,
-          )}
-          {...props}
-        >
-          <div className='text-sm leading-none font-medium'>{title}</div>
-          <p className='text-muted-foreground line-clamp-2 text-sm leading-snug'>
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = 'ListItem';

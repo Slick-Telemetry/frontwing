@@ -1,5 +1,7 @@
 import NextEvent from '@/components/NextEvent';
 
+import { Nav } from '@/app/_components/nav';
+
 import bg from '../../public/slick-telemetry-bg.png';
 
 export default function Home() {
@@ -10,6 +12,9 @@ export default function Home() {
         style={{ backgroundImage: `url(${bg.src})` }}
       >
         <div className='w-full grid-rows-3 items-center bg-black/60 py-16 text-white md:grid md:py-0'>
+          <div className='self-start justify-self-center'>
+            <Nav />
+          </div>
           <div className='my-16 text-center md:self-end'>
             <h1 className='scroll-m-20 text-center text-8xl font-extrabold tracking-tight text-balance uppercase'>
               Slick Telemetry
