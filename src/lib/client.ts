@@ -7,7 +7,6 @@ export const client = new ApolloClient({
     uri: process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL || '',
     headers: {
       'x-hasura-role': 'public',
-      skip_zrok_interstitial: 'true',
     },
     fetchOptions: {
       cache: 'force-cache',
