@@ -1,3 +1,4 @@
+import { Footer } from '@/components/Footer';
 import NextEvent from '@/components/NextEvent';
 
 import { Nav } from '@/app/_components/nav';
@@ -29,6 +30,7 @@ export default function Home() {
         </div>
         {/* <div className='mx-auto my-4'>Upcoming event:</div> */}
       </main>
+      <Footer />
     </>
   );
 }

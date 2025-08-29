@@ -1,3 +1,4 @@
+import { Footer } from '@/components/Footer';
 import { TopNav } from '@/components/TopNav';
 
 import { Header } from '@/app/[year]/header';
@@ -9,6 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Header />
       {/* Other Layout UI */}
       {children}
+      <Footer />
     </>
   );
 }

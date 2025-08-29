@@ -4,7 +4,6 @@ import { Rubik, Space_Grotesk } from 'next/font/google';
 
 import './globals.css';
 
-import { Footer } from '@/components/Footer';
 import { VercelObservability } from '@/components/vercel';
 
 import { ApolloProvider } from '@/app/apollo-provider';
@@ -36,7 +35,6 @@ export default async function RootLayout({
         )}
       >
         <ApolloProvider>{children}</ApolloProvider>
-        <Footer />
         <VercelObservability />
       </body>
     </html>
