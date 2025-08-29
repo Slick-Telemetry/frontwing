@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Rubik, Space_Grotesk } from 'next/font/google';
 
 import './globals.css';
 
@@ -10,7 +10,12 @@ import { VercelObservability } from '@/components/vercel';
 
 import { ApolloProvider } from '@/app/apollo-provider';
 
-const inter = Inter({ subsets: ['latin'] });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
+});
+const rubik = Rubik({ subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Slick Telemetry',
@@ -24,7 +29,13 @@ export default async function RootLayout({
 }) {
   return (
     <html lang='en' className='dark'>
-      <body className={clsx('flex min-h-screen flex-col', inter.className)}>
+      <body
+        className={clsx(
+          'flex min-h-screen flex-col antialiased',
+          spaceGrotesk.variable,
+          rubik.className,
+        )}
+      >
         <ApolloProvider>
           <TopNav />
           {children}
