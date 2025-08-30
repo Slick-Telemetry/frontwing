@@ -44,3 +44,7 @@ next-env.d.ts
 #cypress
 cypress/e2e/example
 cypress/screenshots
+
+# GraphQL schema files (should not be committed to public repos)
+schema.graphql
+graphql.schema.json
