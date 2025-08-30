@@ -1663,6 +1663,31 @@
         "isOneOf": null,
         "fields": [
           {
+            "name": "circuit_details",
+            "description": null,
+            "args": [
+              {
+                "name": "path",
+                "description": "JSON select path",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "country",
             "description": null,
             "args": [],
@@ -1924,6 +1949,18 @@
                 "name": "sessions_aggregate",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2204,6 +2241,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -2265,6 +2314,18 @@
                   "ofType": null
                 }
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "circuit_details",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "jsonb_comparison_exp",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2365,6 +2426,18 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Int_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2444,6 +2517,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2532,6 +2617,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -2546,6 +2643,18 @@
         "isOneOf": false,
         "fields": null,
         "inputFields": [
+          {
+            "name": "circuit_details",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "country",
             "description": null,
@@ -2629,6 +2738,18 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2644,6 +2765,12 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
+          {
+            "name": "circuit_details",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "country",
             "description": "column name",
@@ -2676,6 +2803,12 @@
           },
           {
             "name": "name",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "year",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -2715,6 +2848,18 @@
           },
           {
             "name": "longitude",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "year",
             "description": null,
             "args": [],
             "type": {
@@ -2772,6 +2917,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -2811,6 +2968,18 @@
           },
           {
             "name": "longitude",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "year",
             "description": null,
             "args": [],
             "type": {
@@ -2875,6 +3044,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "circuit_details",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "country",
             "description": null,
             "type": {
@@ -2945,6 +3126,18 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2992,6 +3185,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -3031,6 +3236,18 @@
           },
           {
             "name": "longitude",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "year",
             "description": null,
             "args": [],
             "type": {
@@ -3088,6 +3305,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "year",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -3127,6 +3356,18 @@
           },
           {
             "name": "longitude",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "year",
             "description": null,
             "args": [],
             "type": {
@@ -9037,6 +9278,18 @@
             "deprecationReason": null
           },
           {
+            "name": "driver_full_name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "driver_id",
             "description": null,
             "args": [],
@@ -9811,6 +10064,18 @@
             "deprecationReason": null
           },
           {
+            "name": "driver_full_name",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "driver_id",
             "description": null,
             "type": {
@@ -9905,6 +10170,18 @@
         "description": "aggregate max on columns",
         "isOneOf": null,
         "fields": [
+          {
+            "name": "driver_full_name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "driver_id",
             "description": null,
@@ -10003,6 +10280,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "driver_full_name",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "driver_id",
             "description": null,
             "type": {
@@ -10097,6 +10386,18 @@
         "description": "aggregate min on columns",
         "isOneOf": null,
         "fields": [
+          {
+            "name": "driver_full_name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "driver_id",
             "description": null,
@@ -10194,6 +10495,18 @@
         "isOneOf": false,
         "fields": null,
         "inputFields": [
+          {
+            "name": "driver_full_name",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "driver_id",
             "description": null,
@@ -10303,6 +10616,18 @@
             "deprecationReason": null
           },
           {
+            "name": "driver_full_name",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "driver_id",
             "description": null,
             "type": {
@@ -10400,6 +10725,12 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
+          {
+            "name": "driver_full_name",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "driver_id",
             "description": "column name",
@@ -10924,6 +11255,18 @@
         "isOneOf": false,
         "fields": null,
         "inputFields": [
+          {
+            "name": "driver_full_name",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "driver_id",
             "description": null,
@@ -17160,6 +17503,265 @@
               "kind": "ENUM",
               "name": "order_by",
               "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "jsonb",
+        "description": null,
+        "isOneOf": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "jsonb_cast_exp",
+        "description": null,
+        "isOneOf": false,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "String",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "jsonb_comparison_exp",
+        "description": "Boolean expression to compare columns of type \"jsonb\". All fields are combined with logical 'AND'.",
+        "isOneOf": false,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "_cast",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "jsonb_cast_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_contained_in",
+            "description": "is the column contained in the given json value",
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_contains",
+            "description": "does the column contain the given json value at the top level",
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_eq",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_gt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_gte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_has_key",
+            "description": "does the string exist as a top-level key in the column",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_has_keys_all",
+            "description": "do all of these strings exist as top-level keys in the column",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_has_keys_any",
+            "description": "do any of these strings exist as top-level keys in the column",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "jsonb",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_is_null",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_lt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_lte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_neq",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "jsonb",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_nin",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "jsonb",
+                  "ofType": null
+                }
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -34103,6 +34705,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "args": [],
@@ -34680,6 +35294,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "args": [],
@@ -34766,6 +35392,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -34961,6 +35599,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "type": {
@@ -35092,6 +35742,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "args": [],
@@ -35214,6 +35876,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -35356,6 +36030,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "args": [],
@@ -35478,6 +36164,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -35633,6 +36331,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "type": {
@@ -35743,6 +36453,12 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": "column name",
             "isDeprecated": false,
@@ -35801,6 +36517,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "args": [],
             "type": {
@@ -35909,6 +36637,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "type": {
@@ -35993,6 +36733,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "args": [],
             "type": {
@@ -36101,6 +36853,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "type": {
@@ -36185,6 +36949,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "args": [],
             "type": {
@@ -36282,6 +37058,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -36453,6 +37241,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "type": {
@@ -36560,6 +37360,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "args": [],
@@ -36657,6 +37469,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "type": {
@@ -36741,6 +37565,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "args": [],
             "type": {
@@ -36849,6 +37685,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "type": {
@@ -36933,6 +37781,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "args": [],
             "type": {
@@ -37041,6 +37901,18 @@
             "deprecationReason": null
           },
           {
+            "name": "laps",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "points",
             "description": null,
             "type": {
@@ -37125,6 +37997,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "args": [],
             "type": {
@@ -37222,6 +38106,18 @@
           },
           {
             "name": "grid_position",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "laps",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -43536,18 +44432,6 @@
             "deprecationReason": null
           },
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "scheduled_start_time",
             "description": null,
             "args": [],
@@ -44477,18 +45361,6 @@
         "isOneOf": null,
         "fields": [
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "start_time",
             "description": null,
             "args": [],
@@ -44525,18 +45397,6 @@
         "isOneOf": false,
         "fields": null,
         "inputFields": [
-          {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "start_time",
             "description": null,
@@ -44746,18 +45606,6 @@
             "deprecationReason": null
           },
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "Int_comparison_exp",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "scheduled_start_time",
             "description": null,
             "type": {
@@ -44913,18 +45761,6 @@
             "deprecationReason": null
           },
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "scheduled_start_time",
             "description": null,
             "args": [],
@@ -45011,18 +45847,6 @@
           },
           {
             "name": "event_id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "scheduled_laps",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -45129,18 +45953,6 @@
             "deprecationReason": null
           },
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "scheduled_start_time",
             "description": null,
             "args": [],
@@ -45227,18 +46039,6 @@
           },
           {
             "name": "event_id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "scheduled_laps",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -45406,18 +46206,6 @@
             "deprecationReason": null
           },
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "scheduled_start_time",
             "description": null,
             "type": {
@@ -45540,12 +46328,6 @@
             "deprecationReason": null
           },
           {
-            "name": "scheduled_laps",
-            "description": "column name",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "scheduled_start_time",
             "description": "column name",
             "isDeprecated": false,
@@ -45578,18 +46360,6 @@
         "description": "aggregate stddev on columns",
         "isOneOf": null,
         "fields": [
-          {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "start_time",
             "description": null,
@@ -45628,18 +46398,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "start_time",
             "description": null,
             "type": {
@@ -45674,18 +46432,6 @@
         "description": "aggregate stddev_pop on columns",
         "isOneOf": null,
         "fields": [
-          {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "start_time",
             "description": null,
@@ -45724,18 +46470,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "start_time",
             "description": null,
             "type": {
@@ -45770,18 +46504,6 @@
         "description": "aggregate stddev_samp on columns",
         "isOneOf": null,
         "fields": [
-          {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "start_time",
             "description": null,
@@ -45819,18 +46541,6 @@
         "isOneOf": false,
         "fields": null,
         "inputFields": [
-          {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "start_time",
             "description": null,
@@ -45956,18 +46666,6 @@
             "deprecationReason": null
           },
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "scheduled_start_time",
             "description": null,
             "type": {
@@ -46027,18 +46725,6 @@
         "isOneOf": null,
         "fields": [
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "start_time",
             "description": null,
             "args": [],
@@ -46076,18 +46762,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "start_time",
             "description": null,
             "type": {
@@ -46122,18 +46796,6 @@
         "description": "aggregate var_pop on columns",
         "isOneOf": null,
         "fields": [
-          {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "start_time",
             "description": null,
@@ -46172,18 +46834,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "start_time",
             "description": null,
             "type": {
@@ -46218,18 +46868,6 @@
         "description": "aggregate var_samp on columns",
         "isOneOf": null,
         "fields": [
-          {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "start_time",
             "description": null,
@@ -46268,18 +46906,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "start_time",
             "description": null,
             "type": {
@@ -46314,18 +46940,6 @@
         "description": "aggregate variance on columns",
         "isOneOf": null,
         "fields": [
-          {
-            "name": "scheduled_laps",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "start_time",
             "description": null,
@@ -46363,18 +46977,6 @@
         "isOneOf": false,
         "fields": null,
         "inputFields": [
-          {
-            "name": "scheduled_laps",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "start_time",
             "description": null,

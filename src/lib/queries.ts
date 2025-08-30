@@ -115,10 +115,36 @@ export const GET_NEXT_EVENT = gql`
     ) {
       year
       event_name
+      round_number
       location
       country
       event_format
+      session1_date_utc
+      session2_date_utc
+      session3_date_utc
+      session4_date_utc
       session5_date_utc
+    }
+  }
+`;
+
+export const GET_NEXT_EVENT_CIRCUIT = gql`
+  query GetNextEventCircuit(
+    $location: String!
+    $country: String!
+    $year: Int!
+  ) {
+    circuits(
+      where: {
+        _and: {
+          location: { _eq: $location }
+          country: { _eq: $country }
+          year: { _eq: $year }
+        }
+      }
+      limit: 1
+    ) {
+      circuit_details
     }
   }
 `;

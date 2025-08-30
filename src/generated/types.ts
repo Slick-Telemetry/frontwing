@@ -16,6 +16,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   bigint: { input: bigint; output: bigint; }
+  jsonb: { input: unknown; output: unknown; }
   numeric: { input: bigint | number; output: bigint | number; }
 };
 
@@ -94,6 +95,7 @@ export type Bigint_Comparison_Exp = {
 /** columns and relationships of "circuits" */
 export type Circuits = {
   __typename?: 'circuits';
+  circuit_details?: Maybe<Scalars['jsonb']['output']>;
   country?: Maybe<Scalars['String']['output']>;
   f1_key?: Maybe<Scalars['Int']['output']>;
   latitude?: Maybe<Scalars['numeric']['output']>;
@@ -104,6 +106,13 @@ export type Circuits = {
   sessions: Array<Sessions>;
   /** An aggregate relationship */
   sessions_aggregate: Sessions_Aggregate;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+
+/** columns and relationships of "circuits" */
+export type CircuitsCircuit_DetailsArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -162,6 +171,7 @@ export type Circuits_Avg_Fields = {
   f1_key?: Maybe<Scalars['Float']['output']>;
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "circuits". All fields are combined with a logical 'AND'. */
@@ -169,6 +179,7 @@ export type Circuits_Bool_Exp = {
   _and?: InputMaybe<Array<Circuits_Bool_Exp>>;
   _not?: InputMaybe<Circuits_Bool_Exp>;
   _or?: InputMaybe<Array<Circuits_Bool_Exp>>;
+  circuit_details?: InputMaybe<Jsonb_Comparison_Exp>;
   country?: InputMaybe<String_Comparison_Exp>;
   f1_key?: InputMaybe<Int_Comparison_Exp>;
   latitude?: InputMaybe<Numeric_Comparison_Exp>;
@@ -177,6 +188,7 @@ export type Circuits_Bool_Exp = {
   name?: InputMaybe<String_Comparison_Exp>;
   sessions?: InputMaybe<Sessions_Bool_Exp>;
   sessions_aggregate?: InputMaybe<Sessions_Aggregate_Bool_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** aggregate max on columns */
@@ -188,6 +200,7 @@ export type Circuits_Max_Fields = {
   location?: Maybe<Scalars['String']['output']>;
   longitude?: Maybe<Scalars['numeric']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** aggregate min on columns */
@@ -199,10 +212,12 @@ export type Circuits_Min_Fields = {
   location?: Maybe<Scalars['String']['output']>;
   longitude?: Maybe<Scalars['numeric']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** Ordering options when selecting data from "circuits". */
 export type Circuits_Order_By = {
+  circuit_details?: InputMaybe<Order_By>;
   country?: InputMaybe<Order_By>;
   f1_key?: InputMaybe<Order_By>;
   latitude?: InputMaybe<Order_By>;
@@ -210,10 +225,13 @@ export type Circuits_Order_By = {
   longitude?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   sessions_aggregate?: InputMaybe<Sessions_Aggregate_Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "circuits" */
 export enum Circuits_Select_Column {
+  /** column name */
+  CircuitDetails = 'circuit_details',
   /** column name */
   Country = 'country',
   /** column name */
@@ -225,7 +243,9 @@ export enum Circuits_Select_Column {
   /** column name */
   Longitude = 'longitude',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Year = 'year'
 }
 
 /** aggregate stddev on columns */
@@ -234,6 +254,7 @@ export type Circuits_Stddev_Fields = {
   f1_key?: Maybe<Scalars['Float']['output']>;
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -242,6 +263,7 @@ export type Circuits_Stddev_Pop_Fields = {
   f1_key?: Maybe<Scalars['Float']['output']>;
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -250,6 +272,7 @@ export type Circuits_Stddev_Samp_Fields = {
   f1_key?: Maybe<Scalars['Float']['output']>;
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "circuits" */
@@ -262,12 +285,14 @@ export type Circuits_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Circuits_Stream_Cursor_Value_Input = {
+  circuit_details?: InputMaybe<Scalars['jsonb']['input']>;
   country?: InputMaybe<Scalars['String']['input']>;
   f1_key?: InputMaybe<Scalars['Int']['input']>;
   latitude?: InputMaybe<Scalars['numeric']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   longitude?: InputMaybe<Scalars['numeric']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate sum on columns */
@@ -276,6 +301,7 @@ export type Circuits_Sum_Fields = {
   f1_key?: Maybe<Scalars['Int']['output']>;
   latitude?: Maybe<Scalars['numeric']['output']>;
   longitude?: Maybe<Scalars['numeric']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** aggregate var_pop on columns */
@@ -284,6 +310,7 @@ export type Circuits_Var_Pop_Fields = {
   f1_key?: Maybe<Scalars['Float']['output']>;
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
@@ -292,6 +319,7 @@ export type Circuits_Var_Samp_Fields = {
   f1_key?: Maybe<Scalars['Float']['output']>;
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
@@ -300,6 +328,7 @@ export type Circuits_Variance_Fields = {
   f1_key?: Maybe<Scalars['Float']['output']>;
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "constructor_standings" */
@@ -1098,6 +1127,7 @@ export type Driver_Standings = {
   __typename?: 'driver_standings';
   /** An object relationship */
   driver?: Maybe<Drivers>;
+  driver_full_name?: Maybe<Scalars['String']['output']>;
   driver_id?: Maybe<Scalars['String']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
@@ -1188,6 +1218,7 @@ export type Driver_Standings_Bool_Exp = {
   _not?: InputMaybe<Driver_Standings_Bool_Exp>;
   _or?: InputMaybe<Array<Driver_Standings_Bool_Exp>>;
   driver?: InputMaybe<Drivers_Bool_Exp>;
+  driver_full_name?: InputMaybe<String_Comparison_Exp>;
   driver_id?: InputMaybe<String_Comparison_Exp>;
   points?: InputMaybe<Numeric_Comparison_Exp>;
   position?: InputMaybe<Int_Comparison_Exp>;
@@ -1200,6 +1231,7 @@ export type Driver_Standings_Bool_Exp = {
 /** aggregate max on columns */
 export type Driver_Standings_Max_Fields = {
   __typename?: 'driver_standings_max_fields';
+  driver_full_name?: Maybe<Scalars['String']['output']>;
   driver_id?: Maybe<Scalars['String']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
@@ -1211,6 +1243,7 @@ export type Driver_Standings_Max_Fields = {
 
 /** order by max() on columns of table "driver_standings" */
 export type Driver_Standings_Max_Order_By = {
+  driver_full_name?: InputMaybe<Order_By>;
   driver_id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
@@ -1223,6 +1256,7 @@ export type Driver_Standings_Max_Order_By = {
 /** aggregate min on columns */
 export type Driver_Standings_Min_Fields = {
   __typename?: 'driver_standings_min_fields';
+  driver_full_name?: Maybe<Scalars['String']['output']>;
   driver_id?: Maybe<Scalars['String']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
@@ -1234,6 +1268,7 @@ export type Driver_Standings_Min_Fields = {
 
 /** order by min() on columns of table "driver_standings" */
 export type Driver_Standings_Min_Order_By = {
+  driver_full_name?: InputMaybe<Order_By>;
   driver_id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
@@ -1246,6 +1281,7 @@ export type Driver_Standings_Min_Order_By = {
 /** Ordering options when selecting data from "driver_standings". */
 export type Driver_Standings_Order_By = {
   driver?: InputMaybe<Drivers_Order_By>;
+  driver_full_name?: InputMaybe<Order_By>;
   driver_id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
@@ -1257,6 +1293,8 @@ export type Driver_Standings_Order_By = {
 
 /** select columns of table "driver_standings" */
 export enum Driver_Standings_Select_Column {
+  /** column name */
+  DriverFullName = 'driver_full_name',
   /** column name */
   DriverId = 'driver_id',
   /** column name */
@@ -1340,6 +1378,7 @@ export type Driver_Standings_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Driver_Standings_Stream_Cursor_Value_Input = {
+  driver_full_name?: InputMaybe<Scalars['String']['input']>;
   driver_id?: InputMaybe<Scalars['String']['input']>;
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
@@ -2222,6 +2261,34 @@ export type Events_Variance_Order_By = {
   /** All test sessions = 0 */
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
+};
+
+export type Jsonb_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+export type Jsonb_Comparison_Exp = {
+  _cast?: InputMaybe<Jsonb_Cast_Exp>;
+  /** is the column contained in the given json value */
+  _contained_in?: InputMaybe<Scalars['jsonb']['input']>;
+  /** does the column contain the given json value at the top level */
+  _contains?: InputMaybe<Scalars['jsonb']['input']>;
+  _eq?: InputMaybe<Scalars['jsonb']['input']>;
+  _gt?: InputMaybe<Scalars['jsonb']['input']>;
+  _gte?: InputMaybe<Scalars['jsonb']['input']>;
+  /** does the string exist as a top-level key in the column */
+  _has_key?: InputMaybe<Scalars['String']['input']>;
+  /** do all of these strings exist as top-level keys in the column */
+  _has_keys_all?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** do any of these strings exist as top-level keys in the column */
+  _has_keys_any?: InputMaybe<Array<Scalars['String']['input']>>;
+  _in?: InputMaybe<Array<Scalars['jsonb']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['jsonb']['input']>;
+  _lte?: InputMaybe<Scalars['jsonb']['input']>;
+  _neq?: InputMaybe<Scalars['jsonb']['input']>;
+  _nin?: InputMaybe<Array<Scalars['jsonb']['input']>>;
 };
 
 /** columns and relationships of "laps" */
@@ -4309,6 +4376,7 @@ export type Results = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Int']['output']>;
   grid_position?: Maybe<Scalars['Int']['output']>;
+  laps?: Maybe<Scalars['numeric']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   q1_time?: Maybe<Scalars['bigint']['output']>;
   q2_time?: Maybe<Scalars['bigint']['output']>;
@@ -4379,6 +4447,7 @@ export type Results_Avg_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Float']['output']>;
   grid_position?: Maybe<Scalars['Float']['output']>;
+  laps?: Maybe<Scalars['Float']['output']>;
   points?: Maybe<Scalars['Float']['output']>;
   q1_time?: Maybe<Scalars['Float']['output']>;
   q2_time?: Maybe<Scalars['Float']['output']>;
@@ -4391,6 +4460,7 @@ export type Results_Avg_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4408,6 +4478,7 @@ export type Results_Bool_Exp = {
   driver_session_id?: InputMaybe<String_Comparison_Exp>;
   finishing_position?: InputMaybe<Int_Comparison_Exp>;
   grid_position?: InputMaybe<Int_Comparison_Exp>;
+  laps?: InputMaybe<Numeric_Comparison_Exp>;
   points?: InputMaybe<Numeric_Comparison_Exp>;
   q1_time?: InputMaybe<Bigint_Comparison_Exp>;
   q2_time?: InputMaybe<Bigint_Comparison_Exp>;
@@ -4425,6 +4496,7 @@ export type Results_Max_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Int']['output']>;
   grid_position?: Maybe<Scalars['Int']['output']>;
+  laps?: Maybe<Scalars['numeric']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   q1_time?: Maybe<Scalars['bigint']['output']>;
   q2_time?: Maybe<Scalars['bigint']['output']>;
@@ -4441,6 +4513,7 @@ export type Results_Max_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4458,6 +4531,7 @@ export type Results_Min_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Int']['output']>;
   grid_position?: Maybe<Scalars['Int']['output']>;
+  laps?: Maybe<Scalars['numeric']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   q1_time?: Maybe<Scalars['bigint']['output']>;
   q2_time?: Maybe<Scalars['bigint']['output']>;
@@ -4474,6 +4548,7 @@ export type Results_Min_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4489,6 +4564,7 @@ export type Results_Order_By = {
   driver_session_id?: InputMaybe<Order_By>;
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4507,6 +4583,8 @@ export enum Results_Select_Column {
   FinishingPosition = 'finishing_position',
   /** column name */
   GridPosition = 'grid_position',
+  /** column name */
+  Laps = 'laps',
   /** column name */
   Points = 'points',
   /** column name */
@@ -4527,6 +4605,7 @@ export type Results_Stddev_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Float']['output']>;
   grid_position?: Maybe<Scalars['Float']['output']>;
+  laps?: Maybe<Scalars['Float']['output']>;
   points?: Maybe<Scalars['Float']['output']>;
   q1_time?: Maybe<Scalars['Float']['output']>;
   q2_time?: Maybe<Scalars['Float']['output']>;
@@ -4539,6 +4618,7 @@ export type Results_Stddev_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4552,6 +4632,7 @@ export type Results_Stddev_Pop_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Float']['output']>;
   grid_position?: Maybe<Scalars['Float']['output']>;
+  laps?: Maybe<Scalars['Float']['output']>;
   points?: Maybe<Scalars['Float']['output']>;
   q1_time?: Maybe<Scalars['Float']['output']>;
   q2_time?: Maybe<Scalars['Float']['output']>;
@@ -4564,6 +4645,7 @@ export type Results_Stddev_Pop_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4577,6 +4659,7 @@ export type Results_Stddev_Samp_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Float']['output']>;
   grid_position?: Maybe<Scalars['Float']['output']>;
+  laps?: Maybe<Scalars['Float']['output']>;
   points?: Maybe<Scalars['Float']['output']>;
   q1_time?: Maybe<Scalars['Float']['output']>;
   q2_time?: Maybe<Scalars['Float']['output']>;
@@ -4589,6 +4672,7 @@ export type Results_Stddev_Samp_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4612,6 +4696,7 @@ export type Results_Stream_Cursor_Value_Input = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Scalars['Int']['input']>;
   grid_position?: InputMaybe<Scalars['Int']['input']>;
+  laps?: InputMaybe<Scalars['numeric']['input']>;
   points?: InputMaybe<Scalars['numeric']['input']>;
   q1_time?: InputMaybe<Scalars['bigint']['input']>;
   q2_time?: InputMaybe<Scalars['bigint']['input']>;
@@ -4626,6 +4711,7 @@ export type Results_Sum_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Int']['output']>;
   grid_position?: Maybe<Scalars['Int']['output']>;
+  laps?: Maybe<Scalars['numeric']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   q1_time?: Maybe<Scalars['bigint']['output']>;
   q2_time?: Maybe<Scalars['bigint']['output']>;
@@ -4638,6 +4724,7 @@ export type Results_Sum_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4651,6 +4738,7 @@ export type Results_Var_Pop_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Float']['output']>;
   grid_position?: Maybe<Scalars['Float']['output']>;
+  laps?: Maybe<Scalars['Float']['output']>;
   points?: Maybe<Scalars['Float']['output']>;
   q1_time?: Maybe<Scalars['Float']['output']>;
   q2_time?: Maybe<Scalars['Float']['output']>;
@@ -4663,6 +4751,7 @@ export type Results_Var_Pop_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4676,6 +4765,7 @@ export type Results_Var_Samp_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Float']['output']>;
   grid_position?: Maybe<Scalars['Float']['output']>;
+  laps?: Maybe<Scalars['Float']['output']>;
   points?: Maybe<Scalars['Float']['output']>;
   q1_time?: Maybe<Scalars['Float']['output']>;
   q2_time?: Maybe<Scalars['Float']['output']>;
@@ -4688,6 +4778,7 @@ export type Results_Var_Samp_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -4701,6 +4792,7 @@ export type Results_Variance_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Float']['output']>;
   grid_position?: Maybe<Scalars['Float']['output']>;
+  laps?: Maybe<Scalars['Float']['output']>;
   points?: Maybe<Scalars['Float']['output']>;
   q1_time?: Maybe<Scalars['Float']['output']>;
   q2_time?: Maybe<Scalars['Float']['output']>;
@@ -4713,6 +4805,7 @@ export type Results_Variance_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
   q2_time?: InputMaybe<Order_By>;
@@ -5485,7 +5578,6 @@ export type Sessions = {
   race_control_messages: Array<Race_Control_Messages>;
   /** An aggregate relationship */
   race_control_messages_aggregate: Race_Control_Messages_Aggregate;
-  scheduled_laps?: Maybe<Scalars['Int']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
@@ -5641,14 +5733,12 @@ export type Sessions_Aggregate_Order_By = {
 /** aggregate avg on columns */
 export type Sessions_Avg_Fields = {
   __typename?: 'sessions_avg_fields';
-  scheduled_laps?: Maybe<Scalars['Float']['output']>;
   start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "sessions" */
 export type Sessions_Avg_Order_By = {
-  scheduled_laps?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
@@ -5668,7 +5758,6 @@ export type Sessions_Bool_Exp = {
   name?: InputMaybe<Session_Name_Choices_Enum_Comparison_Exp>;
   race_control_messages?: InputMaybe<Race_Control_Messages_Bool_Exp>;
   race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Bool_Exp>;
-  scheduled_laps?: InputMaybe<Int_Comparison_Exp>;
   scheduled_start_time?: InputMaybe<String_Comparison_Exp>;
   scheduled_start_time_utc?: InputMaybe<String_Comparison_Exp>;
   session_name_choice?: InputMaybe<Session_Name_Choices_Bool_Exp>;
@@ -5686,7 +5775,6 @@ export type Sessions_Max_Fields = {
   circuit_id?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['String']['output']>;
   event_id?: Maybe<Scalars['String']['output']>;
-  scheduled_laps?: Maybe<Scalars['Int']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
   start_time?: Maybe<Scalars['numeric']['output']>;
@@ -5698,7 +5786,6 @@ export type Sessions_Max_Order_By = {
   circuit_id?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   event_id?: InputMaybe<Order_By>;
-  scheduled_laps?: InputMaybe<Order_By>;
   scheduled_start_time?: InputMaybe<Order_By>;
   scheduled_start_time_utc?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
@@ -5711,7 +5798,6 @@ export type Sessions_Min_Fields = {
   circuit_id?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['String']['output']>;
   event_id?: Maybe<Scalars['String']['output']>;
-  scheduled_laps?: Maybe<Scalars['Int']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
   start_time?: Maybe<Scalars['numeric']['output']>;
@@ -5723,7 +5809,6 @@ export type Sessions_Min_Order_By = {
   circuit_id?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   event_id?: InputMaybe<Order_By>;
-  scheduled_laps?: InputMaybe<Order_By>;
   scheduled_start_time?: InputMaybe<Order_By>;
   scheduled_start_time_utc?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
@@ -5740,7 +5825,6 @@ export type Sessions_Order_By = {
   event_id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Order_By>;
-  scheduled_laps?: InputMaybe<Order_By>;
   scheduled_start_time?: InputMaybe<Order_By>;
   scheduled_start_time_utc?: InputMaybe<Order_By>;
   session_name_choice?: InputMaybe<Session_Name_Choices_Order_By>;
@@ -5761,8 +5845,6 @@ export enum Sessions_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  ScheduledLaps = 'scheduled_laps',
-  /** column name */
   ScheduledStartTime = 'scheduled_start_time',
   /** column name */
   ScheduledStartTimeUtc = 'scheduled_start_time_utc',
@@ -5775,14 +5857,12 @@ export enum Sessions_Select_Column {
 /** aggregate stddev on columns */
 export type Sessions_Stddev_Fields = {
   __typename?: 'sessions_stddev_fields';
-  scheduled_laps?: Maybe<Scalars['Float']['output']>;
   start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "sessions" */
 export type Sessions_Stddev_Order_By = {
-  scheduled_laps?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
@@ -5790,14 +5870,12 @@ export type Sessions_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Sessions_Stddev_Pop_Fields = {
   __typename?: 'sessions_stddev_pop_fields';
-  scheduled_laps?: Maybe<Scalars['Float']['output']>;
   start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "sessions" */
 export type Sessions_Stddev_Pop_Order_By = {
-  scheduled_laps?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
@@ -5805,14 +5883,12 @@ export type Sessions_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Sessions_Stddev_Samp_Fields = {
   __typename?: 'sessions_stddev_samp_fields';
-  scheduled_laps?: Maybe<Scalars['Float']['output']>;
   start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "sessions" */
 export type Sessions_Stddev_Samp_Order_By = {
-  scheduled_laps?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
@@ -5831,7 +5907,6 @@ export type Sessions_Stream_Cursor_Value_Input = {
   date?: InputMaybe<Scalars['String']['input']>;
   event_id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Session_Name_Choices_Enum>;
-  scheduled_laps?: InputMaybe<Scalars['Int']['input']>;
   scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
   scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
   start_time?: InputMaybe<Scalars['numeric']['input']>;
@@ -5841,14 +5916,12 @@ export type Sessions_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Sessions_Sum_Fields = {
   __typename?: 'sessions_sum_fields';
-  scheduled_laps?: Maybe<Scalars['Int']['output']>;
   start_time?: Maybe<Scalars['numeric']['output']>;
   total_laps?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "sessions" */
 export type Sessions_Sum_Order_By = {
-  scheduled_laps?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
@@ -5856,14 +5929,12 @@ export type Sessions_Sum_Order_By = {
 /** aggregate var_pop on columns */
 export type Sessions_Var_Pop_Fields = {
   __typename?: 'sessions_var_pop_fields';
-  scheduled_laps?: Maybe<Scalars['Float']['output']>;
   start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "sessions" */
 export type Sessions_Var_Pop_Order_By = {
-  scheduled_laps?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
@@ -5871,14 +5942,12 @@ export type Sessions_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Sessions_Var_Samp_Fields = {
   __typename?: 'sessions_var_samp_fields';
-  scheduled_laps?: Maybe<Scalars['Float']['output']>;
   start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "sessions" */
 export type Sessions_Var_Samp_Order_By = {
-  scheduled_laps?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
@@ -5886,14 +5955,12 @@ export type Sessions_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Sessions_Variance_Fields = {
   __typename?: 'sessions_variance_fields';
-  scheduled_laps?: Maybe<Scalars['Float']['output']>;
   start_time?: Maybe<Scalars['Float']['output']>;
   total_laps?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "sessions" */
 export type Sessions_Variance_Order_By = {
-  scheduled_laps?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
 };
@@ -8344,7 +8411,16 @@ export type GetNextEventQueryVariables = Exact<{
 }>;
 
 
-export type GetNextEventQuery = { __typename?: 'query_root', schedule: Array<{ __typename?: 'schedule', year?: number | null, event_name?: string | null, location?: string | null, country?: string | null, event_format?: Event_Format_Choices_Enum | null, session5_date_utc?: string | null }> };
+export type GetNextEventQuery = { __typename?: 'query_root', schedule: Array<{ __typename?: 'schedule', year?: number | null, event_name?: string | null, round_number?: number | null, location?: string | null, country?: string | null, event_format?: Event_Format_Choices_Enum | null, session1_date_utc?: string | null, session2_date_utc?: string | null, session3_date_utc?: string | null, session4_date_utc?: string | null, session5_date_utc?: string | null }> };
+
+export type GetNextEventCircuitQueryVariables = Exact<{
+  location: Scalars['String']['input'];
+  country: Scalars['String']['input'];
+  year: Scalars['Int']['input'];
+}>;
+
+
+export type GetNextEventCircuitQuery = { __typename?: 'query_root', circuits: Array<{ __typename?: 'circuits', location?: string | null, country?: string | null, circuit_details?: unknown | null }> };
 
 export type GetSeasonEventsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -8694,9 +8770,14 @@ export const GetNextEventDocument = gql`
   ) {
     year
     event_name
+    round_number
     location
     country
     event_format
+    session1_date_utc
+    session2_date_utc
+    session3_date_utc
+    session4_date_utc
     session5_date_utc
   }
 }
@@ -8734,6 +8815,53 @@ export type GetNextEventQueryHookResult = ReturnType<typeof useGetNextEventQuery
 export type GetNextEventLazyQueryHookResult = ReturnType<typeof useGetNextEventLazyQuery>;
 export type GetNextEventSuspenseQueryHookResult = ReturnType<typeof useGetNextEventSuspenseQuery>;
 export type GetNextEventQueryResult = Apollo.QueryResult<GetNextEventQuery, GetNextEventQueryVariables>;
+export const GetNextEventCircuitDocument = gql`
+    query GetNextEventCircuit($location: String!, $country: String!, $year: Int!) {
+  circuits(
+    where: {_and: {location: {_eq: $location}, country: {_eq: $country}, year: {_eq: $year}}}
+    limit: 1
+  ) {
+    location
+    country
+    circuit_details
+  }
+}
+    `;
+
+/**
+ * __useGetNextEventCircuitQuery__
+ *
+ * To run a query within a React component, call `useGetNextEventCircuitQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNextEventCircuitQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNextEventCircuitQuery({
+ *   variables: {
+ *      location: // value for 'location'
+ *      country: // value for 'country'
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetNextEventCircuitQuery(baseOptions: Apollo.QueryHookOptions<GetNextEventCircuitQuery, GetNextEventCircuitQueryVariables> & ({ variables: GetNextEventCircuitQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNextEventCircuitQuery, GetNextEventCircuitQueryVariables>(GetNextEventCircuitDocument, options);
+      }
+export function useGetNextEventCircuitLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNextEventCircuitQuery, GetNextEventCircuitQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNextEventCircuitQuery, GetNextEventCircuitQueryVariables>(GetNextEventCircuitDocument, options);
+        }
+export function useGetNextEventCircuitSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetNextEventCircuitQuery, GetNextEventCircuitQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetNextEventCircuitQuery, GetNextEventCircuitQueryVariables>(GetNextEventCircuitDocument, options);
+        }
+export type GetNextEventCircuitQueryHookResult = ReturnType<typeof useGetNextEventCircuitQuery>;
+export type GetNextEventCircuitLazyQueryHookResult = ReturnType<typeof useGetNextEventCircuitLazyQuery>;
+export type GetNextEventCircuitSuspenseQueryHookResult = ReturnType<typeof useGetNextEventCircuitSuspenseQuery>;
+export type GetNextEventCircuitQueryResult = Apollo.QueryResult<GetNextEventCircuitQuery, GetNextEventCircuitQueryVariables>;
 export const GetSeasonEventsDocument = gql`
     query GetSeasonEvents($year: Int!) @cached {
   schedule(where: {year: {_eq: $year}}) {

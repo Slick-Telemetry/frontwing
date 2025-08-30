@@ -2,11 +2,12 @@
 
 import { useQuery } from '@apollo/client';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
 
 import { GET_NEXT_EVENT } from '@/lib/queries';
 import { eventLocationEncode, getCountryFlagByCountryName } from '@/lib/utils';
 
+import { CircuitMap } from '@/components/CircuitMap';
+import { Countdown } from '@/components/Countdown';
 import { EventTypeBadge } from '@/components/EventTypeBadge';
 
 import {
@@ -15,161 +16,108 @@ import {
   GetNextEventQueryVariables,
 } from '@/generated/types';
 
+const sessionKeys = [
+  'session5_date_utc',
+  'session4_date_utc',
+  'session3_date_utc',
+  'session2_date_utc',
+  'session1_date_utc',
+] as const;
+
 const getTodayMidnightUTC = () => {
   const now = new Date();
   now.setUTCHours(0, 0, 0, 0); // Set to midnight UTC
   return now.toISOString(); // Convert to ISO 8601 format
 };
 
-const NextEvent = () => {
+export default function NextEvent() {
+  const midnight = getTodayMidnightUTC();
   const { loading, data, error } = useQuery<
     GetNextEventQuery,
     GetNextEventQueryVariables
   >(GET_NEXT_EVENT, {
-    variables: { today: getTodayMidnightUTC() },
+    variables: { today: midnight },
   });
 
   if (loading)
     return (
       <div className='mx-auto flex w-[350px] animate-pulse flex-col items-center justify-center gap-1'>
         {/* <Loader /> */}
-        <div className='size-8 w-full rounded bg-gray-700'></div>
-        <div className='size-8 w-full rounded bg-gray-700'></div>
+        <div className='bg-muted size-8 w-full rounded'></div>
+        <div className='bg-muted size-8 w-full rounded'></div>
         <div className='my-2 flex w-full justify-evenly'>
-          <div className='size-12 animate-pulse rounded bg-gray-700'></div>
-          <div className='size-12 animate-pulse rounded bg-gray-700'></div>
-          <div className='size-12 animate-pulse rounded bg-gray-700'></div>
-          <div className='size-12 animate-pulse rounded bg-gray-700'></div>
+          <div className='bg-muted size-12 animate-pulse rounded'></div>
+          <div className='bg-muted size-12 animate-pulse rounded'></div>
+          <div className='bg-muted size-12 animate-pulse rounded'></div>
+          <div className='bg-muted size-12 animate-pulse rounded'></div>
         </div>
       </div>
     );
-  if (error || !data?.schedule[0]) return <></>;
 
-  const nextEvent = data.schedule[0];
+  const midnightDate = new Date(midnight);
+  const nextEvent = data?.schedule?.[0];
+  const lastSession = sessionKeys
+    .map((key) => nextEvent?.[key])
+    .find((date) => Boolean(date));
 
-  // If session5_date_utc is older than today midnight UTC, don't show the event
   if (
-    nextEvent.session5_date_utc &&
-    new Date(nextEvent.session5_date_utc) < new Date(getTodayMidnightUTC())
+    error ||
+    !nextEvent ||
+    !lastSession ||
+    new Date(lastSession) < midnightDate
   ) {
-    return <></>;
+    return null;
   }
 
   return (
-    <div className='mx-auto flex w-fit flex-col rounded-lg p-2'>
-      {nextEvent.event_format && (
-        <EventTypeBadge
-          format={nextEvent.event_format as Event_Format_Choices_Enum}
-        />
-      )}
-      <div>
-        <h2 className='text-2xl font-black'>
+    <div className='flex gap-4'>
+      <div className='flex w-fit max-w-[300px] flex-col rounded-lg'>
+        {/* Subtitle */}
+        <div className='flex justify-between gap-4'>
+          <p className='text-accent text-sm font-light uppercase'>Next Race</p>
+          {nextEvent.event_format && (
+            <EventTypeBadge
+              format={nextEvent.event_format as Event_Format_Choices_Enum}
+            />
+          )}
+        </div>
+
+        {/* Title */}
+        <h2 className='text-2xl'>
           <Link
-            className='hover:underline'
+            className='line-clamp-1 text-inherit hover:underline'
             href={`/${nextEvent.year}/${eventLocationEncode(nextEvent?.location)}`}
             data-cy='next-event-name'
           >
-            {nextEvent.event_name}{' '}
-            {nextEvent.country &&
-              getCountryFlagByCountryName(nextEvent.country)}
+            {[nextEvent.round_number, nextEvent.event_name]
+              .filter(Boolean)
+              .join('. ')}
           </Link>
         </h2>
-        {nextEvent.session5_date_utc && (
-          <p>
-            {
-              // Use user locale to format the date
-              new Date(nextEvent.session5_date_utc).toLocaleString(undefined, {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-              })
-            }
+
+        {/* Flag && Location */}
+        <div className='flex items-center gap-2'>
+          <div className='border-foreground flex h-4 w-full max-w-7 items-center justify-center overflow-hidden rounded border text-3xl'>
+            {nextEvent.country &&
+              getCountryFlagByCountryName(nextEvent.country)}
+          </div>
+          <p className='line-clamp-1 text-sm'>
+            {nextEvent.location}, {nextEvent.country}
           </p>
+        </div>
+
+        {/* Coundown */}
+        {lastSession && (
+          <>
+            <hr className='border-foreground mt-2 mb-4' />
+            <Countdown targetDate={lastSession} data-cy='countdown-timer' />
+          </>
         )}
       </div>
-      <hr className='mt-2 mb-4' />
-      {nextEvent.session5_date_utc && (
-        <Countdown
-          targetDate={nextEvent.session5_date_utc}
-          data-cy='countdown-timer'
-        />
+
+      {nextEvent.location && nextEvent.country && (
+        <CircuitMap location={nextEvent.location} country={nextEvent.country} />
       )}
     </div>
   );
-};
-
-const Countdown = ({
-  targetDate,
-  'data-cy': dataCy,
-}: {
-  targetDate: string | Date;
-  'data-cy'?: string;
-}) => {
-  const calculateTimeLeft = useCallback(() => {
-    const now = new Date();
-    const target = new Date(targetDate);
-    const diff = target.getTime() - now.getTime(); // Difference in milliseconds
-
-    if (diff <= 0) {
-      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-    }
-
-    return {
-      day: Math.floor(diff / (1000 * 60 * 60 * 24)),
-      hour: Math.floor((diff / (1000 * 60 * 60)) % 24),
-      min: Math.floor((diff / (1000 * 60)) % 60),
-      sec: Math.floor((diff / 1000) % 60),
-    };
-  }, [targetDate]);
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(timer); // Cleanup interval on unmount
-  }, [calculateTimeLeft]);
-
-  return (
-    <div className='grid w-full grid-cols-4 gap-2' data-cy={dataCy}>
-      {Object.keys(timeLeft).map((key) => (
-        <Digit
-          key={key}
-          time={timeLeft[key as keyof typeof timeLeft] ?? 0}
-          name={key}
-          data-cy={`countdown-digit-${key}`}
-        />
-      ))}
-    </div>
-  );
-};
-
-const Digit = ({
-  time,
-  name,
-  'data-cy': dataCy,
-}: {
-  time: number;
-  name: string;
-  'data-cy'?: string;
-}) => {
-  return (
-    <div className='grid w-[64px] text-center' data-cy={dataCy}>
-      <p className='font-mono text-2xl leading-6' data-cy='countdown-value'>
-        {time}
-      </p>
-      <p className='text-xs leading-6 uppercase'>
-        {name}
-        {time > 1 && 's'}
-      </p>
-    </div>
-  );
-};
-
-export default NextEvent;
+}
