@@ -16,7 +16,7 @@ import {
 
 export function MainNav() {
   return (
-    <NavigationMenu className='hidden px-4 md:block'>
+    <NavigationMenu className='px-4'>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger data-cy='season-selector'>

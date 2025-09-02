@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { MobileNav } from '@/components/TopNav/MobileNav';
-import { ServerStatus } from '@/components/TopNav/ServerStatus';
-
 import { MainNav } from './MainNav';
+import { MobileNav } from './MobileNav';
+import { DisplaySeasons } from './Seasons';
+import { ServerStatus } from './ServerStatus';
+
+export { DisplaySeasons, MainNav, ServerStatus };
 
 export const TopNav = () => {
   return (

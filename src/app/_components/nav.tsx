@@ -1,13 +1,11 @@
-import { MainNav } from '@/components/TopNav/MainNav';
-import { ServerStatus } from '@/components/TopNav/ServerStatus';
+import { MainNav, ServerStatus } from '@/components/TopNav';
 
-export const Nav = () => {
+export const LandingNav = () => {
   return (
-    <div className='container flex h-12 items-center md:h-24'>
+    <div className='relative container flex h-12 items-center justify-center self-start md:h-20'>
       <MainNav />
 
-      {/* Sidelined for v2 */}
-      <div className='ml-auto flex items-center space-x-4'>
+      <div className='absolute right-4'>
         <ServerStatus />
       </div>
     </div>

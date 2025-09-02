@@ -23,7 +23,7 @@ function Footer() {
   const appVersion = packageJson.version;
 
   return (
-    <div className='container mt-auto grid flex-col items-center justify-center py-6 md:grid-cols-3 md:flex-row'>
+    <div className='border-foreground container mt-auto grid flex-col items-center justify-center border-t py-6 md:grid-cols-3 md:flex-row'>
       <div className='mt-4 text-center md:mt-0 md:text-left'>
         <p>Copyright © 2025, Slick Telemetry</p>
         <p className='text-xs'>
