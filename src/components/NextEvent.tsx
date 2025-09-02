@@ -70,7 +70,7 @@ export default function NextEvent() {
   }
 
   return (
-    <div className='flex gap-4'>
+    <div className='flex items-center justify-center gap-4'>
       <div className='flex w-fit max-w-[300px] flex-col rounded-lg'>
         {/* Subtitle */}
         <div className='flex justify-between gap-4'>

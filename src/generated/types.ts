@@ -8420,7 +8420,7 @@ export type GetNextEventCircuitQueryVariables = Exact<{
 }>;
 
 
-export type GetNextEventCircuitQuery = { __typename?: 'query_root', circuits: Array<{ __typename?: 'circuits', location?: string | null, country?: string | null, circuit_details?: unknown | null }> };
+export type GetNextEventCircuitQuery = { __typename?: 'query_root', circuits: Array<{ __typename?: 'circuits', circuit_details?: unknown | null }> };
 
 export type GetSeasonEventsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -8821,8 +8821,6 @@ export const GetNextEventCircuitDocument = gql`
     where: {_and: {location: {_eq: $location}, country: {_eq: $country}, year: {_eq: $year}}}
     limit: 1
   ) {
-    location
-    country
     circuit_details
   }
 }

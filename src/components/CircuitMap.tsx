@@ -15,21 +15,17 @@ export const CircuitMap = ({
   location: string;
   country: string;
 }) => {
-  const { loading, data } = useQuery<
+  const { loading, data, error } = useQuery<
     GetNextEventCircuitQuery,
     GetNextEventCircuitQueryVariables
   >(GET_NEXT_EVENT_CIRCUIT, {
     variables: { location, country, year: new Date().getFullYear() - 1 },
   });
 
-  if (!data || loading) return null;
+  if (loading || error || !data?.circuits[0].circuit_details) return null;
 
-  const circuit_details = data.circuits[0].circuit_details as CircuitDetails;
-
-  const xy_values = circuit_details?.xy_values as {
-    X: number;
-    Y: number;
-  }[];
+  const { xy_values, rotation } = data.circuits[0]
+    .circuit_details as CircuitDetails;
 
   // Compute bounding box and offsets
   const [minX, minY] = [
@@ -41,38 +37,44 @@ export const CircuitMap = ({
     Math.max(...xy_values.map((p) => p.Y)),
   ];
 
-  const padding = 500; // padding around track
+  // SVG dimensions
+  const padding = 1500; // padding around track
   const width = maxX - minX + padding * 2;
   const height = maxY - minY + padding * 2;
+  const strokeWidth = Math.max(width, height) * 0.03;
 
   const points = xy_values
     .map((p) => `${p.X - minX + padding},${p.Y - minY + padding}`)
-    // .concat(`${xy_values[0].X - minX + padding},${xy_values[0].Y - minY + padding}`) // close loop
+    .concat(
+      `${xy_values[0].X - minX + padding},${xy_values[0].Y - minY + padding}`,
+    ) // close loop
     .join(' ');
 
   return (
-    <div className='flex h-[150px] items-center justify-center'>
+    <div className='transform-[scaleY(-1)]'>
       <svg
-        className='h-full w-full'
+        className='aspect-square h-full max-h-[250px] w-full'
+        style={{
+          // TODO: Remove -1 when circuits are updated
+          transform: `rotate(${rotation * -1}deg)`,
+        }}
         viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio='xMidYMid meet'
       >
         {/* Outer */}
         <polyline
           points={points}
-          className='stroke-accent'
           stroke='white'
           fill='none'
-          strokeWidth='250'
+          strokeWidth={strokeWidth}
         />
         {/* Innner */}
         <polyline
           points={points}
-          stroke='black'
+          className='stroke-accent'
           fill='none'
-          strokeWidth='125'
+          strokeWidth={strokeWidth * 0.5}
         />
-        /
       </svg>
     </div>
   );

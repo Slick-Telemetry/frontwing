@@ -17,4 +17,5 @@ interface XY {
 
 export interface CircuitDetails {
   xy_values: XY[];
+  rotation: number;
 }
