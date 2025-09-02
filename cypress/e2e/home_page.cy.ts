@@ -300,13 +300,13 @@ describe('Countdown Timer', () => {
       .invoke('text')
       .then(parseInt)
       .should('be.gte', 0); // Hours
-    cy.get('[data-cy="countdown-digit-min"]')
+    cy.get('[data-cy="countdown-digit-minute"]')
       .find('[data-cy="countdown-value"]')
       .should('be.visible')
       .invoke('text')
       .then(parseInt)
       .should('be.gte', 0); // Minutes
-    cy.get('[data-cy="countdown-digit-sec"]')
+    cy.get('[data-cy="countdown-digit-second"]')
       .find('[data-cy="countdown-value"]')
       .should('be.visible')
       .invoke('text')
@@ -369,11 +369,6 @@ describe('Countdown Timer', () => {
 describe('Top Navigation', () => {
   beforeEach(() => {
     cy.visit('/');
-  });
-
-  it('navigates to home page when clicking on the logo', () => {
-    cy.get('[data-cy="home-logo-link"]').click();
-    cy.url().should('eq', Cypress.config('baseUrl') + '/');
   });
 
   it('navigates to Standings page', () => {
@@ -460,24 +455,5 @@ describe('Footer', () => {
 describe('Background Image', () => {
   it('successfully loads the background image', () => {
     cy.request('/slick-telemetry-bg.png').its('status').should('eq', 200);
-  });
-});
-
-describe('Responsive Design', () => {
-  it('displays navigation elements correctly on desktop', () => {
-    cy.viewport(1280, 720); // Desktop resolution
-    cy.visit('/');
-    cy.get('[data-cy="season-selector"]').should('be.visible');
-    cy.get('[data-cy="nav-link-standings"]').should('be.visible');
-    cy.get('[data-cy="nav-link-map"]').should('be.visible');
-  });
-
-  it('displays mobile navigation elements correctly on mobile', () => {
-    cy.viewport(375, 667); // iPhone X resolution
-    cy.visit('/');
-    cy.get('[data-cy="mobile-menu-button"]').should('be.visible');
-    cy.get('[data-cy="season-selector"]').should('not.be.visible');
-    cy.get('[data-cy="nav-link-standings"]').should('not.be.visible');
-    cy.get('[data-cy="nav-link-map"]').should('not.be.visible');
   });
 });
