@@ -26,11 +26,9 @@ const config: CodegenConfig = {
         scalars: {
           bigint: 'bigint',
           numeric: 'bigint | number',
+          jsonb: 'unknown',
         },
       },
-    },
-    './graphql.schema.json': {
-      plugins: ['introspection'],
     },
   },
 };
