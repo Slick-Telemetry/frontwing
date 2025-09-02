@@ -1,3 +1,9 @@
+## 0.6.24 (2025-09-02)
+
+### Refactor
+
+- **home**: cleaner and more readable
+
 ## 0.6.23 (2025-08-19)
 
 ### Refactor
