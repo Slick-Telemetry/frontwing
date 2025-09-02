@@ -10,6 +10,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Get midnight of current day
+// eg: today is sat, return sat 00:00/12:00AM
+export const getTodayMidnightUTC = () => {
+  const now = new Date();
+  now.setUTCHours(0, 0, 0, 0); // Set to midnight UTC
+  return now.toISOString(); // Convert to ISO 8601 format
+};
+
 /**
  * @description Return value for default background gradient
  * @param {string} color

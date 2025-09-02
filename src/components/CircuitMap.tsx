@@ -53,7 +53,7 @@ export const CircuitMap = ({
   return (
     <div className='transform-[scaleY(-1)]'>
       <svg
-        className='aspect-square h-full max-h-[250px] w-full'
+        className='aspect-square h-full max-h-[205px] w-full'
         style={{
           // TODO: Remove -1 when circuits are updated
           transform: `rotate(${rotation * -1}deg)`,

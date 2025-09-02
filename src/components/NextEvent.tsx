@@ -4,7 +4,11 @@ import { useQuery } from '@apollo/client';
 import Link from 'next/link';
 
 import { GET_NEXT_EVENT } from '@/lib/queries';
-import { eventLocationEncode, getCountryFlagByCountryName } from '@/lib/utils';
+import {
+  eventLocationEncode,
+  getCountryFlagByCountryName,
+  getTodayMidnightUTC,
+} from '@/lib/utils';
 
 import { CircuitMap } from '@/components/CircuitMap';
 import { Countdown } from '@/components/Countdown';
@@ -16,7 +20,7 @@ import {
   GetNextEventQueryVariables,
 } from '@/generated/types';
 
-const sessionKeys = [
+const scheduleSessionKeys = [
   'session5_date_utc',
   'session4_date_utc',
   'session3_date_utc',
@@ -24,11 +28,26 @@ const sessionKeys = [
   'session1_date_utc',
 ] as const;
 
-const getTodayMidnightUTC = () => {
-  const now = new Date();
-  now.setUTCHours(0, 0, 0, 0); // Set to midnight UTC
-  return now.toISOString(); // Convert to ISO 8601 format
-};
+function NextEventSkeleton() {
+  return (
+    <div className='mx-auto flex w-[300px] animate-pulse flex-col justify-center gap-2 py-4'>
+      <p className='text-accent text-sm font-light uppercase'>Next Race</p>
+
+      <div className='bg-muted size-6 w-full rounded' />
+      <div className='bg-muted size-6 w-full rounded' />
+      <div className='border-foreground flex w-full justify-evenly border-t py-4'>
+        {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
+          <div key={unit} className='flex flex-col items-center justify-center'>
+            <div className='bg-muted size-8 animate-pulse rounded' />
+            <p className='font-space-grotesk text-xs leading-6 font-bold uppercase'>
+              {unit}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function NextEvent() {
   const midnight = getTodayMidnightUTC();
@@ -39,39 +58,24 @@ export default function NextEvent() {
     variables: { today: midnight },
   });
 
-  if (loading)
-    return (
-      <div className='mx-auto flex w-[350px] animate-pulse flex-col items-center justify-center gap-1'>
-        {/* <Loader /> */}
-        <div className='bg-muted size-8 w-full rounded'></div>
-        <div className='bg-muted size-8 w-full rounded'></div>
-        <div className='my-2 flex w-full justify-evenly'>
-          <div className='bg-muted size-12 animate-pulse rounded'></div>
-          <div className='bg-muted size-12 animate-pulse rounded'></div>
-          <div className='bg-muted size-12 animate-pulse rounded'></div>
-          <div className='bg-muted size-12 animate-pulse rounded'></div>
-        </div>
-      </div>
-    );
+  if (loading) return <NextEventSkeleton />;
 
-  const midnightDate = new Date(midnight);
   const nextEvent = data?.schedule?.[0];
-  const lastSession = sessionKeys
+  const lastSession = scheduleSessionKeys
     .map((key) => nextEvent?.[key])
-    .find((date) => Boolean(date));
+    .find(Boolean);
 
-  if (
-    error ||
-    !nextEvent ||
-    !lastSession ||
-    new Date(lastSession) < midnightDate
-  ) {
-    return null;
-  }
+  const isValidEvent =
+    !error &&
+    nextEvent &&
+    lastSession &&
+    new Date(lastSession) >= new Date(midnight);
+
+  if (!isValidEvent) return null;
 
   return (
     <div className='flex items-center justify-center gap-4'>
-      <div className='flex w-fit max-w-[300px] flex-col rounded-lg'>
+      <div className='flex w-[300px] flex-col rounded-lg py-8'>
         {/* Subtitle */}
         <div className='flex justify-between gap-4'>
           <p className='text-accent text-sm font-light uppercase'>Next Race</p>
