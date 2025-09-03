@@ -1,6 +1,5 @@
 'use client';
-
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { LineChart, LineSeriesOption } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
@@ -21,7 +20,6 @@ import {
 
 echarts.use([LineChart, TooltipComponent, GridComponent, CanvasRenderer]);
 
-import { QueryResult } from '@apollo/client';
 import type { EChartsOption } from 'echarts';
 
 import { Loader } from '@/components/Loader';
@@ -45,14 +43,17 @@ const ChartContainer: React.FC<ChartProps> = ({ loading, children }) => {
 const DeltaToWinnerChart = ({
   data,
   loading,
-}: QueryResult<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>) => {
+}: useQuery.Result<
+  GetSessionLapTimesQuery,
+  GetSessionLapTimesQueryVariables
+>) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!loading && chartRef.current) {
       const chart = echarts.init(chartRef.current);
 
-      const driverData = data?.sessions[0].driver_sessions || [];
+      const driverData = data?.sessions?.[0]?.driver_sessions || [];
 
       // Create a map for driver abbreviation to constructor color and prepare lap data
       const driverColorMap = new Map<string, string>();
@@ -61,7 +62,7 @@ const DeltaToWinnerChart = ({
 
       // First pass: collect all lap times and create color map
       driverData.forEach((driver) => {
-        if (driver.driver?.abbreviation) {
+        if (driver?.driver?.abbreviation) {
           // Set color mapping
           driverColorMap.set(
             driver.driver.abbreviation,
@@ -69,19 +70,21 @@ const DeltaToWinnerChart = ({
           );
 
           // Collect lap times
-          const validLaps = driver.laps
-            .filter((lap) => !!lap.lap_number && lap.lap_time !== null)
-            .map((lap) => Number(lap.lap_time));
-          lapTimesByDriver.set(driver.driver.abbreviation, validLaps);
+          const validLaps = driver?.laps
+            ?.filter((lap) => !!lap?.lap_number && lap.lap_time !== null)
+            .map((lap) => Number(lap?.lap_time));
+
+          if (validLaps)
+            lapTimesByDriver.set(driver.driver.abbreviation, validLaps);
 
           // Store final position based on their completion time
-          const finalTime = driver.laps.reduce(
-            (sum, lap) => sum + Number(lap.lap_time || 0),
+          const finalTime = driver?.laps?.reduce(
+            (sum, lap) => sum + Number(lap?.lap_time || 0),
             0,
           );
           driverFinalPositions.set(
             driver.driver.abbreviation,
-            finalTime > 0 ? finalTime : Number.POSITIVE_INFINITY,
+            finalTime && finalTime > 0 ? finalTime : Number.POSITIVE_INFINITY,
           );
         }
       });
@@ -300,19 +303,22 @@ const DeltaToWinnerChart = ({
 const LapTimesChart = ({
   data,
   loading,
-}: QueryResult<GetSessionLapTimesQuery, GetSessionLapTimesQueryVariables>) => {
+}: useQuery.Result<
+  GetSessionLapTimesQuery,
+  GetSessionLapTimesQueryVariables
+>) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!loading && chartRef.current) {
       const chart = echarts.init(chartRef.current);
 
-      const driverSessions = data?.sessions[0]?.driver_sessions || [];
+      const driverSessions = data?.sessions?.[0]?.driver_sessions || [];
 
       // Create a map for driver abbreviation to constructor color
       const driverColorMap = new Map<string, string>();
       driverSessions.forEach((driver) => {
-        if (driver.driver?.abbreviation) {
+        if (driver?.driver?.abbreviation) {
           driverColorMap.set(
             driver.driver.abbreviation,
             `#${driver.constructorByConstructorId?.color || 'cccccc'}`,
@@ -321,12 +327,10 @@ const LapTimesChart = ({
       });
 
       const baselineLap = driverSessions
-        .find(
-          (driverSession) =>
-            driverSession.laps &&
-            driverSession.laps.some((lap) => lap.lap_time !== null),
+        .find((driverSession) =>
+          driverSession?.laps?.some((lap) => lap?.lap_time !== null),
         )
-        ?.laps?.find((lap) => lap.lap_time !== null)?.lap_time;
+        ?.laps?.find((lap) => lap?.lap_time !== null)?.lap_time;
 
       if (
         baselineLap === null ||
@@ -344,15 +348,15 @@ const LapTimesChart = ({
       }
 
       const series = driverSessions.map((driver) => {
-        const color = `#${driver.constructorByConstructorId?.color || 'cccccc'}`;
-        const lapData = driver.laps
-          .filter((lap) => !!lap.lap_number && lap.lap_time !== null)
+        const color = `#${driver?.constructorByConstructorId?.color || 'cccccc'}`;
+        const lapData = driver?.laps
+          ?.filter((lap) => !!lap?.lap_number && lap.lap_time !== null)
           .map((lap) => {
-            return [lap.lap_number, Number(lap.lap_time)];
+            return [lap?.lap_number, Number(lap?.lap_time)];
           });
 
         return {
-          name: driver.driver?.abbreviation,
+          name: driver?.driver?.abbreviation,
           type: 'line',
           smooth: true,
           showSymbol: false,

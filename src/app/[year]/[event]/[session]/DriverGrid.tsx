@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { useParams } from 'next/navigation';
 
 import { GET_SESSION_RESULTS } from '@/lib/queries';

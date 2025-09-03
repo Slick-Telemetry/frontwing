@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
 import { GET_NEXT_EVENT_CIRCUIT } from '@/lib/queries';
 

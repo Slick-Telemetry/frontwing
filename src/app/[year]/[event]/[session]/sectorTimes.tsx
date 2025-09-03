@@ -1,6 +1,5 @@
 'use client';
-
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { BarChart } from 'echarts/charts';
 import {
   GridComponent,

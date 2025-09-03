@@ -1,6 +1,5 @@
 'use client';
-
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import clsx from 'clsx';
 import { Earth } from 'lucide-react';
 import { useParams } from 'next/navigation';
