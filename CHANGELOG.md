@@ -1,3 +1,9 @@
+## 0.6.25 (2025-09-03)
+
+### Refactor
+
+- **deps**: FRON-244 migrate to latest cypress and apollo client
+
 ## 0.6.24 (2025-09-02)
 
 ### Refactor
