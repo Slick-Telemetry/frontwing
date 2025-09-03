@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { use, useCallback, useEffect, useState } from 'react';
 
 import { GET_SEASON_EVENTS } from '@/lib/queries';

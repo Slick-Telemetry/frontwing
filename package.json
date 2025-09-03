@@ -47,6 +47,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-map-gl": "latest",
+    "rxjs": "^7.8.2",
     "tailwind-merge": "latest",
     "tailwindcss-animate": "latest",
     "vaul": "latest"
@@ -58,10 +59,8 @@
     "@eslint/js": "latest",
     "@graphql-codegen/cli": "latest",
     "@graphql-codegen/client-preset": "latest",
-    "@graphql-codegen/introspection": "latest",
     "@graphql-codegen/typescript": "latest",
     "@graphql-codegen/typescript-operations": "latest",
-    "@graphql-codegen/typescript-react-apollo": "latest",
     "@next/eslint-plugin-next": "latest",
     "@parcel/watcher": "latest",
     "@types/node": "latest",

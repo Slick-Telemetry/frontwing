@@ -1,6 +1,5 @@
 'use client';
-
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { use, useMemo } from 'react';

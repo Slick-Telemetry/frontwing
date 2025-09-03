@@ -1,6 +1,5 @@
 'use client';
-
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import * as echarts from 'echarts';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';

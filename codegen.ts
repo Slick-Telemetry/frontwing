@@ -17,11 +17,7 @@ const config: CodegenConfig = {
   documents: './src/lib/*.ts',
   generates: {
     './src/generated/types.ts': {
-      plugins: [
-        'typescript',
-        'typescript-operations',
-        'typescript-react-apollo',
-      ],
+      plugins: ['typescript', 'typescript-operations'],
       config: {
         scalars: {
           bigint: 'bigint',

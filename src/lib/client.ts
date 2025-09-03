@@ -1,4 +1,4 @@
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core';
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -6,7 +6,7 @@ export const client = new ApolloClient({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
     uri: process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL || '',
     headers: {
-      'x-hasura-role': 'public',
+      'x-hasura-role': process.env.NEXT_PUBLIC_HASURA_ROLE || '',
     },
     fetchOptions: {
       cache: 'force-cache',

@@ -1,6 +1,5 @@
 'use client';
-
-import { ApolloError } from '@apollo/client';
+import { CombinedGraphQLErrors } from '@apollo/client';
 import { Component, ReactNode } from 'react';
 
 import { ServerPageError } from './ServerError';
@@ -29,13 +28,15 @@ export class ApolloErrorBoundary extends Component<Props, State> {
       const error = this.state.error;
       let message = 'An unexpected error occurred';
 
-      if (error instanceof ApolloError) {
-        if (error.networkError) {
-          message =
-            'Unable to connect to the server. Please check your connection and try again.';
-        } else if (error.graphQLErrors.length > 0) {
-          message = error.graphQLErrors[0].message;
-        }
+      if (error) {
+        // TODO: Add logging here for actual error
+        message = error.message;
+        message =
+          'Unable to connect to the server. Please check your connection and try again.';
+      }
+      if (CombinedGraphQLErrors.is(error)) {
+        // TODO: Add logging here for errors
+        message = error.errors[0].message;
       }
 
       return <ServerPageError msg={message} />;
