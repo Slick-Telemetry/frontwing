@@ -18,7 +18,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   {
-    ignores: ['!**/.prettierrc.js', '.next'],
+    ignores: ['!**/.prettierrc.js', '.next', 'next-env.d.ts'],
   },
   ...compat.extends(
     'eslint:recommended',
