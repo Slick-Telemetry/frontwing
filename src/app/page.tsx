@@ -20,7 +20,7 @@ export default function Home() {
             <LandingNav />
 
             <div className='flex flex-1 flex-col items-center justify-center gap-2 text-center'>
-              <h1 className='text-shadow-foreground scroll-m-20 text-center text-8xl font-extrabold tracking-tight text-balance uppercase text-shadow-md'>
+              <h1 className='scroll-m-20 text-center text-8xl font-extrabold tracking-tight text-balance uppercase'>
                 Slick Telemetry
               </h1>
               <p className='font-light uppercase sm:text-xl lg:text-3xl'>
