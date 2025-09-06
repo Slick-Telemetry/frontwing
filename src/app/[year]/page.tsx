@@ -54,7 +54,7 @@ const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
     return <NotFound />;
 
   return (
-    <div className='container my-4'>
+    <div className='p-4 lg:p-6'>
       <CheckboxToggle toggle={toggleSessions} checked={showSessions}>
         Show Sessions
       </CheckboxToggle>
