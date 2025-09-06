@@ -4,7 +4,11 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 import { AppSidebar } from '@/app/[year]/_components/sidebar';
 
-export default async function Layout({ children }: LayoutProps<'/[year]'>) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
       <SidebarProvider
