@@ -1,7 +1,7 @@
 import { Footer } from '@/components/Footer';
-import { TopNav } from '@/components/TopNav';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
+import { Nav } from '@/app/[year]/_components/nav';
 import { AppSidebar } from '@/app/[year]/_components/sidebar';
 
 export default async function Layout({
@@ -21,7 +21,7 @@ export default async function Layout({
       >
         <AppSidebar />
         <SidebarInset>
-          <TopNav />
+          <Nav />
           {children}
           <Footer />
         </SidebarInset>
