@@ -52,8 +52,7 @@
     "react-map-gl": "latest",
     "rxjs": "^7.8.2",
     "tailwind-merge": "latest",
-    "tailwindcss-animate": "latest",
-    "vaul": "latest"
+    "tailwindcss-animate": "latest"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",

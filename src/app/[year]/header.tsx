@@ -4,7 +4,7 @@ import { ChartLine, Globe2, List } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
-import SeasonSelector from '@/components/seasonSelector';
+import { SeasonSelector } from '@/components/navigation';
 import { Button } from '@/components/ui/button';
 
 const QuickLinks = () => {
