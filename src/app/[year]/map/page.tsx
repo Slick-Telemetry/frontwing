@@ -13,7 +13,6 @@ import { getColor } from '@/lib/utils';
 
 import { ServerPageError } from '@/components/ServerError';
 
-import { MapEvent } from '@/generated/customTypes';
 import {
   GetMapEventsQuery,
   GetMapEventsQueryVariables,
@@ -24,6 +23,8 @@ import { Legend } from './Legend';
 import { MapMarker } from './Marker';
 import { MapPopup } from './Popup';
 import { PrevNextButtons } from './PrevNextButtons';
+
+import { MapEvent } from '@/types/global';
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const initialView = {

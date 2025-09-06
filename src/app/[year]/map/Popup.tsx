@@ -15,7 +15,7 @@ import {
 
 import { EventTypeBadge } from '@/components/EventTypeBadge';
 
-import { MapEvent } from '@/generated/customTypes';
+import { MapEvent } from '@/types/global';
 
 const optimalZoom = 15; // optimal zoom for circuit visibility
 

@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { EventTypeBadge } from '@/components/EventTypeBadge';
 
-import { SeasonEvent } from '@/generated/customTypes';
+import { SeasonEvent } from '@/types/global';
 
 export const EventContainer = ({
   event,

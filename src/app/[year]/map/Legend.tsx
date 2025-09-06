@@ -1,6 +1,6 @@
 import { getColor } from '@/lib/utils';
 
-import { MapEvent } from '@/generated/customTypes';
+import { MapEvent } from '@/types/global';
 
 const containerClasses = 'absolute top-4 left-4 rounded bg-muted p-2';
 

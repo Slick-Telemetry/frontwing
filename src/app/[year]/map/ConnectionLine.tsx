@@ -1,7 +1,7 @@
 import { greatCircle } from '@turf/turf';
 import { Layer, Source } from 'react-map-gl/mapbox';
 
-import { MapEvent } from '@/generated/customTypes';
+import { MapEvent } from '@/types/global';
 
 export const ConnectionLine = ({
   event,

@@ -3,7 +3,7 @@ import { Marker } from 'react-map-gl/mapbox';
 
 import { eventTiming } from '@/lib/utils';
 
-import { MapEvent } from '@/generated/customTypes';
+import { MapEvent } from '@/types/global';
 
 export const MapMarker = ({
   event,

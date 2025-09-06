@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import { MapEvent } from '@/generated/customTypes';
+import { MapEvent } from '@/types/global';
 
 export const PrevNextButtons = ({
   selectedEvent,
