@@ -1,3 +1,9 @@
+## 0.6.26 (2025-09-06)
+
+### Fix
+
+- manual declare types to avoid next type generation dependency
+
 ## 0.6.25 (2025-09-03)
 
 ### Refactor
