@@ -8,7 +8,7 @@ import { GET_EVENT_DETAILS, GET_EVENT_SCHEDULE } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
 
 import { FullHeightLoader } from '@/components/Loader';
-import SeasonSelector from '@/components/seasonSelector';
+import { SeasonSelector } from '@/components/navigation';
 import { ServerPageError } from '@/components/ServerError';
 import {
   Select,

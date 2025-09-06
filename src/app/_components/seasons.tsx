@@ -5,11 +5,10 @@ import Link from 'next/link';
 import { GET_SEASONS } from '@/lib/queries';
 
 import { ServerComponentError } from '@/components/ServerError';
-import { DrawerClose } from '@/components/ui/drawer';
 
 import { GetSeasonsQuery, GetSeasonsQueryVariables } from '@/generated/types';
 
-export function DisplaySeasons({ asDrawer }: { asDrawer?: boolean }) {
+export function DisplaySeasons() {
   const { data, loading, error } = useQuery<
     GetSeasonsQuery,
     GetSeasonsQueryVariables
@@ -20,19 +19,6 @@ export function DisplaySeasons({ asDrawer }: { asDrawer?: boolean }) {
   }
 
   if (error) return <ServerComponentError />;
-
-  if (asDrawer) {
-    return data?.events.map(({ year }) => (
-      <DrawerClose asChild key={year}>
-        <Link
-          href={'/' + year}
-          className='border-primary flex items-center justify-center rounded border-b py-1 hover:underline'
-        >
-          <h3>{year}</h3>
-        </Link>
-      </DrawerClose>
-    ));
-  }
 
   return data?.events.map(({ year }) => (
     <Link
