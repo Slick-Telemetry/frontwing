@@ -16,7 +16,7 @@ import {
 import {
   GetSeasonEventsQuery,
   GetSeasonEventsQueryVariables,
-} from '@/generated/types';
+} from '@/types/graphql';
 
 export function EventSelector() {
   const { year, event } = useParams<{ year: string; event?: string }>();

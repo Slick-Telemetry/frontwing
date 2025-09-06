@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { eventLocationEncode } from '@/lib/utils';
 
-import { Session_Name_Choices_Enum } from '@/generated/types';
+import { Session_Name_Choices_Enum } from '@/types/graphql';
 
 const sessionTitles: Record<Session_Name_Choices_Enum, string> = {
   [Session_Name_Choices_Enum.Practice_1]: 'FP1',

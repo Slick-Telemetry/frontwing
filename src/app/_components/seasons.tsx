@@ -6,7 +6,7 @@ import { GET_SEASONS } from '@/lib/queries';
 
 import { ServerComponentError } from '@/components/ServerError';
 
-import { GetSeasonsQuery, GetSeasonsQueryVariables } from '@/generated/types';
+import { GetSeasonsQuery, GetSeasonsQueryVariables } from '@/types/graphql';
 
 export function DisplaySeasons() {
   const { data, loading, error } = useQuery<

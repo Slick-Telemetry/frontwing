@@ -4,7 +4,7 @@ import { getAlpha2Code, registerLocale } from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 import { twMerge } from 'tailwind-merge';
 
-import { GetEventDetailsQuery, SessionResultsQuery } from '@/generated/types';
+import { GetEventDetailsQuery, SessionResultsQuery } from '@/types/graphql';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

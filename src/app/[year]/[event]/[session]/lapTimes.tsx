@@ -16,7 +16,7 @@ import {
   GetSessionLapTimesQuery,
   GetSessionLapTimesQueryVariables,
   Session_Name_Choices_Enum,
-} from '@/generated/types';
+} from '@/types/graphql';
 
 echarts.use([LineChart, TooltipComponent, GridComponent, CanvasRenderer]);
 

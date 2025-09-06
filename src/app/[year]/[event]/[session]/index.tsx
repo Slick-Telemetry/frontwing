@@ -9,15 +9,16 @@ import { Loader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
 
 import { DriverGrid } from '@/app/[year]/[event]/[session]/DriverGrid';
-import {
-  Session_Name_Choices_Enum,
-  SessionQuery,
-  SessionQueryVariables,
-} from '@/generated/types';
 
 import LapTimeContainer from './lapTimes';
 import SectorTimes from './sectorTimes';
 import Stints from './stints';
+
+import {
+  Session_Name_Choices_Enum,
+  SessionQuery,
+  SessionQueryVariables,
+} from '@/types/graphql';
 
 export const SessionHeader = () => {
   const { year, event: eventParams, session: sessionParam } = useParams();

@@ -16,7 +16,7 @@ const config: CodegenConfig = {
   ],
   documents: './src/lib/*.ts',
   generates: {
-    './src/generated/types.ts': {
+    './src/types/graphql.d.ts': {
       plugins: ['typescript', 'typescript-operations'],
       config: {
         scalars: {

@@ -5,7 +5,7 @@ import { GET_NEXT_EVENT_CIRCUIT } from '@/lib/queries';
 import {
   GetNextEventCircuitQuery,
   GetNextEventCircuitQueryVariables,
-} from '@/generated/types';
+} from '@/types/graphql';
 
 export const CircuitMap = ({
   location,
