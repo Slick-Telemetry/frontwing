@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { bgGradient } from '@/lib/utils';
 
-import { GetStandingsQuery } from '@/generated/types';
+import { GetStandingsQuery } from '@/types/graphql';
 
 const calculateGap = (currentPoints: number, previousPoints: number | null) => {
   if (previousPoints === null) {

@@ -16,7 +16,7 @@ import {
 
 import { CheckboxToggle } from '@/components/Checkbox';
 
-import { GetEventDetailsQuery } from '@/generated/types';
+import { GetEventDetailsQuery } from '@/types/graphql';
 
 export const EventSession = ({
   name,

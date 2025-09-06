@@ -12,11 +12,12 @@ import { SessionTime } from '@/components/SessionTime';
 
 import { EventContainer } from '@/app/[year]/EventContainer';
 import NotFound from '@/app/not-found';
+
 import {
   GetSeasonEventsQuery,
   GetSeasonEventsQueryVariables,
   Session_Name_Choices_Enum,
-} from '@/generated/types';
+} from '@/types/graphql';
 
 const SeasonPage = ({ params }: { params: Promise<{ year: string }> }) => {
   const { year } = use(params);

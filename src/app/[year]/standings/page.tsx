@@ -8,13 +8,14 @@ import { GET_STANDINGS } from '@/lib/queries';
 import { ApolloErrorBoundary } from '@/components/ApolloErrorBoundary';
 
 import { ConstructorsTable, DriversTable } from '@/app/[year]/standings/Tables';
-import type {
-  GetStandingsQuery,
-  GetStandingsQueryVariables,
-} from '@/generated/types';
 
 import { Legend } from './Legend';
 import { StandingsChart } from './StandingsChart';
+
+import type {
+  GetStandingsQuery,
+  GetStandingsQueryVariables,
+} from '@/types/graphql';
 
 const StandingsContent = () => {
   const { year: season } = useParams<{ year: string }>();

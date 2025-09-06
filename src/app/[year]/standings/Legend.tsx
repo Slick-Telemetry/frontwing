@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { bgGradient } from '@/lib/utils';
 
-import { GetStandingsQuery } from '@/generated/types';
+import { GetStandingsQuery } from '@/types/graphql';
 
 export const Legend = ({
   standings,

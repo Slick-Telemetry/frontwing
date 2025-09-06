@@ -21,7 +21,7 @@ import {
   Session_Name_Choices_Enum,
   SessionResultsQuery,
   SessionResultsQueryVariables,
-} from '@/generated/types';
+} from '@/types/graphql';
 
 export const DriverGrid = () => {
   const { year, event, session: sessionBlob } = useParams();

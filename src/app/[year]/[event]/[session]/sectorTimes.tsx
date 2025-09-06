@@ -22,7 +22,7 @@ import {
   GetSessionFastestTimesQuery,
   GetSessionFastestTimesQueryVariables,
   Session_Name_Choices_Enum,
-} from '@/generated/types';
+} from '@/types/graphql';
 
 // Register the required components
 echarts.use([

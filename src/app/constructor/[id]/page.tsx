@@ -16,12 +16,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
+import { ResultsTable } from './ResultsTable';
+
 import {
   GetConstructorQuery,
   GetConstructorQueryVariables,
-} from '@/generated/types';
-
-import { ResultsTable } from './ResultsTable';
+} from '@/types/graphql';
 
 const EventPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);

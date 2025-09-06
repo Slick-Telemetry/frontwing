@@ -17,7 +17,7 @@ import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import type { CallbackDataParams } from 'echarts/types/dist/shared';
 
-import type { GetStandingsQuery } from '@/generated/types';
+import type { GetStandingsQuery } from '@/types/graphql';
 
 echarts.use([
   DatasetComponent,

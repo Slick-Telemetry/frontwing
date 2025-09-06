@@ -17,7 +17,7 @@ import {
   Event_Format_Choices_Enum,
   GetNextEventQuery,
   GetNextEventQueryVariables,
-} from '@/generated/types';
+} from '@/types/graphql';
 
 const scheduleSessionKeys = [
   'session5_date_utc',

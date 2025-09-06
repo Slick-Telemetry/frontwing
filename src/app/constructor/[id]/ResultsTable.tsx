@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 
-import { GetConstructorQuery } from '@/generated/types';
+import { GetConstructorQuery } from '@/types/graphql';
 
 type DriverSessionProps =
   GetConstructorQuery['constructors'][number]['driver_sessions'][number];

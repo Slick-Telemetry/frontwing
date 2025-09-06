@@ -24,14 +24,15 @@ import {
   SkeletonProvisionalGrid,
 } from '@/app/[year]/[event]/EventSession';
 import { EventContainer } from '@/app/[year]/EventContainer';
+
+import circuit from '../../../../public/Bahrain_carbon.png';
+
 import {
   GetEventDetailsQuery,
   GetEventDetailsQueryVariables,
   GetEventScheduleQuery,
   GetEventScheduleQueryVariables,
-} from '@/generated/types';
-
-import circuit from '../../../../public/Bahrain_carbon.png';
+} from '@/types/graphql';
 
 const EventPage = ({
   params,

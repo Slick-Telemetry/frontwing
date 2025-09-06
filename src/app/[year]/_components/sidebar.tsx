@@ -23,7 +23,7 @@ type SidebarEndpoint = {
   url: string;
   items?: SidebarEndpoint[];
 };
-// This is sample data.
+
 const sidebarEndpoints: SidebarEndpoint[] = [
   {
     title: 'Season',
@@ -129,23 +129,23 @@ function SidebarItem({
   return (
     <SidebarMenuItem key={item.title}>
       <SidebarMenuButton asChild>
-        {!params.session && item.url.includes('$session') ? (
+        {!url ? (
           <span className='text-muted-foreground cursor-not-allowed font-medium opacity-50'>
             {item.title}
           </span>
         ) : (
-          <a href={url} className='font-medium'>
+          <Link href={url} className='font-medium'>
             {item.title}
-          </a>
+          </Link>
         )}
       </SidebarMenuButton>
-      {item.items?.length ? (
-        <SidebarMenuSub className='ml-0 border-l-0 px-1.5'>
-          {item.items.map((item) => (
-            <SidebarSubItem key={item.title} item={item} params={params} />
-          ))}
-        </SidebarMenuSub>
-      ) : null}
+      {item.items?.length
+        ? item.items.map((item) => (
+            <SidebarMenuSub key={item.title} className='ml-0 border-l-0 px-1.5'>
+              <SidebarSubItem item={item} params={params} />
+            </SidebarMenuSub>
+          ))
+        : null}
     </SidebarMenuItem>
   );
 }
@@ -157,18 +157,19 @@ function SidebarSubItem({
   item: SidebarEndpoint;
   params: DashParams;
 }) {
+  const url = formatLink(item.url, params);
   return (
     <SidebarMenuSubItem key={item.title}>
       <SidebarMenuSubButton
         asChild
         // isActive
       >
-        {!params.session && item.url.includes('$session') ? (
+        {!url ? (
           <span className='text-muted-foreground cursor-not-allowed opacity-50'>
             {item.title}
           </span>
         ) : (
-          <a href={formatLink(item.url, params)}>{item.title}</a>
+          <Link href={url}>{item.title}</Link>
         )}
       </SidebarMenuSubButton>
     </SidebarMenuSubItem>

@@ -15,7 +15,7 @@ import {
   GetSessionStintsQuery,
   GetSessionStintsQueryVariables,
   Session_Name_Choices_Enum,
-} from '@/generated/types';
+} from '@/types/graphql';
 
 type Stint = {
   stint: number;
