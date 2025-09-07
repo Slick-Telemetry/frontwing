@@ -1,5 +1,6 @@
 'use client';
 import { useSuspenseQuery } from '@apollo/client/react';
+import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -103,36 +104,52 @@ const StandingsContent = () => {
   };
 
   return (
-    <div className='my-4 grid grid-cols-5 gap-4'>
-      <div className='col-span-2'>
-        {chartType === 'drivers' ? (
-          <DriversTable
-            drivers={standings.drivers}
-            toggleDriverVisibility={toggleDriverVisibility}
-            hiddenDrivers={hiddenDrivers}
+    <>
+      <div className='grid grid-cols-2 px-4 py-4 lg:px-6'>
+        <Link
+          href='?chart=drivers'
+          className={`text-2xl font-black hover:underline ${chartType === 'drivers' ? '' : 'opacity-50'}`}
+        >
+          Driver Standings
+        </Link>
+        <Link
+          href='?chart=constructors'
+          className={`text-2xl font-black hover:underline ${chartType === 'constructors' ? '' : 'opacity-50'}`}
+        >
+          Constructor Standings
+        </Link>
+      </div>
+      <div className='grid grid-cols-5 gap-4'>
+        <div className='col-span-2'>
+          {chartType === 'drivers' ? (
+            <DriversTable
+              drivers={standings.drivers}
+              toggleDriverVisibility={toggleDriverVisibility}
+              hiddenDrivers={hiddenDrivers}
+            />
+          ) : (
+            <ConstructorsTable
+              constructors={standings.constructors}
+              toggleConstructorVisibility={toggleConstructorVisibility}
+              hiddenConstructors={hiddenTeams}
+            />
+          )}
+        </div>
+        <div className='col-span-3'>
+          <div
+            className='relative h-[300px] rounded border lg:h-[450px]'
+            ref={chartRef}
           />
-        ) : (
-          <ConstructorsTable
-            constructors={standings.constructors}
+          <Legend
+            standings={standings}
+            toggleDriverVisibility={toggleDriverVisibility}
             toggleConstructorVisibility={toggleConstructorVisibility}
+            hiddenDrivers={hiddenDrivers}
             hiddenConstructors={hiddenTeams}
           />
-        )}
+        </div>
       </div>
-      <div className='col-span-3'>
-        <div
-          className='relative h-[300px] rounded border lg:h-[450px]'
-          ref={chartRef}
-        />
-        <Legend
-          standings={standings}
-          toggleDriverVisibility={toggleDriverVisibility}
-          toggleConstructorVisibility={toggleConstructorVisibility}
-          hiddenDrivers={hiddenDrivers}
-          hiddenConstructors={hiddenTeams}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 
