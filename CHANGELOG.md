@@ -1,3 +1,10 @@
+## 0.6.28 (2025-09-07)
+
+### Fix
+
+- save sidebar state
+- FRON-247 Tabs for navigating between drivers & constructor standings
+
 ## 0.6.27 (2025-09-07)
 
 ### Fix
