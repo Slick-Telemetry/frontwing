@@ -43,7 +43,7 @@ export const DriverGrid = () => {
   if (loading) {
     return <Loader />;
   }
-  if (error || !data?.sessions) return <ServerPageError />;
+  if (error || !data?.sessions.length) return <ServerPageError />;
 
   const session = data.sessions[0];
   let driverSessions = session.driver_sessions;

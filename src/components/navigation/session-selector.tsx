@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client/react';
 import { useParams } from 'next/navigation';
 
 import { GET_EVENT_SCHEDULE } from '@/lib/queries';
-import { eventLocationDecode } from '@/lib/utils';
+import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 import useUrlUpdater from '@/hooks/use-url-updater';
 
 import {
@@ -51,8 +51,8 @@ export function SessionSelector() {
   ].filter(Boolean) as string[];
 
   const items = sessions.map((s) => ({
+    value: eventLocationEncode(s) as string,
     label: s.replace('_', ' '),
-    value: s,
   }));
 
   return (
@@ -61,7 +61,7 @@ export function SessionSelector() {
       placeholder='Session'
       items={items}
       width='w-32'
-      onChange={(val) => updateUrl('session', val.toLowerCase())}
+      onChange={(val) => updateUrl('session', val)}
     />
   );
 }

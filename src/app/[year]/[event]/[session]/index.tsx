@@ -39,7 +39,7 @@ export const SessionHeader = () => {
   if (loading) {
     return <Loader />;
   }
-  if (error || !data?.sessions) return <ServerPageError />;
+  if (error || !data?.sessions.length) return <ServerPageError />;
 
   const { event, name, total_laps, scheduled_start_time_utc } =
     data.sessions[0];
