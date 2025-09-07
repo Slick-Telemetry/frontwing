@@ -1,3 +1,9 @@
+## 0.6.27 (2025-09-07)
+
+### Fix
+
+- error boundary fix for events without certain sessions ex: sprint
+
 ## 0.6.26 (2025-09-06)
 
 ### Fix
