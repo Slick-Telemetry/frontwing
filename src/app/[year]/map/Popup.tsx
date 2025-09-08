@@ -13,7 +13,7 @@ import {
   positionEnding,
 } from '@/lib/utils';
 
-import { EventTypeBadge } from '@/components/EventTypeBadge';
+import { SprintBadge } from '@/components/sprint-badge';
 
 import { MapEvent } from '@/types/global';
 
@@ -107,7 +107,7 @@ export const MapPopup = ({
               <ZoomIn size={16} /> / <ZoomOut size={16} />
             </div>
             {/* Sprint or Conventional Format */}
-            <EventTypeBadge format={event.format} />
+            <SprintBadge format={event.format} />
           </div>
 
           {/* Close Button */}

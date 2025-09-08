@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { EventTypeBadge } from '@/components/EventTypeBadge';
+import { SprintBadge } from '@/components/sprint-badge';
 
 import { SeasonEvent } from '@/types/global';
 
@@ -44,7 +44,7 @@ export const EventContainer = ({
             <p className='text-sm' data-cy='event-date'>
               {eventDate}
             </p>
-            <EventTypeBadge format={event_format} />
+            <SprintBadge format={event_format} />
           </div>
           {event_name && (
             <Link
