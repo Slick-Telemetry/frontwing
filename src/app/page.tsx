@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { Footer } from '@/components/Footer';
-import NextEvent from '@/components/NextEvent';
+import NextEvent from '@/components/next-event';
 import { Button } from '@/components/ui/button';
 
 import { LandingNav } from '@/app/_components/nav';

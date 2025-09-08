@@ -1,10 +1,11 @@
 import { Badge } from '@/components/ui/badge';
 
-export const EventTypeBadge = ({
+import { Event_Format_Choices_Enum } from '@/types/graphql';
+
+export const SprintBadge = ({
   format,
 }: {
-  // format?: Event_Format_Choices_Enum | null;
-  format?: string | null;
+  format?: Event_Format_Choices_Enum | null;
 }) => {
   if (!format) return;
   return ['sprint', 'sprint_shootout', 'sprint_qualifying'].includes(format) ? (

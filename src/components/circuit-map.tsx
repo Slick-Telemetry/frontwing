@@ -50,31 +50,29 @@ export const CircuitMap = ({
     .join(' ');
 
   return (
-    <div className='transform-[scaleY(-1)]'>
-      <svg
-        className='aspect-square h-full max-h-[205px] w-full'
-        style={{
-          // TODO: Remove -1 when circuits are updated
-          transform: `rotate(${rotation * -1}deg)`,
-        }}
-        viewBox={`0 0 ${width} ${height}`}
-        preserveAspectRatio='xMidYMid meet'
-      >
-        {/* Outer */}
-        <polyline
-          points={points}
-          stroke='white'
-          fill='none'
-          strokeWidth={strokeWidth}
-        />
-        {/* Innner */}
-        <polyline
-          points={points}
-          className='stroke-accent'
-          fill='none'
-          strokeWidth={strokeWidth * 0.5}
-        />
-      </svg>
-    </div>
+    <svg
+      className='aspect-square h-full max-h-[180px] w-full'
+      style={{
+        // TODO: Remove -1 when circuits are updated
+        transform: `rotate(${rotation}deg) scaleY(-1)`,
+      }}
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio='xMidYMid meet'
+    >
+      {/* Outer */}
+      <polyline
+        points={points}
+        className='stroke-foreground'
+        fill='none'
+        strokeWidth={strokeWidth}
+      />
+      {/* Innner */}
+      <polyline
+        points={points}
+        className='stroke-accent'
+        fill='none'
+        strokeWidth={strokeWidth * 0.5}
+      />
+    </svg>
   );
 };

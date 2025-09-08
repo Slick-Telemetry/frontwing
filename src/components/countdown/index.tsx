@@ -1,4 +1,4 @@
-import useCountdown from '@/components/Countdown/useCountdown';
+import useCountdown from '@/components/countdown/useCountdown';
 
 export const Countdown = ({
   targetDate,

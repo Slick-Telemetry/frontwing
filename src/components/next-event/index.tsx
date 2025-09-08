@@ -9,9 +9,10 @@ import {
   getTodayMidnightUTC,
 } from '@/lib/utils';
 
-import { CircuitMap } from '@/components/CircuitMap';
-import { Countdown } from '@/components/Countdown';
-import { EventTypeBadge } from '@/components/EventTypeBadge';
+import { CircuitMap } from '@/components/circuit-map';
+import { Countdown } from '@/components/countdown';
+import { NextEventSkeleton } from '@/components/next-event/skeleton';
+import { SprintBadge } from '@/components/sprint-badge';
 
 import {
   Event_Format_Choices_Enum,
@@ -26,27 +27,6 @@ const scheduleSessionKeys = [
   'session2_date_utc',
   'session1_date_utc',
 ] as const;
-
-function NextEventSkeleton() {
-  return (
-    <div className='mx-auto flex w-[300px] animate-pulse flex-col justify-center gap-2 py-4'>
-      <p className='text-accent text-sm font-light uppercase'>Next Race</p>
-
-      <div className='bg-muted size-6 w-full rounded' />
-      <div className='bg-muted size-6 w-full rounded' />
-      <div className='border-foreground flex w-full justify-evenly border-t py-4'>
-        {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
-          <div key={unit} className='flex flex-col items-center justify-center'>
-            <div className='bg-muted size-8 animate-pulse rounded' />
-            <p className='font-space-grotesk text-xs leading-6 font-bold uppercase'>
-              {unit}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export default function NextEvent() {
   const midnight = getTodayMidnightUTC();
@@ -73,13 +53,13 @@ export default function NextEvent() {
   if (!isValidEvent) return null;
 
   return (
-    <div className='flex items-center justify-center gap-4'>
-      <div className='flex w-[300px] flex-col rounded-lg py-8'>
+    <div className='grid grid-cols-2 items-center justify-center gap-4'>
+      <div className='flex w-[300px] flex-col rounded-lg py-4'>
         {/* Subtitle */}
         <div className='flex justify-between gap-4'>
           <p className='text-accent text-sm font-light uppercase'>Next Race</p>
           {nextEvent.event_format && (
-            <EventTypeBadge
+            <SprintBadge
               format={nextEvent.event_format as Event_Format_Choices_Enum}
             />
           )}
