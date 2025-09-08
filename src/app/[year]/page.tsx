@@ -1,8 +1,6 @@
 'use client';
 
 import { useQuery } from '@apollo/client/react';
-import { ExternalLink } from 'lucide-react';
-import Link from 'next/link';
 import { use, useCallback, useEffect, useState } from 'react';
 
 import { GET_SEASON_EVENTS } from '@/lib/queries';
@@ -13,6 +11,7 @@ import NextEvent from '@/components/next-event';
 import { ServerPageError } from '@/components/ServerError';
 import { SessionTime } from '@/components/SessionTime';
 
+import { QuickLinks } from '@/app/[year]/_components/quick-links';
 import TopThreeStandings from '@/app/[year]/_components/standings';
 import { EventContainer } from '@/app/[year]/EventContainer';
 import NotFound from '@/app/not-found';
@@ -115,50 +114,5 @@ export default function SeasonPage({
         </div>
       </div>
     </main>
-  );
-}
-
-function QuickLinks({ year }: { year: string }) {
-  const links = [
-    {
-      name: 'Season Map',
-      href: `${year}/map`,
-      description: 'View the travel of the season',
-    },
-    { name: 'Head to Head', href: '#', description: 'Compare driver results' },
-  ] as { name: string; href: string; description?: string }[];
-  return (
-    <div
-      className='grid gap-4'
-      style={{ gridTemplateColumns: `repeat(${links.length}, 1fr)` }}
-    >
-      {links.map(({ name, href, description }) =>
-        href === '#' ? (
-          <div
-            key={href}
-            className='block cursor-not-allowed rounded border border-dashed px-4 py-2 opacity-50'
-            title='Coming soon'
-          >
-            <div className='flex w-full items-center justify-between text-xl font-bold'>
-              {name}
-              <ExternalLink />
-            </div>
-            {description && <p>{description}</p>}
-          </div>
-        ) : (
-          <Link
-            key={href}
-            href={href}
-            className='block rounded border px-4 py-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800'
-          >
-            <div className='flex w-full items-center justify-between text-xl font-bold'>
-              {name}
-              <ExternalLink />
-            </div>
-            {description && <p>{description}</p>}
-          </Link>
-        ),
-      )}
-    </div>
   );
 }
