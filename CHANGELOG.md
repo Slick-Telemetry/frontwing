@@ -1,3 +1,9 @@
+## 0.6.29 (2025-09-09)
+
+### Fix
+
+- missing import adjustments
+
 ## 0.6.28 (2025-09-07)
 
 ### Fix
