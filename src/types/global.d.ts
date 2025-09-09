@@ -2,7 +2,7 @@ import {
   GetEventScheduleQuery,
   GetMapEventsQuery,
   GetSeasonEventsQuery,
-} from './types';
+} from './graphql';
 
 // *** Require Import
 export type SeasonEvent =

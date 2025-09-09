@@ -1,3 +1,5 @@
+import { Switch } from '@/components/ui/switch';
+
 export const CheckboxToggle = ({
   toggle,
   children,
@@ -8,13 +10,8 @@ export const CheckboxToggle = ({
   checked: boolean;
 }) => {
   return (
-    <label className='inline-flex cursor-pointer items-center gap-2'>
-      <input
-        onChange={toggle}
-        type='checkbox'
-        checked={checked}
-        className='h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring focus:ring-blue-500'
-      />
+    <label htmlFor='details' className='flex cursor-pointer items-center gap-2'>
+      <Switch id='details' onClick={toggle} checked={checked} />
       <span className='text-sm font-medium'>{children}</span>
     </label>
   );
