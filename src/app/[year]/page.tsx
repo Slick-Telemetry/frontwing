@@ -136,26 +136,27 @@ function QuickLinks({ year }: { year: string }) {
         href === '#' ? (
           <div
             key={href}
-            className='rounded border border-dashed px-4 py-2 opacity-50'
+            className='block cursor-not-allowed rounded border border-dashed px-4 py-2 opacity-50'
             title='Coming soon'
           >
-            <div className='flex w-full cursor-not-allowed items-center justify-between text-xl font-bold'>
+            <div className='flex w-full items-center justify-between text-xl font-bold'>
               {name}
               <ExternalLink />
             </div>
             {description && <p>{description}</p>}
           </div>
         ) : (
-          <div key={href} className='rounded border px-4 py-2'>
-            <Link
-              href={href}
-              className='flex w-full items-center justify-between text-xl font-bold hover:underline'
-            >
+          <Link
+            key={href}
+            href={href}
+            className='block rounded border px-4 py-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800'
+          >
+            <div className='flex w-full items-center justify-between text-xl font-bold'>
               {name}
               <ExternalLink />
-            </Link>
+            </div>
             {description && <p>{description}</p>}
-          </div>
+          </Link>
         ),
       )}
     </div>

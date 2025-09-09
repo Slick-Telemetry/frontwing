@@ -8,7 +8,7 @@ export const CheckboxToggle = ({
   checked: boolean;
 }) => {
   return (
-    <label className='flex cursor-pointer items-center gap-2'>
+    <label className='inline-flex cursor-pointer items-center gap-2'>
       <input
         onChange={toggle}
         type='checkbox'

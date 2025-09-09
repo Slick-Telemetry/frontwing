@@ -158,7 +158,7 @@ const Sidebar = ({
   // derive link through alternative means
   return (
     <div>
-      <EventContainer event={{ ...event, event_name: '' }}>
+      <EventContainer event={{ ...event, event_name: '' }} clickable={false}>
         <div className='p-4'>
           {children}
           <Select

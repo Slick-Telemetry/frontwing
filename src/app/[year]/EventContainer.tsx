@@ -7,9 +7,11 @@ import { SeasonEvent } from '@/types/global';
 export const EventContainer = ({
   event,
   children,
+  clickable = true,
 }: {
   event: SeasonEvent;
   children: React.ReactNode;
+  clickable?: boolean;
 }) => {
   if (!event) return null;
   const {
@@ -32,8 +34,8 @@ export const EventContainer = ({
       year: 'numeric',
     });
 
-  return (
-    <div className='border'>
+  const containerContent = (
+    <>
       {/* Heading */}
       <div className='flex items-center gap-4 p-4'>
         <p className='flex h-5 w-5 items-center justify-center text-xl leading-tight font-black opacity-50'>
@@ -47,12 +49,9 @@ export const EventContainer = ({
             <SprintBadge format={event_format} />
           </div>
           {event_name && (
-            <Link
-              href={eventUrl}
-              className='text-lg leading-tight font-black hover:underline'
-            >
+            <p className='text-lg leading-tight font-black'>
               {event_name.replace(/Grand Prix/g, 'GP')}
-            </Link>
+            </p>
           )}
           <p className='text-sm' data-cy='location'>
             {location && `${location},`} {country}
@@ -60,6 +59,17 @@ export const EventContainer = ({
         </div>
       </div>
       {children}
-    </div>
+    </>
+  );
+
+  return clickable ? (
+    <Link
+      href={eventUrl}
+      className='block border transition-colors hover:bg-gray-50 dark:hover:bg-gray-800'
+    >
+      {containerContent}
+    </Link>
+  ) : (
+    <div className='border'>{containerContent}</div>
   );
 };
