@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client/react';
+import clsx from 'clsx';
 
 import { GET_NEXT_EVENT_CIRCUIT } from '@/lib/queries';
 
@@ -10,9 +11,11 @@ import {
 export const CircuitMap = ({
   location,
   country,
+  small = false,
 }: {
   location: string;
   country: string;
+  small?: boolean;
 }) => {
   const { loading, data, error } = useQuery<
     GetNextEventCircuitQuery,
@@ -49,9 +52,14 @@ export const CircuitMap = ({
     ) // close loop
     .join(' ');
 
+  const sizeClasses = clsx({
+    'max-h-[75px] w-fit': small,
+    'max-h-[180px] w-full': !small,
+  });
+
   return (
     <svg
-      className='aspect-square h-full max-h-[180px] w-full'
+      className={clsx('aspect-square h-full', sizeClasses)}
       style={{
         // TODO: Remove -1 when circuits are updated
         transform: `rotate(${rotation}deg) scaleY(-1)`,
