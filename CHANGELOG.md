@@ -1,3 +1,9 @@
+## 0.6.30 (2025-09-10)
+
+### Refactor
+
+- migrate quick links to own file
+
 ## 0.6.29 (2025-09-09)
 
 ### Fix
