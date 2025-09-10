@@ -1,4 +1,6 @@
+'use client';
 import { useQuery } from '@apollo/client/react';
+import clsx from 'clsx';
 import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -10,10 +12,25 @@ import { Button } from '@/components/ui/button';
 
 import { GetStandingsQuery, GetStandingsQueryVariables } from '@/types/graphql';
 
+type Driver = GetStandingsQuery['drivers'][number];
+type Constructor = GetStandingsQuery['constructors'][number];
 type ViewType = 'drivers' | 'constructors';
+type StandingsListProps<T> = {
+  items: T[];
+  getName: (item: T) => string;
+  getTeam?: (item: T) => string;
+  getStandings: (
+    item: T,
+  ) => { points?: number | null; position?: number | null }[];
+};
+
+const getLast = <T,>(arr: T[]): T => arr[arr.length - 1];
+const sortByLastPoints = <T,>(items: T[], getPoints: (item: T) => number) =>
+  [...items].sort((a, b) => getPoints(b) - getPoints(a));
 
 export default function TopThreeStandings({ year }: { year: string }) {
   const [view, setView] = useState<ViewType>('drivers');
+
   const { data, loading, error } = useQuery<
     GetStandingsQuery,
     GetStandingsQueryVariables
@@ -22,13 +39,6 @@ export default function TopThreeStandings({ year }: { year: string }) {
   if (loading) return <Loader />;
   if (error) return null;
 
-  // --- helpers ---
-  const sortByLastPoints = <T,>(items: T[], getPoints: (item: T) => number) =>
-    [...items].sort((a, b) => getPoints(b) - getPoints(a));
-
-  const getLast = <T,>(arr: T[]): T => arr[arr.length - 1];
-
-  // --- prepare data ---
   const drivers = sortByLastPoints(
     data?.drivers || [],
     (d) => getLast(d.driver_standings).points as number,
@@ -39,9 +49,6 @@ export default function TopThreeStandings({ year }: { year: string }) {
     (c) => getLast(c.constructor_standings).points as number,
   ).slice(0, 3);
 
-  const activeList = view === 'drivers' ? drivers : constructors;
-
-  // --- render ---
   return (
     <>
       <Link
@@ -51,6 +58,7 @@ export default function TopThreeStandings({ year }: { year: string }) {
         Standings
         <ExternalLink />
       </Link>
+
       <div className='grid grid-cols-2 gap-2'>
         {(['drivers', 'constructors'] as ViewType[]).map((v) => (
           <Button
@@ -63,50 +71,66 @@ export default function TopThreeStandings({ year }: { year: string }) {
         ))}
       </div>
 
-      <div className='bg-muted divide-background flex flex-1 flex-col divide-y overflow-hidden rounded'>
-        {activeList.map((item, idx) => {
-          if (view === 'drivers') {
-            const driver = item as GetStandingsQuery['drivers'][number];
+      <div className='grid flex-1 gap-2 2xl:grid-cols-2'>
+        <div
+          className={clsx({
+            'hidden 2xl:flex': view !== 'drivers',
+            flex: view === 'drivers',
+          })}
+        >
+          <StandingsList<Driver>
+            items={drivers}
+            getName={(d) => d.full_name!}
+            getTeam={(d) => d.latest_constructor[0]?.constructor?.name ?? ''}
+            getStandings={(d) => d.driver_standings}
+          />
+        </div>
 
-            const last = getLast(driver.driver_standings);
-            return (
-              <StandingRow
-                key={driver.full_name}
-                position={last.position || idx + 1}
-                name={driver.full_name as string}
-                team={driver.latest_constructor[0].constructor?.name || ''}
-                points={last.points as number}
-                prevPoints={
-                  idx > 0
-                    ? (getLast(drivers[idx - 1].driver_standings)
-                        .points as number)
-                    : undefined
-                }
-              />
-            );
-          }
-          if (view === 'constructors') {
-            const constructor =
-              item as GetStandingsQuery['constructors'][number];
-            const last = getLast(constructor.constructor_standings);
-            return (
-              <StandingRow
-                key={constructor.name}
-                position={last.position || idx + 1}
-                name={constructor.name as string}
-                points={last.points as number}
-                prevPoints={
-                  idx > 0
-                    ? (getLast(constructors[idx - 1].constructor_standings)
-                        .points as number)
-                    : undefined
-                }
-              />
-            );
-          }
-        })}
+        <div
+          className={clsx('2xl:flex', {
+            hidden: view !== 'constructors',
+            flex: view === 'constructors',
+          })}
+        >
+          <StandingsList<Constructor>
+            items={constructors}
+            getName={(c) => c.name!}
+            getStandings={(c) => c.constructor_standings}
+          />
+        </div>
       </div>
     </>
+  );
+}
+
+function StandingsList<T>({
+  items,
+  getName,
+  getTeam,
+  getStandings,
+}: StandingsListProps<T>) {
+  return (
+    <div className='bg-muted divide-background flex flex-1 flex-col divide-y overflow-hidden rounded'>
+      {items.map((item, idx) => {
+        const standings = getStandings(item);
+        const last = getLast(standings);
+
+        return (
+          <StandingRow
+            key={getName(item)}
+            position={last.position || idx + 1}
+            name={getName(item)}
+            team={getTeam?.(item) ?? ''}
+            points={last.points as number}
+            prevPoints={
+              idx > 0
+                ? (getLast(getStandings(items[idx - 1])).points ?? undefined)
+                : undefined
+            }
+          />
+        );
+      })}
+    </div>
   );
 }
 
@@ -131,7 +155,9 @@ function StandingRow({
         {team && <p className='text-sm'>{team}</p>}
       </div>
       <p>{points}</p>
-      <p>{prevPoints !== undefined ? points - prevPoints : 'Gap'}</p>
+      <p className='hidden lg:block'>
+        {prevPoints !== undefined ? points - prevPoints : 'Gap'}
+      </p>
     </div>
   );
 }

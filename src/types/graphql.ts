@@ -25,9 +25,9 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
-  bigint: { input: bigint; output: bigint };
+  bigint: { input: number; output: number };
   jsonb: { input: unknown; output: unknown };
-  numeric: { input: bigint | number; output: bigint | number };
+  numeric: { input: number; output: number };
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -108,6 +108,7 @@ export type Circuits = {
   circuit_details?: Maybe<Scalars['jsonb']['output']>;
   country?: Maybe<Scalars['String']['output']>;
   f1_key?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['String']['output'];
   latitude?: Maybe<Scalars['numeric']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   longitude?: Maybe<Scalars['numeric']['output']>;
@@ -171,6 +172,11 @@ export type Circuits_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Circuits_Append_Input = {
+  circuit_details?: InputMaybe<Scalars['jsonb']['input']>;
+};
+
 /** aggregate avg on columns */
 export type Circuits_Avg_Fields = {
   __typename?: 'circuits_avg_fields';
@@ -188,6 +194,7 @@ export type Circuits_Bool_Exp = {
   circuit_details?: InputMaybe<Jsonb_Comparison_Exp>;
   country?: InputMaybe<String_Comparison_Exp>;
   f1_key?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   latitude?: InputMaybe<Numeric_Comparison_Exp>;
   location?: InputMaybe<String_Comparison_Exp>;
   longitude?: InputMaybe<Numeric_Comparison_Exp>;
@@ -197,11 +204,55 @@ export type Circuits_Bool_Exp = {
   year?: InputMaybe<Int_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "circuits" */
+export enum Circuits_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  CircuitsPkey = 'circuits_pkey',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Circuits_Delete_At_Path_Input = {
+  circuit_details?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Circuits_Delete_Elem_Input = {
+  circuit_details?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Circuits_Delete_Key_Input = {
+  circuit_details?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** input type for incrementing numeric columns in table "circuits" */
+export type Circuits_Inc_Input = {
+  f1_key?: InputMaybe<Scalars['Int']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "circuits" */
+export type Circuits_Insert_Input = {
+  circuit_details?: InputMaybe<Scalars['jsonb']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  f1_key?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  sessions?: InputMaybe<Sessions_Arr_Rel_Insert_Input>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate max on columns */
 export type Circuits_Max_Fields = {
   __typename?: 'circuits_max_fields';
   country?: Maybe<Scalars['String']['output']>;
   f1_key?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   latitude?: Maybe<Scalars['numeric']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   longitude?: Maybe<Scalars['numeric']['output']>;
@@ -214,6 +265,7 @@ export type Circuits_Min_Fields = {
   __typename?: 'circuits_min_fields';
   country?: Maybe<Scalars['String']['output']>;
   f1_key?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   latitude?: Maybe<Scalars['numeric']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   longitude?: Maybe<Scalars['numeric']['output']>;
@@ -221,17 +273,51 @@ export type Circuits_Min_Fields = {
   year?: Maybe<Scalars['Int']['output']>;
 };
 
+/** response of any mutation on the table "circuits" */
+export type Circuits_Mutation_Response = {
+  __typename?: 'circuits_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Circuits>;
+};
+
+/** input type for inserting object relation for remote table "circuits" */
+export type Circuits_Obj_Rel_Insert_Input = {
+  data: Circuits_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Circuits_On_Conflict>;
+};
+
+/** on_conflict condition type for table "circuits" */
+export type Circuits_On_Conflict = {
+  constraint: Circuits_Constraint;
+  update_columns?: Array<Circuits_Update_Column>;
+  where?: InputMaybe<Circuits_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "circuits". */
 export type Circuits_Order_By = {
   circuit_details?: InputMaybe<Order_By>;
   country?: InputMaybe<Order_By>;
   f1_key?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   latitude?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
   longitude?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   sessions_aggregate?: InputMaybe<Sessions_Aggregate_Order_By>;
   year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: circuits */
+export type Circuits_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Circuits_Prepend_Input = {
+  circuit_details?: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** select columns of table "circuits" */
@@ -243,6 +329,8 @@ export enum Circuits_Select_Column {
   /** column name */
   F1Key = 'f1_key',
   /** column name */
+  Id = 'id',
+  /** column name */
   Latitude = 'latitude',
   /** column name */
   Location = 'location',
@@ -253,6 +341,19 @@ export enum Circuits_Select_Column {
   /** column name */
   Year = 'year',
 }
+
+/** input type for updating data in table "circuits" */
+export type Circuits_Set_Input = {
+  circuit_details?: InputMaybe<Scalars['jsonb']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  f1_key?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Circuits_Stddev_Fields = {
@@ -294,6 +395,7 @@ export type Circuits_Stream_Cursor_Value_Input = {
   circuit_details?: InputMaybe<Scalars['jsonb']['input']>;
   country?: InputMaybe<Scalars['String']['input']>;
   f1_key?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   latitude?: InputMaybe<Scalars['numeric']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   longitude?: InputMaybe<Scalars['numeric']['input']>;
@@ -308,6 +410,47 @@ export type Circuits_Sum_Fields = {
   latitude?: Maybe<Scalars['numeric']['output']>;
   longitude?: Maybe<Scalars['numeric']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "circuits" */
+export enum Circuits_Update_Column {
+  /** column name */
+  CircuitDetails = 'circuit_details',
+  /** column name */
+  Country = 'country',
+  /** column name */
+  F1Key = 'f1_key',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Latitude = 'latitude',
+  /** column name */
+  Location = 'location',
+  /** column name */
+  Longitude = 'longitude',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Year = 'year',
+}
+
+export type Circuits_Updates = {
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  _append?: InputMaybe<Circuits_Append_Input>;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  _delete_at_path?: InputMaybe<Circuits_Delete_At_Path_Input>;
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  _delete_elem?: InputMaybe<Circuits_Delete_Elem_Input>;
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  _delete_key?: InputMaybe<Circuits_Delete_Key_Input>;
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Circuits_Inc_Input>;
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  _prepend?: InputMaybe<Circuits_Prepend_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Circuits_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Circuits_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -343,6 +486,7 @@ export type Constructor_Standings = {
   /** An object relationship */
   constructorByConstructorIdSeason?: Maybe<Constructors>;
   constructor_id?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
@@ -406,6 +550,13 @@ export type Constructor_Standings_Aggregate_Order_By = {
   variance?: InputMaybe<Constructor_Standings_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "constructor_standings" */
+export type Constructor_Standings_Arr_Rel_Insert_Input = {
+  data: Array<Constructor_Standings_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Constructor_Standings_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Constructor_Standings_Avg_Fields = {
   __typename?: 'constructor_standings_avg_fields';
@@ -432,6 +583,7 @@ export type Constructor_Standings_Bool_Exp = {
   _or?: InputMaybe<Array<Constructor_Standings_Bool_Exp>>;
   constructorByConstructorIdSeason?: InputMaybe<Constructors_Bool_Exp>;
   constructor_id?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   points?: InputMaybe<Numeric_Comparison_Exp>;
   position?: InputMaybe<Int_Comparison_Exp>;
   position_text?: InputMaybe<String_Comparison_Exp>;
@@ -440,10 +592,39 @@ export type Constructor_Standings_Bool_Exp = {
   wins?: InputMaybe<Int_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "constructor_standings" */
+export enum Constructor_Standings_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ConstructorStandingsPkey = 'constructor_standings_pkey',
+}
+
+/** input type for incrementing numeric columns in table "constructor_standings" */
+export type Constructor_Standings_Inc_Input = {
+  points?: InputMaybe<Scalars['numeric']['input']>;
+  position?: InputMaybe<Scalars['Int']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
+  season?: InputMaybe<Scalars['Int']['input']>;
+  wins?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "constructor_standings" */
+export type Constructor_Standings_Insert_Input = {
+  constructorByConstructorIdSeason?: InputMaybe<Constructors_Obj_Rel_Insert_Input>;
+  constructor_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  points?: InputMaybe<Scalars['numeric']['input']>;
+  position?: InputMaybe<Scalars['Int']['input']>;
+  position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
+  season?: InputMaybe<Scalars['Int']['input']>;
+  wins?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate max on columns */
 export type Constructor_Standings_Max_Fields = {
   __typename?: 'constructor_standings_max_fields';
   constructor_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
@@ -455,6 +636,7 @@ export type Constructor_Standings_Max_Fields = {
 /** order by max() on columns of table "constructor_standings" */
 export type Constructor_Standings_Max_Order_By = {
   constructor_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
@@ -467,6 +649,7 @@ export type Constructor_Standings_Max_Order_By = {
 export type Constructor_Standings_Min_Fields = {
   __typename?: 'constructor_standings_min_fields';
   constructor_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
@@ -478,18 +661,36 @@ export type Constructor_Standings_Min_Fields = {
 /** order by min() on columns of table "constructor_standings" */
 export type Constructor_Standings_Min_Order_By = {
   constructor_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
   round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "constructor_standings" */
+export type Constructor_Standings_Mutation_Response = {
+  __typename?: 'constructor_standings_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Constructor_Standings>;
+};
+
+/** on_conflict condition type for table "constructor_standings" */
+export type Constructor_Standings_On_Conflict = {
+  constraint: Constructor_Standings_Constraint;
+  update_columns?: Array<Constructor_Standings_Update_Column>;
+  where?: InputMaybe<Constructor_Standings_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "constructor_standings". */
 export type Constructor_Standings_Order_By = {
   constructorByConstructorIdSeason?: InputMaybe<Constructors_Order_By>;
   constructor_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
@@ -498,10 +699,17 @@ export type Constructor_Standings_Order_By = {
   wins?: InputMaybe<Order_By>;
 };
 
+/** primary key columns input for table: constructor_standings */
+export type Constructor_Standings_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
 /** select columns of table "constructor_standings" */
 export enum Constructor_Standings_Select_Column {
   /** column name */
   ConstructorId = 'constructor_id',
+  /** column name */
+  Id = 'id',
   /** column name */
   Points = 'points',
   /** column name */
@@ -515,6 +723,18 @@ export enum Constructor_Standings_Select_Column {
   /** column name */
   Wins = 'wins',
 }
+
+/** input type for updating data in table "constructor_standings" */
+export type Constructor_Standings_Set_Input = {
+  constructor_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  points?: InputMaybe<Scalars['numeric']['input']>;
+  position?: InputMaybe<Scalars['Int']['input']>;
+  position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
+  season?: InputMaybe<Scalars['Int']['input']>;
+  wins?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Constructor_Standings_Stddev_Fields = {
@@ -584,6 +804,7 @@ export type Constructor_Standings_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Constructor_Standings_Stream_Cursor_Value_Input = {
   constructor_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   position_text?: InputMaybe<Scalars['String']['input']>;
@@ -609,6 +830,35 @@ export type Constructor_Standings_Sum_Order_By = {
   round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "constructor_standings" */
+export enum Constructor_Standings_Update_Column {
+  /** column name */
+  ConstructorId = 'constructor_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Points = 'points',
+  /** column name */
+  Position = 'position',
+  /** column name */
+  PositionText = 'position_text',
+  /** column name */
+  Round = 'round',
+  /** column name */
+  Season = 'season',
+  /** column name */
+  Wins = 'wins',
+}
+
+export type Constructor_Standings_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Constructor_Standings_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Constructor_Standings_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Constructor_Standings_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -682,6 +932,7 @@ export type Constructors = {
   driver_sessions_aggregate: Driver_Sessions_Aggregate;
   engine?: Maybe<Scalars['String']['output']>;
   ergast_id?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   start_year?: Maybe<Scalars['Int']['output']>;
@@ -772,10 +1023,39 @@ export type Constructors_Bool_Exp = {
   driver_sessions_aggregate?: InputMaybe<Driver_Sessions_Aggregate_Bool_Exp>;
   engine?: InputMaybe<String_Comparison_Exp>;
   ergast_id?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   nationality?: InputMaybe<String_Comparison_Exp>;
   start_year?: InputMaybe<Int_Comparison_Exp>;
   year?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "constructors" */
+export enum Constructors_Constraint {
+  /** unique or primary key constraint on columns "ergast_id", "year" */
+  ConstructorsErgastIdYearUnique = 'constructors_ergast_id_year_unique',
+  /** unique or primary key constraint on columns "id" */
+  ConstructorsPkey = 'constructors_pkey',
+}
+
+/** input type for incrementing numeric columns in table "constructors" */
+export type Constructors_Inc_Input = {
+  start_year?: InputMaybe<Scalars['Int']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "constructors" */
+export type Constructors_Insert_Input = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  constructor_standings?: InputMaybe<Constructor_Standings_Arr_Rel_Insert_Input>;
+  driver_sessions?: InputMaybe<Driver_Sessions_Arr_Rel_Insert_Input>;
+  engine?: InputMaybe<Scalars['String']['input']>;
+  ergast_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nationality?: InputMaybe<Scalars['String']['input']>;
+  start_year?: InputMaybe<Scalars['Int']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate max on columns */
@@ -784,6 +1064,7 @@ export type Constructors_Max_Fields = {
   color?: Maybe<Scalars['String']['output']>;
   engine?: Maybe<Scalars['String']['output']>;
   ergast_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   start_year?: Maybe<Scalars['Int']['output']>;
@@ -796,10 +1077,34 @@ export type Constructors_Min_Fields = {
   color?: Maybe<Scalars['String']['output']>;
   engine?: Maybe<Scalars['String']['output']>;
   ergast_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   start_year?: Maybe<Scalars['Int']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** response of any mutation on the table "constructors" */
+export type Constructors_Mutation_Response = {
+  __typename?: 'constructors_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Constructors>;
+};
+
+/** input type for inserting object relation for remote table "constructors" */
+export type Constructors_Obj_Rel_Insert_Input = {
+  data: Constructors_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Constructors_On_Conflict>;
+};
+
+/** on_conflict condition type for table "constructors" */
+export type Constructors_On_Conflict = {
+  constraint: Constructors_Constraint;
+  update_columns?: Array<Constructors_Update_Column>;
+  where?: InputMaybe<Constructors_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "constructors". */
@@ -809,10 +1114,16 @@ export type Constructors_Order_By = {
   driver_sessions_aggregate?: InputMaybe<Driver_Sessions_Aggregate_Order_By>;
   engine?: InputMaybe<Order_By>;
   ergast_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   nationality?: InputMaybe<Order_By>;
   start_year?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: constructors */
+export type Constructors_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "constructors" */
@@ -824,6 +1135,8 @@ export enum Constructors_Select_Column {
   /** column name */
   ErgastId = 'ergast_id',
   /** column name */
+  Id = 'id',
+  /** column name */
   Name = 'name',
   /** column name */
   Nationality = 'nationality',
@@ -832,6 +1145,18 @@ export enum Constructors_Select_Column {
   /** column name */
   Year = 'year',
 }
+
+/** input type for updating data in table "constructors" */
+export type Constructors_Set_Input = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  engine?: InputMaybe<Scalars['String']['input']>;
+  ergast_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nationality?: InputMaybe<Scalars['String']['input']>;
+  start_year?: InputMaybe<Scalars['Int']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Constructors_Stddev_Fields = {
@@ -867,6 +1192,7 @@ export type Constructors_Stream_Cursor_Value_Input = {
   color?: InputMaybe<Scalars['String']['input']>;
   engine?: InputMaybe<Scalars['String']['input']>;
   ergast_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   nationality?: InputMaybe<Scalars['String']['input']>;
   start_year?: InputMaybe<Scalars['Int']['input']>;
@@ -878,6 +1204,35 @@ export type Constructors_Sum_Fields = {
   __typename?: 'constructors_sum_fields';
   start_year?: Maybe<Scalars['Int']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "constructors" */
+export enum Constructors_Update_Column {
+  /** column name */
+  Color = 'color',
+  /** column name */
+  Engine = 'engine',
+  /** column name */
+  ErgastId = 'ergast_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Nationality = 'nationality',
+  /** column name */
+  StartYear = 'start_year',
+  /** column name */
+  Year = 'year',
+}
+
+export type Constructors_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Constructors_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Constructors_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Constructors_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -918,6 +1273,7 @@ export type Driver_Sessions = {
   /** An object relationship */
   driver?: Maybe<Drivers>;
   driver_id?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   /** An array relationship */
   laps: Array<Laps>;
   /** An aggregate relationship */
@@ -1028,6 +1384,13 @@ export type Driver_Sessions_Aggregate_Order_By = {
   min?: InputMaybe<Driver_Sessions_Min_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "driver_sessions" */
+export type Driver_Sessions_Arr_Rel_Insert_Input = {
+  data: Array<Driver_Sessions_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Driver_Sessions_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "driver_sessions". All fields are combined with a logical 'AND'. */
 export type Driver_Sessions_Bool_Exp = {
   _and?: InputMaybe<Array<Driver_Sessions_Bool_Exp>>;
@@ -1037,6 +1400,7 @@ export type Driver_Sessions_Bool_Exp = {
   constructor_id?: InputMaybe<String_Comparison_Exp>;
   driver?: InputMaybe<Drivers_Bool_Exp>;
   driver_id?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   laps?: InputMaybe<Laps_Bool_Exp>;
   laps_aggregate?: InputMaybe<Laps_Aggregate_Bool_Exp>;
   results?: InputMaybe<Results_Bool_Exp>;
@@ -1047,11 +1411,32 @@ export type Driver_Sessions_Bool_Exp = {
   telemetries_aggregate?: InputMaybe<Telemetry_Aggregate_Bool_Exp>;
 };
 
+/** unique or primary key constraints on table "driver_sessions" */
+export enum Driver_Sessions_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  DriverSessionsPkey = 'driver_sessions_pkey',
+}
+
+/** input type for inserting data into table "driver_sessions" */
+export type Driver_Sessions_Insert_Input = {
+  constructorByConstructorId?: InputMaybe<Constructors_Obj_Rel_Insert_Input>;
+  constructor_id?: InputMaybe<Scalars['String']['input']>;
+  driver?: InputMaybe<Drivers_Obj_Rel_Insert_Input>;
+  driver_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  laps?: InputMaybe<Laps_Arr_Rel_Insert_Input>;
+  results?: InputMaybe<Results_Arr_Rel_Insert_Input>;
+  session?: InputMaybe<Sessions_Obj_Rel_Insert_Input>;
+  session_id?: InputMaybe<Scalars['String']['input']>;
+  telemetries?: InputMaybe<Telemetry_Arr_Rel_Insert_Input>;
+};
+
 /** aggregate max on columns */
 export type Driver_Sessions_Max_Fields = {
   __typename?: 'driver_sessions_max_fields';
   constructor_id?: Maybe<Scalars['String']['output']>;
   driver_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   session_id?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1059,6 +1444,7 @@ export type Driver_Sessions_Max_Fields = {
 export type Driver_Sessions_Max_Order_By = {
   constructor_id?: InputMaybe<Order_By>;
   driver_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   session_id?: InputMaybe<Order_By>;
 };
 
@@ -1067,6 +1453,7 @@ export type Driver_Sessions_Min_Fields = {
   __typename?: 'driver_sessions_min_fields';
   constructor_id?: Maybe<Scalars['String']['output']>;
   driver_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   session_id?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1074,7 +1461,31 @@ export type Driver_Sessions_Min_Fields = {
 export type Driver_Sessions_Min_Order_By = {
   constructor_id?: InputMaybe<Order_By>;
   driver_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   session_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "driver_sessions" */
+export type Driver_Sessions_Mutation_Response = {
+  __typename?: 'driver_sessions_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Driver_Sessions>;
+};
+
+/** input type for inserting object relation for remote table "driver_sessions" */
+export type Driver_Sessions_Obj_Rel_Insert_Input = {
+  data: Driver_Sessions_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Driver_Sessions_On_Conflict>;
+};
+
+/** on_conflict condition type for table "driver_sessions" */
+export type Driver_Sessions_On_Conflict = {
+  constraint: Driver_Sessions_Constraint;
+  update_columns?: Array<Driver_Sessions_Update_Column>;
+  where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "driver_sessions". */
@@ -1083,11 +1494,17 @@ export type Driver_Sessions_Order_By = {
   constructor_id?: InputMaybe<Order_By>;
   driver?: InputMaybe<Drivers_Order_By>;
   driver_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   laps_aggregate?: InputMaybe<Laps_Aggregate_Order_By>;
   results_aggregate?: InputMaybe<Results_Aggregate_Order_By>;
   session?: InputMaybe<Sessions_Order_By>;
   session_id?: InputMaybe<Order_By>;
   telemetries_aggregate?: InputMaybe<Telemetry_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: driver_sessions */
+export type Driver_Sessions_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "driver_sessions" */
@@ -1097,8 +1514,18 @@ export enum Driver_Sessions_Select_Column {
   /** column name */
   DriverId = 'driver_id',
   /** column name */
+  Id = 'id',
+  /** column name */
   SessionId = 'session_id',
 }
+
+/** input type for updating data in table "driver_sessions" */
+export type Driver_Sessions_Set_Input = {
+  constructor_id?: InputMaybe<Scalars['String']['input']>;
+  driver_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  session_id?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** Streaming cursor of the table "driver_sessions" */
 export type Driver_Sessions_Stream_Cursor_Input = {
@@ -1112,7 +1539,27 @@ export type Driver_Sessions_Stream_Cursor_Input = {
 export type Driver_Sessions_Stream_Cursor_Value_Input = {
   constructor_id?: InputMaybe<Scalars['String']['input']>;
   driver_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   session_id?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "driver_sessions" */
+export enum Driver_Sessions_Update_Column {
+  /** column name */
+  ConstructorId = 'constructor_id',
+  /** column name */
+  DriverId = 'driver_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  SessionId = 'session_id',
+}
+
+export type Driver_Sessions_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Driver_Sessions_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Driver_Sessions_Bool_Exp;
 };
 
 /** columns and relationships of "driver_standings" */
@@ -1122,6 +1569,7 @@ export type Driver_Standings = {
   driver?: Maybe<Drivers>;
   driver_full_name?: Maybe<Scalars['String']['output']>;
   driver_id?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
@@ -1185,6 +1633,13 @@ export type Driver_Standings_Aggregate_Order_By = {
   variance?: InputMaybe<Driver_Standings_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "driver_standings" */
+export type Driver_Standings_Arr_Rel_Insert_Input = {
+  data: Array<Driver_Standings_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Driver_Standings_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Driver_Standings_Avg_Fields = {
   __typename?: 'driver_standings_avg_fields';
@@ -1212,6 +1667,7 @@ export type Driver_Standings_Bool_Exp = {
   driver?: InputMaybe<Drivers_Bool_Exp>;
   driver_full_name?: InputMaybe<String_Comparison_Exp>;
   driver_id?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   points?: InputMaybe<Numeric_Comparison_Exp>;
   position?: InputMaybe<Int_Comparison_Exp>;
   position_text?: InputMaybe<String_Comparison_Exp>;
@@ -1220,11 +1676,41 @@ export type Driver_Standings_Bool_Exp = {
   wins?: InputMaybe<Int_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "driver_standings" */
+export enum Driver_Standings_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  DriverStandingsPkey = 'driver_standings_pkey',
+}
+
+/** input type for incrementing numeric columns in table "driver_standings" */
+export type Driver_Standings_Inc_Input = {
+  points?: InputMaybe<Scalars['numeric']['input']>;
+  position?: InputMaybe<Scalars['Int']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
+  season?: InputMaybe<Scalars['Int']['input']>;
+  wins?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "driver_standings" */
+export type Driver_Standings_Insert_Input = {
+  driver?: InputMaybe<Drivers_Obj_Rel_Insert_Input>;
+  driver_full_name?: InputMaybe<Scalars['String']['input']>;
+  driver_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  points?: InputMaybe<Scalars['numeric']['input']>;
+  position?: InputMaybe<Scalars['Int']['input']>;
+  position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
+  season?: InputMaybe<Scalars['Int']['input']>;
+  wins?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate max on columns */
 export type Driver_Standings_Max_Fields = {
   __typename?: 'driver_standings_max_fields';
   driver_full_name?: Maybe<Scalars['String']['output']>;
   driver_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
@@ -1237,6 +1723,7 @@ export type Driver_Standings_Max_Fields = {
 export type Driver_Standings_Max_Order_By = {
   driver_full_name?: InputMaybe<Order_By>;
   driver_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
@@ -1250,6 +1737,7 @@ export type Driver_Standings_Min_Fields = {
   __typename?: 'driver_standings_min_fields';
   driver_full_name?: Maybe<Scalars['String']['output']>;
   driver_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   position_text?: Maybe<Scalars['String']['output']>;
@@ -1262,6 +1750,7 @@ export type Driver_Standings_Min_Fields = {
 export type Driver_Standings_Min_Order_By = {
   driver_full_name?: InputMaybe<Order_By>;
   driver_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
@@ -1270,17 +1759,39 @@ export type Driver_Standings_Min_Order_By = {
   wins?: InputMaybe<Order_By>;
 };
 
+/** response of any mutation on the table "driver_standings" */
+export type Driver_Standings_Mutation_Response = {
+  __typename?: 'driver_standings_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Driver_Standings>;
+};
+
+/** on_conflict condition type for table "driver_standings" */
+export type Driver_Standings_On_Conflict = {
+  constraint: Driver_Standings_Constraint;
+  update_columns?: Array<Driver_Standings_Update_Column>;
+  where?: InputMaybe<Driver_Standings_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "driver_standings". */
 export type Driver_Standings_Order_By = {
   driver?: InputMaybe<Drivers_Order_By>;
   driver_full_name?: InputMaybe<Order_By>;
   driver_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   position_text?: InputMaybe<Order_By>;
   round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: driver_standings */
+export type Driver_Standings_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "driver_standings" */
@@ -1289,6 +1800,8 @@ export enum Driver_Standings_Select_Column {
   DriverFullName = 'driver_full_name',
   /** column name */
   DriverId = 'driver_id',
+  /** column name */
+  Id = 'id',
   /** column name */
   Points = 'points',
   /** column name */
@@ -1302,6 +1815,19 @@ export enum Driver_Standings_Select_Column {
   /** column name */
   Wins = 'wins',
 }
+
+/** input type for updating data in table "driver_standings" */
+export type Driver_Standings_Set_Input = {
+  driver_full_name?: InputMaybe<Scalars['String']['input']>;
+  driver_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  points?: InputMaybe<Scalars['numeric']['input']>;
+  position?: InputMaybe<Scalars['Int']['input']>;
+  position_text?: InputMaybe<Scalars['String']['input']>;
+  round?: InputMaybe<Scalars['Int']['input']>;
+  season?: InputMaybe<Scalars['Int']['input']>;
+  wins?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Driver_Standings_Stddev_Fields = {
@@ -1372,6 +1898,7 @@ export type Driver_Standings_Stream_Cursor_Input = {
 export type Driver_Standings_Stream_Cursor_Value_Input = {
   driver_full_name?: InputMaybe<Scalars['String']['input']>;
   driver_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   points?: InputMaybe<Scalars['numeric']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   position_text?: InputMaybe<Scalars['String']['input']>;
@@ -1397,6 +1924,37 @@ export type Driver_Standings_Sum_Order_By = {
   round?: InputMaybe<Order_By>;
   season?: InputMaybe<Order_By>;
   wins?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "driver_standings" */
+export enum Driver_Standings_Update_Column {
+  /** column name */
+  DriverFullName = 'driver_full_name',
+  /** column name */
+  DriverId = 'driver_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Points = 'points',
+  /** column name */
+  Position = 'position',
+  /** column name */
+  PositionText = 'position_text',
+  /** column name */
+  Round = 'round',
+  /** column name */
+  Season = 'season',
+  /** column name */
+  Wins = 'wins',
+}
+
+export type Driver_Standings_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Driver_Standings_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Driver_Standings_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Driver_Standings_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -1475,6 +2033,7 @@ export type Drivers = {
   first_name?: Maybe<Scalars['String']['output']>;
   full_name?: Maybe<Scalars['String']['output']>;
   headshot_url?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   last_name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   number?: Maybe<Scalars['String']['output']>;
@@ -1569,10 +2128,43 @@ export type Drivers_Bool_Exp = {
   first_name?: InputMaybe<String_Comparison_Exp>;
   full_name?: InputMaybe<String_Comparison_Exp>;
   headshot_url?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   last_name?: InputMaybe<String_Comparison_Exp>;
   nationality?: InputMaybe<String_Comparison_Exp>;
   number?: InputMaybe<String_Comparison_Exp>;
   year?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "drivers" */
+export enum Drivers_Constraint {
+  /** unique or primary key constraint on columns "full_name", "year" */
+  DriversFullNameYearUnique = 'drivers_full_name_year_unique',
+  /** unique or primary key constraint on columns "id" */
+  DriversPkey = 'drivers_pkey',
+}
+
+/** input type for incrementing numeric columns in table "drivers" */
+export type Drivers_Inc_Input = {
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "drivers" */
+export type Drivers_Insert_Input = {
+  abbreviation?: InputMaybe<Scalars['String']['input']>;
+  broadcast_name?: InputMaybe<Scalars['String']['input']>;
+  country_code?: InputMaybe<Scalars['String']['input']>;
+  date_of_birth?: InputMaybe<Scalars['String']['input']>;
+  driver_sessions?: InputMaybe<Driver_Sessions_Arr_Rel_Insert_Input>;
+  driver_standings?: InputMaybe<Driver_Standings_Arr_Rel_Insert_Input>;
+  ergast_id?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
+  full_name?: InputMaybe<Scalars['String']['input']>;
+  headshot_url?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  nationality?: InputMaybe<Scalars['String']['input']>;
+  number?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate max on columns */
@@ -1586,6 +2178,7 @@ export type Drivers_Max_Fields = {
   first_name?: Maybe<Scalars['String']['output']>;
   full_name?: Maybe<Scalars['String']['output']>;
   headshot_url?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   last_name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   number?: Maybe<Scalars['String']['output']>;
@@ -1603,10 +2196,34 @@ export type Drivers_Min_Fields = {
   first_name?: Maybe<Scalars['String']['output']>;
   full_name?: Maybe<Scalars['String']['output']>;
   headshot_url?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   last_name?: Maybe<Scalars['String']['output']>;
   nationality?: Maybe<Scalars['String']['output']>;
   number?: Maybe<Scalars['String']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** response of any mutation on the table "drivers" */
+export type Drivers_Mutation_Response = {
+  __typename?: 'drivers_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Drivers>;
+};
+
+/** input type for inserting object relation for remote table "drivers" */
+export type Drivers_Obj_Rel_Insert_Input = {
+  data: Drivers_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Drivers_On_Conflict>;
+};
+
+/** on_conflict condition type for table "drivers" */
+export type Drivers_On_Conflict = {
+  constraint: Drivers_Constraint;
+  update_columns?: Array<Drivers_Update_Column>;
+  where?: InputMaybe<Drivers_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "drivers". */
@@ -1621,10 +2238,16 @@ export type Drivers_Order_By = {
   first_name?: InputMaybe<Order_By>;
   full_name?: InputMaybe<Order_By>;
   headshot_url?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   last_name?: InputMaybe<Order_By>;
   nationality?: InputMaybe<Order_By>;
   number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: drivers */
+export type Drivers_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "drivers" */
@@ -1646,6 +2269,8 @@ export enum Drivers_Select_Column {
   /** column name */
   HeadshotUrl = 'headshot_url',
   /** column name */
+  Id = 'id',
+  /** column name */
   LastName = 'last_name',
   /** column name */
   Nationality = 'nationality',
@@ -1654,6 +2279,23 @@ export enum Drivers_Select_Column {
   /** column name */
   Year = 'year',
 }
+
+/** input type for updating data in table "drivers" */
+export type Drivers_Set_Input = {
+  abbreviation?: InputMaybe<Scalars['String']['input']>;
+  broadcast_name?: InputMaybe<Scalars['String']['input']>;
+  country_code?: InputMaybe<Scalars['String']['input']>;
+  date_of_birth?: InputMaybe<Scalars['String']['input']>;
+  ergast_id?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
+  full_name?: InputMaybe<Scalars['String']['input']>;
+  headshot_url?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  nationality?: InputMaybe<Scalars['String']['input']>;
+  number?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Drivers_Stddev_Fields = {
@@ -1691,6 +2333,7 @@ export type Drivers_Stream_Cursor_Value_Input = {
   first_name?: InputMaybe<Scalars['String']['input']>;
   full_name?: InputMaybe<Scalars['String']['input']>;
   headshot_url?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   last_name?: InputMaybe<Scalars['String']['input']>;
   nationality?: InputMaybe<Scalars['String']['input']>;
   number?: InputMaybe<Scalars['String']['input']>;
@@ -1701,6 +2344,45 @@ export type Drivers_Stream_Cursor_Value_Input = {
 export type Drivers_Sum_Fields = {
   __typename?: 'drivers_sum_fields';
   year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "drivers" */
+export enum Drivers_Update_Column {
+  /** column name */
+  Abbreviation = 'abbreviation',
+  /** column name */
+  BroadcastName = 'broadcast_name',
+  /** column name */
+  CountryCode = 'country_code',
+  /** column name */
+  DateOfBirth = 'date_of_birth',
+  /** column name */
+  ErgastId = 'ergast_id',
+  /** column name */
+  FirstName = 'first_name',
+  /** column name */
+  FullName = 'full_name',
+  /** column name */
+  HeadshotUrl = 'headshot_url',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  LastName = 'last_name',
+  /** column name */
+  Nationality = 'nationality',
+  /** column name */
+  Number = 'number',
+  /** column name */
+  Year = 'year',
+}
+
+export type Drivers_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Drivers_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Drivers_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Drivers_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -1806,6 +2488,12 @@ export type Event_Format_Choices_Bool_Exp = {
   value?: InputMaybe<String_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "event_format_choices" */
+export enum Event_Format_Choices_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  EventFormatChoicesPkey = 'event_format_choices_pkey',
+}
+
 export enum Event_Format_Choices_Enum {
   /** Practice 1, Practice 2, Practice 3, Qualifying, Race */
   Conventional = 'conventional',
@@ -1828,6 +2516,14 @@ export type Event_Format_Choices_Enum_Comparison_Exp = {
   _nin?: InputMaybe<Array<Event_Format_Choices_Enum>>;
 };
 
+/** input type for inserting data into table "event_format_choices" */
+export type Event_Format_Choices_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  events?: InputMaybe<Events_Arr_Rel_Insert_Input>;
+  schedules?: InputMaybe<Schedule_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Event_Format_Choices_Max_Fields = {
   __typename?: 'event_format_choices_max_fields';
@@ -1842,12 +2538,40 @@ export type Event_Format_Choices_Min_Fields = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
+/** response of any mutation on the table "event_format_choices" */
+export type Event_Format_Choices_Mutation_Response = {
+  __typename?: 'event_format_choices_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Event_Format_Choices>;
+};
+
+/** input type for inserting object relation for remote table "event_format_choices" */
+export type Event_Format_Choices_Obj_Rel_Insert_Input = {
+  data: Event_Format_Choices_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Event_Format_Choices_On_Conflict>;
+};
+
+/** on_conflict condition type for table "event_format_choices" */
+export type Event_Format_Choices_On_Conflict = {
+  constraint: Event_Format_Choices_Constraint;
+  update_columns?: Array<Event_Format_Choices_Update_Column>;
+  where?: InputMaybe<Event_Format_Choices_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "event_format_choices". */
 export type Event_Format_Choices_Order_By = {
   comment?: InputMaybe<Order_By>;
   events_aggregate?: InputMaybe<Events_Aggregate_Order_By>;
   schedules_aggregate?: InputMaybe<Schedule_Aggregate_Order_By>;
   value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: event_format_choices */
+export type Event_Format_Choices_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "event_format_choices" */
@@ -1857,6 +2581,12 @@ export enum Event_Format_Choices_Select_Column {
   /** column name */
   Value = 'value',
 }
+
+/** input type for updating data in table "event_format_choices" */
+export type Event_Format_Choices_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** Streaming cursor of the table "event_format_choices" */
 export type Event_Format_Choices_Stream_Cursor_Input = {
@@ -1872,6 +2602,21 @@ export type Event_Format_Choices_Stream_Cursor_Value_Input = {
   value?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** update columns of table "event_format_choices" */
+export enum Event_Format_Choices_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Event_Format_Choices_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Event_Format_Choices_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Event_Format_Choices_Bool_Exp;
+};
+
 /** columns and relationships of "events" */
 export type Events = {
   __typename?: 'events';
@@ -1881,6 +2626,7 @@ export type Events = {
   event_format_choice?: Maybe<Event_Format_Choices>;
   f1_api_support?: Maybe<Scalars['Boolean']['output']>;
   format?: Maybe<Event_Format_Choices_Enum>;
+  id: Scalars['String']['output'];
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   official_name?: Maybe<Scalars['String']['output']>;
@@ -1982,6 +2728,13 @@ export type Events_Aggregate_Order_By = {
   variance?: InputMaybe<Events_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "events" */
+export type Events_Arr_Rel_Insert_Input = {
+  data: Array<Events_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Events_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Events_Avg_Fields = {
   __typename?: 'events_avg_fields';
@@ -2007,6 +2760,7 @@ export type Events_Bool_Exp = {
   event_format_choice?: InputMaybe<Event_Format_Choices_Bool_Exp>;
   f1_api_support?: InputMaybe<Boolean_Comparison_Exp>;
   format?: InputMaybe<Event_Format_Choices_Enum_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   location?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   official_name?: InputMaybe<String_Comparison_Exp>;
@@ -2016,11 +2770,42 @@ export type Events_Bool_Exp = {
   year?: InputMaybe<Int_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "events" */
+export enum Events_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  EventsPkey = 'events_pkey',
+}
+
+/** input type for incrementing numeric columns in table "events" */
+export type Events_Inc_Input = {
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "events" */
+export type Events_Insert_Input = {
+  country?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  event_format_choice?: InputMaybe<Event_Format_Choices_Obj_Rel_Insert_Input>;
+  f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
+  format?: InputMaybe<Event_Format_Choices_Enum>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  official_name?: InputMaybe<Scalars['String']['input']>;
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  sessions?: InputMaybe<Sessions_Arr_Rel_Insert_Input>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate max on columns */
 export type Events_Max_Fields = {
   __typename?: 'events_max_fields';
   country?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   official_name?: Maybe<Scalars['String']['output']>;
@@ -2033,6 +2818,7 @@ export type Events_Max_Fields = {
 export type Events_Max_Order_By = {
   country?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   official_name?: InputMaybe<Order_By>;
@@ -2046,6 +2832,7 @@ export type Events_Min_Fields = {
   __typename?: 'events_min_fields';
   country?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   official_name?: Maybe<Scalars['String']['output']>;
@@ -2058,12 +2845,36 @@ export type Events_Min_Fields = {
 export type Events_Min_Order_By = {
   country?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   official_name?: InputMaybe<Order_By>;
   /** All test sessions = 0 */
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "events" */
+export type Events_Mutation_Response = {
+  __typename?: 'events_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Events>;
+};
+
+/** input type for inserting object relation for remote table "events" */
+export type Events_Obj_Rel_Insert_Input = {
+  data: Events_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Events_On_Conflict>;
+};
+
+/** on_conflict condition type for table "events" */
+export type Events_On_Conflict = {
+  constraint: Events_Constraint;
+  update_columns?: Array<Events_Update_Column>;
+  where?: InputMaybe<Events_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "events". */
@@ -2073,12 +2884,18 @@ export type Events_Order_By = {
   event_format_choice?: InputMaybe<Event_Format_Choices_Order_By>;
   f1_api_support?: InputMaybe<Order_By>;
   format?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   official_name?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   sessions_aggregate?: InputMaybe<Sessions_Aggregate_Order_By>;
   year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: events */
+export type Events_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "events" */
@@ -2091,6 +2908,8 @@ export enum Events_Select_Column {
   F1ApiSupport = 'f1_api_support',
   /** column name */
   Format = 'format',
+  /** column name */
+  Id = 'id',
   /** column name */
   Location = 'location',
   /** column name */
@@ -2114,6 +2933,21 @@ export enum Events_Select_Column_Events_Aggregate_Bool_Exp_Bool_Or_Arguments_Col
   /** column name */
   F1ApiSupport = 'f1_api_support',
 }
+
+/** input type for updating data in table "events" */
+export type Events_Set_Input = {
+  country?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
+  format?: InputMaybe<Event_Format_Choices_Enum>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  official_name?: InputMaybe<Scalars['String']['input']>;
+  /** All test sessions = 0 */
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Events_Stddev_Fields = {
@@ -2174,6 +3008,7 @@ export type Events_Stream_Cursor_Value_Input = {
   date?: InputMaybe<Scalars['String']['input']>;
   f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
   format?: InputMaybe<Event_Format_Choices_Enum>;
+  id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   official_name?: InputMaybe<Scalars['String']['input']>;
@@ -2195,6 +3030,39 @@ export type Events_Sum_Order_By = {
   /** All test sessions = 0 */
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "events" */
+export enum Events_Update_Column {
+  /** column name */
+  Country = 'country',
+  /** column name */
+  Date = 'date',
+  /** column name */
+  F1ApiSupport = 'f1_api_support',
+  /** column name */
+  Format = 'format',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Location = 'location',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  OfficialName = 'official_name',
+  /** column name */
+  RoundNumber = 'round_number',
+  /** column name */
+  Year = 'year',
+}
+
+export type Events_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Events_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Events_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Events_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -2281,6 +3149,7 @@ export type Laps = {
   driver_session_id?: Maybe<Scalars['String']['output']>;
   fastf1_generated?: Maybe<Scalars['Boolean']['output']>;
   fresh_tyre?: Maybe<Scalars['Boolean']['output']>;
+  id: Scalars['String']['output'];
   is_accurate?: Maybe<Scalars['Boolean']['output']>;
   is_personal_best?: Maybe<Scalars['Boolean']['output']>;
   lap_number?: Maybe<Scalars['Int']['output']>;
@@ -2379,6 +3248,13 @@ export type Laps_Aggregate_Order_By = {
   variance?: InputMaybe<Laps_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "laps" */
+export type Laps_Arr_Rel_Insert_Input = {
+  data: Array<Laps_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Laps_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Laps_Avg_Fields = {
   __typename?: 'laps_avg_fields';
@@ -2438,6 +3314,7 @@ export type Laps_Bool_Exp = {
   driver_session_id?: InputMaybe<String_Comparison_Exp>;
   fastf1_generated?: InputMaybe<Boolean_Comparison_Exp>;
   fresh_tyre?: InputMaybe<Boolean_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   is_accurate?: InputMaybe<Boolean_Comparison_Exp>;
   is_personal_best?: InputMaybe<Boolean_Comparison_Exp>;
   lap_number?: InputMaybe<Int_Comparison_Exp>;
@@ -2464,11 +3341,77 @@ export type Laps_Bool_Exp = {
   tyre_life?: InputMaybe<Int_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "laps" */
+export enum Laps_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  LapsPkey = 'laps_pkey',
+}
+
+/** input type for incrementing numeric columns in table "laps" */
+export type Laps_Inc_Input = {
+  lap_number?: InputMaybe<Scalars['Int']['input']>;
+  lap_start_time?: InputMaybe<Scalars['bigint']['input']>;
+  lap_time?: InputMaybe<Scalars['bigint']['input']>;
+  pitin_time?: InputMaybe<Scalars['bigint']['input']>;
+  pitout_time?: InputMaybe<Scalars['bigint']['input']>;
+  position?: InputMaybe<Scalars['numeric']['input']>;
+  sector1?: InputMaybe<Scalars['bigint']['input']>;
+  sector1_ts?: InputMaybe<Scalars['bigint']['input']>;
+  sector2?: InputMaybe<Scalars['bigint']['input']>;
+  sector2_ts?: InputMaybe<Scalars['bigint']['input']>;
+  sector3?: InputMaybe<Scalars['bigint']['input']>;
+  sector3_ts?: InputMaybe<Scalars['bigint']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  speed_trap_fastest_lap?: InputMaybe<Scalars['numeric']['input']>;
+  speed_trap_sector1?: InputMaybe<Scalars['numeric']['input']>;
+  speed_trap_sector2?: InputMaybe<Scalars['numeric']['input']>;
+  speed_trap_straight?: InputMaybe<Scalars['numeric']['input']>;
+  stint?: InputMaybe<Scalars['Int']['input']>;
+  tyre_life?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "laps" */
+export type Laps_Insert_Input = {
+  compound?: InputMaybe<Tyre_Compounds_Enum>;
+  deleted?: InputMaybe<Scalars['Boolean']['input']>;
+  deleted_reason?: InputMaybe<Scalars['String']['input']>;
+  driver_session?: InputMaybe<Driver_Sessions_Obj_Rel_Insert_Input>;
+  driver_session_id?: InputMaybe<Scalars['String']['input']>;
+  fastf1_generated?: InputMaybe<Scalars['Boolean']['input']>;
+  fresh_tyre?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  is_accurate?: InputMaybe<Scalars['Boolean']['input']>;
+  is_personal_best?: InputMaybe<Scalars['Boolean']['input']>;
+  lap_number?: InputMaybe<Scalars['Int']['input']>;
+  lap_start_date?: InputMaybe<Scalars['String']['input']>;
+  lap_start_time?: InputMaybe<Scalars['bigint']['input']>;
+  lap_time?: InputMaybe<Scalars['bigint']['input']>;
+  pitin_time?: InputMaybe<Scalars['bigint']['input']>;
+  pitout_time?: InputMaybe<Scalars['bigint']['input']>;
+  position?: InputMaybe<Scalars['numeric']['input']>;
+  sector1?: InputMaybe<Scalars['bigint']['input']>;
+  sector1_ts?: InputMaybe<Scalars['bigint']['input']>;
+  sector2?: InputMaybe<Scalars['bigint']['input']>;
+  sector2_ts?: InputMaybe<Scalars['bigint']['input']>;
+  sector3?: InputMaybe<Scalars['bigint']['input']>;
+  sector3_ts?: InputMaybe<Scalars['bigint']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  speed_trap_fastest_lap?: InputMaybe<Scalars['numeric']['input']>;
+  speed_trap_sector1?: InputMaybe<Scalars['numeric']['input']>;
+  speed_trap_sector2?: InputMaybe<Scalars['numeric']['input']>;
+  speed_trap_straight?: InputMaybe<Scalars['numeric']['input']>;
+  stint?: InputMaybe<Scalars['Int']['input']>;
+  track_status?: InputMaybe<Scalars['String']['input']>;
+  tyre_compound?: InputMaybe<Tyre_Compounds_Obj_Rel_Insert_Input>;
+  tyre_life?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate max on columns */
 export type Laps_Max_Fields = {
   __typename?: 'laps_max_fields';
   deleted_reason?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   lap_number?: Maybe<Scalars['Int']['output']>;
   lap_start_date?: Maybe<Scalars['String']['output']>;
   lap_start_time?: Maybe<Scalars['bigint']['output']>;
@@ -2496,6 +3439,7 @@ export type Laps_Max_Fields = {
 export type Laps_Max_Order_By = {
   deleted_reason?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   lap_number?: InputMaybe<Order_By>;
   lap_start_date?: InputMaybe<Order_By>;
   lap_start_time?: InputMaybe<Order_By>;
@@ -2524,6 +3468,7 @@ export type Laps_Min_Fields = {
   __typename?: 'laps_min_fields';
   deleted_reason?: Maybe<Scalars['String']['output']>;
   driver_session_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   lap_number?: Maybe<Scalars['Int']['output']>;
   lap_start_date?: Maybe<Scalars['String']['output']>;
   lap_start_time?: Maybe<Scalars['bigint']['output']>;
@@ -2551,6 +3496,7 @@ export type Laps_Min_Fields = {
 export type Laps_Min_Order_By = {
   deleted_reason?: InputMaybe<Order_By>;
   driver_session_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   lap_number?: InputMaybe<Order_By>;
   lap_start_date?: InputMaybe<Order_By>;
   lap_start_time?: InputMaybe<Order_By>;
@@ -2574,6 +3520,22 @@ export type Laps_Min_Order_By = {
   tyre_life?: InputMaybe<Order_By>;
 };
 
+/** response of any mutation on the table "laps" */
+export type Laps_Mutation_Response = {
+  __typename?: 'laps_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Laps>;
+};
+
+/** on_conflict condition type for table "laps" */
+export type Laps_On_Conflict = {
+  constraint: Laps_Constraint;
+  update_columns?: Array<Laps_Update_Column>;
+  where?: InputMaybe<Laps_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "laps". */
 export type Laps_Order_By = {
   compound?: InputMaybe<Order_By>;
@@ -2583,6 +3545,7 @@ export type Laps_Order_By = {
   driver_session_id?: InputMaybe<Order_By>;
   fastf1_generated?: InputMaybe<Order_By>;
   fresh_tyre?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   is_accurate?: InputMaybe<Order_By>;
   is_personal_best?: InputMaybe<Order_By>;
   lap_number?: InputMaybe<Order_By>;
@@ -2609,6 +3572,11 @@ export type Laps_Order_By = {
   tyre_life?: InputMaybe<Order_By>;
 };
 
+/** primary key columns input for table: laps */
+export type Laps_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
 /** select columns of table "laps" */
 export enum Laps_Select_Column {
   /** column name */
@@ -2623,6 +3591,8 @@ export enum Laps_Select_Column {
   Fastf1Generated = 'fastf1_generated',
   /** column name */
   FreshTyre = 'fresh_tyre',
+  /** column name */
+  Id = 'id',
   /** column name */
   IsAccurate = 'is_accurate',
   /** column name */
@@ -2698,6 +3668,40 @@ export enum Laps_Select_Column_Laps_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns
   /** column name */
   IsPersonalBest = 'is_personal_best',
 }
+
+/** input type for updating data in table "laps" */
+export type Laps_Set_Input = {
+  compound?: InputMaybe<Tyre_Compounds_Enum>;
+  deleted?: InputMaybe<Scalars['Boolean']['input']>;
+  deleted_reason?: InputMaybe<Scalars['String']['input']>;
+  driver_session_id?: InputMaybe<Scalars['String']['input']>;
+  fastf1_generated?: InputMaybe<Scalars['Boolean']['input']>;
+  fresh_tyre?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  is_accurate?: InputMaybe<Scalars['Boolean']['input']>;
+  is_personal_best?: InputMaybe<Scalars['Boolean']['input']>;
+  lap_number?: InputMaybe<Scalars['Int']['input']>;
+  lap_start_date?: InputMaybe<Scalars['String']['input']>;
+  lap_start_time?: InputMaybe<Scalars['bigint']['input']>;
+  lap_time?: InputMaybe<Scalars['bigint']['input']>;
+  pitin_time?: InputMaybe<Scalars['bigint']['input']>;
+  pitout_time?: InputMaybe<Scalars['bigint']['input']>;
+  position?: InputMaybe<Scalars['numeric']['input']>;
+  sector1?: InputMaybe<Scalars['bigint']['input']>;
+  sector1_ts?: InputMaybe<Scalars['bigint']['input']>;
+  sector2?: InputMaybe<Scalars['bigint']['input']>;
+  sector2_ts?: InputMaybe<Scalars['bigint']['input']>;
+  sector3?: InputMaybe<Scalars['bigint']['input']>;
+  sector3_ts?: InputMaybe<Scalars['bigint']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  speed_trap_fastest_lap?: InputMaybe<Scalars['numeric']['input']>;
+  speed_trap_sector1?: InputMaybe<Scalars['numeric']['input']>;
+  speed_trap_sector2?: InputMaybe<Scalars['numeric']['input']>;
+  speed_trap_straight?: InputMaybe<Scalars['numeric']['input']>;
+  stint?: InputMaybe<Scalars['Int']['input']>;
+  track_status?: InputMaybe<Scalars['String']['input']>;
+  tyre_life?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Laps_Stddev_Fields = {
@@ -2856,6 +3860,7 @@ export type Laps_Stream_Cursor_Value_Input = {
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
   fastf1_generated?: InputMaybe<Scalars['Boolean']['input']>;
   fresh_tyre?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   is_accurate?: InputMaybe<Scalars['Boolean']['input']>;
   is_personal_best?: InputMaybe<Scalars['Boolean']['input']>;
   lap_number?: InputMaybe<Scalars['Int']['input']>;
@@ -2926,6 +3931,79 @@ export type Laps_Sum_Order_By = {
   speed_trap_straight?: InputMaybe<Order_By>;
   stint?: InputMaybe<Order_By>;
   tyre_life?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "laps" */
+export enum Laps_Update_Column {
+  /** column name */
+  Compound = 'compound',
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  DeletedReason = 'deleted_reason',
+  /** column name */
+  DriverSessionId = 'driver_session_id',
+  /** column name */
+  Fastf1Generated = 'fastf1_generated',
+  /** column name */
+  FreshTyre = 'fresh_tyre',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsAccurate = 'is_accurate',
+  /** column name */
+  IsPersonalBest = 'is_personal_best',
+  /** column name */
+  LapNumber = 'lap_number',
+  /** column name */
+  LapStartDate = 'lap_start_date',
+  /** column name */
+  LapStartTime = 'lap_start_time',
+  /** column name */
+  LapTime = 'lap_time',
+  /** column name */
+  PitinTime = 'pitin_time',
+  /** column name */
+  PitoutTime = 'pitout_time',
+  /** column name */
+  Position = 'position',
+  /** column name */
+  Sector1 = 'sector1',
+  /** column name */
+  Sector1Ts = 'sector1_ts',
+  /** column name */
+  Sector2 = 'sector2',
+  /** column name */
+  Sector2Ts = 'sector2_ts',
+  /** column name */
+  Sector3 = 'sector3',
+  /** column name */
+  Sector3Ts = 'sector3_ts',
+  /** column name */
+  SessionTime = 'session_time',
+  /** column name */
+  SpeedTrapFastestLap = 'speed_trap_fastest_lap',
+  /** column name */
+  SpeedTrapSector1 = 'speed_trap_sector1',
+  /** column name */
+  SpeedTrapSector2 = 'speed_trap_sector2',
+  /** column name */
+  SpeedTrapStraight = 'speed_trap_straight',
+  /** column name */
+  Stint = 'stint',
+  /** column name */
+  TrackStatus = 'track_status',
+  /** column name */
+  TyreLife = 'tyre_life',
+}
+
+export type Laps_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Laps_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Laps_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Laps_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -3069,6 +4147,1298 @@ export type Laps_Variance_Order_By = {
   tyre_life?: InputMaybe<Order_By>;
 };
 
+/** mutation root */
+export type Mutation_Root = {
+  __typename?: 'mutation_root';
+  /** delete data from the table: "circuits" */
+  delete_circuits?: Maybe<Circuits_Mutation_Response>;
+  /** delete single row from the table: "circuits" */
+  delete_circuits_by_pk?: Maybe<Circuits>;
+  /** delete data from the table: "constructor_standings" */
+  delete_constructor_standings?: Maybe<Constructor_Standings_Mutation_Response>;
+  /** delete single row from the table: "constructor_standings" */
+  delete_constructor_standings_by_pk?: Maybe<Constructor_Standings>;
+  /** delete data from the table: "constructors" */
+  delete_constructors?: Maybe<Constructors_Mutation_Response>;
+  /** delete single row from the table: "constructors" */
+  delete_constructors_by_pk?: Maybe<Constructors>;
+  /** delete data from the table: "driver_sessions" */
+  delete_driver_sessions?: Maybe<Driver_Sessions_Mutation_Response>;
+  /** delete single row from the table: "driver_sessions" */
+  delete_driver_sessions_by_pk?: Maybe<Driver_Sessions>;
+  /** delete data from the table: "driver_standings" */
+  delete_driver_standings?: Maybe<Driver_Standings_Mutation_Response>;
+  /** delete single row from the table: "driver_standings" */
+  delete_driver_standings_by_pk?: Maybe<Driver_Standings>;
+  /** delete data from the table: "drivers" */
+  delete_drivers?: Maybe<Drivers_Mutation_Response>;
+  /** delete single row from the table: "drivers" */
+  delete_drivers_by_pk?: Maybe<Drivers>;
+  /** delete data from the table: "event_format_choices" */
+  delete_event_format_choices?: Maybe<Event_Format_Choices_Mutation_Response>;
+  /** delete single row from the table: "event_format_choices" */
+  delete_event_format_choices_by_pk?: Maybe<Event_Format_Choices>;
+  /** delete data from the table: "events" */
+  delete_events?: Maybe<Events_Mutation_Response>;
+  /** delete single row from the table: "events" */
+  delete_events_by_pk?: Maybe<Events>;
+  /** delete data from the table: "laps" */
+  delete_laps?: Maybe<Laps_Mutation_Response>;
+  /** delete single row from the table: "laps" */
+  delete_laps_by_pk?: Maybe<Laps>;
+  /** delete data from the table: "race_control_messages" */
+  delete_race_control_messages?: Maybe<Race_Control_Messages_Mutation_Response>;
+  /** delete single row from the table: "race_control_messages" */
+  delete_race_control_messages_by_pk?: Maybe<Race_Control_Messages>;
+  /** delete data from the table: "race_control_messages_categories" */
+  delete_race_control_messages_categories?: Maybe<Race_Control_Messages_Categories_Mutation_Response>;
+  /** delete single row from the table: "race_control_messages_categories" */
+  delete_race_control_messages_categories_by_pk?: Maybe<Race_Control_Messages_Categories>;
+  /** delete data from the table: "race_control_messages_flags" */
+  delete_race_control_messages_flags?: Maybe<Race_Control_Messages_Flags_Mutation_Response>;
+  /** delete single row from the table: "race_control_messages_flags" */
+  delete_race_control_messages_flags_by_pk?: Maybe<Race_Control_Messages_Flags>;
+  /** delete data from the table: "race_control_messages_scopes" */
+  delete_race_control_messages_scopes?: Maybe<Race_Control_Messages_Scopes_Mutation_Response>;
+  /** delete single row from the table: "race_control_messages_scopes" */
+  delete_race_control_messages_scopes_by_pk?: Maybe<Race_Control_Messages_Scopes>;
+  /** delete data from the table: "results" */
+  delete_results?: Maybe<Results_Mutation_Response>;
+  /** delete single row from the table: "results" */
+  delete_results_by_pk?: Maybe<Results>;
+  /** delete data from the table: "schedule" */
+  delete_schedule?: Maybe<Schedule_Mutation_Response>;
+  /** delete single row from the table: "schedule" */
+  delete_schedule_by_pk?: Maybe<Schedule>;
+  /** delete data from the table: "session_name_choices" */
+  delete_session_name_choices?: Maybe<Session_Name_Choices_Mutation_Response>;
+  /** delete single row from the table: "session_name_choices" */
+  delete_session_name_choices_by_pk?: Maybe<Session_Name_Choices>;
+  /** delete data from the table: "sessions" */
+  delete_sessions?: Maybe<Sessions_Mutation_Response>;
+  /** delete single row from the table: "sessions" */
+  delete_sessions_by_pk?: Maybe<Sessions>;
+  /** delete data from the table: "telemetry" */
+  delete_telemetry?: Maybe<Telemetry_Mutation_Response>;
+  /** delete single row from the table: "telemetry" */
+  delete_telemetry_by_pk?: Maybe<Telemetry>;
+  /** delete data from the table: "telemetry_car_status" */
+  delete_telemetry_car_status?: Maybe<Telemetry_Car_Status_Mutation_Response>;
+  /** delete single row from the table: "telemetry_car_status" */
+  delete_telemetry_car_status_by_pk?: Maybe<Telemetry_Car_Status>;
+  /** delete data from the table: "telemetry_sources" */
+  delete_telemetry_sources?: Maybe<Telemetry_Sources_Mutation_Response>;
+  /** delete single row from the table: "telemetry_sources" */
+  delete_telemetry_sources_by_pk?: Maybe<Telemetry_Sources>;
+  /** delete data from the table: "track_status" */
+  delete_track_status?: Maybe<Track_Status_Mutation_Response>;
+  /** delete single row from the table: "track_status" */
+  delete_track_status_by_pk?: Maybe<Track_Status>;
+  /** delete data from the table: "tyre_compounds" */
+  delete_tyre_compounds?: Maybe<Tyre_Compounds_Mutation_Response>;
+  /** delete single row from the table: "tyre_compounds" */
+  delete_tyre_compounds_by_pk?: Maybe<Tyre_Compounds>;
+  /** delete data from the table: "weather_data" */
+  delete_weather_data?: Maybe<Weather_Data_Mutation_Response>;
+  /** delete single row from the table: "weather_data" */
+  delete_weather_data_by_pk?: Maybe<Weather_Data>;
+  /** insert data into the table: "circuits" */
+  insert_circuits?: Maybe<Circuits_Mutation_Response>;
+  /** insert a single row into the table: "circuits" */
+  insert_circuits_one?: Maybe<Circuits>;
+  /** insert data into the table: "constructor_standings" */
+  insert_constructor_standings?: Maybe<Constructor_Standings_Mutation_Response>;
+  /** insert a single row into the table: "constructor_standings" */
+  insert_constructor_standings_one?: Maybe<Constructor_Standings>;
+  /** insert data into the table: "constructors" */
+  insert_constructors?: Maybe<Constructors_Mutation_Response>;
+  /** insert a single row into the table: "constructors" */
+  insert_constructors_one?: Maybe<Constructors>;
+  /** insert data into the table: "driver_sessions" */
+  insert_driver_sessions?: Maybe<Driver_Sessions_Mutation_Response>;
+  /** insert a single row into the table: "driver_sessions" */
+  insert_driver_sessions_one?: Maybe<Driver_Sessions>;
+  /** insert data into the table: "driver_standings" */
+  insert_driver_standings?: Maybe<Driver_Standings_Mutation_Response>;
+  /** insert a single row into the table: "driver_standings" */
+  insert_driver_standings_one?: Maybe<Driver_Standings>;
+  /** insert data into the table: "drivers" */
+  insert_drivers?: Maybe<Drivers_Mutation_Response>;
+  /** insert a single row into the table: "drivers" */
+  insert_drivers_one?: Maybe<Drivers>;
+  /** insert data into the table: "event_format_choices" */
+  insert_event_format_choices?: Maybe<Event_Format_Choices_Mutation_Response>;
+  /** insert a single row into the table: "event_format_choices" */
+  insert_event_format_choices_one?: Maybe<Event_Format_Choices>;
+  /** insert data into the table: "events" */
+  insert_events?: Maybe<Events_Mutation_Response>;
+  /** insert a single row into the table: "events" */
+  insert_events_one?: Maybe<Events>;
+  /** insert data into the table: "laps" */
+  insert_laps?: Maybe<Laps_Mutation_Response>;
+  /** insert a single row into the table: "laps" */
+  insert_laps_one?: Maybe<Laps>;
+  /** insert data into the table: "race_control_messages" */
+  insert_race_control_messages?: Maybe<Race_Control_Messages_Mutation_Response>;
+  /** insert data into the table: "race_control_messages_categories" */
+  insert_race_control_messages_categories?: Maybe<Race_Control_Messages_Categories_Mutation_Response>;
+  /** insert a single row into the table: "race_control_messages_categories" */
+  insert_race_control_messages_categories_one?: Maybe<Race_Control_Messages_Categories>;
+  /** insert data into the table: "race_control_messages_flags" */
+  insert_race_control_messages_flags?: Maybe<Race_Control_Messages_Flags_Mutation_Response>;
+  /** insert a single row into the table: "race_control_messages_flags" */
+  insert_race_control_messages_flags_one?: Maybe<Race_Control_Messages_Flags>;
+  /** insert a single row into the table: "race_control_messages" */
+  insert_race_control_messages_one?: Maybe<Race_Control_Messages>;
+  /** insert data into the table: "race_control_messages_scopes" */
+  insert_race_control_messages_scopes?: Maybe<Race_Control_Messages_Scopes_Mutation_Response>;
+  /** insert a single row into the table: "race_control_messages_scopes" */
+  insert_race_control_messages_scopes_one?: Maybe<Race_Control_Messages_Scopes>;
+  /** insert data into the table: "results" */
+  insert_results?: Maybe<Results_Mutation_Response>;
+  /** insert a single row into the table: "results" */
+  insert_results_one?: Maybe<Results>;
+  /** insert data into the table: "schedule" */
+  insert_schedule?: Maybe<Schedule_Mutation_Response>;
+  /** insert a single row into the table: "schedule" */
+  insert_schedule_one?: Maybe<Schedule>;
+  /** insert data into the table: "session_name_choices" */
+  insert_session_name_choices?: Maybe<Session_Name_Choices_Mutation_Response>;
+  /** insert a single row into the table: "session_name_choices" */
+  insert_session_name_choices_one?: Maybe<Session_Name_Choices>;
+  /** insert data into the table: "sessions" */
+  insert_sessions?: Maybe<Sessions_Mutation_Response>;
+  /** insert a single row into the table: "sessions" */
+  insert_sessions_one?: Maybe<Sessions>;
+  /** insert data into the table: "telemetry" */
+  insert_telemetry?: Maybe<Telemetry_Mutation_Response>;
+  /** insert data into the table: "telemetry_car_status" */
+  insert_telemetry_car_status?: Maybe<Telemetry_Car_Status_Mutation_Response>;
+  /** insert a single row into the table: "telemetry_car_status" */
+  insert_telemetry_car_status_one?: Maybe<Telemetry_Car_Status>;
+  /** insert a single row into the table: "telemetry" */
+  insert_telemetry_one?: Maybe<Telemetry>;
+  /** insert data into the table: "telemetry_sources" */
+  insert_telemetry_sources?: Maybe<Telemetry_Sources_Mutation_Response>;
+  /** insert a single row into the table: "telemetry_sources" */
+  insert_telemetry_sources_one?: Maybe<Telemetry_Sources>;
+  /** insert data into the table: "track_status" */
+  insert_track_status?: Maybe<Track_Status_Mutation_Response>;
+  /** insert a single row into the table: "track_status" */
+  insert_track_status_one?: Maybe<Track_Status>;
+  /** insert data into the table: "tyre_compounds" */
+  insert_tyre_compounds?: Maybe<Tyre_Compounds_Mutation_Response>;
+  /** insert a single row into the table: "tyre_compounds" */
+  insert_tyre_compounds_one?: Maybe<Tyre_Compounds>;
+  /** insert data into the table: "weather_data" */
+  insert_weather_data?: Maybe<Weather_Data_Mutation_Response>;
+  /** insert a single row into the table: "weather_data" */
+  insert_weather_data_one?: Maybe<Weather_Data>;
+  /** update data of the table: "circuits" */
+  update_circuits?: Maybe<Circuits_Mutation_Response>;
+  /** update single row of the table: "circuits" */
+  update_circuits_by_pk?: Maybe<Circuits>;
+  /** update multiples rows of table: "circuits" */
+  update_circuits_many?: Maybe<Array<Maybe<Circuits_Mutation_Response>>>;
+  /** update data of the table: "constructor_standings" */
+  update_constructor_standings?: Maybe<Constructor_Standings_Mutation_Response>;
+  /** update single row of the table: "constructor_standings" */
+  update_constructor_standings_by_pk?: Maybe<Constructor_Standings>;
+  /** update multiples rows of table: "constructor_standings" */
+  update_constructor_standings_many?: Maybe<
+    Array<Maybe<Constructor_Standings_Mutation_Response>>
+  >;
+  /** update data of the table: "constructors" */
+  update_constructors?: Maybe<Constructors_Mutation_Response>;
+  /** update single row of the table: "constructors" */
+  update_constructors_by_pk?: Maybe<Constructors>;
+  /** update multiples rows of table: "constructors" */
+  update_constructors_many?: Maybe<
+    Array<Maybe<Constructors_Mutation_Response>>
+  >;
+  /** update data of the table: "driver_sessions" */
+  update_driver_sessions?: Maybe<Driver_Sessions_Mutation_Response>;
+  /** update single row of the table: "driver_sessions" */
+  update_driver_sessions_by_pk?: Maybe<Driver_Sessions>;
+  /** update multiples rows of table: "driver_sessions" */
+  update_driver_sessions_many?: Maybe<
+    Array<Maybe<Driver_Sessions_Mutation_Response>>
+  >;
+  /** update data of the table: "driver_standings" */
+  update_driver_standings?: Maybe<Driver_Standings_Mutation_Response>;
+  /** update single row of the table: "driver_standings" */
+  update_driver_standings_by_pk?: Maybe<Driver_Standings>;
+  /** update multiples rows of table: "driver_standings" */
+  update_driver_standings_many?: Maybe<
+    Array<Maybe<Driver_Standings_Mutation_Response>>
+  >;
+  /** update data of the table: "drivers" */
+  update_drivers?: Maybe<Drivers_Mutation_Response>;
+  /** update single row of the table: "drivers" */
+  update_drivers_by_pk?: Maybe<Drivers>;
+  /** update multiples rows of table: "drivers" */
+  update_drivers_many?: Maybe<Array<Maybe<Drivers_Mutation_Response>>>;
+  /** update data of the table: "event_format_choices" */
+  update_event_format_choices?: Maybe<Event_Format_Choices_Mutation_Response>;
+  /** update single row of the table: "event_format_choices" */
+  update_event_format_choices_by_pk?: Maybe<Event_Format_Choices>;
+  /** update multiples rows of table: "event_format_choices" */
+  update_event_format_choices_many?: Maybe<
+    Array<Maybe<Event_Format_Choices_Mutation_Response>>
+  >;
+  /** update data of the table: "events" */
+  update_events?: Maybe<Events_Mutation_Response>;
+  /** update single row of the table: "events" */
+  update_events_by_pk?: Maybe<Events>;
+  /** update multiples rows of table: "events" */
+  update_events_many?: Maybe<Array<Maybe<Events_Mutation_Response>>>;
+  /** update data of the table: "laps" */
+  update_laps?: Maybe<Laps_Mutation_Response>;
+  /** update single row of the table: "laps" */
+  update_laps_by_pk?: Maybe<Laps>;
+  /** update multiples rows of table: "laps" */
+  update_laps_many?: Maybe<Array<Maybe<Laps_Mutation_Response>>>;
+  /** update data of the table: "race_control_messages" */
+  update_race_control_messages?: Maybe<Race_Control_Messages_Mutation_Response>;
+  /** update single row of the table: "race_control_messages" */
+  update_race_control_messages_by_pk?: Maybe<Race_Control_Messages>;
+  /** update data of the table: "race_control_messages_categories" */
+  update_race_control_messages_categories?: Maybe<Race_Control_Messages_Categories_Mutation_Response>;
+  /** update single row of the table: "race_control_messages_categories" */
+  update_race_control_messages_categories_by_pk?: Maybe<Race_Control_Messages_Categories>;
+  /** update multiples rows of table: "race_control_messages_categories" */
+  update_race_control_messages_categories_many?: Maybe<
+    Array<Maybe<Race_Control_Messages_Categories_Mutation_Response>>
+  >;
+  /** update data of the table: "race_control_messages_flags" */
+  update_race_control_messages_flags?: Maybe<Race_Control_Messages_Flags_Mutation_Response>;
+  /** update single row of the table: "race_control_messages_flags" */
+  update_race_control_messages_flags_by_pk?: Maybe<Race_Control_Messages_Flags>;
+  /** update multiples rows of table: "race_control_messages_flags" */
+  update_race_control_messages_flags_many?: Maybe<
+    Array<Maybe<Race_Control_Messages_Flags_Mutation_Response>>
+  >;
+  /** update multiples rows of table: "race_control_messages" */
+  update_race_control_messages_many?: Maybe<
+    Array<Maybe<Race_Control_Messages_Mutation_Response>>
+  >;
+  /** update data of the table: "race_control_messages_scopes" */
+  update_race_control_messages_scopes?: Maybe<Race_Control_Messages_Scopes_Mutation_Response>;
+  /** update single row of the table: "race_control_messages_scopes" */
+  update_race_control_messages_scopes_by_pk?: Maybe<Race_Control_Messages_Scopes>;
+  /** update multiples rows of table: "race_control_messages_scopes" */
+  update_race_control_messages_scopes_many?: Maybe<
+    Array<Maybe<Race_Control_Messages_Scopes_Mutation_Response>>
+  >;
+  /** update data of the table: "results" */
+  update_results?: Maybe<Results_Mutation_Response>;
+  /** update single row of the table: "results" */
+  update_results_by_pk?: Maybe<Results>;
+  /** update multiples rows of table: "results" */
+  update_results_many?: Maybe<Array<Maybe<Results_Mutation_Response>>>;
+  /** update data of the table: "schedule" */
+  update_schedule?: Maybe<Schedule_Mutation_Response>;
+  /** update single row of the table: "schedule" */
+  update_schedule_by_pk?: Maybe<Schedule>;
+  /** update multiples rows of table: "schedule" */
+  update_schedule_many?: Maybe<Array<Maybe<Schedule_Mutation_Response>>>;
+  /** update data of the table: "session_name_choices" */
+  update_session_name_choices?: Maybe<Session_Name_Choices_Mutation_Response>;
+  /** update single row of the table: "session_name_choices" */
+  update_session_name_choices_by_pk?: Maybe<Session_Name_Choices>;
+  /** update multiples rows of table: "session_name_choices" */
+  update_session_name_choices_many?: Maybe<
+    Array<Maybe<Session_Name_Choices_Mutation_Response>>
+  >;
+  /** update data of the table: "sessions" */
+  update_sessions?: Maybe<Sessions_Mutation_Response>;
+  /** update single row of the table: "sessions" */
+  update_sessions_by_pk?: Maybe<Sessions>;
+  /** update multiples rows of table: "sessions" */
+  update_sessions_many?: Maybe<Array<Maybe<Sessions_Mutation_Response>>>;
+  /** update data of the table: "telemetry" */
+  update_telemetry?: Maybe<Telemetry_Mutation_Response>;
+  /** update single row of the table: "telemetry" */
+  update_telemetry_by_pk?: Maybe<Telemetry>;
+  /** update data of the table: "telemetry_car_status" */
+  update_telemetry_car_status?: Maybe<Telemetry_Car_Status_Mutation_Response>;
+  /** update single row of the table: "telemetry_car_status" */
+  update_telemetry_car_status_by_pk?: Maybe<Telemetry_Car_Status>;
+  /** update multiples rows of table: "telemetry_car_status" */
+  update_telemetry_car_status_many?: Maybe<
+    Array<Maybe<Telemetry_Car_Status_Mutation_Response>>
+  >;
+  /** update multiples rows of table: "telemetry" */
+  update_telemetry_many?: Maybe<Array<Maybe<Telemetry_Mutation_Response>>>;
+  /** update data of the table: "telemetry_sources" */
+  update_telemetry_sources?: Maybe<Telemetry_Sources_Mutation_Response>;
+  /** update single row of the table: "telemetry_sources" */
+  update_telemetry_sources_by_pk?: Maybe<Telemetry_Sources>;
+  /** update multiples rows of table: "telemetry_sources" */
+  update_telemetry_sources_many?: Maybe<
+    Array<Maybe<Telemetry_Sources_Mutation_Response>>
+  >;
+  /** update data of the table: "track_status" */
+  update_track_status?: Maybe<Track_Status_Mutation_Response>;
+  /** update single row of the table: "track_status" */
+  update_track_status_by_pk?: Maybe<Track_Status>;
+  /** update multiples rows of table: "track_status" */
+  update_track_status_many?: Maybe<
+    Array<Maybe<Track_Status_Mutation_Response>>
+  >;
+  /** update data of the table: "tyre_compounds" */
+  update_tyre_compounds?: Maybe<Tyre_Compounds_Mutation_Response>;
+  /** update single row of the table: "tyre_compounds" */
+  update_tyre_compounds_by_pk?: Maybe<Tyre_Compounds>;
+  /** update multiples rows of table: "tyre_compounds" */
+  update_tyre_compounds_many?: Maybe<
+    Array<Maybe<Tyre_Compounds_Mutation_Response>>
+  >;
+  /** update data of the table: "weather_data" */
+  update_weather_data?: Maybe<Weather_Data_Mutation_Response>;
+  /** update single row of the table: "weather_data" */
+  update_weather_data_by_pk?: Maybe<Weather_Data>;
+  /** update multiples rows of table: "weather_data" */
+  update_weather_data_many?: Maybe<
+    Array<Maybe<Weather_Data_Mutation_Response>>
+  >;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_CircuitsArgs = {
+  where: Circuits_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Circuits_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Constructor_StandingsArgs = {
+  where: Constructor_Standings_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Constructor_Standings_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_ConstructorsArgs = {
+  where: Constructors_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Constructors_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Driver_SessionsArgs = {
+  where: Driver_Sessions_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Driver_Sessions_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Driver_StandingsArgs = {
+  where: Driver_Standings_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Driver_Standings_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_DriversArgs = {
+  where: Drivers_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Drivers_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Event_Format_ChoicesArgs = {
+  where: Event_Format_Choices_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Event_Format_Choices_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_EventsArgs = {
+  where: Events_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Events_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_LapsArgs = {
+  where: Laps_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Laps_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_MessagesArgs = {
+  where: Race_Control_Messages_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_CategoriesArgs = {
+  where: Race_Control_Messages_Categories_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_Categories_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_FlagsArgs = {
+  where: Race_Control_Messages_Flags_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_Flags_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_ScopesArgs = {
+  where: Race_Control_Messages_Scopes_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Race_Control_Messages_Scopes_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_ResultsArgs = {
+  where: Results_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Results_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_ScheduleArgs = {
+  where: Schedule_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Schedule_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Session_Name_ChoicesArgs = {
+  where: Session_Name_Choices_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Session_Name_Choices_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_SessionsArgs = {
+  where: Sessions_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Sessions_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_TelemetryArgs = {
+  where: Telemetry_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Telemetry_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Telemetry_Car_StatusArgs = {
+  where: Telemetry_Car_Status_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Telemetry_Car_Status_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Telemetry_SourcesArgs = {
+  where: Telemetry_Sources_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Telemetry_Sources_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Track_StatusArgs = {
+  where: Track_Status_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Track_Status_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Tyre_CompoundsArgs = {
+  where: Tyre_Compounds_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Tyre_Compounds_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Weather_DataArgs = {
+  where: Weather_Data_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Weather_Data_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootInsert_CircuitsArgs = {
+  objects: Array<Circuits_Insert_Input>;
+  on_conflict?: InputMaybe<Circuits_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Circuits_OneArgs = {
+  object: Circuits_Insert_Input;
+  on_conflict?: InputMaybe<Circuits_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Constructor_StandingsArgs = {
+  objects: Array<Constructor_Standings_Insert_Input>;
+  on_conflict?: InputMaybe<Constructor_Standings_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Constructor_Standings_OneArgs = {
+  object: Constructor_Standings_Insert_Input;
+  on_conflict?: InputMaybe<Constructor_Standings_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_ConstructorsArgs = {
+  objects: Array<Constructors_Insert_Input>;
+  on_conflict?: InputMaybe<Constructors_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Constructors_OneArgs = {
+  object: Constructors_Insert_Input;
+  on_conflict?: InputMaybe<Constructors_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Driver_SessionsArgs = {
+  objects: Array<Driver_Sessions_Insert_Input>;
+  on_conflict?: InputMaybe<Driver_Sessions_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Driver_Sessions_OneArgs = {
+  object: Driver_Sessions_Insert_Input;
+  on_conflict?: InputMaybe<Driver_Sessions_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Driver_StandingsArgs = {
+  objects: Array<Driver_Standings_Insert_Input>;
+  on_conflict?: InputMaybe<Driver_Standings_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Driver_Standings_OneArgs = {
+  object: Driver_Standings_Insert_Input;
+  on_conflict?: InputMaybe<Driver_Standings_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_DriversArgs = {
+  objects: Array<Drivers_Insert_Input>;
+  on_conflict?: InputMaybe<Drivers_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Drivers_OneArgs = {
+  object: Drivers_Insert_Input;
+  on_conflict?: InputMaybe<Drivers_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Event_Format_ChoicesArgs = {
+  objects: Array<Event_Format_Choices_Insert_Input>;
+  on_conflict?: InputMaybe<Event_Format_Choices_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Event_Format_Choices_OneArgs = {
+  object: Event_Format_Choices_Insert_Input;
+  on_conflict?: InputMaybe<Event_Format_Choices_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_EventsArgs = {
+  objects: Array<Events_Insert_Input>;
+  on_conflict?: InputMaybe<Events_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Events_OneArgs = {
+  object: Events_Insert_Input;
+  on_conflict?: InputMaybe<Events_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_LapsArgs = {
+  objects: Array<Laps_Insert_Input>;
+  on_conflict?: InputMaybe<Laps_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Laps_OneArgs = {
+  object: Laps_Insert_Input;
+  on_conflict?: InputMaybe<Laps_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_MessagesArgs = {
+  objects: Array<Race_Control_Messages_Insert_Input>;
+  on_conflict?: InputMaybe<Race_Control_Messages_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_CategoriesArgs = {
+  objects: Array<Race_Control_Messages_Categories_Insert_Input>;
+  on_conflict?: InputMaybe<Race_Control_Messages_Categories_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_Categories_OneArgs = {
+  object: Race_Control_Messages_Categories_Insert_Input;
+  on_conflict?: InputMaybe<Race_Control_Messages_Categories_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_FlagsArgs = {
+  objects: Array<Race_Control_Messages_Flags_Insert_Input>;
+  on_conflict?: InputMaybe<Race_Control_Messages_Flags_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_Flags_OneArgs = {
+  object: Race_Control_Messages_Flags_Insert_Input;
+  on_conflict?: InputMaybe<Race_Control_Messages_Flags_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_OneArgs = {
+  object: Race_Control_Messages_Insert_Input;
+  on_conflict?: InputMaybe<Race_Control_Messages_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_ScopesArgs = {
+  objects: Array<Race_Control_Messages_Scopes_Insert_Input>;
+  on_conflict?: InputMaybe<Race_Control_Messages_Scopes_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Race_Control_Messages_Scopes_OneArgs = {
+  object: Race_Control_Messages_Scopes_Insert_Input;
+  on_conflict?: InputMaybe<Race_Control_Messages_Scopes_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_ResultsArgs = {
+  objects: Array<Results_Insert_Input>;
+  on_conflict?: InputMaybe<Results_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Results_OneArgs = {
+  object: Results_Insert_Input;
+  on_conflict?: InputMaybe<Results_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_ScheduleArgs = {
+  objects: Array<Schedule_Insert_Input>;
+  on_conflict?: InputMaybe<Schedule_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Schedule_OneArgs = {
+  object: Schedule_Insert_Input;
+  on_conflict?: InputMaybe<Schedule_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Session_Name_ChoicesArgs = {
+  objects: Array<Session_Name_Choices_Insert_Input>;
+  on_conflict?: InputMaybe<Session_Name_Choices_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Session_Name_Choices_OneArgs = {
+  object: Session_Name_Choices_Insert_Input;
+  on_conflict?: InputMaybe<Session_Name_Choices_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_SessionsArgs = {
+  objects: Array<Sessions_Insert_Input>;
+  on_conflict?: InputMaybe<Sessions_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Sessions_OneArgs = {
+  object: Sessions_Insert_Input;
+  on_conflict?: InputMaybe<Sessions_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_TelemetryArgs = {
+  objects: Array<Telemetry_Insert_Input>;
+  on_conflict?: InputMaybe<Telemetry_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Telemetry_Car_StatusArgs = {
+  objects: Array<Telemetry_Car_Status_Insert_Input>;
+  on_conflict?: InputMaybe<Telemetry_Car_Status_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Telemetry_Car_Status_OneArgs = {
+  object: Telemetry_Car_Status_Insert_Input;
+  on_conflict?: InputMaybe<Telemetry_Car_Status_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Telemetry_OneArgs = {
+  object: Telemetry_Insert_Input;
+  on_conflict?: InputMaybe<Telemetry_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Telemetry_SourcesArgs = {
+  objects: Array<Telemetry_Sources_Insert_Input>;
+  on_conflict?: InputMaybe<Telemetry_Sources_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Telemetry_Sources_OneArgs = {
+  object: Telemetry_Sources_Insert_Input;
+  on_conflict?: InputMaybe<Telemetry_Sources_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Track_StatusArgs = {
+  objects: Array<Track_Status_Insert_Input>;
+  on_conflict?: InputMaybe<Track_Status_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Track_Status_OneArgs = {
+  object: Track_Status_Insert_Input;
+  on_conflict?: InputMaybe<Track_Status_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Tyre_CompoundsArgs = {
+  objects: Array<Tyre_Compounds_Insert_Input>;
+  on_conflict?: InputMaybe<Tyre_Compounds_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Tyre_Compounds_OneArgs = {
+  object: Tyre_Compounds_Insert_Input;
+  on_conflict?: InputMaybe<Tyre_Compounds_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Weather_DataArgs = {
+  objects: Array<Weather_Data_Insert_Input>;
+  on_conflict?: InputMaybe<Weather_Data_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Weather_Data_OneArgs = {
+  object: Weather_Data_Insert_Input;
+  on_conflict?: InputMaybe<Weather_Data_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_CircuitsArgs = {
+  _append?: InputMaybe<Circuits_Append_Input>;
+  _delete_at_path?: InputMaybe<Circuits_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<Circuits_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<Circuits_Delete_Key_Input>;
+  _inc?: InputMaybe<Circuits_Inc_Input>;
+  _prepend?: InputMaybe<Circuits_Prepend_Input>;
+  _set?: InputMaybe<Circuits_Set_Input>;
+  where: Circuits_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Circuits_By_PkArgs = {
+  _append?: InputMaybe<Circuits_Append_Input>;
+  _delete_at_path?: InputMaybe<Circuits_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<Circuits_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<Circuits_Delete_Key_Input>;
+  _inc?: InputMaybe<Circuits_Inc_Input>;
+  _prepend?: InputMaybe<Circuits_Prepend_Input>;
+  _set?: InputMaybe<Circuits_Set_Input>;
+  pk_columns: Circuits_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Circuits_ManyArgs = {
+  updates: Array<Circuits_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Constructor_StandingsArgs = {
+  _inc?: InputMaybe<Constructor_Standings_Inc_Input>;
+  _set?: InputMaybe<Constructor_Standings_Set_Input>;
+  where: Constructor_Standings_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Constructor_Standings_By_PkArgs = {
+  _inc?: InputMaybe<Constructor_Standings_Inc_Input>;
+  _set?: InputMaybe<Constructor_Standings_Set_Input>;
+  pk_columns: Constructor_Standings_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Constructor_Standings_ManyArgs = {
+  updates: Array<Constructor_Standings_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_ConstructorsArgs = {
+  _inc?: InputMaybe<Constructors_Inc_Input>;
+  _set?: InputMaybe<Constructors_Set_Input>;
+  where: Constructors_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Constructors_By_PkArgs = {
+  _inc?: InputMaybe<Constructors_Inc_Input>;
+  _set?: InputMaybe<Constructors_Set_Input>;
+  pk_columns: Constructors_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Constructors_ManyArgs = {
+  updates: Array<Constructors_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Driver_SessionsArgs = {
+  _set?: InputMaybe<Driver_Sessions_Set_Input>;
+  where: Driver_Sessions_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Driver_Sessions_By_PkArgs = {
+  _set?: InputMaybe<Driver_Sessions_Set_Input>;
+  pk_columns: Driver_Sessions_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Driver_Sessions_ManyArgs = {
+  updates: Array<Driver_Sessions_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Driver_StandingsArgs = {
+  _inc?: InputMaybe<Driver_Standings_Inc_Input>;
+  _set?: InputMaybe<Driver_Standings_Set_Input>;
+  where: Driver_Standings_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Driver_Standings_By_PkArgs = {
+  _inc?: InputMaybe<Driver_Standings_Inc_Input>;
+  _set?: InputMaybe<Driver_Standings_Set_Input>;
+  pk_columns: Driver_Standings_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Driver_Standings_ManyArgs = {
+  updates: Array<Driver_Standings_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_DriversArgs = {
+  _inc?: InputMaybe<Drivers_Inc_Input>;
+  _set?: InputMaybe<Drivers_Set_Input>;
+  where: Drivers_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Drivers_By_PkArgs = {
+  _inc?: InputMaybe<Drivers_Inc_Input>;
+  _set?: InputMaybe<Drivers_Set_Input>;
+  pk_columns: Drivers_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Drivers_ManyArgs = {
+  updates: Array<Drivers_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Event_Format_ChoicesArgs = {
+  _set?: InputMaybe<Event_Format_Choices_Set_Input>;
+  where: Event_Format_Choices_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Event_Format_Choices_By_PkArgs = {
+  _set?: InputMaybe<Event_Format_Choices_Set_Input>;
+  pk_columns: Event_Format_Choices_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Event_Format_Choices_ManyArgs = {
+  updates: Array<Event_Format_Choices_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_EventsArgs = {
+  _inc?: InputMaybe<Events_Inc_Input>;
+  _set?: InputMaybe<Events_Set_Input>;
+  where: Events_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Events_By_PkArgs = {
+  _inc?: InputMaybe<Events_Inc_Input>;
+  _set?: InputMaybe<Events_Set_Input>;
+  pk_columns: Events_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Events_ManyArgs = {
+  updates: Array<Events_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_LapsArgs = {
+  _inc?: InputMaybe<Laps_Inc_Input>;
+  _set?: InputMaybe<Laps_Set_Input>;
+  where: Laps_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Laps_By_PkArgs = {
+  _inc?: InputMaybe<Laps_Inc_Input>;
+  _set?: InputMaybe<Laps_Set_Input>;
+  pk_columns: Laps_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Laps_ManyArgs = {
+  updates: Array<Laps_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_MessagesArgs = {
+  _inc?: InputMaybe<Race_Control_Messages_Inc_Input>;
+  _set?: InputMaybe<Race_Control_Messages_Set_Input>;
+  where: Race_Control_Messages_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_By_PkArgs = {
+  _inc?: InputMaybe<Race_Control_Messages_Inc_Input>;
+  _set?: InputMaybe<Race_Control_Messages_Set_Input>;
+  pk_columns: Race_Control_Messages_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_CategoriesArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Categories_Set_Input>;
+  where: Race_Control_Messages_Categories_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Categories_By_PkArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Categories_Set_Input>;
+  pk_columns: Race_Control_Messages_Categories_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Categories_ManyArgs = {
+  updates: Array<Race_Control_Messages_Categories_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_FlagsArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Flags_Set_Input>;
+  where: Race_Control_Messages_Flags_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Flags_By_PkArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Flags_Set_Input>;
+  pk_columns: Race_Control_Messages_Flags_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Flags_ManyArgs = {
+  updates: Array<Race_Control_Messages_Flags_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_ManyArgs = {
+  updates: Array<Race_Control_Messages_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_ScopesArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Scopes_Set_Input>;
+  where: Race_Control_Messages_Scopes_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Scopes_By_PkArgs = {
+  _set?: InputMaybe<Race_Control_Messages_Scopes_Set_Input>;
+  pk_columns: Race_Control_Messages_Scopes_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Race_Control_Messages_Scopes_ManyArgs = {
+  updates: Array<Race_Control_Messages_Scopes_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_ResultsArgs = {
+  _inc?: InputMaybe<Results_Inc_Input>;
+  _set?: InputMaybe<Results_Set_Input>;
+  where: Results_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Results_By_PkArgs = {
+  _inc?: InputMaybe<Results_Inc_Input>;
+  _set?: InputMaybe<Results_Set_Input>;
+  pk_columns: Results_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Results_ManyArgs = {
+  updates: Array<Results_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_ScheduleArgs = {
+  _inc?: InputMaybe<Schedule_Inc_Input>;
+  _set?: InputMaybe<Schedule_Set_Input>;
+  where: Schedule_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_By_PkArgs = {
+  _inc?: InputMaybe<Schedule_Inc_Input>;
+  _set?: InputMaybe<Schedule_Set_Input>;
+  pk_columns: Schedule_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_ManyArgs = {
+  updates: Array<Schedule_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Session_Name_ChoicesArgs = {
+  _set?: InputMaybe<Session_Name_Choices_Set_Input>;
+  where: Session_Name_Choices_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Session_Name_Choices_By_PkArgs = {
+  _set?: InputMaybe<Session_Name_Choices_Set_Input>;
+  pk_columns: Session_Name_Choices_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Session_Name_Choices_ManyArgs = {
+  updates: Array<Session_Name_Choices_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_SessionsArgs = {
+  _inc?: InputMaybe<Sessions_Inc_Input>;
+  _set?: InputMaybe<Sessions_Set_Input>;
+  where: Sessions_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Sessions_By_PkArgs = {
+  _inc?: InputMaybe<Sessions_Inc_Input>;
+  _set?: InputMaybe<Sessions_Set_Input>;
+  pk_columns: Sessions_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Sessions_ManyArgs = {
+  updates: Array<Sessions_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_TelemetryArgs = {
+  _inc?: InputMaybe<Telemetry_Inc_Input>;
+  _set?: InputMaybe<Telemetry_Set_Input>;
+  where: Telemetry_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_By_PkArgs = {
+  _inc?: InputMaybe<Telemetry_Inc_Input>;
+  _set?: InputMaybe<Telemetry_Set_Input>;
+  pk_columns: Telemetry_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_Car_StatusArgs = {
+  _set?: InputMaybe<Telemetry_Car_Status_Set_Input>;
+  where: Telemetry_Car_Status_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_Car_Status_By_PkArgs = {
+  _set?: InputMaybe<Telemetry_Car_Status_Set_Input>;
+  pk_columns: Telemetry_Car_Status_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_Car_Status_ManyArgs = {
+  updates: Array<Telemetry_Car_Status_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_ManyArgs = {
+  updates: Array<Telemetry_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_SourcesArgs = {
+  _set?: InputMaybe<Telemetry_Sources_Set_Input>;
+  where: Telemetry_Sources_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_Sources_By_PkArgs = {
+  _set?: InputMaybe<Telemetry_Sources_Set_Input>;
+  pk_columns: Telemetry_Sources_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Telemetry_Sources_ManyArgs = {
+  updates: Array<Telemetry_Sources_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Track_StatusArgs = {
+  _inc?: InputMaybe<Track_Status_Inc_Input>;
+  _set?: InputMaybe<Track_Status_Set_Input>;
+  where: Track_Status_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Track_Status_By_PkArgs = {
+  _inc?: InputMaybe<Track_Status_Inc_Input>;
+  _set?: InputMaybe<Track_Status_Set_Input>;
+  pk_columns: Track_Status_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Track_Status_ManyArgs = {
+  updates: Array<Track_Status_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Tyre_CompoundsArgs = {
+  _set?: InputMaybe<Tyre_Compounds_Set_Input>;
+  where: Tyre_Compounds_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Tyre_Compounds_By_PkArgs = {
+  _set?: InputMaybe<Tyre_Compounds_Set_Input>;
+  pk_columns: Tyre_Compounds_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Tyre_Compounds_ManyArgs = {
+  updates: Array<Tyre_Compounds_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Weather_DataArgs = {
+  _inc?: InputMaybe<Weather_Data_Inc_Input>;
+  _set?: InputMaybe<Weather_Data_Set_Input>;
+  where: Weather_Data_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Weather_Data_By_PkArgs = {
+  _inc?: InputMaybe<Weather_Data_Inc_Input>;
+  _set?: InputMaybe<Weather_Data_Set_Input>;
+  pk_columns: Weather_Data_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Weather_Data_ManyArgs = {
+  updates: Array<Weather_Data_Updates>;
+};
+
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
 export type Numeric_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['numeric']['input']>;
@@ -3104,26 +5474,38 @@ export type Query_Root = {
   circuits: Array<Circuits>;
   /** fetch aggregated fields from the table: "circuits" */
   circuits_aggregate: Circuits_Aggregate;
+  /** fetch data from the table: "circuits" using primary key columns */
+  circuits_by_pk?: Maybe<Circuits>;
   /** An array relationship */
   constructor_standings: Array<Constructor_Standings>;
   /** An aggregate relationship */
   constructor_standings_aggregate: Constructor_Standings_Aggregate;
+  /** fetch data from the table: "constructor_standings" using primary key columns */
+  constructor_standings_by_pk?: Maybe<Constructor_Standings>;
   /** fetch data from the table: "constructors" */
   constructors: Array<Constructors>;
   /** fetch aggregated fields from the table: "constructors" */
   constructors_aggregate: Constructors_Aggregate;
+  /** fetch data from the table: "constructors" using primary key columns */
+  constructors_by_pk?: Maybe<Constructors>;
   /** An array relationship */
   driver_sessions: Array<Driver_Sessions>;
   /** An aggregate relationship */
   driver_sessions_aggregate: Driver_Sessions_Aggregate;
+  /** fetch data from the table: "driver_sessions" using primary key columns */
+  driver_sessions_by_pk?: Maybe<Driver_Sessions>;
   /** An array relationship */
   driver_standings: Array<Driver_Standings>;
   /** An aggregate relationship */
   driver_standings_aggregate: Driver_Standings_Aggregate;
+  /** fetch data from the table: "driver_standings" using primary key columns */
+  driver_standings_by_pk?: Maybe<Driver_Standings>;
   /** fetch data from the table: "drivers" */
   drivers: Array<Drivers>;
   /** fetch aggregated fields from the table: "drivers" */
   drivers_aggregate: Drivers_Aggregate;
+  /** fetch data from the table: "drivers" using primary key columns */
+  drivers_by_pk?: Maybe<Drivers>;
   /** fetch data from the table: "event_format_choices" */
   event_format_choices: Array<Event_Format_Choices>;
   /** fetch aggregated fields from the table: "event_format_choices" */
@@ -3134,14 +5516,20 @@ export type Query_Root = {
   events: Array<Events>;
   /** An aggregate relationship */
   events_aggregate: Events_Aggregate;
+  /** fetch data from the table: "events" using primary key columns */
+  events_by_pk?: Maybe<Events>;
   /** An array relationship */
   laps: Array<Laps>;
   /** An aggregate relationship */
   laps_aggregate: Laps_Aggregate;
+  /** fetch data from the table: "laps" using primary key columns */
+  laps_by_pk?: Maybe<Laps>;
   /** An array relationship */
   race_control_messages: Array<Race_Control_Messages>;
   /** An aggregate relationship */
   race_control_messages_aggregate: Race_Control_Messages_Aggregate;
+  /** fetch data from the table: "race_control_messages" using primary key columns */
+  race_control_messages_by_pk?: Maybe<Race_Control_Messages>;
   /** fetch data from the table: "race_control_messages_categories" */
   race_control_messages_categories: Array<Race_Control_Messages_Categories>;
   /** fetch aggregated fields from the table: "race_control_messages_categories" */
@@ -3164,10 +5552,14 @@ export type Query_Root = {
   results: Array<Results>;
   /** An aggregate relationship */
   results_aggregate: Results_Aggregate;
+  /** fetch data from the table: "results" using primary key columns */
+  results_by_pk?: Maybe<Results>;
   /** fetch data from the table: "schedule" */
   schedule: Array<Schedule>;
   /** fetch aggregated fields from the table: "schedule" */
   schedule_aggregate: Schedule_Aggregate;
+  /** fetch data from the table: "schedule" using primary key columns */
+  schedule_by_pk?: Maybe<Schedule>;
   /** fetch data from the table: "session_name_choices" */
   session_name_choices: Array<Session_Name_Choices>;
   /** fetch aggregated fields from the table: "session_name_choices" */
@@ -3178,10 +5570,14 @@ export type Query_Root = {
   sessions: Array<Sessions>;
   /** An aggregate relationship */
   sessions_aggregate: Sessions_Aggregate;
+  /** fetch data from the table: "sessions" using primary key columns */
+  sessions_by_pk?: Maybe<Sessions>;
   /** fetch data from the table: "telemetry" */
   telemetry: Array<Telemetry>;
   /** fetch aggregated fields from the table: "telemetry" */
   telemetry_aggregate: Telemetry_Aggregate;
+  /** fetch data from the table: "telemetry" using primary key columns */
+  telemetry_by_pk?: Maybe<Telemetry>;
   /** fetch data from the table: "telemetry_car_status" */
   telemetry_car_status: Array<Telemetry_Car_Status>;
   /** fetch aggregated fields from the table: "telemetry_car_status" */
@@ -3198,6 +5594,8 @@ export type Query_Root = {
   track_status: Array<Track_Status>;
   /** fetch aggregated fields from the table: "track_status" */
   track_status_aggregate: Track_Status_Aggregate;
+  /** fetch data from the table: "track_status" using primary key columns */
+  track_status_by_pk?: Maybe<Track_Status>;
   /** fetch data from the table: "tyre_compounds" */
   tyre_compounds: Array<Tyre_Compounds>;
   /** fetch aggregated fields from the table: "tyre_compounds" */
@@ -3208,6 +5606,8 @@ export type Query_Root = {
   weather_data: Array<Weather_Data>;
   /** An aggregate relationship */
   weather_data_aggregate: Weather_Data_Aggregate;
+  /** fetch data from the table: "weather_data" using primary key columns */
+  weather_data_by_pk?: Maybe<Weather_Data>;
 };
 
 export type Query_RootCircuitsArgs = {
@@ -3226,6 +5626,10 @@ export type Query_RootCircuits_AggregateArgs = {
   where?: InputMaybe<Circuits_Bool_Exp>;
 };
 
+export type Query_RootCircuits_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Query_RootConstructor_StandingsArgs = {
   distinct_on?: InputMaybe<Array<Constructor_Standings_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3240,6 +5644,10 @@ export type Query_RootConstructor_Standings_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Constructor_Standings_Order_By>>;
   where?: InputMaybe<Constructor_Standings_Bool_Exp>;
+};
+
+export type Query_RootConstructor_Standings_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootConstructorsArgs = {
@@ -3258,6 +5666,10 @@ export type Query_RootConstructors_AggregateArgs = {
   where?: InputMaybe<Constructors_Bool_Exp>;
 };
 
+export type Query_RootConstructors_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Query_RootDriver_SessionsArgs = {
   distinct_on?: InputMaybe<Array<Driver_Sessions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3272,6 +5684,10 @@ export type Query_RootDriver_Sessions_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Driver_Sessions_Order_By>>;
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
+};
+
+export type Query_RootDriver_Sessions_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootDriver_StandingsArgs = {
@@ -3290,6 +5706,10 @@ export type Query_RootDriver_Standings_AggregateArgs = {
   where?: InputMaybe<Driver_Standings_Bool_Exp>;
 };
 
+export type Query_RootDriver_Standings_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Query_RootDriversArgs = {
   distinct_on?: InputMaybe<Array<Drivers_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3304,6 +5724,10 @@ export type Query_RootDrivers_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Drivers_Order_By>>;
   where?: InputMaybe<Drivers_Bool_Exp>;
+};
+
+export type Query_RootDrivers_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootEvent_Format_ChoicesArgs = {
@@ -3342,6 +5766,10 @@ export type Query_RootEvents_AggregateArgs = {
   where?: InputMaybe<Events_Bool_Exp>;
 };
 
+export type Query_RootEvents_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Query_RootLapsArgs = {
   distinct_on?: InputMaybe<Array<Laps_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3358,6 +5786,10 @@ export type Query_RootLaps_AggregateArgs = {
   where?: InputMaybe<Laps_Bool_Exp>;
 };
 
+export type Query_RootLaps_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Query_RootRace_Control_MessagesArgs = {
   distinct_on?: InputMaybe<Array<Race_Control_Messages_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3372,6 +5804,10 @@ export type Query_RootRace_Control_Messages_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+};
+
+export type Query_RootRace_Control_Messages_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootRace_Control_Messages_CategoriesArgs = {
@@ -3454,6 +5890,10 @@ export type Query_RootResults_AggregateArgs = {
   where?: InputMaybe<Results_Bool_Exp>;
 };
 
+export type Query_RootResults_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Query_RootScheduleArgs = {
   distinct_on?: InputMaybe<Array<Schedule_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3468,6 +5908,10 @@ export type Query_RootSchedule_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Schedule_Order_By>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+export type Query_RootSchedule_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootSession_Name_ChoicesArgs = {
@@ -3506,6 +5950,10 @@ export type Query_RootSessions_AggregateArgs = {
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
 
+export type Query_RootSessions_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Query_RootTelemetryArgs = {
   distinct_on?: InputMaybe<Array<Telemetry_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3520,6 +5968,10 @@ export type Query_RootTelemetry_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Telemetry_Order_By>>;
   where?: InputMaybe<Telemetry_Bool_Exp>;
+};
+
+export type Query_RootTelemetry_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootTelemetry_Car_StatusArgs = {
@@ -3578,6 +6030,10 @@ export type Query_RootTrack_Status_AggregateArgs = {
   where?: InputMaybe<Track_Status_Bool_Exp>;
 };
 
+export type Query_RootTrack_Status_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Query_RootTyre_CompoundsArgs = {
   distinct_on?: InputMaybe<Array<Tyre_Compounds_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3614,11 +6070,16 @@ export type Query_RootWeather_Data_AggregateArgs = {
   where?: InputMaybe<Weather_Data_Bool_Exp>;
 };
 
+export type Query_RootWeather_Data_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 /** columns and relationships of "race_control_messages" */
 export type Race_Control_Messages = {
   __typename?: 'race_control_messages';
   category?: Maybe<Race_Control_Messages_Categories_Enum>;
   flag?: Maybe<Race_Control_Messages_Flags_Enum>;
+  id: Scalars['String']['output'];
   message?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   race_control_messages_category?: Maybe<Race_Control_Messages_Categories>;
@@ -3691,6 +6152,13 @@ export type Race_Control_Messages_Aggregate_Order_By = {
   variance?: InputMaybe<Race_Control_Messages_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "race_control_messages" */
+export type Race_Control_Messages_Arr_Rel_Insert_Input = {
+  data: Array<Race_Control_Messages_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Race_Control_Messages_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Race_Control_Messages_Avg_Fields = {
   __typename?: 'race_control_messages_avg_fields';
@@ -3709,6 +6177,7 @@ export type Race_Control_Messages_Bool_Exp = {
   _or?: InputMaybe<Array<Race_Control_Messages_Bool_Exp>>;
   category?: InputMaybe<Race_Control_Messages_Categories_Enum_Comparison_Exp>;
   flag?: InputMaybe<Race_Control_Messages_Flags_Enum_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   message?: InputMaybe<String_Comparison_Exp>;
   race_control_messages_category?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
   race_control_messages_flag?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
@@ -3784,6 +6253,12 @@ export type Race_Control_Messages_Categories_Bool_Exp = {
   value?: InputMaybe<String_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "race_control_messages_categories" */
+export enum Race_Control_Messages_Categories_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  RaceControlMessagesCategoriesPkey = 'race_control_messages_categories_pkey',
+}
+
 export enum Race_Control_Messages_Categories_Enum {
   /** Car event category */
   CarEvent = 'CarEvent',
@@ -3806,6 +6281,13 @@ export type Race_Control_Messages_Categories_Enum_Comparison_Exp = {
   _nin?: InputMaybe<Array<Race_Control_Messages_Categories_Enum>>;
 };
 
+/** input type for inserting data into table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Race_Control_Messages_Categories_Max_Fields = {
   __typename?: 'race_control_messages_categories_max_fields';
@@ -3820,11 +6302,39 @@ export type Race_Control_Messages_Categories_Min_Fields = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
+/** response of any mutation on the table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Mutation_Response = {
+  __typename?: 'race_control_messages_categories_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Race_Control_Messages_Categories>;
+};
+
+/** input type for inserting object relation for remote table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Obj_Rel_Insert_Input = {
+  data: Race_Control_Messages_Categories_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Race_Control_Messages_Categories_On_Conflict>;
+};
+
+/** on_conflict condition type for table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_On_Conflict = {
+  constraint: Race_Control_Messages_Categories_Constraint;
+  update_columns?: Array<Race_Control_Messages_Categories_Update_Column>;
+  where?: InputMaybe<Race_Control_Messages_Categories_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "race_control_messages_categories". */
 export type Race_Control_Messages_Categories_Order_By = {
   comment?: InputMaybe<Order_By>;
   race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Order_By>;
   value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: race_control_messages_categories */
+export type Race_Control_Messages_Categories_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "race_control_messages_categories" */
@@ -3834,6 +6344,12 @@ export enum Race_Control_Messages_Categories_Select_Column {
   /** column name */
   Value = 'value',
 }
+
+/** input type for updating data in table "race_control_messages_categories" */
+export type Race_Control_Messages_Categories_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** Streaming cursor of the table "race_control_messages_categories" */
 export type Race_Control_Messages_Categories_Stream_Cursor_Input = {
@@ -3848,6 +6364,27 @@ export type Race_Control_Messages_Categories_Stream_Cursor_Value_Input = {
   comment?: InputMaybe<Scalars['String']['input']>;
   value?: InputMaybe<Scalars['String']['input']>;
 };
+
+/** update columns of table "race_control_messages_categories" */
+export enum Race_Control_Messages_Categories_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Race_Control_Messages_Categories_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Race_Control_Messages_Categories_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Race_Control_Messages_Categories_Bool_Exp;
+};
+
+/** unique or primary key constraints on table "race_control_messages" */
+export enum Race_Control_Messages_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  RaceControlMessagesPkey = 'race_control_messages_pkey',
+}
 
 /** columns and relationships of "race_control_messages_flags" */
 export type Race_Control_Messages_Flags = {
@@ -3910,6 +6447,12 @@ export type Race_Control_Messages_Flags_Bool_Exp = {
   value?: InputMaybe<String_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "race_control_messages_flags" */
+export enum Race_Control_Messages_Flags_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  RaceControlMessagesFlagsPkey = 'race_control_messages_flags_pkey',
+}
+
 export enum Race_Control_Messages_Flags_Enum {
   /** Black flag */
   Black = 'BLACK',
@@ -3940,6 +6483,13 @@ export type Race_Control_Messages_Flags_Enum_Comparison_Exp = {
   _nin?: InputMaybe<Array<Race_Control_Messages_Flags_Enum>>;
 };
 
+/** input type for inserting data into table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Race_Control_Messages_Flags_Max_Fields = {
   __typename?: 'race_control_messages_flags_max_fields';
@@ -3954,11 +6504,39 @@ export type Race_Control_Messages_Flags_Min_Fields = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
+/** response of any mutation on the table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Mutation_Response = {
+  __typename?: 'race_control_messages_flags_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Race_Control_Messages_Flags>;
+};
+
+/** input type for inserting object relation for remote table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Obj_Rel_Insert_Input = {
+  data: Race_Control_Messages_Flags_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Race_Control_Messages_Flags_On_Conflict>;
+};
+
+/** on_conflict condition type for table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_On_Conflict = {
+  constraint: Race_Control_Messages_Flags_Constraint;
+  update_columns?: Array<Race_Control_Messages_Flags_Update_Column>;
+  where?: InputMaybe<Race_Control_Messages_Flags_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "race_control_messages_flags". */
 export type Race_Control_Messages_Flags_Order_By = {
   comment?: InputMaybe<Order_By>;
   race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Order_By>;
   value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: race_control_messages_flags */
+export type Race_Control_Messages_Flags_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "race_control_messages_flags" */
@@ -3968,6 +6546,12 @@ export enum Race_Control_Messages_Flags_Select_Column {
   /** column name */
   Value = 'value',
 }
+
+/** input type for updating data in table "race_control_messages_flags" */
+export type Race_Control_Messages_Flags_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** Streaming cursor of the table "race_control_messages_flags" */
 export type Race_Control_Messages_Flags_Stream_Cursor_Input = {
@@ -3983,9 +6567,48 @@ export type Race_Control_Messages_Flags_Stream_Cursor_Value_Input = {
   value?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** update columns of table "race_control_messages_flags" */
+export enum Race_Control_Messages_Flags_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Race_Control_Messages_Flags_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Race_Control_Messages_Flags_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Race_Control_Messages_Flags_Bool_Exp;
+};
+
+/** input type for incrementing numeric columns in table "race_control_messages" */
+export type Race_Control_Messages_Inc_Input = {
+  sector?: InputMaybe<Scalars['numeric']['input']>;
+};
+
+/** input type for inserting data into table "race_control_messages" */
+export type Race_Control_Messages_Insert_Input = {
+  category?: InputMaybe<Race_Control_Messages_Categories_Enum>;
+  flag?: InputMaybe<Race_Control_Messages_Flags_Enum>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  race_control_messages_category?: InputMaybe<Race_Control_Messages_Categories_Obj_Rel_Insert_Input>;
+  race_control_messages_flag?: InputMaybe<Race_Control_Messages_Flags_Obj_Rel_Insert_Input>;
+  race_control_messages_scope?: InputMaybe<Race_Control_Messages_Scopes_Obj_Rel_Insert_Input>;
+  racing_number?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Race_Control_Messages_Scopes_Enum>;
+  sector?: InputMaybe<Scalars['numeric']['input']>;
+  session?: InputMaybe<Sessions_Obj_Rel_Insert_Input>;
+  session_id?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Race_Control_Messages_Max_Fields = {
   __typename?: 'race_control_messages_max_fields';
+  id?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
   racing_number?: Maybe<Scalars['String']['output']>;
   sector?: Maybe<Scalars['numeric']['output']>;
@@ -3996,6 +6619,7 @@ export type Race_Control_Messages_Max_Fields = {
 
 /** order by max() on columns of table "race_control_messages" */
 export type Race_Control_Messages_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
   racing_number?: InputMaybe<Order_By>;
   sector?: InputMaybe<Order_By>;
@@ -4007,6 +6631,7 @@ export type Race_Control_Messages_Max_Order_By = {
 /** aggregate min on columns */
 export type Race_Control_Messages_Min_Fields = {
   __typename?: 'race_control_messages_min_fields';
+  id?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
   racing_number?: Maybe<Scalars['String']['output']>;
   sector?: Maybe<Scalars['numeric']['output']>;
@@ -4017,6 +6642,7 @@ export type Race_Control_Messages_Min_Fields = {
 
 /** order by min() on columns of table "race_control_messages" */
 export type Race_Control_Messages_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
   racing_number?: InputMaybe<Order_By>;
   sector?: InputMaybe<Order_By>;
@@ -4025,10 +6651,27 @@ export type Race_Control_Messages_Min_Order_By = {
   time?: InputMaybe<Order_By>;
 };
 
+/** response of any mutation on the table "race_control_messages" */
+export type Race_Control_Messages_Mutation_Response = {
+  __typename?: 'race_control_messages_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Race_Control_Messages>;
+};
+
+/** on_conflict condition type for table "race_control_messages" */
+export type Race_Control_Messages_On_Conflict = {
+  constraint: Race_Control_Messages_Constraint;
+  update_columns?: Array<Race_Control_Messages_Update_Column>;
+  where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "race_control_messages". */
 export type Race_Control_Messages_Order_By = {
   category?: InputMaybe<Order_By>;
   flag?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
   race_control_messages_category?: InputMaybe<Race_Control_Messages_Categories_Order_By>;
   race_control_messages_flag?: InputMaybe<Race_Control_Messages_Flags_Order_By>;
@@ -4040,6 +6683,11 @@ export type Race_Control_Messages_Order_By = {
   session_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   time?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: race_control_messages */
+export type Race_Control_Messages_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
 };
 
 /** columns and relationships of "race_control_messages_scopes" */
@@ -4103,6 +6751,12 @@ export type Race_Control_Messages_Scopes_Bool_Exp = {
   value?: InputMaybe<String_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "race_control_messages_scopes" */
+export enum Race_Control_Messages_Scopes_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  RaceControlMessagesScopesPkey = 'race_control_messages_scopes_pkey',
+}
+
 export enum Race_Control_Messages_Scopes_Enum {
   /** Driver scope */
   Driver = 'Driver',
@@ -4121,6 +6775,13 @@ export type Race_Control_Messages_Scopes_Enum_Comparison_Exp = {
   _nin?: InputMaybe<Array<Race_Control_Messages_Scopes_Enum>>;
 };
 
+/** input type for inserting data into table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Race_Control_Messages_Scopes_Max_Fields = {
   __typename?: 'race_control_messages_scopes_max_fields';
@@ -4135,11 +6796,39 @@ export type Race_Control_Messages_Scopes_Min_Fields = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
+/** response of any mutation on the table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Mutation_Response = {
+  __typename?: 'race_control_messages_scopes_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Race_Control_Messages_Scopes>;
+};
+
+/** input type for inserting object relation for remote table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Obj_Rel_Insert_Input = {
+  data: Race_Control_Messages_Scopes_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Race_Control_Messages_Scopes_On_Conflict>;
+};
+
+/** on_conflict condition type for table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_On_Conflict = {
+  constraint: Race_Control_Messages_Scopes_Constraint;
+  update_columns?: Array<Race_Control_Messages_Scopes_Update_Column>;
+  where?: InputMaybe<Race_Control_Messages_Scopes_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "race_control_messages_scopes". */
 export type Race_Control_Messages_Scopes_Order_By = {
   comment?: InputMaybe<Order_By>;
   race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Order_By>;
   value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: race_control_messages_scopes */
+export type Race_Control_Messages_Scopes_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "race_control_messages_scopes" */
@@ -4149,6 +6838,12 @@ export enum Race_Control_Messages_Scopes_Select_Column {
   /** column name */
   Value = 'value',
 }
+
+/** input type for updating data in table "race_control_messages_scopes" */
+export type Race_Control_Messages_Scopes_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** Streaming cursor of the table "race_control_messages_scopes" */
 export type Race_Control_Messages_Scopes_Stream_Cursor_Input = {
@@ -4164,12 +6859,29 @@ export type Race_Control_Messages_Scopes_Stream_Cursor_Value_Input = {
   value?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** update columns of table "race_control_messages_scopes" */
+export enum Race_Control_Messages_Scopes_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Race_Control_Messages_Scopes_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Race_Control_Messages_Scopes_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Race_Control_Messages_Scopes_Bool_Exp;
+};
+
 /** select columns of table "race_control_messages" */
 export enum Race_Control_Messages_Select_Column {
   /** column name */
   Category = 'category',
   /** column name */
   Flag = 'flag',
+  /** column name */
+  Id = 'id',
   /** column name */
   Message = 'message',
   /** column name */
@@ -4185,6 +6897,20 @@ export enum Race_Control_Messages_Select_Column {
   /** column name */
   Time = 'time',
 }
+
+/** input type for updating data in table "race_control_messages" */
+export type Race_Control_Messages_Set_Input = {
+  category?: InputMaybe<Race_Control_Messages_Categories_Enum>;
+  flag?: InputMaybe<Race_Control_Messages_Flags_Enum>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  racing_number?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Race_Control_Messages_Scopes_Enum>;
+  sector?: InputMaybe<Scalars['numeric']['input']>;
+  session_id?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  time?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Race_Control_Messages_Stddev_Fields = {
@@ -4231,6 +6957,7 @@ export type Race_Control_Messages_Stream_Cursor_Input = {
 export type Race_Control_Messages_Stream_Cursor_Value_Input = {
   category?: InputMaybe<Race_Control_Messages_Categories_Enum>;
   flag?: InputMaybe<Race_Control_Messages_Flags_Enum>;
+  id?: InputMaybe<Scalars['String']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
   racing_number?: InputMaybe<Scalars['String']['input']>;
   scope?: InputMaybe<Race_Control_Messages_Scopes_Enum>;
@@ -4249,6 +6976,39 @@ export type Race_Control_Messages_Sum_Fields = {
 /** order by sum() on columns of table "race_control_messages" */
 export type Race_Control_Messages_Sum_Order_By = {
   sector?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "race_control_messages" */
+export enum Race_Control_Messages_Update_Column {
+  /** column name */
+  Category = 'category',
+  /** column name */
+  Flag = 'flag',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Message = 'message',
+  /** column name */
+  RacingNumber = 'racing_number',
+  /** column name */
+  Scope = 'scope',
+  /** column name */
+  Sector = 'sector',
+  /** column name */
+  SessionId = 'session_id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  Time = 'time',
+}
+
+export type Race_Control_Messages_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Race_Control_Messages_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Race_Control_Messages_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Race_Control_Messages_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -4295,6 +7055,7 @@ export type Results = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Int']['output']>;
   grid_position?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['String']['output'];
   laps?: Maybe<Scalars['numeric']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   q1_time?: Maybe<Scalars['bigint']['output']>;
@@ -4359,6 +7120,13 @@ export type Results_Aggregate_Order_By = {
   variance?: InputMaybe<Results_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "results" */
+export type Results_Arr_Rel_Insert_Input = {
+  data: Array<Results_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Results_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Results_Avg_Fields = {
   __typename?: 'results_avg_fields';
@@ -4396,6 +7164,7 @@ export type Results_Bool_Exp = {
   driver_session_id?: InputMaybe<String_Comparison_Exp>;
   finishing_position?: InputMaybe<Int_Comparison_Exp>;
   grid_position?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   laps?: InputMaybe<Numeric_Comparison_Exp>;
   points?: InputMaybe<Numeric_Comparison_Exp>;
   q1_time?: InputMaybe<Bigint_Comparison_Exp>;
@@ -4403,6 +7172,44 @@ export type Results_Bool_Exp = {
   q3_time?: InputMaybe<Bigint_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   total_race_time?: InputMaybe<Bigint_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "results" */
+export enum Results_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ResultsPkey = 'results_pkey',
+}
+
+/** input type for incrementing numeric columns in table "results" */
+export type Results_Inc_Input = {
+  /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
+  finishing_position?: InputMaybe<Scalars['Int']['input']>;
+  grid_position?: InputMaybe<Scalars['Int']['input']>;
+  laps?: InputMaybe<Scalars['numeric']['input']>;
+  points?: InputMaybe<Scalars['numeric']['input']>;
+  q1_time?: InputMaybe<Scalars['bigint']['input']>;
+  q2_time?: InputMaybe<Scalars['bigint']['input']>;
+  q3_time?: InputMaybe<Scalars['bigint']['input']>;
+  total_race_time?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** input type for inserting data into table "results" */
+export type Results_Insert_Input = {
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  classified_position?: InputMaybe<Scalars['String']['input']>;
+  driver_session?: InputMaybe<Driver_Sessions_Obj_Rel_Insert_Input>;
+  driver_session_id?: InputMaybe<Scalars['String']['input']>;
+  /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
+  finishing_position?: InputMaybe<Scalars['Int']['input']>;
+  grid_position?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  laps?: InputMaybe<Scalars['numeric']['input']>;
+  points?: InputMaybe<Scalars['numeric']['input']>;
+  q1_time?: InputMaybe<Scalars['bigint']['input']>;
+  q2_time?: InputMaybe<Scalars['bigint']['input']>;
+  q3_time?: InputMaybe<Scalars['bigint']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  total_race_time?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
@@ -4414,6 +7221,7 @@ export type Results_Max_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Int']['output']>;
   grid_position?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   laps?: Maybe<Scalars['numeric']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   q1_time?: Maybe<Scalars['bigint']['output']>;
@@ -4431,6 +7239,7 @@ export type Results_Max_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
@@ -4449,6 +7258,7 @@ export type Results_Min_Fields = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: Maybe<Scalars['Int']['output']>;
   grid_position?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   laps?: Maybe<Scalars['numeric']['output']>;
   points?: Maybe<Scalars['numeric']['output']>;
   q1_time?: Maybe<Scalars['bigint']['output']>;
@@ -4466,6 +7276,7 @@ export type Results_Min_Order_By = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
@@ -4475,6 +7286,22 @@ export type Results_Min_Order_By = {
   total_race_time?: InputMaybe<Order_By>;
 };
 
+/** response of any mutation on the table "results" */
+export type Results_Mutation_Response = {
+  __typename?: 'results_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Results>;
+};
+
+/** on_conflict condition type for table "results" */
+export type Results_On_Conflict = {
+  constraint: Results_Constraint;
+  update_columns?: Array<Results_Update_Column>;
+  where?: InputMaybe<Results_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "results". */
 export type Results_Order_By = {
   classified_position?: InputMaybe<Order_By>;
@@ -4482,6 +7309,7 @@ export type Results_Order_By = {
   driver_session_id?: InputMaybe<Order_By>;
   finishing_position?: InputMaybe<Order_By>;
   grid_position?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   laps?: InputMaybe<Order_By>;
   points?: InputMaybe<Order_By>;
   q1_time?: InputMaybe<Order_By>;
@@ -4489,6 +7317,11 @@ export type Results_Order_By = {
   q3_time?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   total_race_time?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: results */
+export type Results_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "results" */
@@ -4501,6 +7334,8 @@ export enum Results_Select_Column {
   FinishingPosition = 'finishing_position',
   /** column name */
   GridPosition = 'grid_position',
+  /** column name */
+  Id = 'id',
   /** column name */
   Laps = 'laps',
   /** column name */
@@ -4516,6 +7351,24 @@ export enum Results_Select_Column {
   /** column name */
   TotalRaceTime = 'total_race_time',
 }
+
+/** input type for updating data in table "results" */
+export type Results_Set_Input = {
+  /** This is either an INTEGER value if the driver is officially classified or one of “R” (retired), “D” (disqualified), “E” (excluded), “W” (withdrawn), “F” (failed to qualify) or “N” (not classified) */
+  classified_position?: InputMaybe<Scalars['String']['input']>;
+  driver_session_id?: InputMaybe<Scalars['String']['input']>;
+  /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
+  finishing_position?: InputMaybe<Scalars['Int']['input']>;
+  grid_position?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  laps?: InputMaybe<Scalars['numeric']['input']>;
+  points?: InputMaybe<Scalars['numeric']['input']>;
+  q1_time?: InputMaybe<Scalars['bigint']['input']>;
+  q2_time?: InputMaybe<Scalars['bigint']['input']>;
+  q3_time?: InputMaybe<Scalars['bigint']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  total_race_time?: InputMaybe<Scalars['bigint']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Results_Stddev_Fields = {
@@ -4614,6 +7467,7 @@ export type Results_Stream_Cursor_Value_Input = {
   /** The drivers finishing position (values only given if session is ‘Race’, ‘Qualifying’, ‘Sprint Shootout’, ‘Sprint’, or ‘Sprint Qualifying’ */
   finishing_position?: InputMaybe<Scalars['Int']['input']>;
   grid_position?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   laps?: InputMaybe<Scalars['numeric']['input']>;
   points?: InputMaybe<Scalars['numeric']['input']>;
   q1_time?: InputMaybe<Scalars['bigint']['input']>;
@@ -4648,6 +7502,43 @@ export type Results_Sum_Order_By = {
   q2_time?: InputMaybe<Order_By>;
   q3_time?: InputMaybe<Order_By>;
   total_race_time?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "results" */
+export enum Results_Update_Column {
+  /** column name */
+  ClassifiedPosition = 'classified_position',
+  /** column name */
+  DriverSessionId = 'driver_session_id',
+  /** column name */
+  FinishingPosition = 'finishing_position',
+  /** column name */
+  GridPosition = 'grid_position',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Laps = 'laps',
+  /** column name */
+  Points = 'points',
+  /** column name */
+  Q1Time = 'q1_time',
+  /** column name */
+  Q2Time = 'q2_time',
+  /** column name */
+  Q3Time = 'q3_time',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  TotalRaceTime = 'total_race_time',
+}
+
+export type Results_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Results_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Results_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Results_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -4741,6 +7632,7 @@ export type Schedule = {
   event_format_choice?: Maybe<Event_Format_Choices>;
   event_name?: Maybe<Scalars['String']['output']>;
   f1_api_support?: Maybe<Scalars['Boolean']['output']>;
+  id: Scalars['String']['output'];
   location?: Maybe<Scalars['String']['output']>;
   official_event_name?: Maybe<Scalars['String']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
@@ -4843,6 +7735,13 @@ export type Schedule_Aggregate_Order_By = {
   variance?: InputMaybe<Schedule_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "schedule" */
+export type Schedule_Arr_Rel_Insert_Input = {
+  data: Array<Schedule_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Schedule_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Schedule_Avg_Fields = {
   __typename?: 'schedule_avg_fields';
@@ -4867,6 +7766,7 @@ export type Schedule_Bool_Exp = {
   event_format_choice?: InputMaybe<Event_Format_Choices_Bool_Exp>;
   event_name?: InputMaybe<String_Comparison_Exp>;
   f1_api_support?: InputMaybe<Boolean_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   location?: InputMaybe<String_Comparison_Exp>;
   official_event_name?: InputMaybe<String_Comparison_Exp>;
   round_number?: InputMaybe<Int_Comparison_Exp>;
@@ -4893,12 +7793,60 @@ export type Schedule_Bool_Exp = {
   year?: InputMaybe<Int_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "schedule" */
+export enum Schedule_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  SchedulePkey = 'schedule_pkey',
+}
+
+/** input type for incrementing numeric columns in table "schedule" */
+export type Schedule_Inc_Input = {
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "schedule" */
+export type Schedule_Insert_Input = {
+  country?: InputMaybe<Scalars['String']['input']>;
+  event_date?: InputMaybe<Scalars['String']['input']>;
+  event_format?: InputMaybe<Event_Format_Choices_Enum>;
+  event_format_choice?: InputMaybe<Event_Format_Choices_Obj_Rel_Insert_Input>;
+  event_name?: InputMaybe<Scalars['String']['input']>;
+  f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  official_event_name?: InputMaybe<Scalars['String']['input']>;
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  session1?: InputMaybe<Session_Name_Choices_Enum>;
+  session1_date?: InputMaybe<Scalars['String']['input']>;
+  session1_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session2?: InputMaybe<Session_Name_Choices_Enum>;
+  session2_date?: InputMaybe<Scalars['String']['input']>;
+  session2_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session3?: InputMaybe<Session_Name_Choices_Enum>;
+  session3_date?: InputMaybe<Scalars['String']['input']>;
+  session3_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session4?: InputMaybe<Session_Name_Choices_Enum>;
+  session4_date?: InputMaybe<Scalars['String']['input']>;
+  session4_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session5?: InputMaybe<Session_Name_Choices_Enum>;
+  session5_date?: InputMaybe<Scalars['String']['input']>;
+  session5_date_utc?: InputMaybe<Scalars['String']['input']>;
+  sessionNameChoiceBySession2?: InputMaybe<Session_Name_Choices_Obj_Rel_Insert_Input>;
+  sessionNameChoiceBySession3?: InputMaybe<Session_Name_Choices_Obj_Rel_Insert_Input>;
+  sessionNameChoiceBySession4?: InputMaybe<Session_Name_Choices_Obj_Rel_Insert_Input>;
+  sessionNameChoiceBySession5?: InputMaybe<Session_Name_Choices_Obj_Rel_Insert_Input>;
+  session_name_choice?: InputMaybe<Session_Name_Choices_Obj_Rel_Insert_Input>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate max on columns */
 export type Schedule_Max_Fields = {
   __typename?: 'schedule_max_fields';
   country?: Maybe<Scalars['String']['output']>;
   event_date?: Maybe<Scalars['String']['output']>;
   event_name?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   official_event_name?: Maybe<Scalars['String']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
@@ -4920,6 +7868,7 @@ export type Schedule_Max_Order_By = {
   country?: InputMaybe<Order_By>;
   event_date?: InputMaybe<Order_By>;
   event_name?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
   official_event_name?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
@@ -4942,6 +7891,7 @@ export type Schedule_Min_Fields = {
   country?: Maybe<Scalars['String']['output']>;
   event_date?: Maybe<Scalars['String']['output']>;
   event_name?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   official_event_name?: Maybe<Scalars['String']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
@@ -4963,6 +7913,7 @@ export type Schedule_Min_Order_By = {
   country?: InputMaybe<Order_By>;
   event_date?: InputMaybe<Order_By>;
   event_name?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
   official_event_name?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
@@ -4979,6 +7930,22 @@ export type Schedule_Min_Order_By = {
   year?: InputMaybe<Order_By>;
 };
 
+/** response of any mutation on the table "schedule" */
+export type Schedule_Mutation_Response = {
+  __typename?: 'schedule_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Schedule>;
+};
+
+/** on_conflict condition type for table "schedule" */
+export type Schedule_On_Conflict = {
+  constraint: Schedule_Constraint;
+  update_columns?: Array<Schedule_Update_Column>;
+  where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "schedule". */
 export type Schedule_Order_By = {
   country?: InputMaybe<Order_By>;
@@ -4987,6 +7954,7 @@ export type Schedule_Order_By = {
   event_format_choice?: InputMaybe<Event_Format_Choices_Order_By>;
   event_name?: InputMaybe<Order_By>;
   f1_api_support?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
   official_event_name?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
@@ -5013,6 +7981,11 @@ export type Schedule_Order_By = {
   year?: InputMaybe<Order_By>;
 };
 
+/** primary key columns input for table: schedule */
+export type Schedule_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
 /** select columns of table "schedule" */
 export enum Schedule_Select_Column {
   /** column name */
@@ -5025,6 +7998,8 @@ export enum Schedule_Select_Column {
   EventName = 'event_name',
   /** column name */
   F1ApiSupport = 'f1_api_support',
+  /** column name */
+  Id = 'id',
   /** column name */
   Location = 'location',
   /** column name */
@@ -5076,6 +8051,35 @@ export enum Schedule_Select_Column_Schedule_Aggregate_Bool_Exp_Bool_Or_Arguments
   /** column name */
   F1ApiSupport = 'f1_api_support',
 }
+
+/** input type for updating data in table "schedule" */
+export type Schedule_Set_Input = {
+  country?: InputMaybe<Scalars['String']['input']>;
+  event_date?: InputMaybe<Scalars['String']['input']>;
+  event_format?: InputMaybe<Event_Format_Choices_Enum>;
+  event_name?: InputMaybe<Scalars['String']['input']>;
+  f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  official_event_name?: InputMaybe<Scalars['String']['input']>;
+  round_number?: InputMaybe<Scalars['Int']['input']>;
+  session1?: InputMaybe<Session_Name_Choices_Enum>;
+  session1_date?: InputMaybe<Scalars['String']['input']>;
+  session1_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session2?: InputMaybe<Session_Name_Choices_Enum>;
+  session2_date?: InputMaybe<Scalars['String']['input']>;
+  session2_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session3?: InputMaybe<Session_Name_Choices_Enum>;
+  session3_date?: InputMaybe<Scalars['String']['input']>;
+  session3_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session4?: InputMaybe<Session_Name_Choices_Enum>;
+  session4_date?: InputMaybe<Scalars['String']['input']>;
+  session4_date_utc?: InputMaybe<Scalars['String']['input']>;
+  session5?: InputMaybe<Session_Name_Choices_Enum>;
+  session5_date?: InputMaybe<Scalars['String']['input']>;
+  session5_date_utc?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Schedule_Stddev_Fields = {
@@ -5131,6 +8135,7 @@ export type Schedule_Stream_Cursor_Value_Input = {
   event_format?: InputMaybe<Event_Format_Choices_Enum>;
   event_name?: InputMaybe<Scalars['String']['input']>;
   f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   official_event_name?: InputMaybe<Scalars['String']['input']>;
   round_number?: InputMaybe<Scalars['Int']['input']>;
@@ -5163,6 +8168,69 @@ export type Schedule_Sum_Fields = {
 export type Schedule_Sum_Order_By = {
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "schedule" */
+export enum Schedule_Update_Column {
+  /** column name */
+  Country = 'country',
+  /** column name */
+  EventDate = 'event_date',
+  /** column name */
+  EventFormat = 'event_format',
+  /** column name */
+  EventName = 'event_name',
+  /** column name */
+  F1ApiSupport = 'f1_api_support',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Location = 'location',
+  /** column name */
+  OfficialEventName = 'official_event_name',
+  /** column name */
+  RoundNumber = 'round_number',
+  /** column name */
+  Session1 = 'session1',
+  /** column name */
+  Session1Date = 'session1_date',
+  /** column name */
+  Session1DateUtc = 'session1_date_utc',
+  /** column name */
+  Session2 = 'session2',
+  /** column name */
+  Session2Date = 'session2_date',
+  /** column name */
+  Session2DateUtc = 'session2_date_utc',
+  /** column name */
+  Session3 = 'session3',
+  /** column name */
+  Session3Date = 'session3_date',
+  /** column name */
+  Session3DateUtc = 'session3_date_utc',
+  /** column name */
+  Session4 = 'session4',
+  /** column name */
+  Session4Date = 'session4_date',
+  /** column name */
+  Session4DateUtc = 'session4_date_utc',
+  /** column name */
+  Session5 = 'session5',
+  /** column name */
+  Session5Date = 'session5_date',
+  /** column name */
+  Session5DateUtc = 'session5_date_utc',
+  /** column name */
+  Year = 'year',
+}
+
+export type Schedule_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Schedule_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Schedule_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Schedule_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -5385,6 +8453,12 @@ export type Session_Name_Choices_Bool_Exp = {
   value?: InputMaybe<String_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "session_name_choices" */
+export enum Session_Name_Choices_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  SessionNameChoicesPkey = 'session_name_choices_pkey',
+}
+
 export enum Session_Name_Choices_Enum {
   /** Practice 1 session */
   Practice_1 = 'Practice_1',
@@ -5415,6 +8489,18 @@ export type Session_Name_Choices_Enum_Comparison_Exp = {
   _nin?: InputMaybe<Array<Session_Name_Choices_Enum>>;
 };
 
+/** input type for inserting data into table "session_name_choices" */
+export type Session_Name_Choices_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  schedules?: InputMaybe<Schedule_Arr_Rel_Insert_Input>;
+  schedulesBySession2?: InputMaybe<Schedule_Arr_Rel_Insert_Input>;
+  schedulesBySession3?: InputMaybe<Schedule_Arr_Rel_Insert_Input>;
+  schedulesBySession4?: InputMaybe<Schedule_Arr_Rel_Insert_Input>;
+  schedulesBySession5?: InputMaybe<Schedule_Arr_Rel_Insert_Input>;
+  sessions?: InputMaybe<Sessions_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Session_Name_Choices_Max_Fields = {
   __typename?: 'session_name_choices_max_fields';
@@ -5429,6 +8515,29 @@ export type Session_Name_Choices_Min_Fields = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
+/** response of any mutation on the table "session_name_choices" */
+export type Session_Name_Choices_Mutation_Response = {
+  __typename?: 'session_name_choices_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Session_Name_Choices>;
+};
+
+/** input type for inserting object relation for remote table "session_name_choices" */
+export type Session_Name_Choices_Obj_Rel_Insert_Input = {
+  data: Session_Name_Choices_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Session_Name_Choices_On_Conflict>;
+};
+
+/** on_conflict condition type for table "session_name_choices" */
+export type Session_Name_Choices_On_Conflict = {
+  constraint: Session_Name_Choices_Constraint;
+  update_columns?: Array<Session_Name_Choices_Update_Column>;
+  where?: InputMaybe<Session_Name_Choices_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "session_name_choices". */
 export type Session_Name_Choices_Order_By = {
   comment?: InputMaybe<Order_By>;
@@ -5441,6 +8550,11 @@ export type Session_Name_Choices_Order_By = {
   value?: InputMaybe<Order_By>;
 };
 
+/** primary key columns input for table: session_name_choices */
+export type Session_Name_Choices_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
 /** select columns of table "session_name_choices" */
 export enum Session_Name_Choices_Select_Column {
   /** column name */
@@ -5448,6 +8562,12 @@ export enum Session_Name_Choices_Select_Column {
   /** column name */
   Value = 'value',
 }
+
+/** input type for updating data in table "session_name_choices" */
+export type Session_Name_Choices_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** Streaming cursor of the table "session_name_choices" */
 export type Session_Name_Choices_Stream_Cursor_Input = {
@@ -5461,6 +8581,21 @@ export type Session_Name_Choices_Stream_Cursor_Input = {
 export type Session_Name_Choices_Stream_Cursor_Value_Input = {
   comment?: InputMaybe<Scalars['String']['input']>;
   value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "session_name_choices" */
+export enum Session_Name_Choices_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Session_Name_Choices_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Session_Name_Choices_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Session_Name_Choices_Bool_Exp;
 };
 
 /** columns and relationships of "sessions" */
@@ -5477,6 +8612,7 @@ export type Sessions = {
   /** An object relationship */
   event?: Maybe<Events>;
   event_id?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   name?: Maybe<Session_Name_Choices_Enum>;
   /** An array relationship */
   race_control_messages: Array<Race_Control_Messages>;
@@ -5625,6 +8761,13 @@ export type Sessions_Aggregate_Order_By = {
   variance?: InputMaybe<Sessions_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "sessions" */
+export type Sessions_Arr_Rel_Insert_Input = {
+  data: Array<Sessions_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Sessions_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Sessions_Avg_Fields = {
   __typename?: 'sessions_avg_fields';
@@ -5650,6 +8793,7 @@ export type Sessions_Bool_Exp = {
   driver_sessions_aggregate?: InputMaybe<Driver_Sessions_Aggregate_Bool_Exp>;
   event?: InputMaybe<Events_Bool_Exp>;
   event_id?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<Session_Name_Choices_Enum_Comparison_Exp>;
   race_control_messages?: InputMaybe<Race_Control_Messages_Bool_Exp>;
   race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Bool_Exp>;
@@ -5664,12 +8808,45 @@ export type Sessions_Bool_Exp = {
   weather_data_aggregate?: InputMaybe<Weather_Data_Aggregate_Bool_Exp>;
 };
 
+/** unique or primary key constraints on table "sessions" */
+export enum Sessions_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  SessionsPkey = 'sessions_pkey',
+}
+
+/** input type for incrementing numeric columns in table "sessions" */
+export type Sessions_Inc_Input = {
+  start_time?: InputMaybe<Scalars['numeric']['input']>;
+  total_laps?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "sessions" */
+export type Sessions_Insert_Input = {
+  circuit?: InputMaybe<Circuits_Obj_Rel_Insert_Input>;
+  circuit_id?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  driver_sessions?: InputMaybe<Driver_Sessions_Arr_Rel_Insert_Input>;
+  event?: InputMaybe<Events_Obj_Rel_Insert_Input>;
+  event_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Session_Name_Choices_Enum>;
+  race_control_messages?: InputMaybe<Race_Control_Messages_Arr_Rel_Insert_Input>;
+  scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
+  scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
+  session_name_choice?: InputMaybe<Session_Name_Choices_Obj_Rel_Insert_Input>;
+  start_time?: InputMaybe<Scalars['numeric']['input']>;
+  total_laps?: InputMaybe<Scalars['Int']['input']>;
+  track_statuses?: InputMaybe<Track_Status_Arr_Rel_Insert_Input>;
+  weather_data?: InputMaybe<Weather_Data_Arr_Rel_Insert_Input>;
+};
+
 /** aggregate max on columns */
 export type Sessions_Max_Fields = {
   __typename?: 'sessions_max_fields';
   circuit_id?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['String']['output']>;
   event_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
   start_time?: Maybe<Scalars['numeric']['output']>;
@@ -5681,6 +8858,7 @@ export type Sessions_Max_Order_By = {
   circuit_id?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   event_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   scheduled_start_time?: InputMaybe<Order_By>;
   scheduled_start_time_utc?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
@@ -5693,6 +8871,7 @@ export type Sessions_Min_Fields = {
   circuit_id?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['String']['output']>;
   event_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   scheduled_start_time?: Maybe<Scalars['String']['output']>;
   scheduled_start_time_utc?: Maybe<Scalars['String']['output']>;
   start_time?: Maybe<Scalars['numeric']['output']>;
@@ -5704,10 +8883,34 @@ export type Sessions_Min_Order_By = {
   circuit_id?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   event_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   scheduled_start_time?: InputMaybe<Order_By>;
   scheduled_start_time_utc?: InputMaybe<Order_By>;
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "sessions" */
+export type Sessions_Mutation_Response = {
+  __typename?: 'sessions_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Sessions>;
+};
+
+/** input type for inserting object relation for remote table "sessions" */
+export type Sessions_Obj_Rel_Insert_Input = {
+  data: Sessions_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Sessions_On_Conflict>;
+};
+
+/** on_conflict condition type for table "sessions" */
+export type Sessions_On_Conflict = {
+  constraint: Sessions_Constraint;
+  update_columns?: Array<Sessions_Update_Column>;
+  where?: InputMaybe<Sessions_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "sessions". */
@@ -5718,6 +8921,7 @@ export type Sessions_Order_By = {
   driver_sessions_aggregate?: InputMaybe<Driver_Sessions_Aggregate_Order_By>;
   event?: InputMaybe<Events_Order_By>;
   event_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   race_control_messages_aggregate?: InputMaybe<Race_Control_Messages_Aggregate_Order_By>;
   scheduled_start_time?: InputMaybe<Order_By>;
@@ -5729,6 +8933,11 @@ export type Sessions_Order_By = {
   weather_data_aggregate?: InputMaybe<Weather_Data_Aggregate_Order_By>;
 };
 
+/** primary key columns input for table: sessions */
+export type Sessions_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
 /** select columns of table "sessions" */
 export enum Sessions_Select_Column {
   /** column name */
@@ -5737,6 +8946,8 @@ export enum Sessions_Select_Column {
   Date = 'date',
   /** column name */
   EventId = 'event_id',
+  /** column name */
+  Id = 'id',
   /** column name */
   Name = 'name',
   /** column name */
@@ -5748,6 +8959,19 @@ export enum Sessions_Select_Column {
   /** column name */
   TotalLaps = 'total_laps',
 }
+
+/** input type for updating data in table "sessions" */
+export type Sessions_Set_Input = {
+  circuit_id?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  event_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Session_Name_Choices_Enum>;
+  scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
+  scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
+  start_time?: InputMaybe<Scalars['numeric']['input']>;
+  total_laps?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Sessions_Stddev_Fields = {
@@ -5801,6 +9025,7 @@ export type Sessions_Stream_Cursor_Value_Input = {
   circuit_id?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
   event_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Session_Name_Choices_Enum>;
   scheduled_start_time?: InputMaybe<Scalars['String']['input']>;
   scheduled_start_time_utc?: InputMaybe<Scalars['String']['input']>;
@@ -5819,6 +9044,37 @@ export type Sessions_Sum_Fields = {
 export type Sessions_Sum_Order_By = {
   start_time?: InputMaybe<Order_By>;
   total_laps?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "sessions" */
+export enum Sessions_Update_Column {
+  /** column name */
+  CircuitId = 'circuit_id',
+  /** column name */
+  Date = 'date',
+  /** column name */
+  EventId = 'event_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  ScheduledStartTime = 'scheduled_start_time',
+  /** column name */
+  ScheduledStartTimeUtc = 'scheduled_start_time_utc',
+  /** column name */
+  StartTime = 'start_time',
+  /** column name */
+  TotalLaps = 'total_laps',
+}
+
+export type Sessions_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Sessions_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Sessions_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Sessions_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -5866,36 +9122,48 @@ export type Subscription_Root = {
   circuits: Array<Circuits>;
   /** fetch aggregated fields from the table: "circuits" */
   circuits_aggregate: Circuits_Aggregate;
+  /** fetch data from the table: "circuits" using primary key columns */
+  circuits_by_pk?: Maybe<Circuits>;
   /** fetch data from the table in a streaming manner: "circuits" */
   circuits_stream: Array<Circuits>;
   /** An array relationship */
   constructor_standings: Array<Constructor_Standings>;
   /** An aggregate relationship */
   constructor_standings_aggregate: Constructor_Standings_Aggregate;
+  /** fetch data from the table: "constructor_standings" using primary key columns */
+  constructor_standings_by_pk?: Maybe<Constructor_Standings>;
   /** fetch data from the table in a streaming manner: "constructor_standings" */
   constructor_standings_stream: Array<Constructor_Standings>;
   /** fetch data from the table: "constructors" */
   constructors: Array<Constructors>;
   /** fetch aggregated fields from the table: "constructors" */
   constructors_aggregate: Constructors_Aggregate;
+  /** fetch data from the table: "constructors" using primary key columns */
+  constructors_by_pk?: Maybe<Constructors>;
   /** fetch data from the table in a streaming manner: "constructors" */
   constructors_stream: Array<Constructors>;
   /** An array relationship */
   driver_sessions: Array<Driver_Sessions>;
   /** An aggregate relationship */
   driver_sessions_aggregate: Driver_Sessions_Aggregate;
+  /** fetch data from the table: "driver_sessions" using primary key columns */
+  driver_sessions_by_pk?: Maybe<Driver_Sessions>;
   /** fetch data from the table in a streaming manner: "driver_sessions" */
   driver_sessions_stream: Array<Driver_Sessions>;
   /** An array relationship */
   driver_standings: Array<Driver_Standings>;
   /** An aggregate relationship */
   driver_standings_aggregate: Driver_Standings_Aggregate;
+  /** fetch data from the table: "driver_standings" using primary key columns */
+  driver_standings_by_pk?: Maybe<Driver_Standings>;
   /** fetch data from the table in a streaming manner: "driver_standings" */
   driver_standings_stream: Array<Driver_Standings>;
   /** fetch data from the table: "drivers" */
   drivers: Array<Drivers>;
   /** fetch aggregated fields from the table: "drivers" */
   drivers_aggregate: Drivers_Aggregate;
+  /** fetch data from the table: "drivers" using primary key columns */
+  drivers_by_pk?: Maybe<Drivers>;
   /** fetch data from the table in a streaming manner: "drivers" */
   drivers_stream: Array<Drivers>;
   /** fetch data from the table: "event_format_choices" */
@@ -5910,18 +9178,24 @@ export type Subscription_Root = {
   events: Array<Events>;
   /** An aggregate relationship */
   events_aggregate: Events_Aggregate;
+  /** fetch data from the table: "events" using primary key columns */
+  events_by_pk?: Maybe<Events>;
   /** fetch data from the table in a streaming manner: "events" */
   events_stream: Array<Events>;
   /** An array relationship */
   laps: Array<Laps>;
   /** An aggregate relationship */
   laps_aggregate: Laps_Aggregate;
+  /** fetch data from the table: "laps" using primary key columns */
+  laps_by_pk?: Maybe<Laps>;
   /** fetch data from the table in a streaming manner: "laps" */
   laps_stream: Array<Laps>;
   /** An array relationship */
   race_control_messages: Array<Race_Control_Messages>;
   /** An aggregate relationship */
   race_control_messages_aggregate: Race_Control_Messages_Aggregate;
+  /** fetch data from the table: "race_control_messages" using primary key columns */
+  race_control_messages_by_pk?: Maybe<Race_Control_Messages>;
   /** fetch data from the table: "race_control_messages_categories" */
   race_control_messages_categories: Array<Race_Control_Messages_Categories>;
   /** fetch aggregated fields from the table: "race_control_messages_categories" */
@@ -5952,12 +9226,16 @@ export type Subscription_Root = {
   results: Array<Results>;
   /** An aggregate relationship */
   results_aggregate: Results_Aggregate;
+  /** fetch data from the table: "results" using primary key columns */
+  results_by_pk?: Maybe<Results>;
   /** fetch data from the table in a streaming manner: "results" */
   results_stream: Array<Results>;
   /** fetch data from the table: "schedule" */
   schedule: Array<Schedule>;
   /** fetch aggregated fields from the table: "schedule" */
   schedule_aggregate: Schedule_Aggregate;
+  /** fetch data from the table: "schedule" using primary key columns */
+  schedule_by_pk?: Maybe<Schedule>;
   /** fetch data from the table in a streaming manner: "schedule" */
   schedule_stream: Array<Schedule>;
   /** fetch data from the table: "session_name_choices" */
@@ -5972,12 +9250,16 @@ export type Subscription_Root = {
   sessions: Array<Sessions>;
   /** An aggregate relationship */
   sessions_aggregate: Sessions_Aggregate;
+  /** fetch data from the table: "sessions" using primary key columns */
+  sessions_by_pk?: Maybe<Sessions>;
   /** fetch data from the table in a streaming manner: "sessions" */
   sessions_stream: Array<Sessions>;
   /** fetch data from the table: "telemetry" */
   telemetry: Array<Telemetry>;
   /** fetch aggregated fields from the table: "telemetry" */
   telemetry_aggregate: Telemetry_Aggregate;
+  /** fetch data from the table: "telemetry" using primary key columns */
+  telemetry_by_pk?: Maybe<Telemetry>;
   /** fetch data from the table: "telemetry_car_status" */
   telemetry_car_status: Array<Telemetry_Car_Status>;
   /** fetch aggregated fields from the table: "telemetry_car_status" */
@@ -6000,6 +9282,8 @@ export type Subscription_Root = {
   track_status: Array<Track_Status>;
   /** fetch aggregated fields from the table: "track_status" */
   track_status_aggregate: Track_Status_Aggregate;
+  /** fetch data from the table: "track_status" using primary key columns */
+  track_status_by_pk?: Maybe<Track_Status>;
   /** fetch data from the table in a streaming manner: "track_status" */
   track_status_stream: Array<Track_Status>;
   /** fetch data from the table: "tyre_compounds" */
@@ -6014,6 +9298,8 @@ export type Subscription_Root = {
   weather_data: Array<Weather_Data>;
   /** An aggregate relationship */
   weather_data_aggregate: Weather_Data_Aggregate;
+  /** fetch data from the table: "weather_data" using primary key columns */
+  weather_data_by_pk?: Maybe<Weather_Data>;
   /** fetch data from the table in a streaming manner: "weather_data" */
   weather_data_stream: Array<Weather_Data>;
 };
@@ -6032,6 +9318,10 @@ export type Subscription_RootCircuits_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Circuits_Order_By>>;
   where?: InputMaybe<Circuits_Bool_Exp>;
+};
+
+export type Subscription_RootCircuits_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootCircuits_StreamArgs = {
@@ -6056,6 +9346,10 @@ export type Subscription_RootConstructor_Standings_AggregateArgs = {
   where?: InputMaybe<Constructor_Standings_Bool_Exp>;
 };
 
+export type Subscription_RootConstructor_Standings_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Subscription_RootConstructor_Standings_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Constructor_Standings_Stream_Cursor_Input>>;
@@ -6076,6 +9370,10 @@ export type Subscription_RootConstructors_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Constructors_Order_By>>;
   where?: InputMaybe<Constructors_Bool_Exp>;
+};
+
+export type Subscription_RootConstructors_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootConstructors_StreamArgs = {
@@ -6100,6 +9398,10 @@ export type Subscription_RootDriver_Sessions_AggregateArgs = {
   where?: InputMaybe<Driver_Sessions_Bool_Exp>;
 };
 
+export type Subscription_RootDriver_Sessions_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Subscription_RootDriver_Sessions_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Driver_Sessions_Stream_Cursor_Input>>;
@@ -6122,6 +9424,10 @@ export type Subscription_RootDriver_Standings_AggregateArgs = {
   where?: InputMaybe<Driver_Standings_Bool_Exp>;
 };
 
+export type Subscription_RootDriver_Standings_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Subscription_RootDriver_Standings_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Driver_Standings_Stream_Cursor_Input>>;
@@ -6142,6 +9448,10 @@ export type Subscription_RootDrivers_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Drivers_Order_By>>;
   where?: InputMaybe<Drivers_Bool_Exp>;
+};
+
+export type Subscription_RootDrivers_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDrivers_StreamArgs = {
@@ -6192,6 +9502,10 @@ export type Subscription_RootEvents_AggregateArgs = {
   where?: InputMaybe<Events_Bool_Exp>;
 };
 
+export type Subscription_RootEvents_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Subscription_RootEvents_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Events_Stream_Cursor_Input>>;
@@ -6214,6 +9528,10 @@ export type Subscription_RootLaps_AggregateArgs = {
   where?: InputMaybe<Laps_Bool_Exp>;
 };
 
+export type Subscription_RootLaps_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Subscription_RootLaps_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Laps_Stream_Cursor_Input>>;
@@ -6234,6 +9552,10 @@ export type Subscription_RootRace_Control_Messages_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Race_Control_Messages_Order_By>>;
   where?: InputMaybe<Race_Control_Messages_Bool_Exp>;
+};
+
+export type Subscription_RootRace_Control_Messages_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootRace_Control_Messages_CategoriesArgs = {
@@ -6342,6 +9664,10 @@ export type Subscription_RootResults_AggregateArgs = {
   where?: InputMaybe<Results_Bool_Exp>;
 };
 
+export type Subscription_RootResults_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Subscription_RootResults_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Results_Stream_Cursor_Input>>;
@@ -6362,6 +9688,10 @@ export type Subscription_RootSchedule_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Schedule_Order_By>>;
   where?: InputMaybe<Schedule_Bool_Exp>;
+};
+
+export type Subscription_RootSchedule_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootSchedule_StreamArgs = {
@@ -6412,6 +9742,10 @@ export type Subscription_RootSessions_AggregateArgs = {
   where?: InputMaybe<Sessions_Bool_Exp>;
 };
 
+export type Subscription_RootSessions_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Subscription_RootSessions_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Sessions_Stream_Cursor_Input>>;
@@ -6432,6 +9766,10 @@ export type Subscription_RootTelemetry_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Telemetry_Order_By>>;
   where?: InputMaybe<Telemetry_Bool_Exp>;
+};
+
+export type Subscription_RootTelemetry_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootTelemetry_Car_StatusArgs = {
@@ -6508,6 +9846,10 @@ export type Subscription_RootTrack_Status_AggregateArgs = {
   where?: InputMaybe<Track_Status_Bool_Exp>;
 };
 
+export type Subscription_RootTrack_Status_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Subscription_RootTrack_Status_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Track_Status_Stream_Cursor_Input>>;
@@ -6556,6 +9898,10 @@ export type Subscription_RootWeather_Data_AggregateArgs = {
   where?: InputMaybe<Weather_Data_Bool_Exp>;
 };
 
+export type Subscription_RootWeather_Data_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Subscription_RootWeather_Data_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Weather_Data_Stream_Cursor_Input>>;
@@ -6575,6 +9921,7 @@ export type Telemetry = {
   driver_session_id?: Maybe<Scalars['String']['output']>;
   drs?: Maybe<Scalars['Int']['output']>;
   gear?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['String']['output'];
   relative_distance?: Maybe<Scalars['numeric']['output']>;
   rpm?: Maybe<Scalars['Int']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
@@ -6663,6 +10010,13 @@ export type Telemetry_Aggregate_Order_By = {
   variance?: InputMaybe<Telemetry_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "telemetry" */
+export type Telemetry_Arr_Rel_Insert_Input = {
+  data: Array<Telemetry_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Telemetry_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Telemetry_Avg_Fields = {
   __typename?: 'telemetry_avg_fields';
@@ -6712,6 +10066,7 @@ export type Telemetry_Bool_Exp = {
   driver_session_id?: InputMaybe<String_Comparison_Exp>;
   drs?: InputMaybe<Int_Comparison_Exp>;
   gear?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   relative_distance?: InputMaybe<Numeric_Comparison_Exp>;
   rpm?: InputMaybe<Int_Comparison_Exp>;
   session_time?: InputMaybe<Bigint_Comparison_Exp>;
@@ -6788,6 +10143,12 @@ export type Telemetry_Car_Status_Bool_Exp = {
   value?: InputMaybe<String_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "telemetry_car_status" */
+export enum Telemetry_Car_Status_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  TelemetryCarStatusPkey = 'telemetry_car_status_pkey',
+}
+
 export enum Telemetry_Car_Status_Enum {
   /** Car is off track */
   OffTrack = 'OffTrack',
@@ -6804,6 +10165,13 @@ export type Telemetry_Car_Status_Enum_Comparison_Exp = {
   _nin?: InputMaybe<Array<Telemetry_Car_Status_Enum>>;
 };
 
+/** input type for inserting data into table "telemetry_car_status" */
+export type Telemetry_Car_Status_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  telemetries?: InputMaybe<Telemetry_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Telemetry_Car_Status_Max_Fields = {
   __typename?: 'telemetry_car_status_max_fields';
@@ -6818,11 +10186,39 @@ export type Telemetry_Car_Status_Min_Fields = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
+/** response of any mutation on the table "telemetry_car_status" */
+export type Telemetry_Car_Status_Mutation_Response = {
+  __typename?: 'telemetry_car_status_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Telemetry_Car_Status>;
+};
+
+/** input type for inserting object relation for remote table "telemetry_car_status" */
+export type Telemetry_Car_Status_Obj_Rel_Insert_Input = {
+  data: Telemetry_Car_Status_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Telemetry_Car_Status_On_Conflict>;
+};
+
+/** on_conflict condition type for table "telemetry_car_status" */
+export type Telemetry_Car_Status_On_Conflict = {
+  constraint: Telemetry_Car_Status_Constraint;
+  update_columns?: Array<Telemetry_Car_Status_Update_Column>;
+  where?: InputMaybe<Telemetry_Car_Status_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "telemetry_car_status". */
 export type Telemetry_Car_Status_Order_By = {
   comment?: InputMaybe<Order_By>;
   telemetries_aggregate?: InputMaybe<Telemetry_Aggregate_Order_By>;
   value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: telemetry_car_status */
+export type Telemetry_Car_Status_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "telemetry_car_status" */
@@ -6832,6 +10228,12 @@ export enum Telemetry_Car_Status_Select_Column {
   /** column name */
   Value = 'value',
 }
+
+/** input type for updating data in table "telemetry_car_status" */
+export type Telemetry_Car_Status_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** Streaming cursor of the table "telemetry_car_status" */
 export type Telemetry_Car_Status_Stream_Cursor_Input = {
@@ -6847,6 +10249,71 @@ export type Telemetry_Car_Status_Stream_Cursor_Value_Input = {
   value?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** update columns of table "telemetry_car_status" */
+export enum Telemetry_Car_Status_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Telemetry_Car_Status_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Telemetry_Car_Status_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Telemetry_Car_Status_Bool_Exp;
+};
+
+/** unique or primary key constraints on table "telemetry" */
+export enum Telemetry_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  TelemetryPkey = 'telemetry_pkey',
+}
+
+/** input type for incrementing numeric columns in table "telemetry" */
+export type Telemetry_Inc_Input = {
+  distance?: InputMaybe<Scalars['numeric']['input']>;
+  distance_to_driver_ahead?: InputMaybe<Scalars['numeric']['input']>;
+  drs?: InputMaybe<Scalars['Int']['input']>;
+  gear?: InputMaybe<Scalars['Int']['input']>;
+  relative_distance?: InputMaybe<Scalars['numeric']['input']>;
+  rpm?: InputMaybe<Scalars['Int']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  speed?: InputMaybe<Scalars['numeric']['input']>;
+  throttle?: InputMaybe<Scalars['numeric']['input']>;
+  time?: InputMaybe<Scalars['bigint']['input']>;
+  x?: InputMaybe<Scalars['numeric']['input']>;
+  y?: InputMaybe<Scalars['numeric']['input']>;
+  z?: InputMaybe<Scalars['numeric']['input']>;
+};
+
+/** input type for inserting data into table "telemetry" */
+export type Telemetry_Insert_Input = {
+  brake?: InputMaybe<Scalars['Boolean']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  distance?: InputMaybe<Scalars['numeric']['input']>;
+  distance_to_driver_ahead?: InputMaybe<Scalars['numeric']['input']>;
+  driver_ahead?: InputMaybe<Scalars['String']['input']>;
+  driver_session?: InputMaybe<Driver_Sessions_Obj_Rel_Insert_Input>;
+  driver_session_id?: InputMaybe<Scalars['String']['input']>;
+  drs?: InputMaybe<Scalars['Int']['input']>;
+  gear?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  relative_distance?: InputMaybe<Scalars['numeric']['input']>;
+  rpm?: InputMaybe<Scalars['Int']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  source?: InputMaybe<Telemetry_Sources_Enum>;
+  speed?: InputMaybe<Scalars['numeric']['input']>;
+  status?: InputMaybe<Telemetry_Car_Status_Enum>;
+  telemetry_car_status?: InputMaybe<Telemetry_Car_Status_Obj_Rel_Insert_Input>;
+  telemetry_source?: InputMaybe<Telemetry_Sources_Obj_Rel_Insert_Input>;
+  throttle?: InputMaybe<Scalars['numeric']['input']>;
+  time?: InputMaybe<Scalars['bigint']['input']>;
+  x?: InputMaybe<Scalars['numeric']['input']>;
+  y?: InputMaybe<Scalars['numeric']['input']>;
+  z?: InputMaybe<Scalars['numeric']['input']>;
+};
+
 /** aggregate max on columns */
 export type Telemetry_Max_Fields = {
   __typename?: 'telemetry_max_fields';
@@ -6857,6 +10324,7 @@ export type Telemetry_Max_Fields = {
   driver_session_id?: Maybe<Scalars['String']['output']>;
   drs?: Maybe<Scalars['Int']['output']>;
   gear?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   relative_distance?: Maybe<Scalars['numeric']['output']>;
   rpm?: Maybe<Scalars['Int']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
@@ -6877,6 +10345,7 @@ export type Telemetry_Max_Order_By = {
   driver_session_id?: InputMaybe<Order_By>;
   drs?: InputMaybe<Order_By>;
   gear?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   relative_distance?: InputMaybe<Order_By>;
   rpm?: InputMaybe<Order_By>;
   session_time?: InputMaybe<Order_By>;
@@ -6898,6 +10367,7 @@ export type Telemetry_Min_Fields = {
   driver_session_id?: Maybe<Scalars['String']['output']>;
   drs?: Maybe<Scalars['Int']['output']>;
   gear?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   relative_distance?: Maybe<Scalars['numeric']['output']>;
   rpm?: Maybe<Scalars['Int']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
@@ -6918,6 +10388,7 @@ export type Telemetry_Min_Order_By = {
   driver_session_id?: InputMaybe<Order_By>;
   drs?: InputMaybe<Order_By>;
   gear?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   relative_distance?: InputMaybe<Order_By>;
   rpm?: InputMaybe<Order_By>;
   session_time?: InputMaybe<Order_By>;
@@ -6927,6 +10398,22 @@ export type Telemetry_Min_Order_By = {
   x?: InputMaybe<Order_By>;
   y?: InputMaybe<Order_By>;
   z?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "telemetry" */
+export type Telemetry_Mutation_Response = {
+  __typename?: 'telemetry_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Telemetry>;
+};
+
+/** on_conflict condition type for table "telemetry" */
+export type Telemetry_On_Conflict = {
+  constraint: Telemetry_Constraint;
+  update_columns?: Array<Telemetry_Update_Column>;
+  where?: InputMaybe<Telemetry_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "telemetry". */
@@ -6940,6 +10427,7 @@ export type Telemetry_Order_By = {
   driver_session_id?: InputMaybe<Order_By>;
   drs?: InputMaybe<Order_By>;
   gear?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   relative_distance?: InputMaybe<Order_By>;
   rpm?: InputMaybe<Order_By>;
   session_time?: InputMaybe<Order_By>;
@@ -6953,6 +10441,11 @@ export type Telemetry_Order_By = {
   x?: InputMaybe<Order_By>;
   y?: InputMaybe<Order_By>;
   z?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: telemetry */
+export type Telemetry_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "telemetry" */
@@ -6973,6 +10466,8 @@ export enum Telemetry_Select_Column {
   Drs = 'drs',
   /** column name */
   Gear = 'gear',
+  /** column name */
+  Id = 'id',
   /** column name */
   RelativeDistance = 'relative_distance',
   /** column name */
@@ -7008,6 +10503,30 @@ export enum Telemetry_Select_Column_Telemetry_Aggregate_Bool_Exp_Bool_Or_Argumen
   /** column name */
   Brake = 'brake',
 }
+
+/** input type for updating data in table "telemetry" */
+export type Telemetry_Set_Input = {
+  brake?: InputMaybe<Scalars['Boolean']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  distance?: InputMaybe<Scalars['numeric']['input']>;
+  distance_to_driver_ahead?: InputMaybe<Scalars['numeric']['input']>;
+  driver_ahead?: InputMaybe<Scalars['String']['input']>;
+  driver_session_id?: InputMaybe<Scalars['String']['input']>;
+  drs?: InputMaybe<Scalars['Int']['input']>;
+  gear?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  relative_distance?: InputMaybe<Scalars['numeric']['input']>;
+  rpm?: InputMaybe<Scalars['Int']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  source?: InputMaybe<Telemetry_Sources_Enum>;
+  speed?: InputMaybe<Scalars['numeric']['input']>;
+  status?: InputMaybe<Telemetry_Car_Status_Enum>;
+  throttle?: InputMaybe<Scalars['numeric']['input']>;
+  time?: InputMaybe<Scalars['bigint']['input']>;
+  x?: InputMaybe<Scalars['numeric']['input']>;
+  y?: InputMaybe<Scalars['numeric']['input']>;
+  z?: InputMaybe<Scalars['numeric']['input']>;
+};
 
 /** columns and relationships of "telemetry_sources" */
 export type Telemetry_Sources = {
@@ -7070,6 +10589,12 @@ export type Telemetry_Sources_Bool_Exp = {
   value?: InputMaybe<String_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "telemetry_sources" */
+export enum Telemetry_Sources_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  TelemetrySourcesPkey = 'telemetry_sources_pkey',
+}
+
 export enum Telemetry_Sources_Enum {
   /** Car telemetry source */
   Car = 'car',
@@ -7088,6 +10613,13 @@ export type Telemetry_Sources_Enum_Comparison_Exp = {
   _nin?: InputMaybe<Array<Telemetry_Sources_Enum>>;
 };
 
+/** input type for inserting data into table "telemetry_sources" */
+export type Telemetry_Sources_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  telemetries?: InputMaybe<Telemetry_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Telemetry_Sources_Max_Fields = {
   __typename?: 'telemetry_sources_max_fields';
@@ -7102,11 +10634,39 @@ export type Telemetry_Sources_Min_Fields = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
+/** response of any mutation on the table "telemetry_sources" */
+export type Telemetry_Sources_Mutation_Response = {
+  __typename?: 'telemetry_sources_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Telemetry_Sources>;
+};
+
+/** input type for inserting object relation for remote table "telemetry_sources" */
+export type Telemetry_Sources_Obj_Rel_Insert_Input = {
+  data: Telemetry_Sources_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Telemetry_Sources_On_Conflict>;
+};
+
+/** on_conflict condition type for table "telemetry_sources" */
+export type Telemetry_Sources_On_Conflict = {
+  constraint: Telemetry_Sources_Constraint;
+  update_columns?: Array<Telemetry_Sources_Update_Column>;
+  where?: InputMaybe<Telemetry_Sources_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "telemetry_sources". */
 export type Telemetry_Sources_Order_By = {
   comment?: InputMaybe<Order_By>;
   telemetries_aggregate?: InputMaybe<Telemetry_Aggregate_Order_By>;
   value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: telemetry_sources */
+export type Telemetry_Sources_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "telemetry_sources" */
@@ -7116,6 +10676,12 @@ export enum Telemetry_Sources_Select_Column {
   /** column name */
   Value = 'value',
 }
+
+/** input type for updating data in table "telemetry_sources" */
+export type Telemetry_Sources_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** Streaming cursor of the table "telemetry_sources" */
 export type Telemetry_Sources_Stream_Cursor_Input = {
@@ -7129,6 +10695,21 @@ export type Telemetry_Sources_Stream_Cursor_Input = {
 export type Telemetry_Sources_Stream_Cursor_Value_Input = {
   comment?: InputMaybe<Scalars['String']['input']>;
   value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "telemetry_sources" */
+export enum Telemetry_Sources_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Telemetry_Sources_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Telemetry_Sources_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Telemetry_Sources_Bool_Exp;
 };
 
 /** aggregate stddev on columns */
@@ -7254,6 +10835,7 @@ export type Telemetry_Stream_Cursor_Value_Input = {
   driver_session_id?: InputMaybe<Scalars['String']['input']>;
   drs?: InputMaybe<Scalars['Int']['input']>;
   gear?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   relative_distance?: InputMaybe<Scalars['numeric']['input']>;
   rpm?: InputMaybe<Scalars['Int']['input']>;
   session_time?: InputMaybe<Scalars['bigint']['input']>;
@@ -7300,6 +10882,59 @@ export type Telemetry_Sum_Order_By = {
   x?: InputMaybe<Order_By>;
   y?: InputMaybe<Order_By>;
   z?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "telemetry" */
+export enum Telemetry_Update_Column {
+  /** column name */
+  Brake = 'brake',
+  /** column name */
+  Date = 'date',
+  /** column name */
+  Distance = 'distance',
+  /** column name */
+  DistanceToDriverAhead = 'distance_to_driver_ahead',
+  /** column name */
+  DriverAhead = 'driver_ahead',
+  /** column name */
+  DriverSessionId = 'driver_session_id',
+  /** column name */
+  Drs = 'drs',
+  /** column name */
+  Gear = 'gear',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  RelativeDistance = 'relative_distance',
+  /** column name */
+  Rpm = 'rpm',
+  /** column name */
+  SessionTime = 'session_time',
+  /** column name */
+  Source = 'source',
+  /** column name */
+  Speed = 'speed',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  Throttle = 'throttle',
+  /** column name */
+  Time = 'time',
+  /** column name */
+  X = 'x',
+  /** column name */
+  Y = 'y',
+  /** column name */
+  Z = 'z',
+}
+
+export type Telemetry_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Telemetry_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Telemetry_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Telemetry_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -7410,6 +11045,7 @@ export type Telemetry_Variance_Order_By = {
 /** columns and relationships of "track_status" */
 export type Track_Status = {
   __typename?: 'track_status';
+  id: Scalars['String']['output'];
   message?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   session?: Maybe<Sessions>;
@@ -7473,6 +11109,13 @@ export type Track_Status_Aggregate_Order_By = {
   variance?: InputMaybe<Track_Status_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "track_status" */
+export type Track_Status_Arr_Rel_Insert_Input = {
+  data: Array<Track_Status_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Track_Status_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Track_Status_Avg_Fields = {
   __typename?: 'track_status_avg_fields';
@@ -7489,6 +11132,7 @@ export type Track_Status_Bool_Exp = {
   _and?: InputMaybe<Array<Track_Status_Bool_Exp>>;
   _not?: InputMaybe<Track_Status_Bool_Exp>;
   _or?: InputMaybe<Array<Track_Status_Bool_Exp>>;
+  id?: InputMaybe<String_Comparison_Exp>;
   message?: InputMaybe<String_Comparison_Exp>;
   session?: InputMaybe<Sessions_Bool_Exp>;
   session_id?: InputMaybe<String_Comparison_Exp>;
@@ -7496,9 +11140,31 @@ export type Track_Status_Bool_Exp = {
   status?: InputMaybe<String_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "track_status" */
+export enum Track_Status_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  TrackStatusPkey = 'track_status_pkey',
+}
+
+/** input type for incrementing numeric columns in table "track_status" */
+export type Track_Status_Inc_Input = {
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** input type for inserting data into table "track_status" */
+export type Track_Status_Insert_Input = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  session?: InputMaybe<Sessions_Obj_Rel_Insert_Input>;
+  session_id?: InputMaybe<Scalars['String']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Track_Status_Max_Fields = {
   __typename?: 'track_status_max_fields';
+  id?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
   session_id?: Maybe<Scalars['String']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
@@ -7507,6 +11173,7 @@ export type Track_Status_Max_Fields = {
 
 /** order by max() on columns of table "track_status" */
 export type Track_Status_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
   session_id?: InputMaybe<Order_By>;
   session_time?: InputMaybe<Order_By>;
@@ -7516,6 +11183,7 @@ export type Track_Status_Max_Order_By = {
 /** aggregate min on columns */
 export type Track_Status_Min_Fields = {
   __typename?: 'track_status_min_fields';
+  id?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
   session_id?: Maybe<Scalars['String']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
@@ -7524,14 +11192,32 @@ export type Track_Status_Min_Fields = {
 
 /** order by min() on columns of table "track_status" */
 export type Track_Status_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
   session_id?: InputMaybe<Order_By>;
   session_time?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
 };
 
+/** response of any mutation on the table "track_status" */
+export type Track_Status_Mutation_Response = {
+  __typename?: 'track_status_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Track_Status>;
+};
+
+/** on_conflict condition type for table "track_status" */
+export type Track_Status_On_Conflict = {
+  constraint: Track_Status_Constraint;
+  update_columns?: Array<Track_Status_Update_Column>;
+  where?: InputMaybe<Track_Status_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "track_status". */
 export type Track_Status_Order_By = {
+  id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
   session?: InputMaybe<Sessions_Order_By>;
   session_id?: InputMaybe<Order_By>;
@@ -7539,8 +11225,15 @@ export type Track_Status_Order_By = {
   status?: InputMaybe<Order_By>;
 };
 
+/** primary key columns input for table: track_status */
+export type Track_Status_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
 /** select columns of table "track_status" */
 export enum Track_Status_Select_Column {
+  /** column name */
+  Id = 'id',
   /** column name */
   Message = 'message',
   /** column name */
@@ -7550,6 +11243,15 @@ export enum Track_Status_Select_Column {
   /** column name */
   Status = 'status',
 }
+
+/** input type for updating data in table "track_status" */
+export type Track_Status_Set_Input = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  session_id?: InputMaybe<Scalars['String']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Track_Status_Stddev_Fields = {
@@ -7594,6 +11296,7 @@ export type Track_Status_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Track_Status_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['String']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
   session_id?: InputMaybe<Scalars['String']['input']>;
   session_time?: InputMaybe<Scalars['bigint']['input']>;
@@ -7609,6 +11312,29 @@ export type Track_Status_Sum_Fields = {
 /** order by sum() on columns of table "track_status" */
 export type Track_Status_Sum_Order_By = {
   session_time?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "track_status" */
+export enum Track_Status_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Message = 'message',
+  /** column name */
+  SessionId = 'session_id',
+  /** column name */
+  SessionTime = 'session_time',
+  /** column name */
+  Status = 'status',
+}
+
+export type Track_Status_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Track_Status_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Track_Status_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Track_Status_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -7705,6 +11431,12 @@ export type Tyre_Compounds_Bool_Exp = {
   value?: InputMaybe<String_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "tyre_compounds" */
+export enum Tyre_Compounds_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  TyreCompoundsPkey = 'tyre_compounds_pkey',
+}
+
 export enum Tyre_Compounds_Enum {
   /** Hard tyre compound */
   Hard = 'HARD',
@@ -7739,6 +11471,13 @@ export type Tyre_Compounds_Enum_Comparison_Exp = {
   _nin?: InputMaybe<Array<Tyre_Compounds_Enum>>;
 };
 
+/** input type for inserting data into table "tyre_compounds" */
+export type Tyre_Compounds_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  laps?: InputMaybe<Laps_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate max on columns */
 export type Tyre_Compounds_Max_Fields = {
   __typename?: 'tyre_compounds_max_fields';
@@ -7753,11 +11492,39 @@ export type Tyre_Compounds_Min_Fields = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
+/** response of any mutation on the table "tyre_compounds" */
+export type Tyre_Compounds_Mutation_Response = {
+  __typename?: 'tyre_compounds_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Tyre_Compounds>;
+};
+
+/** input type for inserting object relation for remote table "tyre_compounds" */
+export type Tyre_Compounds_Obj_Rel_Insert_Input = {
+  data: Tyre_Compounds_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Tyre_Compounds_On_Conflict>;
+};
+
+/** on_conflict condition type for table "tyre_compounds" */
+export type Tyre_Compounds_On_Conflict = {
+  constraint: Tyre_Compounds_Constraint;
+  update_columns?: Array<Tyre_Compounds_Update_Column>;
+  where?: InputMaybe<Tyre_Compounds_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "tyre_compounds". */
 export type Tyre_Compounds_Order_By = {
   comment?: InputMaybe<Order_By>;
   laps_aggregate?: InputMaybe<Laps_Aggregate_Order_By>;
   value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: tyre_compounds */
+export type Tyre_Compounds_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "tyre_compounds" */
@@ -7767,6 +11534,12 @@ export enum Tyre_Compounds_Select_Column {
   /** column name */
   Value = 'value',
 }
+
+/** input type for updating data in table "tyre_compounds" */
+export type Tyre_Compounds_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
 
 /** Streaming cursor of the table "tyre_compounds" */
 export type Tyre_Compounds_Stream_Cursor_Input = {
@@ -7782,11 +11555,27 @@ export type Tyre_Compounds_Stream_Cursor_Value_Input = {
   value?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** update columns of table "tyre_compounds" */
+export enum Tyre_Compounds_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value',
+}
+
+export type Tyre_Compounds_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Tyre_Compounds_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Tyre_Compounds_Bool_Exp;
+};
+
 /** columns and relationships of "weather_data" */
 export type Weather_Data = {
   __typename?: 'weather_data';
   air_temperature?: Maybe<Scalars['numeric']['output']>;
   humidity?: Maybe<Scalars['numeric']['output']>;
+  id: Scalars['String']['output'];
   pressure?: Maybe<Scalars['numeric']['output']>;
   rainfall?: Maybe<Scalars['Boolean']['output']>;
   /** An object relationship */
@@ -7869,6 +11658,13 @@ export type Weather_Data_Aggregate_Order_By = {
   variance?: InputMaybe<Weather_Data_Variance_Order_By>;
 };
 
+/** input type for inserting array relation for remote table "weather_data" */
+export type Weather_Data_Arr_Rel_Insert_Input = {
+  data: Array<Weather_Data_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Weather_Data_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Weather_Data_Avg_Fields = {
   __typename?: 'weather_data_avg_fields';
@@ -7899,6 +11695,7 @@ export type Weather_Data_Bool_Exp = {
   _or?: InputMaybe<Array<Weather_Data_Bool_Exp>>;
   air_temperature?: InputMaybe<Numeric_Comparison_Exp>;
   humidity?: InputMaybe<Numeric_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
   pressure?: InputMaybe<Numeric_Comparison_Exp>;
   rainfall?: InputMaybe<Boolean_Comparison_Exp>;
   session?: InputMaybe<Sessions_Bool_Exp>;
@@ -7909,11 +11706,44 @@ export type Weather_Data_Bool_Exp = {
   wind_speed?: InputMaybe<Numeric_Comparison_Exp>;
 };
 
+/** unique or primary key constraints on table "weather_data" */
+export enum Weather_Data_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  WeatherDataPkey = 'weather_data_pkey',
+}
+
+/** input type for incrementing numeric columns in table "weather_data" */
+export type Weather_Data_Inc_Input = {
+  air_temperature?: InputMaybe<Scalars['numeric']['input']>;
+  humidity?: InputMaybe<Scalars['numeric']['input']>;
+  pressure?: InputMaybe<Scalars['numeric']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  track_temperature?: InputMaybe<Scalars['numeric']['input']>;
+  wind_direction?: InputMaybe<Scalars['Int']['input']>;
+  wind_speed?: InputMaybe<Scalars['numeric']['input']>;
+};
+
+/** input type for inserting data into table "weather_data" */
+export type Weather_Data_Insert_Input = {
+  air_temperature?: InputMaybe<Scalars['numeric']['input']>;
+  humidity?: InputMaybe<Scalars['numeric']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pressure?: InputMaybe<Scalars['numeric']['input']>;
+  rainfall?: InputMaybe<Scalars['Boolean']['input']>;
+  session?: InputMaybe<Sessions_Obj_Rel_Insert_Input>;
+  session_id?: InputMaybe<Scalars['String']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  track_temperature?: InputMaybe<Scalars['numeric']['input']>;
+  wind_direction?: InputMaybe<Scalars['Int']['input']>;
+  wind_speed?: InputMaybe<Scalars['numeric']['input']>;
+};
+
 /** aggregate max on columns */
 export type Weather_Data_Max_Fields = {
   __typename?: 'weather_data_max_fields';
   air_temperature?: Maybe<Scalars['numeric']['output']>;
   humidity?: Maybe<Scalars['numeric']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   pressure?: Maybe<Scalars['numeric']['output']>;
   session_id?: Maybe<Scalars['String']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
@@ -7926,6 +11756,7 @@ export type Weather_Data_Max_Fields = {
 export type Weather_Data_Max_Order_By = {
   air_temperature?: InputMaybe<Order_By>;
   humidity?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   pressure?: InputMaybe<Order_By>;
   session_id?: InputMaybe<Order_By>;
   session_time?: InputMaybe<Order_By>;
@@ -7939,6 +11770,7 @@ export type Weather_Data_Min_Fields = {
   __typename?: 'weather_data_min_fields';
   air_temperature?: Maybe<Scalars['numeric']['output']>;
   humidity?: Maybe<Scalars['numeric']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   pressure?: Maybe<Scalars['numeric']['output']>;
   session_id?: Maybe<Scalars['String']['output']>;
   session_time?: Maybe<Scalars['bigint']['output']>;
@@ -7951,6 +11783,7 @@ export type Weather_Data_Min_Fields = {
 export type Weather_Data_Min_Order_By = {
   air_temperature?: InputMaybe<Order_By>;
   humidity?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   pressure?: InputMaybe<Order_By>;
   session_id?: InputMaybe<Order_By>;
   session_time?: InputMaybe<Order_By>;
@@ -7959,10 +11792,27 @@ export type Weather_Data_Min_Order_By = {
   wind_speed?: InputMaybe<Order_By>;
 };
 
+/** response of any mutation on the table "weather_data" */
+export type Weather_Data_Mutation_Response = {
+  __typename?: 'weather_data_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Weather_Data>;
+};
+
+/** on_conflict condition type for table "weather_data" */
+export type Weather_Data_On_Conflict = {
+  constraint: Weather_Data_Constraint;
+  update_columns?: Array<Weather_Data_Update_Column>;
+  where?: InputMaybe<Weather_Data_Bool_Exp>;
+};
+
 /** Ordering options when selecting data from "weather_data". */
 export type Weather_Data_Order_By = {
   air_temperature?: InputMaybe<Order_By>;
   humidity?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
   pressure?: InputMaybe<Order_By>;
   rainfall?: InputMaybe<Order_By>;
   session?: InputMaybe<Sessions_Order_By>;
@@ -7973,12 +11823,19 @@ export type Weather_Data_Order_By = {
   wind_speed?: InputMaybe<Order_By>;
 };
 
+/** primary key columns input for table: weather_data */
+export type Weather_Data_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
 /** select columns of table "weather_data" */
 export enum Weather_Data_Select_Column {
   /** column name */
   AirTemperature = 'air_temperature',
   /** column name */
   Humidity = 'humidity',
+  /** column name */
+  Id = 'id',
   /** column name */
   Pressure = 'pressure',
   /** column name */
@@ -8006,6 +11863,20 @@ export enum Weather_Data_Select_Column_Weather_Data_Aggregate_Bool_Exp_Bool_Or_A
   /** column name */
   Rainfall = 'rainfall',
 }
+
+/** input type for updating data in table "weather_data" */
+export type Weather_Data_Set_Input = {
+  air_temperature?: InputMaybe<Scalars['numeric']['input']>;
+  humidity?: InputMaybe<Scalars['numeric']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pressure?: InputMaybe<Scalars['numeric']['input']>;
+  rainfall?: InputMaybe<Scalars['Boolean']['input']>;
+  session_id?: InputMaybe<Scalars['String']['input']>;
+  session_time?: InputMaybe<Scalars['bigint']['input']>;
+  track_temperature?: InputMaybe<Scalars['numeric']['input']>;
+  wind_direction?: InputMaybe<Scalars['Int']['input']>;
+  wind_speed?: InputMaybe<Scalars['numeric']['input']>;
+};
 
 /** aggregate stddev on columns */
 export type Weather_Data_Stddev_Fields = {
@@ -8088,6 +11959,7 @@ export type Weather_Data_Stream_Cursor_Input = {
 export type Weather_Data_Stream_Cursor_Value_Input = {
   air_temperature?: InputMaybe<Scalars['numeric']['input']>;
   humidity?: InputMaybe<Scalars['numeric']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   pressure?: InputMaybe<Scalars['numeric']['input']>;
   rainfall?: InputMaybe<Scalars['Boolean']['input']>;
   session_id?: InputMaybe<Scalars['String']['input']>;
@@ -8118,6 +11990,39 @@ export type Weather_Data_Sum_Order_By = {
   track_temperature?: InputMaybe<Order_By>;
   wind_direction?: InputMaybe<Order_By>;
   wind_speed?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "weather_data" */
+export enum Weather_Data_Update_Column {
+  /** column name */
+  AirTemperature = 'air_temperature',
+  /** column name */
+  Humidity = 'humidity',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Pressure = 'pressure',
+  /** column name */
+  Rainfall = 'rainfall',
+  /** column name */
+  SessionId = 'session_id',
+  /** column name */
+  SessionTime = 'session_time',
+  /** column name */
+  TrackTemperature = 'track_temperature',
+  /** column name */
+  WindDirection = 'wind_direction',
+  /** column name */
+  WindSpeed = 'wind_speed',
+}
+
+export type Weather_Data_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Weather_Data_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Weather_Data_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Weather_Data_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -8233,7 +12138,7 @@ export type GetConstructorQuery = {
       } | null;
       results: Array<{
         __typename?: 'results';
-        points?: bigint | number | null;
+        points?: number | null;
         classified_position?: string | null;
         grid_position?: number | null;
       }>;
@@ -8279,8 +12184,8 @@ export type GetMapEventsQuery = {
       circuit?: {
         __typename?: 'circuits';
         country?: string | null;
-        latitude?: bigint | number | null;
-        longitude?: bigint | number | null;
+        latitude?: number | null;
+        longitude?: number | null;
       } | null;
       driver_sessions: Array<{
         __typename?: 'driver_sessions';
@@ -8434,11 +12339,11 @@ export type GetEventDetailsQuery = {
           finishing_position?: number | null;
           classified_position?: string | null;
           grid_position?: number | null;
-          total_race_time?: bigint | null;
+          total_race_time?: number | null;
         }>;
         fastest_lap: Array<{
           __typename?: 'laps';
-          lap_time?: bigint | null;
+          lap_time?: number | null;
           lap_number?: number | null;
         }>;
       }>;
@@ -8463,9 +12368,9 @@ export type GetEventDetailsQuery = {
         results: Array<{
           __typename?: 'results';
           finishing_position?: number | null;
-          q1_time?: bigint | null;
-          q2_time?: bigint | null;
-          q3_time?: bigint | null;
+          q1_time?: number | null;
+          q2_time?: number | null;
+          q3_time?: number | null;
         }>;
       }>;
     }>;
@@ -8488,10 +12393,48 @@ export type GetEventDetailsQuery = {
         } | null;
         fastest_lap: Array<{
           __typename?: 'laps';
-          lap_time?: bigint | null;
+          lap_time?: number | null;
           lap_number?: number | null;
         }>;
       }>;
+    }>;
+  }>;
+};
+
+export type GetTopThreeStandingsQueryVariables = Exact<{
+  season: Scalars['Int']['input'];
+}>;
+
+export type GetTopThreeStandingsQuery = {
+  __typename?: 'query_root';
+  drivers: Array<{
+    __typename?: 'drivers';
+    abbreviation?: string | null;
+    full_name?: string | null;
+    latest_constructor: Array<{
+      __typename?: 'driver_sessions';
+      constructor?: {
+        __typename?: 'constructors';
+        name?: string | null;
+        color?: string | null;
+      } | null;
+    }>;
+    driver_standings: Array<{
+      __typename?: 'driver_standings';
+      round?: number | null;
+      points?: number | null;
+      position?: number | null;
+    }>;
+  }>;
+  constructors: Array<{
+    __typename?: 'constructors';
+    name?: string | null;
+    color?: string | null;
+    constructor_standings: Array<{
+      __typename?: 'constructor_standings';
+      round?: number | null;
+      points?: number | null;
+      position?: number | null;
     }>;
   }>;
 };
@@ -8522,7 +12465,7 @@ export type GetStandingsQuery = {
     driver_standings: Array<{
       __typename?: 'driver_standings';
       round?: number | null;
-      points?: bigint | number | null;
+      points?: number | null;
       position?: number | null;
     }>;
   }>;
@@ -8533,7 +12476,7 @@ export type GetStandingsQuery = {
     constructor_standings: Array<{
       __typename?: 'constructor_standings';
       round?: number | null;
-      points?: bigint | number | null;
+      points?: number | null;
       position?: number | null;
     }>;
   }>;
@@ -8586,16 +12529,16 @@ export type SessionResultsQuery = {
         __typename?: 'results';
         grid_position?: number | null;
         finishing_position?: number | null;
-        points?: bigint | number | null;
+        points?: number | null;
         status?: string | null;
         classified_position?: string | null;
-        total_race_time?: bigint | null;
+        total_race_time?: number | null;
       }>;
       fastest_lap: Array<{
         __typename?: 'laps';
         lap_number?: number | null;
         stint?: number | null;
-        lap_time?: bigint | null;
+        lap_time?: number | null;
       }>;
     }>;
   }>;
@@ -8625,28 +12568,28 @@ export type GetSessionFastestTimesQuery = {
         __typename?: 'laps';
         lap_number?: number | null;
         stint?: number | null;
-        lap_time?: bigint | null;
-        sector1?: bigint | null;
-        sector2?: bigint | null;
-        sector3?: bigint | null;
+        lap_time?: number | null;
+        sector1?: number | null;
+        sector2?: number | null;
+        sector3?: number | null;
       }>;
       fastest_sector1: Array<{
         __typename?: 'laps';
         lap_number?: number | null;
         stint?: number | null;
-        sector1?: bigint | null;
+        sector1?: number | null;
       }>;
       fastest_sector2: Array<{
         __typename?: 'laps';
         lap_number?: number | null;
         stint?: number | null;
-        sector2?: bigint | null;
+        sector2?: number | null;
       }>;
       fastest_sector3: Array<{
         __typename?: 'laps';
         lap_number?: number | null;
         stint?: number | null;
-        sector3?: bigint | null;
+        sector3?: number | null;
       }>;
     }>;
   }>;
@@ -8706,9 +12649,9 @@ export type GetSessionLapTimesQuery = {
       laps: Array<{
         __typename?: 'laps';
         lap_number?: number | null;
-        lap_time?: bigint | null;
+        lap_time?: number | null;
         compound?: Tyre_Compounds_Enum | null;
-        session_time?: bigint | null;
+        session_time?: number | null;
       }>;
     }>;
   }>;
