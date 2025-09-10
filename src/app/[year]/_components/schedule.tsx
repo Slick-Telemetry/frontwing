@@ -68,7 +68,7 @@ export function Schedule({ year }: { year: string }) {
         </div>
       </div>
 
-      <div className='grid gap-4 pt-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+      <ul className='grid gap-4 pt-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
         {data.schedule.map((event) => (
           <ScheduleEventItem
             key={event.event_name as string}
@@ -78,7 +78,7 @@ export function Schedule({ year }: { year: string }) {
             {...event}
           />
         ))}
-      </div>
+      </ul>
     </>
   );
 }

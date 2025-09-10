@@ -54,16 +54,16 @@ export const CircuitMap = ({
 
   const sizeClasses = clsx({
     'max-h-[75px] w-fit': small,
-    'max-h-[180px] w-full': !small,
+    'max-h-[180px] w-full hidden lg:block': !small,
   });
 
   return (
     <svg
       className={clsx('aspect-square h-full', sizeClasses)}
       style={{
-        // TODO: Remove -1 when circuits are updated
         transform: `rotate(${rotation}deg) scaleY(-1)`,
       }}
+      aria-hidden='true'
       viewBox={`0 0 ${width} ${height}`}
       preserveAspectRatio='xMidYMid meet'
     >

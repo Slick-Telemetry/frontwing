@@ -98,7 +98,6 @@ export function AppSidebar() {
                 </div>
                 <div className='flex flex-col gap-0.5 leading-none'>
                   <h1 className='font-extrabold'>Slick Telemetry</h1>
-                  <span>v1.0.0</span>
                 </div>
               </Link>
             </SidebarMenuButton>

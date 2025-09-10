@@ -53,8 +53,8 @@ export default function NextEvent() {
   if (!isValidEvent) return null;
 
   return (
-    <div className='grid grid-cols-2 items-center justify-center gap-4'>
-      <div className='flex w-[300px] flex-col rounded-lg py-4'>
+    <div className='grid items-center justify-center gap-4 lg:grid-cols-2'>
+      <div className='flex w-fit flex-col rounded-lg py-4 lg:w-[250px] xl:w-[300px]'>
         {/* Subtitle */}
         <div className='flex justify-between gap-4'>
           <p className='text-accent text-sm font-light uppercase'>Next Race</p>
