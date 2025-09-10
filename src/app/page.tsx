@@ -15,7 +15,7 @@ export default function Home() {
         className='flex flex-1 bg-cover bg-center bg-no-repeat'
         style={{ backgroundImage: `url(${bg.src})` }}
       >
-        <div className='bg-background/65 flex-1'>
+        <div className='bg-background/45 flex-1'>
           <div className='container flex h-full flex-col items-center'>
             <LandingNav />
 

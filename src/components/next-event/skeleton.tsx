@@ -1,7 +1,7 @@
 export function NextEventSkeleton() {
   return (
     <div className='mx-auto flex w-[300px] animate-pulse flex-col justify-center gap-2 py-4'>
-      <p className='text-accent text-sm font-light uppercase'>Next Race</p>
+      <p className='text-sm font-light uppercase'>Next Race</p>
 
       <div className='bg-muted size-6 w-full rounded' />
       <div className='bg-muted size-6 w-full rounded' />

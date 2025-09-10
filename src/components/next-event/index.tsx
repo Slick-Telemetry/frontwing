@@ -57,7 +57,7 @@ export default function NextEvent() {
       <div className='flex w-fit flex-col rounded-lg py-4 lg:w-[250px] xl:w-[300px]'>
         {/* Subtitle */}
         <div className='flex justify-between gap-4'>
-          <p className='text-accent text-sm font-light uppercase'>Next Race</p>
+          <p className='text-sm font-light uppercase'>Next Race</p>
           {nextEvent.event_format && (
             <SprintBadge
               format={nextEvent.event_format as Event_Format_Choices_Enum}

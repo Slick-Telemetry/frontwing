@@ -12,7 +12,7 @@ export function QuickLinks({ year }: { year: string }) {
   ] as { name: string; href: string; description?: string }[];
   return (
     <div
-      className='grid gap-4'
+      className='flex flex-col gap-4 md:grid'
       style={{ gridTemplateColumns: `repeat(${links.length}, 1fr)` }}
     >
       {links.map(({ name, href, description }) =>

@@ -12,8 +12,8 @@ export default async function SeasonPage({
 
   return (
     <main className='p-4 lg:p-6'>
-      <div className='grid grid-cols-3 gap-4 2xl:grid-cols-4'>
-        <div className='col-span-2 flex flex-col gap-4'>
+      <div className='grid gap-4 md:grid-cols-3 2xl:grid-cols-4'>
+        <div className='flex flex-col gap-4 md:col-span-2'>
           <div className='flex h-full justify-center rounded border px-4'>
             <NextEvent />
           </div>
