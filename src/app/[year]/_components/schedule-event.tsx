@@ -57,11 +57,15 @@ export function ScheduleEventItem({
   ];
 
   return (
-    <div className='flex flex-col overflow-hidden rounded border'>
-      <div className='flex flex-1 items-center gap-2 pr-4'>
+    <li className='flex flex-col overflow-hidden rounded border'>
+      <Link
+        href={`${event.year}/${eventLocationEncode(event.location)}`}
+        className='group hover:bg-muted flex flex-1 items-center gap-2 pr-4'
+        aria-label={`Round ${event.round_number}: ${event.event_name} in ${event.location}, ${event.country} from ${formatDate(event.session1_date!)} to ${formatDate(event.event_date!)}`}
+      >
         <div
           className={clsx(
-            'flex h-full w-[50px] items-center justify-center text-2xl',
+            'border-background flex h-full w-[50px] items-center justify-center border-r text-2xl',
             numberClass,
           )}
         >
@@ -70,14 +74,11 @@ export function ScheduleEventItem({
         <div className='flex-1 py-2'>
           <p className='text-sm'>
             {formatDate(event.session1_date as string)} -
-            {formatDate(event.event_date as string)}
+            {formatDate(event.session5_date as string)}
           </p>
-          <Link
-            href={`${event.year}/${eventLocationEncode(event.location)}`}
-            className='line-clamp-1 font-semibold'
-          >
+          <p className='line-clamp-1 font-semibold group-hover:underline'>
             {event.event_name}
-          </Link>
+          </p>
           <p className='line-clamp-1 text-sm'>
             {event.location}, {event.country}
           </p>
@@ -87,7 +88,7 @@ export function ScheduleEventItem({
           country={event.country as string}
           small
         />
-      </div>
+      </Link>
 
       {details && (
         <div className='border-t px-3 py-2'>
@@ -111,6 +112,6 @@ export function ScheduleEventItem({
           )}
         </div>
       )}
-    </div>
+    </li>
   );
 }

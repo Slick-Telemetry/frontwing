@@ -29,16 +29,18 @@ export function QuickLinks({ year }: { year: string }) {
             {description && <p>{description}</p>}
           </div>
         ) : (
-          <div key={href} className='rounded border px-4 py-2'>
-            <Link
-              href={href}
-              className='flex w-full items-center justify-between text-xl font-bold hover:underline'
-            >
+          <Link
+            key={href}
+            href={href}
+            className='group hover:bg-muted rounded border px-4 py-2 transition-colors'
+            aria-label={`${name}, ${description ?? ''}`}
+          >
+            <div className='flex w-full items-center justify-between text-xl font-bold group-hover:underline'>
               {name}
               <ExternalLink />
-            </Link>
+            </div>
             {description && <p>{description}</p>}
-          </div>
+          </Link>
         ),
       )}
     </div>
