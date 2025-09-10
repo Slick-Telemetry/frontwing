@@ -3,9 +3,9 @@ import { useQuery } from '@apollo/client/react';
 import clsx from 'clsx';
 import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
 
 import { GET_TOP_THREE_STANDINGS } from '@/lib/queries';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 
 import { Loader } from '@/components/Loader';
 import { Button } from '@/components/ui/button';
@@ -29,7 +29,7 @@ const sortByLastPoints = <T,>(items: T[], getPoints: (item: T) => number) =>
   [...items].sort((a, b) => getPoints(b) - getPoints(a));
 
 export default function TopThreeStandings({ year }: { year: string }) {
-  const [view, setView] = useState<ViewType>('drivers');
+  const [view, setView] = useLocalStorage('season-standings', 'drivers');
 
   const { data, loading, error } = useQuery<
     GetStandingsQuery,
