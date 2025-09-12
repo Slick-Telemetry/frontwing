@@ -4,13 +4,13 @@ import clsx from 'clsx';
 import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
-import { GET_TOP_THREE_STANDINGS } from '@/lib/queries';
+import { GET_TOP_STANDINGS } from '@/lib/queries';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 
 import { Loader } from '@/components/Loader';
 import { Button } from '@/components/ui/button';
 
-import { GetStandingsQuery, GetStandingsQueryVariables } from '@/types/graphql';
+import { GetStandingsQuery } from '@/types/graphql';
 
 type Driver = GetStandingsQuery['drivers'][number];
 type Constructor = GetStandingsQuery['constructors'][number];
@@ -31,10 +31,9 @@ const sortByLastPoints = <T,>(items: T[], getPoints: (item: T) => number) =>
 export default function TopThreeStandings({ year }: { year: string }) {
   const [view, setView] = useLocalStorage('season-standings', 'drivers');
 
-  const { data, loading, error } = useQuery<
-    GetStandingsQuery,
-    GetStandingsQueryVariables
-  >(GET_TOP_THREE_STANDINGS, { variables: { season: parseInt(year) } });
+  const { data, loading, error } = useQuery(GET_TOP_STANDINGS, {
+    variables: { season: parseInt(year) },
+  });
 
   if (loading) return <Loader />;
   if (error) return null;
@@ -42,12 +41,12 @@ export default function TopThreeStandings({ year }: { year: string }) {
   const drivers = sortByLastPoints(
     data?.drivers || [],
     (d) => getLast(d.driver_standings).points as number,
-  ).slice(0, 3);
+  );
 
   const constructors = sortByLastPoints(
     data?.constructors || [],
     (c) => getLast(c.constructor_standings).points as number,
-  ).slice(0, 3);
+  );
 
   return (
     <>

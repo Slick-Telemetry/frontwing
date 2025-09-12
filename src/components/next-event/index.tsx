@@ -14,11 +14,7 @@ import { Countdown } from '@/components/countdown';
 import { NextEventSkeleton } from '@/components/next-event/skeleton';
 import { SprintBadge } from '@/components/sprint-badge';
 
-import {
-  Event_Format_Choices_Enum,
-  GetNextEventQuery,
-  GetNextEventQueryVariables,
-} from '@/types/graphql';
+import { Event_Format_Choices_Enum } from '@/types/graphql';
 
 const scheduleSessionKeys = [
   'session5_date_utc',
@@ -30,10 +26,7 @@ const scheduleSessionKeys = [
 
 export default function NextEvent() {
   const midnight = getTodayMidnightUTC();
-  const { loading, data, error } = useQuery<
-    GetNextEventQuery,
-    GetNextEventQueryVariables
-  >(GET_NEXT_EVENT, {
+  const { loading, data, error } = useQuery(GET_NEXT_EVENT, {
     variables: { today: midnight },
   });
 

@@ -9,19 +9,21 @@ const config: CodegenConfig = {
     {
       [process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL as string]: {
         headers: {
-          'x-hasura-role': process.env.NEXT_PUBLIC_HASURA_ROLE as string,
+          'x-hasura-role': process.env.HASURA_GRAPHQL_ADMIN_ROLE as string,
+          'x-hasura-admin-secret': process.env
+            .HASURA_GRAPHQL_ADMIN_SECRET as string,
         },
       },
     },
   ],
-  documents: './src/lib/*.ts',
+  documents: ['src/**/*.tsx', 'src/**/*.ts'],
   generates: {
-    './src/types/graphql.d.ts': {
-      plugins: ['typescript', 'typescript-operations'],
+    './src/types/': {
+      preset: 'client',
       config: {
         scalars: {
-          bigint: 'bigint',
-          numeric: 'bigint | number',
+          bigint: 'number',
+          numeric: 'number',
           jsonb: 'unknown',
         },
       },

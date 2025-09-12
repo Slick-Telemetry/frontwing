@@ -3,7 +3,6 @@
 import { useQuery } from '@apollo/client/react';
 import { useParams } from 'next/navigation';
 
-import { GET_SEASON_EVENTS } from '@/lib/queries';
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 import useUrlUpdater from '@/hooks/use-url-updater';
 
@@ -13,19 +12,22 @@ import {
   SelectorSkeleton,
 } from '@/components/navigation/selector';
 
-import {
-  GetSeasonEventsQuery,
-  GetSeasonEventsQueryVariables,
-} from '@/types/graphql';
+import { graphql } from '@/types';
+
+export const GET_NAV_EVENTS = graphql(`
+  query GetNavEvents($year: Int!) @cached {
+    schedule(distinct_on: event_name, where: { year: { _eq: $year } }) {
+      event_name
+      location
+    }
+  }
+`);
 
 export function EventSelector() {
-  const { year, event } = useParams<{ year: string; event?: string }>();
   const updateUrl = useUrlUpdater();
 
-  const { data, loading, error } = useQuery<
-    GetSeasonEventsQuery,
-    GetSeasonEventsQueryVariables
-  >(GET_SEASON_EVENTS, {
+  const { year, event } = useParams<{ year: string; event?: string }>();
+  const { data, loading, error } = useQuery(GET_NAV_EVENTS, {
     variables: { year: parseInt(year) },
     skip: !year,
   });
@@ -36,7 +38,7 @@ export function EventSelector() {
 
   const items =
     data.schedule.map(({ location, event_name }) => ({
-      label: event_name as string,
+      label: event_name!,
       value: location!,
     })) || [];
 

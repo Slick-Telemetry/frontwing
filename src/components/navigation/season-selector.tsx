@@ -12,16 +12,12 @@ import {
   SelectorSkeleton,
 } from '@/components/navigation/selector';
 
-import { GetSeasonsQuery, GetSeasonsQueryVariables } from '@/types/graphql';
-
 export function SeasonSelector() {
-  const { year } = useParams<{ year: string }>();
   const updateUrl = useUrlUpdater();
 
-  const { data, loading, error } = useQuery<
-    GetSeasonsQuery,
-    GetSeasonsQueryVariables
-  >(GET_SEASONS);
+  const { year } = useParams<{ year: string }>();
+  const { data, loading, error } = useQuery(GET_SEASONS);
+
   const seasons = data?.events.map((e) => e.year?.toString()) || [];
   const value = seasons.includes(year) ? year : undefined;
 

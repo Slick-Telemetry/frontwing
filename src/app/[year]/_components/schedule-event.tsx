@@ -5,20 +5,43 @@ import { eventLocationEncode, eventTiming } from '@/lib/utils';
 
 import { CircuitMap } from '@/components/circuit-map';
 
-import { GetSeasonEventsQuery } from '@/types/graphql';
+import { FragmentType, graphql, useFragment } from '@/types';
 
-type Item = GetSeasonEventsQuery['schedule'][number];
-interface ScheduleEventItemProps extends Item {
+const Event_ScheduleFragment = graphql(`
+  fragment Event_ScheduleFragment on schedule {
+    event_name
+    round_number
+    event_date
+    year
+    location
+    country
+    session1
+    session1_date
+    session2
+    session2_date
+    session3
+    session3_date
+    session4
+    session4_date
+    session5
+    session5_date
+  }
+`);
+
+type ScheduleEventItemProps = {
+  event: FragmentType<typeof Event_ScheduleFragment>;
   next?: number | null;
   details: boolean;
   trackTime: boolean;
-}
+};
+
 export function ScheduleEventItem({
   next,
   details,
   trackTime,
-  ...event
+  ...props
 }: ScheduleEventItemProps) {
+  const event = useFragment(Event_ScheduleFragment, props.event);
   const timing = eventTiming(event.event_date as string);
   const numberClass = clsx({
     'bg-secondary': timing === 'past',
@@ -27,8 +50,9 @@ export function ScheduleEventItem({
     'bg-accent text-accent-foreground': next === event.round_number,
   });
 
-  const formatDate = (date: string, withTime = false) =>
-    trackTime
+  const formatDate = (date?: string | null, withTime = false) => {
+    if (!date) return;
+    return trackTime
       ? new Date(date.slice(0, -6)).toLocaleString(undefined, {
           month: 'short',
           day: 'numeric',
@@ -48,6 +72,7 @@ export function ScheduleEventItem({
             // timeZoneName: 'short',
           }),
         });
+  };
   const sessions = [
     { name: event.session1, date: event.session1_date },
     { name: event.session2, date: event.session2_date },
@@ -73,8 +98,7 @@ export function ScheduleEventItem({
         </div>
         <div className='flex-1 py-2'>
           <p className='text-sm'>
-            {formatDate(event.session1_date as string)} -
-            {formatDate(event.session5_date as string)}
+            {formatDate(event.session1_date)} -{formatDate(event.session5_date)}
           </p>
           <p className='line-clamp-1 font-semibold group-hover:underline'>
             {event.event_name}
@@ -92,24 +116,18 @@ export function ScheduleEventItem({
 
       {details && (
         <div className='border-t px-3 py-2'>
-          {sessions.map(
-            (s, idx) =>
-              s.name &&
-              s.date && (
-                <div
-                  key={idx}
-                  className={clsx(
-                    'flex justify-between gap-2 py-1',
-                    idx > 0 && 'border-t',
-                  )}
-                >
-                  <p className='flex-1 capitalize'>
-                    {s.name.replace('_', ' ')}
-                  </p>
-                  <p>{formatDate(s.date as string, true)}</p>
-                </div>
-              ),
-          )}
+          {sessions.map((s, idx) => (
+            <div
+              key={idx}
+              className={clsx(
+                'flex justify-between gap-2 py-1',
+                idx > 0 && 'border-t',
+              )}
+            >
+              <p className='flex-1 capitalize'>{s.name?.replace('_', ' ')}</p>
+              <p>{formatDate(s.date, true)}</p>
+            </div>
+          ))}
         </div>
       )}
     </li>

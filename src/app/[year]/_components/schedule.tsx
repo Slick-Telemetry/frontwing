@@ -1,7 +1,6 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
 
-import { GET_SEASON_EVENTS } from '@/lib/queries';
 import { getTodayMidnightUTC } from '@/lib/utils';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 
@@ -14,28 +13,37 @@ import NotFound from '@/app/not-found';
 
 import { ScheduleEventItem } from './schedule-event';
 
-import {
-  GetSeasonEventsQuery,
-  GetSeasonEventsQueryVariables,
-} from '@/types/graphql';
+import { graphql } from '@/types';
+
+export const GET_SEASON_EVENTS = graphql(`
+  query GetSeasonEvents($year: Int!) @cached {
+    schedule(where: { year: { _eq: $year } }) {
+      event_name
+      event_date
+      year
+      round_number
+      location
+      country
+      event_format
+      ...Event_ScheduleFragment
+    }
+  }
+`);
 
 export function Schedule({ year }: { year: string }) {
+  const [trackTime, setTrackTime] = useLocalStorage('trackTime', false);
   const [showSessions, setShowSessions] = useLocalStorage(
     'showSessions',
     false,
   );
-  const [trackTime, setTrackTime] = useLocalStorage('trackTime', false);
 
-  const { loading, error, data } = useQuery<
-    GetSeasonEventsQuery,
-    GetSeasonEventsQueryVariables
-  >(GET_SEASON_EVENTS, {
+  const { loading, error, data } = useQuery(GET_SEASON_EVENTS, {
     variables: { year: parseInt(year) },
   });
 
   if (loading) return <FullHeightLoader />;
   if (error) return <ServerPageError />;
-  if (!data?.schedule?.some((e) => e.event_name)) return <NotFound />;
+  if (!data || data?.schedule?.length === 0) return <NotFound />;
 
   const now = getTodayMidnightUTC();
   const nextEvent = data.schedule.find(
@@ -69,13 +77,13 @@ export function Schedule({ year }: { year: string }) {
       </div>
 
       <ul className='grid gap-4 pt-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
-        {data.schedule.map((event) => (
+        {data?.schedule.map((event) => (
           <ScheduleEventItem
             key={event.event_name as string}
             next={nextEvent?.round_number}
             trackTime={trackTime}
             details={showSessions}
-            {...event}
+            event={event}
           />
         ))}
       </ul>

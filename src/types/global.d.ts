@@ -7,8 +7,8 @@ import {
 // *** Require Import
 export type SeasonEvent =
   | null
-  | GetSeasonEventsQuery['schedule'][0]
-  | GetEventScheduleQuery['schedule'][0];
+  | GetSeasonEventsQuery['schedule'][number]
+  | GetEventScheduleQuery['schedule'][number];
 
 export type MapEvent = GetMapEventsQuery['events'][0];
 

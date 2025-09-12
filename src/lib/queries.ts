@@ -1,18 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_CONSTRUCTORS = gql`
-  query GetConstructors @cached {
-    constructors(
-      where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
-      order_by: { name: asc }
-      distinct_on: name
-    ) {
-      name
-      ergast_id
-      color
-    }
-  }
-`;
+import { graphql } from '@/types';
 
 export const GET_CONSTRUCTOR = gql`
   query GetConstructor($_id: String!) @cached {
@@ -48,27 +36,13 @@ export const GET_CONSTRUCTOR = gql`
   }
 `;
 
-export const GET_DRIVERS = gql`
-  query GetDrivers @cached {
-    drivers(
-      where: { driver_sessions: { session: { date: { _iregex: "2025" } } } }
-      order_by: { full_name: asc }
-      distinct_on: full_name
-    ) {
-      full_name
-      ergast_id
-      number
-    }
-  }
-`;
-
-export const GET_SEASONS = gql`
+export const GET_SEASONS = graphql(`
   query GetSeasons @cached {
     events(distinct_on: year, order_by: { year: desc }) {
       year
     }
   }
-`;
+`);
 
 export const GET_MAP_EVENTS = gql`
   query GetMapEvents($year: Int!) @cached {
@@ -106,7 +80,7 @@ export const GET_MAP_EVENTS = gql`
   }
 `;
 
-export const GET_NEXT_EVENT = gql`
+export const GET_NEXT_EVENT = graphql(`
   query GetNextEvent($today: String!) {
     schedule(
       where: { event_date: { _gte: $today } }
@@ -126,7 +100,7 @@ export const GET_NEXT_EVENT = gql`
       session5_date_utc
     }
   }
-`;
+`);
 
 export const GET_NEXT_EVENT_CIRCUIT = gql`
   query GetNextEventCircuit(
@@ -145,30 +119,6 @@ export const GET_NEXT_EVENT_CIRCUIT = gql`
       limit: 1
     ) {
       circuit_details
-    }
-  }
-`;
-
-export const GET_SEASON_EVENTS = gql`
-  query GetSeasonEvents($year: Int!) @cached {
-    schedule(where: { year: { _eq: $year } }) {
-      year
-      round_number
-      event_name
-      event_format
-      event_date
-      location
-      country
-      session1
-      session1_date
-      session2
-      session2_date
-      session3
-      session3_date
-      session4
-      session4_date
-      session5
-      session5_date
     }
   }
 `;
@@ -293,12 +243,12 @@ export const GET_EVENT_DETAILS = gql`
   }
 `;
 
-export const GET_TOP_THREE_STANDINGS = gql`
-  query GetTopThreeStandings($season: Int!) @cached {
+export const GET_TOP_STANDINGS = graphql(`
+  query GetTopStandings($season: Int!, $limit: Int = 3) @cached {
     drivers(
       where: { driver_standings: { season: { _eq: $season } } }
       order_by: { driver_standings_aggregate: { max: { points: desc } } }
-      limit: 3
+      limit: $limit
     ) {
       abbreviation
       full_name
@@ -324,7 +274,7 @@ export const GET_TOP_THREE_STANDINGS = gql`
     constructors(
       where: { constructor_standings: { season: { _eq: $season } } }
       order_by: { constructor_standings_aggregate: { max: { points: desc } } }
-      limit: 3
+      limit: $limit
     ) {
       name
       color
@@ -339,14 +289,18 @@ export const GET_TOP_THREE_STANDINGS = gql`
       }
     }
   }
-`;
-export const GET_STANDINGS = gql`
+`);
+
+export const GET_STANDINGS = graphql(`
   query GetStandings($season: Int!) @cached {
     events(where: { year: { _eq: $season } }) {
       round_number
       name
     }
-    drivers(where: { driver_standings: { season: { _eq: $season } } }) {
+    drivers(
+      where: { driver_standings: { season: { _eq: $season } } }
+      order_by: { driver_standings_aggregate: { max: { points: desc } } }
+    ) {
       abbreviation
       full_name
       latest_constructor: driver_sessions(
@@ -369,12 +323,13 @@ export const GET_STANDINGS = gql`
     }
     constructors(
       where: { constructor_standings: { season: { _eq: $season } } }
+      order_by: { constructor_standings_aggregate: { max: { points: desc } } }
     ) {
       name
       color
       constructor_standings(
         where: { season: { _eq: $season } }
-        order_by: { round: asc }
+        order_by: { round: desc }
       ) {
         round
         points
@@ -382,7 +337,7 @@ export const GET_STANDINGS = gql`
       }
     }
   }
-`;
+`);
 
 export const GET_SESSION = gql`
   query Session(

@@ -3,7 +3,6 @@
 import { useQuery } from '@apollo/client/react';
 import { useParams } from 'next/navigation';
 
-import { GET_EVENT_SCHEDULE } from '@/lib/queries';
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 import useUrlUpdater from '@/hooks/use-url-updater';
 
@@ -13,10 +12,23 @@ import {
   SelectorSkeleton,
 } from '@/components/navigation/selector';
 
-import {
-  GetEventScheduleQuery,
-  GetEventScheduleQueryVariables,
-} from '@/types/graphql';
+import { graphql } from '@/types';
+
+export const GET_NAV_SESSIONS = graphql(`
+  query GetNavSessions($year: Int!, $event: String!) @cached {
+    schedule(
+      distinct_on: location
+      where: { year: { _eq: $year }, location: { _eq: $event } }
+      limit: 1
+    ) {
+      session1
+      session2
+      session3
+      session4
+      session5
+    }
+  }
+`);
 
 export function SessionSelector() {
   const { year, event, session } = useParams<{
@@ -26,10 +38,7 @@ export function SessionSelector() {
   }>();
   const updateUrl = useUrlUpdater();
 
-  const { data, loading, error } = useQuery<
-    GetEventScheduleQuery,
-    GetEventScheduleQueryVariables
-  >(GET_EVENT_SCHEDULE, {
+  const { data, loading, error } = useQuery(GET_NAV_SESSIONS, {
     variables: {
       year: parseInt(year),
       event: eventLocationDecode(event)!,
