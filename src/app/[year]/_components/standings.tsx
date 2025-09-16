@@ -10,10 +10,6 @@ import { useLocalStorage } from '@/hooks/use-local-storage';
 import { Loader } from '@/components/Loader';
 import { Button } from '@/components/ui/button';
 
-import { GetStandingsQuery } from '@/types/graphql';
-
-type Driver = GetStandingsQuery['drivers'][number];
-type Constructor = GetStandingsQuery['constructors'][number];
 type ViewType = 'drivers' | 'constructors';
 type StandingsListProps<T> = {
   items: T[];
@@ -77,7 +73,7 @@ export default function TopThreeStandings({ year }: { year: string }) {
             flex: view === 'drivers',
           })}
         >
-          <StandingsList<Driver>
+          <StandingsList
             items={drivers}
             getName={(d) => d.full_name!}
             getTeam={(d) => d.latest_constructor[0]?.constructor?.name ?? ''}
@@ -91,7 +87,7 @@ export default function TopThreeStandings({ year }: { year: string }) {
             flex: view === 'constructors',
           })}
         >
-          <StandingsList<Constructor>
+          <StandingsList
             items={constructors}
             getName={(c) => c.name!}
             getStandings={(c) => c.constructor_standings}
