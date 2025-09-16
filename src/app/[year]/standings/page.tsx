@@ -1,22 +1,18 @@
 'use client';
-import { useSuspenseQuery } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { GET_STANDINGS } from '@/lib/queries';
 
 import { ApolloErrorBoundary } from '@/components/ApolloErrorBoundary';
+import { Button } from '@/components/ui/button';
 
 import { ConstructorsTable, DriversTable } from '@/app/[year]/standings/Tables';
 
+import { StandingsChart } from './_components/chart';
 import { Legend } from './Legend';
-import { StandingsChart } from './StandingsChart';
-
-import type {
-  GetStandingsQuery,
-  GetStandingsQueryVariables,
-} from '@/types/graphql';
 
 const StandingsContent = () => {
   const { year: season } = useParams<{ year: string }>();
@@ -24,43 +20,14 @@ const StandingsContent = () => {
   const chartType = (searchParams.get('chart') || 'drivers') as
     | 'drivers'
     | 'constructors';
-  const chartRef = useRef<HTMLDivElement>(null);
-  const chartInstance = useRef<StandingsChart | null>(null);
 
   const [hiddenTeams, setHiddenTeams] = useState<Record<string, boolean>>({});
   const [hiddenDrivers, setHiddenDrivers] = useState<Record<string, boolean>>(
     {},
   );
-
-  const { data: standings } = useSuspenseQuery<
-    GetStandingsQuery,
-    GetStandingsQueryVariables
-  >(GET_STANDINGS, { variables: { season: parseInt(season) } });
-
-  useEffect(() => {
-    if (!chartRef.current) return;
-
-    chartInstance.current = new StandingsChart(chartRef.current);
-
-    const handleResize = () => chartInstance.current?.resize();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      chartInstance.current?.dispose();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!chartInstance.current || !standings) return;
-
-    chartInstance.current.update(
-      standings,
-      chartType,
-      hiddenDrivers,
-      hiddenTeams,
-    );
-  }, [standings, chartType, hiddenDrivers, hiddenTeams]);
+  const { data: standings } = useQuery(GET_STANDINGS, {
+    variables: { season: parseInt(season) },
+  });
 
   if (!standings) return null;
 
@@ -104,42 +71,49 @@ const StandingsContent = () => {
   };
 
   return (
-    <>
-      <div className='grid grid-cols-2 px-4 py-4 lg:px-6'>
-        <Link
-          href='?chart=drivers'
-          className={`text-2xl font-black hover:underline ${chartType === 'drivers' ? '' : 'opacity-50'}`}
-        >
-          Driver Standings
-        </Link>
-        <Link
-          href='?chart=constructors'
-          className={`text-2xl font-black hover:underline ${chartType === 'constructors' ? '' : 'opacity-50'}`}
-        >
-          Constructor Standings
-        </Link>
+    <div className='grid grid-cols-3 gap-4 p-4 lg:px-6 2xl:grid-cols-4'>
+      <div>
+        {chartType === 'drivers' ? (
+          <DriversTable
+            drivers={standings.drivers}
+            toggleDriverVisibility={toggleDriverVisibility}
+            hiddenDrivers={hiddenDrivers}
+          />
+        ) : (
+          <ConstructorsTable
+            constructors={standings.constructors}
+            toggleConstructorVisibility={toggleConstructorVisibility}
+            hiddenConstructors={hiddenTeams}
+          />
+        )}
       </div>
-      <div className='grid grid-cols-5 gap-4'>
-        <div className='col-span-2'>
-          {chartType === 'drivers' ? (
-            <DriversTable
-              drivers={standings.drivers}
-              toggleDriverVisibility={toggleDriverVisibility}
+      <div className='col-span-2 h-fit 2xl:col-span-3'>
+        <div className='grid grid-cols-2 gap-4 pb-4'>
+          {['drivers', 'constructors'].map((v) => (
+            <Button
+              key={v}
+              variant={chartType === v ? 'secondary' : 'outline'}
+              size='lg'
+              asChild
+            >
+              <Link
+                href={`?chart=${v}`}
+                className='capitalize hover:underline lg:text-xl'
+              >
+                {v} Standings
+              </Link>
+            </Button>
+          ))}
+        </div>
+        <div className='rounded border'>
+          <div className='bg-secondary/25 rounded border'>
+            <StandingsChart
+              data={standings}
+              type={chartType}
+              hiddenConstructors={hiddenTeams}
               hiddenDrivers={hiddenDrivers}
             />
-          ) : (
-            <ConstructorsTable
-              constructors={standings.constructors}
-              toggleConstructorVisibility={toggleConstructorVisibility}
-              hiddenConstructors={hiddenTeams}
-            />
-          )}
-        </div>
-        <div className='col-span-3'>
-          <div
-            className='relative h-[300px] rounded border lg:h-[450px]'
-            ref={chartRef}
-          />
+          </div>
           <Legend
             standings={standings}
             toggleDriverVisibility={toggleDriverVisibility}
@@ -149,7 +123,7 @@ const StandingsContent = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
