@@ -1,3 +1,9 @@
+## 0.6.31 (2025-09-16)
+
+### Refactor
+
+- **graphql**: using client-preset w codegen and optimized queries to align with best practices
+
 ## 0.6.30 (2025-09-10)
 
 ### Refactor
