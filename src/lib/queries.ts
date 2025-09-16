@@ -312,6 +312,13 @@ export const GET_STANDINGS = graphql(`
           color
         }
       }
+      lastRoundPoints: driver_standings(
+        where: { season: { _eq: $season } }
+        order_by: { round: desc }
+        limit: 1
+      ) {
+        points
+      }
       driver_standings(
         where: { season: { _eq: $season } }
         order_by: { round: asc }
@@ -327,6 +334,13 @@ export const GET_STANDINGS = graphql(`
     ) {
       name
       color
+      lastRoundPoints: constructor_standings(
+        where: { season: { _eq: $season } }
+        order_by: { round: desc }
+        limit: 1
+      ) {
+        points
+      }
       constructor_standings(
         where: { season: { _eq: $season } }
         order_by: { round: desc }
