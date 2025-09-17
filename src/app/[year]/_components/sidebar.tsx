@@ -90,7 +90,7 @@ export function AppSidebar() {
               >
                 <div className='flex aspect-square size-8 items-center justify-center'>
                   <Image
-                    src='/slick-telemetry-logo.png'
+                    src='/slick-telemetry.png'
                     width={24}
                     height={24}
                     alt='Slick Telemetry Logo'
