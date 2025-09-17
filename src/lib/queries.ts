@@ -122,7 +122,6 @@ export const GET_NEXT_EVENT_CIRCUIT = gql`
     }
   }
 `;
-
 export const GET_EVENT_SCHEDULE = gql`
   query GetEventSchedule($year: Int!, $event: String!) @cached {
     dropdown_events: schedule(
@@ -242,7 +241,6 @@ export const GET_EVENT_DETAILS = gql`
     }
   }
 `;
-
 export const GET_TOP_STANDINGS = graphql(`
   query GetTopStandings($season: Int!, $limit: Int = 3) @cached {
     drivers(
@@ -311,13 +309,6 @@ export const GET_STANDINGS = graphql(`
           name
           color
         }
-      }
-      lastRoundPoints: driver_standings(
-        where: { season: { _eq: $season } }
-        order_by: { round: desc }
-        limit: 1
-      ) {
-        points
       }
       driver_standings(
         where: { season: { _eq: $season } }

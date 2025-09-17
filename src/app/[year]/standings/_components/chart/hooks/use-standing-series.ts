@@ -23,7 +23,7 @@ export function useStandingsSeries({
       const cName = driver.latest_constructor?.[0]?.constructor?.name;
       if (!cName) return acc;
 
-      const pts = driver.lastRoundPoints?.[0]?.points ?? 0;
+      const pts = driver.driver_standings.at(-1)?.points ?? 0;
       const current = acc.get(cName);
       if (!current || pts > current.points) {
         acc.set(cName, { abbr: driver.abbreviation || '', points: pts });
@@ -39,7 +39,7 @@ export function useStandingsSeries({
         showRoundPoints,
       );
       const constructor = driver.latest_constructor?.[0]?.constructor;
-      const color = `#${constructor?.color || 'cccccc'}`;
+      const color = `#${constructor?.color || 'b0b0b0'}`;
       const topDriver = constructorTopDrivers.get(
         constructor?.name || '',
       )?.abbr;

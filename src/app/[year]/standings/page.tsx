@@ -9,10 +9,10 @@ import { GET_STANDINGS } from '@/lib/queries';
 import { ApolloErrorBoundary } from '@/components/ApolloErrorBoundary';
 import { Button } from '@/components/ui/button';
 
+import { Legend } from '@/app/[year]/standings/_components/legend';
 import { ConstructorsTable, DriversTable } from '@/app/[year]/standings/Tables';
 
 import { StandingsChart } from './_components/chart';
-import { Legend } from './Legend';
 
 const StandingsContent = () => {
   const { year: season } = useParams<{ year: string }>();
@@ -30,6 +30,18 @@ const StandingsContent = () => {
   });
 
   if (!standings) return null;
+
+  const legendData = standings.drivers.map((d) => {
+    const { constructor } = d.latest_constructor[0];
+    return {
+      abbr: d.abbreviation ?? '',
+      totalPoints: d.driver_standings.at(-1)?.points ?? 0,
+      team: constructor?.name ?? 'Unknown',
+      color: constructor?.color
+        ? `#${constructor?.color}`
+        : 'var(--foreground)',
+    };
+  });
 
   const toggleDriverVisibility = (constructor: string, driver: string) => {
     if (!driver) return;
@@ -71,7 +83,7 @@ const StandingsContent = () => {
   };
 
   return (
-    <div className='grid grid-cols-3 gap-4 p-4 lg:px-6 2xl:grid-cols-4'>
+    <div className='grid gap-4 p-4 lg:px-6 xl:grid-cols-3 2xl:grid-cols-4'>
       <div>
         {chartType === 'drivers' ? (
           <DriversTable
@@ -115,7 +127,9 @@ const StandingsContent = () => {
             />
           </div>
           <Legend
-            standings={standings}
+            standings={legendData}
+            // toggleVisibility={toggleVisibility}
+            // hiddenItems={chartType === 'drivers' ? hiddenDrivers : hiddenTeams}
             toggleDriverVisibility={toggleDriverVisibility}
             toggleConstructorVisibility={toggleConstructorVisibility}
             hiddenDrivers={hiddenDrivers}
