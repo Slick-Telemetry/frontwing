@@ -1,3 +1,14 @@
+## 0.6.32 (2025-09-17)
+
+### Fix
+
+- type error with hardcoded definition
+- checkbox can accept id to prevent label click overlap
+
+### Refactor
+
+- adjust sticky nav styles and remove unnecessary main tag
+
 ## 0.6.31 (2025-09-16)
 
 ### Refactor
