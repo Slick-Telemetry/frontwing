@@ -16,7 +16,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export function Nav() {
   return (
-    <header className='bg-background sticky top-0 z-20 flex h-(--header-height) shrink-0 items-center border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)'>
+    <header className='bg-background sticky top-0 z-20 flex h-(--header-height) shrink-0 items-center rounded-t-xl border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)'>
       <NavigationMenu viewport={false}>
         <NavigationMenuList className='flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6'>
           <NavigationMenuItem>

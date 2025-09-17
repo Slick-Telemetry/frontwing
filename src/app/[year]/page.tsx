@@ -11,7 +11,7 @@ export default async function SeasonPage({
   const { year } = await params;
 
   return (
-    <main className='p-4 lg:p-6'>
+    <div className='p-4 lg:p-6'>
       <div className='grid gap-4 md:grid-cols-3 2xl:grid-cols-4'>
         <div className='flex flex-col gap-4 md:col-span-2'>
           <div className='flex h-full justify-center rounded border px-4'>
@@ -27,6 +27,6 @@ export default async function SeasonPage({
       <div className='pt-6'>
         <Schedule year={year} />
       </div>
-    </main>
+    </div>
   );
 }
