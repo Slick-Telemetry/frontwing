@@ -43,16 +43,13 @@ function groupDriversByConstructor(drivers: Driver[]): GroupedByConstructor[] {
 
 export const Legend = ({
   standings,
-  toggleDriverVisibility,
-  toggleConstructorVisibility,
+  toggleVisibility,
   hiddenDrivers,
   hiddenConstructors,
 }: {
   standings: Driver[];
-  // toggleVisibility: (type: 'driver' | 'constructor', id: string) => void;
+  toggleVisibility: (type: 'drivers' | 'constructors', id: string) => void;
   // hiddenItems: Record<string, boolean>;
-  toggleDriverVisibility: (constructor: string, driver: string) => void;
-  toggleConstructorVisibility: (constructor: string, drivers: string[]) => void;
   hiddenDrivers: Record<string, boolean>;
   hiddenConstructors: Record<string, boolean>;
 }) => {
@@ -65,8 +62,8 @@ export const Legend = ({
         <div
           key={team}
           className='flex cursor-pointer flex-col justify-between gap-1 rounded border p-2'
-          style={{ borderColor: `${color}` }}
-          onClick={() => toggleConstructorVisibility(team, drivers)}
+          style={{ borderColor: color }}
+          onClick={() => toggleVisibility('constructors', team)}
           aria-label={`Toggle ${team}`}
         >
           {/* **Constructor Name Toggle** */}
@@ -76,7 +73,7 @@ export const Legend = ({
               hiddenConstructors[team] ? 'opacity-50' : 'opacity-100',
             )}
           >
-            <Circle fill={`${color}`} stroke='none' className='size-4' />
+            <Circle fill={color} stroke='none' className='size-4' />
             <p className='truncate'>{team}</p>
           </div>
 
@@ -89,7 +86,7 @@ export const Legend = ({
                   variant='outline'
                   onClick={(e) => {
                     e.stopPropagation();
-                    toggleDriverVisibility(team, driver);
+                    toggleVisibility('drivers', driver);
                   }}
                   className={clsx(
                     'max-w-1/2 flex-1 cursor-pointer px-0 py-1 text-center text-sm select-none',

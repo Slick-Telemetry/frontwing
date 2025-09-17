@@ -9,10 +9,9 @@ import { GET_STANDINGS } from '@/lib/queries';
 import { ApolloErrorBoundary } from '@/components/ApolloErrorBoundary';
 import { Button } from '@/components/ui/button';
 
+import { StandingsChart } from '@/app/[year]/standings/_components/chart';
 import { Legend } from '@/app/[year]/standings/_components/legend';
-import { ConstructorsTable, DriversTable } from '@/app/[year]/standings/Tables';
-
-import { StandingsChart } from './_components/chart';
+import { Table } from '@/app/[year]/standings/_components/table';
 
 const StandingsContent = () => {
   const { year: season } = useParams<{ year: string }>();
@@ -35,6 +34,7 @@ const StandingsContent = () => {
     const { constructor } = d.latest_constructor[0];
     return {
       abbr: d.abbreviation ?? '',
+      name: d.full_name ?? '',
       totalPoints: d.driver_standings.at(-1)?.points ?? 0,
       team: constructor?.name ?? 'Unknown',
       color: constructor?.color
@@ -43,63 +43,48 @@ const StandingsContent = () => {
     };
   });
 
-  const toggleDriverVisibility = (constructor: string, driver: string) => {
-    if (!driver) return;
-    setHiddenDrivers((prev) => {
-      const newState = { ...prev, [driver]: !prev[driver] };
+  const toggleVisibility = (type: 'drivers' | 'constructors', id: string) => {
+    if (type === 'drivers') {
+      setHiddenDrivers((prev) => ({
+        ...prev,
+        [id]: !prev[id],
+      }));
+    }
 
-      // Check if all drivers for this constructor are hidden
-      const allDriversHidden = standings.drivers
-        .filter(
-          (d) => d.latest_constructor?.[0]?.constructor?.name === constructor,
-        )
-        .every((d) => newState[d.abbreviation || '']);
+    if (type === 'constructors') {
+      setHiddenTeams((prev) => ({
+        ...prev,
+        [id]: !prev[id],
+      }));
 
-      if (allDriversHidden) {
-        setHiddenTeams((prev) => ({ ...prev, [constructor]: true }));
-      } else {
-        setHiddenTeams((prev) => ({ ...prev, [constructor]: false }));
-      }
+      const drivers = standings.drivers.filter(
+        (d) => d.latest_constructor?.[0]?.constructor?.name === id,
+      );
 
-      return newState;
-    });
-  };
-
-  const toggleConstructorVisibility = (
-    constructor: string,
-    drivers: string[],
-  ) => {
-    setHiddenTeams((prev) => {
-      const newState = { ...prev, [constructor]: !prev[constructor] };
-      setHiddenDrivers((prevDrivers) => {
-        const updatedDrivers = { ...prevDrivers };
-        drivers.forEach(
-          (driver) => (updatedDrivers[driver] = newState[constructor]),
-        );
-        return updatedDrivers;
+      setHiddenDrivers((prev) => {
+        const allHidden = drivers.every((d) => prev[d.abbreviation || '']);
+        const updated = { ...prev };
+        drivers.forEach((d) => {
+          if (d.abbreviation) {
+            updated[d.abbreviation] = !allHidden; // toggle all
+          }
+        });
+        return updated;
       });
-      return newState;
-    });
+    }
   };
+
+  // // Helpers if you still want constructor-level checks
+  // const isConstructorHidden = (constructor: string) => {
+  //   const drivers = standings.drivers.filter(
+  //     (d) => d.latest_constructor?.[0]?.constructor?.name === constructor,
+  //   );
+  //   return drivers.every((d) => hiddenDrivers[d.abbreviation || '']);
+  // };
 
   return (
-    <div className='grid gap-4 p-4 lg:px-6 xl:grid-cols-3 2xl:grid-cols-4'>
-      <div>
-        {chartType === 'drivers' ? (
-          <DriversTable
-            drivers={standings.drivers}
-            toggleDriverVisibility={toggleDriverVisibility}
-            hiddenDrivers={hiddenDrivers}
-          />
-        ) : (
-          <ConstructorsTable
-            constructors={standings.constructors}
-            toggleConstructorVisibility={toggleConstructorVisibility}
-            hiddenConstructors={hiddenTeams}
-          />
-        )}
-      </div>
-      <div className='col-span-2 h-fit 2xl:col-span-3'>
+    <div className='grid gap-4 p-4 lg:px-6 xl:grid-cols-3'>
+      <div className='h-fit xl:order-2 xl:col-span-2'>
         <div className='grid grid-cols-2 gap-4 pb-4'>
           {['drivers', 'constructors'].map((v) => (
             <Button
@@ -128,14 +113,28 @@ const StandingsContent = () => {
           </div>
           <Legend
             standings={legendData}
-            // toggleVisibility={toggleVisibility}
+            toggleVisibility={toggleVisibility}
             // hiddenItems={chartType === 'drivers' ? hiddenDrivers : hiddenTeams}
-            toggleDriverVisibility={toggleDriverVisibility}
-            toggleConstructorVisibility={toggleConstructorVisibility}
             hiddenDrivers={hiddenDrivers}
             hiddenConstructors={hiddenTeams}
           />
         </div>
+      </div>
+      <div className='w-full xl:order-1'>
+        <Table
+          items={
+            chartType === 'drivers'
+              ? legendData
+              : standings.constructors.map((c) => ({
+                  name: c?.name ?? 'Unknown',
+                  abbr: c?.name ?? 'Unknown',
+                  color: c?.color ? `#${c.color}` : 'var(--foreground)',
+                  totalPoints: c.lastRoundPoints[0]?.points ?? 0,
+                }))
+          }
+          toggleItem={(item: string) => toggleVisibility(chartType, item)}
+          hiddenItems={chartType === 'drivers' ? hiddenDrivers : hiddenTeams}
+        />
       </div>
     </div>
   );
