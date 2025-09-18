@@ -53,7 +53,7 @@ export const Legend = ({
   hiddenDrivers: Record<string, boolean>;
   hiddenConstructors: Record<string, boolean>;
 }) => {
-  const showDrivers = useSearchParams().get('chart') === 'drivers';
+  const showDrivers = useSearchParams().get('chart') !== 'constructors';
   const constructorsWithDrivers = groupDriversByConstructor(standings);
 
   return (
