@@ -37,16 +37,10 @@ echarts.use([
 interface Props {
   data: GetStandingsQuery;
   type: 'drivers' | 'constructors';
-  hiddenDrivers?: Record<string, boolean>;
-  hiddenConstructors?: Record<string, boolean>;
+  hiddenItems: Record<string, boolean>;
 }
 
-export function StandingsChart({
-  data,
-  type,
-  hiddenDrivers = {},
-  hiddenConstructors = {},
-}: Props) {
+export function StandingsChart({ data, type, hiddenItems }: Props) {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useECharts(chartRef);
 
@@ -72,8 +66,8 @@ export function StandingsChart({
     if (!chartInstance.current) return;
     const filtered =
       type === 'drivers'
-        ? driversSeries.filter((s) => !hiddenDrivers[s.name])
-        : constructorsSeries.filter((s) => !hiddenConstructors[s.name]);
+        ? driversSeries.filter((s) => !hiddenItems[s.name])
+        : constructorsSeries.filter((s) => !hiddenItems[s.name]);
 
     chartInstance.current.setOption(
       {
@@ -90,8 +84,7 @@ export function StandingsChart({
     hideTooltip,
     driversSeries,
     constructorsSeries,
-    hiddenDrivers,
-    hiddenConstructors,
+    hiddenItems,
     allRounds,
     formatTooltip,
   ]);

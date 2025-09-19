@@ -44,14 +44,11 @@ function groupDriversByConstructor(drivers: Driver[]): GroupedByConstructor[] {
 export const Legend = ({
   standings,
   toggleVisibility,
-  hiddenDrivers,
-  hiddenConstructors,
+  hiddenItems,
 }: {
   standings: Driver[];
   toggleVisibility: (type: 'drivers' | 'constructors', id: string) => void;
-  // hiddenItems: Record<string, boolean>;
-  hiddenDrivers: Record<string, boolean>;
-  hiddenConstructors: Record<string, boolean>;
+  hiddenItems: Record<string, boolean>;
 }) => {
   const showDrivers = useSearchParams().get('chart') !== 'constructors';
   const constructorsWithDrivers = groupDriversByConstructor(standings);
@@ -70,7 +67,7 @@ export const Legend = ({
           <div
             className={clsx(
               'flex items-center gap-1',
-              hiddenConstructors[team] ? 'opacity-50' : 'opacity-100',
+              hiddenItems[team] ? 'opacity-50' : 'opacity-100',
             )}
           >
             <Circle fill={color} stroke='none' className='size-4' />
@@ -91,7 +88,7 @@ export const Legend = ({
                   className={clsx(
                     'max-w-1/2 flex-1 cursor-pointer px-0 py-1 text-center text-sm select-none',
                     `border-1 border-${['solid', 'dashed', 'dotted', 'double'][idx % 4]}`,
-                    hiddenDrivers[driver] ? 'opacity-50' : 'opacity-100',
+                    hiddenItems[driver] ? 'opacity-50' : 'opacity-100',
                   )}
                   style={{ borderColor: color }}
                 >

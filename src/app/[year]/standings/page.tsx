@@ -13,6 +13,34 @@ import { StandingsChart } from '@/app/[year]/standings/_components/chart';
 import { Legend } from '@/app/[year]/standings/_components/legend';
 import { Table } from '@/app/[year]/standings/_components/table';
 
+import type { GetStandingsQuery } from '@/types/graphql';
+
+// Helper functions for data transformation
+const resolveColor = (color?: string | null) =>
+  color ? `#${color}` : 'var(--foreground)';
+
+const formatConstructorData = (
+  constructor: NonNullable<GetStandingsQuery['constructors'][0]>,
+) => ({
+  name: constructor?.name ?? 'Unknown',
+  abbr: constructor?.name ?? 'Unknown',
+  color: resolveColor(constructor?.color),
+  totalPoints: constructor?.lastRoundPoints?.[0]?.points ?? 0,
+});
+
+const formatDriverData = (
+  driver: NonNullable<GetStandingsQuery['drivers'][0]>,
+) => {
+  const constructor = driver.latest_constructor?.[0]?.constructor;
+  return {
+    abbr: driver.abbreviation ?? '',
+    name: driver.full_name ?? '',
+    totalPoints: driver.driver_standings?.at(-1)?.points ?? 0,
+    team: constructor?.name ?? 'Unknown',
+    color: resolveColor(constructor?.color),
+  };
+};
+
 const StandingsContent = () => {
   const { year: season } = useParams<{ year: string }>();
   const searchParams = useSearchParams();
@@ -20,67 +48,44 @@ const StandingsContent = () => {
     | 'drivers'
     | 'constructors';
 
-  const [hiddenTeams, setHiddenTeams] = useState<Record<string, boolean>>({});
-  const [hiddenDrivers, setHiddenDrivers] = useState<Record<string, boolean>>(
-    {},
-  );
+  const [hiddenItems, setHiddenItems] = useState<Record<string, boolean>>({});
   const { data: standings } = useQuery(GET_STANDINGS, {
     variables: { season: parseInt(season) },
   });
 
   if (!standings) return null;
 
-  const legendData = standings.drivers.map((d) => {
-    const { constructor } = d.latest_constructor[0];
-    return {
-      abbr: d.abbreviation ?? '',
-      name: d.full_name ?? '',
-      totalPoints: d.driver_standings.at(-1)?.points ?? 0,
-      team: constructor?.name ?? 'Unknown',
-      color: constructor?.color
-        ? `#${constructor?.color}`
-        : 'var(--foreground)',
-    };
-  });
+  const simpleConstructorData = standings.constructors.map(
+    formatConstructorData,
+  );
+  const simpleDriverData = standings.drivers.map(formatDriverData);
 
   const toggleVisibility = (type: 'drivers' | 'constructors', id: string) => {
-    if (type === 'drivers') {
-      setHiddenDrivers((prev) => ({
-        ...prev,
-        [id]: !prev[id],
-      }));
-    }
+    // Get constructor from legendData driver.team or use provided id
+    const constructor = simpleDriverData.find((d) => d.abbr === id)?.team ?? id;
+    // Get Drivers for constructor/team
+    const constructorDrivers = simpleDriverData.filter(
+      (d) => d.team === constructor,
+    );
 
-    if (type === 'constructors') {
-      setHiddenTeams((prev) => ({
-        ...prev,
-        [id]: !prev[id],
-      }));
+    setHiddenItems((prev) => {
+      // Update given item
+      prev[id] = !prev[id];
 
-      const drivers = standings.drivers.filter(
-        (d) => d.latest_constructor?.[0]?.constructor?.name === id,
-      );
+      // Check related items
+      const allHidden = constructorDrivers.every((d) => prev[d.abbr]);
 
-      setHiddenDrivers((prev) => {
-        const allHidden = drivers.every((d) => prev[d.abbreviation || '']);
-        const updated = { ...prev };
-        drivers.forEach((d) => {
-          if (d.abbreviation) {
-            updated[d.abbreviation] = !allHidden; // toggle all
-          }
-        });
-        return updated;
-      });
-    }
+      if (type === 'constructors') {
+        // Update all drivers
+        constructorDrivers.map((d) => (prev[d.abbr] = prev[id]));
+      }
+      if (type === 'drivers') {
+        // Update constructor
+        prev[constructor] = allHidden;
+      }
+      return { ...prev };
+    });
   };
-
-  // // Helpers if you still want constructor-level checks
-  // const isConstructorHidden = (constructor: string) => {
-  //   const drivers = standings.drivers.filter(
-  //     (d) => d.latest_constructor?.[0]?.constructor?.name === constructor,
-  //   );
-  //   return drivers.every((d) => hiddenDrivers[d.abbreviation || '']);
-  // };
 
   return (
     <div className='grid gap-4 p-4 lg:px-6 xl:grid-cols-3'>
@@ -107,33 +112,23 @@ const StandingsContent = () => {
             <StandingsChart
               data={standings}
               type={chartType}
-              hiddenConstructors={hiddenTeams}
-              hiddenDrivers={hiddenDrivers}
+              hiddenItems={hiddenItems}
             />
           </div>
           <Legend
-            standings={legendData}
+            standings={simpleDriverData}
             toggleVisibility={toggleVisibility}
-            // hiddenItems={chartType === 'drivers' ? hiddenDrivers : hiddenTeams}
-            hiddenDrivers={hiddenDrivers}
-            hiddenConstructors={hiddenTeams}
+            hiddenItems={hiddenItems}
           />
         </div>
       </div>
       <div className='w-full xl:order-1'>
         <Table
           items={
-            chartType === 'drivers'
-              ? legendData
-              : standings.constructors.map((c) => ({
-                  name: c?.name ?? 'Unknown',
-                  abbr: c?.name ?? 'Unknown',
-                  color: c?.color ? `#${c.color}` : 'var(--foreground)',
-                  totalPoints: c.lastRoundPoints[0]?.points ?? 0,
-                }))
+            chartType === 'drivers' ? simpleDriverData : simpleConstructorData
           }
-          toggleItem={(item: string) => toggleVisibility(chartType, item)}
-          hiddenItems={chartType === 'drivers' ? hiddenDrivers : hiddenTeams}
+          toggleItem={(item) => toggleVisibility(chartType, item)}
+          hiddenItems={hiddenItems}
         />
       </div>
     </div>
