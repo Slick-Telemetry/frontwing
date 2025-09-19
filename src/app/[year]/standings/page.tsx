@@ -19,7 +19,7 @@ import type { GetStandingsQuery } from '@/types/graphql';
 const resolveColor = (color?: string | null) =>
   color ? `#${color}` : 'var(--foreground)';
 
-const formatConstructorData = (
+const getConstructorData = (
   constructor: NonNullable<GetStandingsQuery['constructors'][0]>,
 ) => ({
   name: constructor?.name ?? 'Unknown',
@@ -28,7 +28,7 @@ const formatConstructorData = (
   totalPoints: constructor?.lastRoundPoints?.[0]?.points ?? 0,
 });
 
-const formatDriverData = (
+const getDriverData = (
   driver: NonNullable<GetStandingsQuery['drivers'][0]>,
 ) => {
   const constructor = driver.latest_constructor?.[0]?.constructor;
@@ -55,10 +55,8 @@ const StandingsContent = () => {
 
   if (!standings) return null;
 
-  const simpleConstructorData = standings.constructors.map(
-    formatConstructorData,
-  );
-  const simpleDriverData = standings.drivers.map(formatDriverData);
+  const simpleConstructorData = standings.constructors.map(getConstructorData);
+  const simpleDriverData = standings.drivers.map(getDriverData);
 
   const toggleVisibility = (type: 'drivers' | 'constructors', id: string) => {
     // Get constructor from legendData driver.team or use provided id
@@ -69,21 +67,60 @@ const StandingsContent = () => {
     );
 
     setHiddenItems((prev) => {
+      // Create a new object to avoid mutation
+      const newState = { ...prev };
+
       // Update given item
-      prev[id] = !prev[id];
+      newState[id] = !newState[id];
 
       // Check related items
-      const allHidden = constructorDrivers.every((d) => prev[d.abbr]);
+      const allHidden = constructorDrivers.every((d) => newState[d.abbr]);
 
       if (type === 'constructors') {
         // Update all drivers
-        constructorDrivers.map((d) => (prev[d.abbr] = prev[id]));
+        constructorDrivers.forEach((d) => (newState[d.abbr] = newState[id]));
       }
       if (type === 'drivers') {
         // Update constructor
-        prev[constructor] = allHidden;
+        newState[constructor] = allHidden;
       }
-      return { ...prev };
+      return newState;
+    });
+  };
+
+  const batchToggleVisibility = (
+    type: 'drivers' | 'constructors',
+    ids: string[],
+  ) => {
+    setHiddenItems((prev) => {
+      const newState = { ...prev };
+
+      ids.forEach((id) => {
+        // Get constructor from legendData driver.team or use provided id
+        const constructor =
+          simpleDriverData.find((d) => d.abbr === id)?.team ?? id;
+        // Get Drivers for constructor/team
+        const constructorDrivers = simpleDriverData.filter(
+          (d) => d.team === constructor,
+        );
+
+        // Update given item
+        newState[id] = !newState[id];
+
+        // Check related items
+        const allHidden = constructorDrivers.every((d) => newState[d.abbr]);
+
+        if (type === 'constructors') {
+          // Update all drivers
+          constructorDrivers.forEach((d) => (newState[d.abbr] = newState[id]));
+        }
+        if (type === 'drivers') {
+          // Update constructor
+          newState[constructor] = allHidden;
+        }
+      });
+
+      return newState;
     });
   };
 
@@ -128,6 +165,7 @@ const StandingsContent = () => {
             chartType === 'drivers' ? simpleDriverData : simpleConstructorData
           }
           toggleItem={(item) => toggleVisibility(chartType, item)}
+          batchToggleItem={(items) => batchToggleVisibility(chartType, items)}
           hiddenItems={hiddenItems}
         />
       </div>

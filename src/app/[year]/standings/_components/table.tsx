@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Circle } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 
@@ -23,24 +24,110 @@ const calculateGap = (currentPoints: number, previousPoints: number | null) => {
 export function Table({
   items,
   toggleItem,
+  batchToggleItem,
   hiddenItems,
 }: {
   items: Driver[];
   toggleItem: (item: string) => void;
+  batchToggleItem?: (items: string[]) => void;
   hiddenItems: Record<string, boolean>;
 }) {
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartIndex, setDragStartIndex] = useState<number | null>(null);
+  const [dragEndIndex, setDragEndIndex] = useState<number | null>(null);
+
+  const handleMouseDown = (index: number) => {
+    setIsDragging(true);
+    setDragStartIndex(index);
+    setDragEndIndex(index);
+  };
+
+  const handleMouseEnter = (index: number) => {
+    if (isDragging && dragStartIndex !== null) {
+      setDragEndIndex(index);
+    }
+  };
+
+  const handleMouseUp = useCallback(() => {
+    if (isDragging && dragStartIndex !== null && dragEndIndex !== null) {
+      // Check if it's a single item click (start and end are the same)
+      if (dragStartIndex === dragEndIndex) {
+        // Single item click - just toggle that item
+        const item = items[dragStartIndex];
+        if (item) {
+          toggleItem(item.abbr);
+        }
+      } else {
+        // Multi-item drag selection
+        const startIndex = Math.min(dragStartIndex, dragEndIndex);
+        const endIndex = Math.max(dragStartIndex, dragEndIndex);
+        const itemsToToggle = items
+          .slice(startIndex, endIndex + 1)
+          .map((item) => item.abbr);
+
+        if (batchToggleItem && itemsToToggle.length > 1) {
+          // Use batch toggle for multiple items
+          batchToggleItem(itemsToToggle);
+        } else {
+          // Use individual toggle for single item or when batch is not available
+          itemsToToggle.forEach((itemAbbr) => {
+            toggleItem(itemAbbr);
+          });
+        }
+      }
+
+      setIsDragging(false);
+      setDragStartIndex(null);
+      setDragEndIndex(null);
+    }
+  }, [
+    isDragging,
+    dragStartIndex,
+    dragEndIndex,
+    items,
+    toggleItem,
+    batchToggleItem,
+  ]);
+
+  // Handle mouse up events outside the component
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      if (isDragging) {
+        handleMouseUp();
+      }
+    };
+
+    if (isDragging) {
+      document.addEventListener('mouseup', handleGlobalMouseUp);
+      return () => document.removeEventListener('mouseup', handleGlobalMouseUp);
+    }
+  }, [isDragging, handleMouseUp]);
+
   return items.map((item, idx, allItems) => {
     const currentPoints = item.totalPoints;
     const previousPoints = allItems[idx - 1]?.totalPoints;
     const gap = calculateGap(currentPoints, previousPoints);
 
+    // Check if this item is in the drag selection range
+    const isInDragRange =
+      isDragging &&
+      dragStartIndex !== null &&
+      dragEndIndex !== null &&
+      idx >= Math.min(dragStartIndex, dragEndIndex) &&
+      idx <= Math.max(dragStartIndex, dragEndIndex);
+
     return (
       <div
         key={item.name}
-        onClick={() => toggleItem(item.abbr)}
+        onMouseDown={() => handleMouseDown(idx)}
+        onMouseEnter={() => handleMouseEnter(idx)}
+        onMouseUp={handleMouseUp}
         className={clsx(
-          'flex cursor-pointer flex-wrap items-center divide-x rounded border py-1',
-          { 'opacity-50': hiddenItems[item.abbr] },
+          'flex cursor-pointer flex-wrap items-center divide-x rounded border py-1 select-none',
+          {
+            'opacity-50': hiddenItems[item.abbr],
+            'bg-blue-100 dark:bg-blue-900': isInDragRange,
+          },
         )}
         aria-label={`Toggle ${item.name} from chart`}
         // style={{ borderColor: item.color }}
