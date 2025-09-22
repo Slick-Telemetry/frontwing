@@ -1,3 +1,13 @@
+## 0.6.33 (2025-09-22)
+
+### Fix
+
+- FRON-215 show drivers unless ?chart=constructors
+
+### Refactor
+
+- FRON-200 Refactor toggle logic for standings legend and table
+
 ## 0.6.32 (2025-09-17)
 
 ### Fix
