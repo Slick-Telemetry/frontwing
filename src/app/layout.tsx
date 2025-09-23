@@ -4,8 +4,6 @@ import { Rubik, Space_Grotesk } from 'next/font/google';
 
 import './globals.css';
 
-import { VercelObservability } from '@/components/vercel';
-
 import { ApolloProvider } from '@/app/apollo-provider';
 
 const spaceGrotesk = Space_Grotesk({
@@ -35,7 +33,6 @@ export default async function RootLayout({
         )}
       >
         <ApolloProvider>{children}</ApolloProvider>
-        <VercelObservability />
       </body>
     </html>
   );
