@@ -12,7 +12,7 @@ export const MapMarker = ({
 }: {
   event: MapEvent;
   color: string;
-  selectEvent: (event: MapEvent) => void;
+  selectEvent: (event: string) => void;
 }) => {
   const { latitude, longitude } = event.sessions[0].circuit || {
     latitude: null,
@@ -25,7 +25,7 @@ export const MapMarker = ({
     <Marker
       longitude={longitude as number}
       latitude={latitude as number}
-      onClick={() => selectEvent(event)}
+      onClick={() => selectEvent(event.name as string)}
     >
       {/* Custom <MapPin /> */}
       <div className='relative flex cursor-pointer items-center justify-center'>

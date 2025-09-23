@@ -50,12 +50,9 @@ export const GET_MAP_EVENTS = gql`
       round_number
       name
       location
-      date
-      country
-      format
+
       sessions(limit: 1, where: { name: { _eq: Race } }) {
         circuit {
-          country
           latitude
           longitude
         }

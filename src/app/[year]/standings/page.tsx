@@ -108,7 +108,7 @@ const StandingsContent = () => {
           ))}
         </div>
         <div className='rounded border'>
-          <div className='bg-secondary/25 rounded border'>
+          <div className='bg-secondary/25 rounded border-b'>
             <StandingsChart
               data={standings}
               type={chartType}
