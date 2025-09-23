@@ -121,7 +121,7 @@ export const eventLocationDecode = (location?: string) => {
   }
 
   const decodedLocation = location
-    .replace(/-/g, ' ')
+    .replace(/-|_/g, ' ')
     .replace(/(^|_|\s)\w/g, (match) => match.toUpperCase());
 
   // https://slicktelemetry.youtrack.cloud/issue/FRON-170

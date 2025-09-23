@@ -24,7 +24,7 @@ export const CircuitMap = ({
     variables: { location, country, year: new Date().getFullYear() - 1 },
   });
 
-  if (loading || error || !data?.circuits[0].circuit_details) return null;
+  if (loading || error || !data?.circuits[0]?.circuit_details) return null;
 
   const { xy_values, rotation } = data.circuits[0]
     .circuit_details as CircuitDetails;
