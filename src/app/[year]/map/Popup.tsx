@@ -1,40 +1,30 @@
-import { CircleX, ZoomIn, ZoomOut } from 'lucide-react';
+import { CircleX } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Popup, useMap } from 'react-map-gl/mapbox';
 
-import {
-  bgGradient,
-  eventLocationEncode,
-  eventTiming,
-  getCountryFlagByCountryName,
-  positionEnding,
-} from '@/lib/utils';
-
-import { SprintBadge } from '@/components/sprint-badge';
+import { bgGradient, eventTiming, positionEnding } from '@/lib/utils';
 
 import { MapEvent } from '@/types/global';
 
-const optimalZoom = 15; // optimal zoom for circuit visibility
+// const optimalZoom = 15; // optimal zoom for circuit visibility
 
 export const MapPopup = ({
   event,
   handleClose,
   children,
 }: {
-  event: MapEvent;
+  event?: MapEvent;
   handleClose: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) => {
-  const { year } = useParams();
+  // const { year } = useParams();
   const { current: map } = useMap();
-  const [prevZoom, setPrevZoom] = useState(2);
+  // const [prevZoom, setPrevZoom] = useState(2);
 
-  const eventUrl = `${year}/${eventLocationEncode(event?.location)}`;
-  const longitude = event.sessions[0].circuit?.longitude as number;
-  const latitude = event.sessions[0].circuit?.latitude as number;
+  // const eventUrl = `${year}/${eventLocationEncode(event?.location)}`;
+  const longitude = event?.sessions[0].circuit?.longitude as number;
+  const latitude = event?.sessions[0].circuit?.latitude as number;
 
   /**
    * @description focus to event location
@@ -60,27 +50,29 @@ export const MapPopup = ({
   }, [focusLocation]);
 
   // Used to autozoom in and out of circuit
-  const toggleZoom = () => {
-    if (!map) return;
+  // const toggleZoom = () => {
+  //   if (!map) return;
 
-    const mapZoom = Math.floor(map.getZoom());
-    // If zoom is greater than equal to optimal zoom
-    // then zoom back to users previous zoom setting
-    if (mapZoom >= optimalZoom) {
-      focusLocation(prevZoom);
-      return;
-    }
+  //   const mapZoom = Math.floor(map.getZoom());
+  //   // If zoom is greater than equal to optimal zoom
+  //   // then zoom back to users previous zoom setting
+  //   if (mapZoom >= optimalZoom) {
+  //     focusLocation(prevZoom);
+  //     return;
+  //   }
 
-    focusLocation(optimalZoom);
+  //   focusLocation(optimalZoom);
 
-    // Recall previous zoom level to return to it
-    setPrevZoom(mapZoom);
-  };
+  //   // Recall previous zoom level to return to it
+  //   setPrevZoom(mapZoom);
+  // };
 
   const { driver_sessions, circuit } = useMemo(
-    () => event.sessions[0],
+    () => event?.sessions[0] || { driver_sessions: [], circuit: null },
     [event],
   );
+
+  if (!event || !circuit) return null;
 
   return (
     <Popup
@@ -96,37 +88,12 @@ export const MapPopup = ({
       <div className='grid'>
         {/* Top Row */}
         <div className='flex items-center justify-between gap-2'>
-          <div className='divide-foreground flex items-center gap-2 divide-x [&>:not(:last-child)]:pr-2'>
-            <p>Round {event.round_number}</p>
-
-            {/* ZoomIn and ZoomOut as one */}
-            <div
-              onClick={toggleZoom}
-              className='flex cursor-pointer items-center'
-            >
-              <ZoomIn size={16} /> / <ZoomOut size={16} />
-            </div>
-            {/* Sprint or Conventional Format */}
-            <SprintBadge format={event.format} />
-          </div>
-
           {/* Close Button */}
           <CircleX size={16} className='cursor-pointer' onClick={handleClose} />
         </div>
 
-        {/* Event Name Link */}
-        <Link
-          href={`/${eventUrl || ''}`}
-          className='my-2 w-fit text-xl leading-6 font-medium hover:underline'
-        >
-          {event.name}{' '}
-          {circuit &&
-            circuit.country &&
-            getCountryFlagByCountryName(circuit.country)}
-        </Link>
-
         {/* If event happened show results */}
-        {eventTiming(event.date) === 'past' && (
+        {eventTiming(event?.date) === 'past' && (
           <TopThreeDrivers driverSessions={driver_sessions} />
         )}
 

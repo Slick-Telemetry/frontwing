@@ -1,26 +1,14 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
-import clsx from 'clsx';
-import { Earth } from 'lucide-react';
-import { useParams } from 'next/navigation';
-import React, { Fragment, useMemo, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import Map from 'react-map-gl/mapbox';
 
-import 'mapbox-gl/dist/mapbox-gl.css';
+import { SprintBadge } from '@/components/sprint-badge';
+import { Separator } from '@/components/ui/separator';
 
-import { GET_MAP_EVENTS } from '@/lib/queries';
-import { getColor } from '@/lib/utils';
-
-import { ServerPageError } from '@/components/ServerError';
-
-import { ConnectionLine } from './ConnectionLine';
-import { Legend } from './Legend';
-import { MapMarker } from './Marker';
-import { MapPopup } from './Popup';
-import { PrevNextButtons } from './PrevNextButtons';
-
-import { MapEvent } from '@/types/global';
-import { GetMapEventsQuery, GetMapEventsQueryVariables } from '@/types/graphql';
+import { GET_SEASON_EVENTS } from '@/app/[year]/_components/schedule';
+import { Legend } from '@/app/[year]/map/_components/legend';
+import { MapContent, MapLoader } from '@/app/[year]/map/_components/map';
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const initialView = {
@@ -29,129 +17,100 @@ const initialView = {
   zoom: 2,
 };
 
-const WorldMap = () => {
-  // We custom load state for map to load
-  // This prevents issues rending the custom line layers
-  const [loading, setLoading] = useState(true);
-
-  return (
-    <div className='relative flex h-[700px] w-full items-center justify-center'>
-      <Map
-        reuseMaps
-        initialViewState={initialView}
-        mapStyle='mapbox://styles/mapbox/standard-satellite' // Use any Mapbox style
-        mapboxAccessToken={MAPBOX_TOKEN}
-        projection={{ name: 'globe' }}
-        onLoad={() => setLoading(false)}
-      >
-        {!loading && <MapContent />}
-      </Map>
-      <MapLoader loading={loading} />
-    </div>
-  );
-};
-
-const MapContent = () => {
-  const { year } = useParams<{ year: string }>();
-
-  const { data, error } = useQuery<
-    GetMapEventsQuery,
-    GetMapEventsQueryVariables
-  >(GET_MAP_EVENTS, {
+export default function MapPage({
+  params,
+}: {
+  params: Promise<{ year: string }>;
+}) {
+  const { year } = use(params);
+  const { loading, error, data } = useQuery(GET_SEASON_EVENTS, {
     variables: { year: parseInt(year) },
   });
+  const [mapLoading, setMapLoading] = useState<boolean>(true);
+  const [selectedEvent, setSelectedEvent] = useState<string | null>(
+    data?.schedule[0]?.event_name || null,
+  );
 
-  const [selectedEvent, setSelectedEvent] = useState<MapEvent | null>(null);
+  useEffect(() => {
+    if (data?.schedule[0]?.event_name)
+      setSelectedEvent(data.schedule[0]?.event_name);
+  }, [data]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading map data.</div>;
+  if (!data || data?.schedule?.length === 0)
+    return <div>No events found for {year}.</div>;
 
   // Set focus on first locatoin
-  // useEffect(() => {
-  //   if (data?.events) setSelectedEvent(data.events[0]);
-  // }, [data]);
-
-  // Legend Element
-  const LegendMemo = useMemo(() => {
-    if (!data) return null;
-    return <Legend events={data.events} selectEvent={setSelectedEvent} />;
-  }, [data]);
-
-  // Map Marker and Line to previous location
-  const MarkersLinesMemo = useMemo(() => {
-    if (!data) return null;
-
-    return data.events.map((event, i) => {
-      const color = getColor(event.date);
-      const nextEvent = data.events[i + 1];
-      return (
-        <Fragment key={event.name}>
-          <MapMarker
-            event={event}
-            color={color}
-            selectEvent={setSelectedEvent}
-          />
-
-          {/* Map needs to load first */}
-          <ConnectionLine event={event} color={color} prevEvent={nextEvent} />
-        </Fragment>
-      );
-    });
-  }, [data]);
-
-  if (error) return <ServerPageError />;
-
-  /**
-   * @description Navigate to previous or next Event
-   * @param {('prev' | 'next')} [type='next']
-   */
-  const handleAdjacent = (type: 'prev' | 'next' = 'next') => {
-    if (!data || !selectedEvent) return;
-    const dirVal = type === 'prev' ? -1 : 1;
-    const event = data.events.find(
-      (e) => e.round_number === (selectedEvent.round_number as number) + dirVal,
-    );
-    setSelectedEvent(event as MapEvent);
-  };
 
   return (
-    <>
-      {/* Legend */}
-      {LegendMemo}
+    <div className='px-4 py-4 lg:px-6'>
+      <div className='flex flex-1 gap-4'>
+        <div className='w-[300px]'>
+          <Legend events={data?.schedule} selectEvent={setSelectedEvent} />
+        </div>
+        <div className='w-full rounded border'>
+          <div className='px-4 py-2'>
+            {data?.schedule
+              .filter((evt) => evt.event_name === selectedEvent)
+              .map((evt) => (
+                <div className='flex justify-between' key={evt.event_name}>
+                  <div>
+                    <div className='flex items-center'>
+                      <p>
+                        {new Date(evt.event_date as string).toLocaleDateString(
+                          undefined,
+                          {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          },
+                        )}
+                      </p>
 
-      {/* Markers & Connecting Lines */}
-      {MarkersLinesMemo}
-
-      {/* Popup */}
-      {selectedEvent && (
-        <MapPopup
-          event={selectedEvent}
-          handleClose={() => setSelectedEvent(null)}
-        >
-          <PrevNextButtons
-            events={data?.events}
-            selectedEvent={selectedEvent}
-            handleAdjacent={handleAdjacent}
-          />
-        </MapPopup>
-      )}
-    </>
-  );
-};
-
-const MapLoader = ({ loading }: { loading: boolean }) => {
-  return (
-    <div
-      className={clsx(
-        'pointer-events-none absolute inset-0 flex items-center justify-center bg-black transition-opacity duration-400',
-        loading ? 'opacity-100' : 'opacity-0',
-      )}
-    >
-      <Earth
-        size={48}
-        className={
-          loading ? 'animate-[ping_1.5s_ease-out_infinite]' : 'animate-none'
-        }
-      />
+                      <Separator
+                        orientation='vertical'
+                        className='mx-2 data-[orientation=vertical]:h-4'
+                      />
+                      <p>
+                        Round {evt.round_number} of {data.schedule.length}
+                      </p>
+                      <Separator
+                        orientation='vertical'
+                        className='mx-2 data-[orientation=vertical]:h-4'
+                      />
+                      <SprintBadge format={evt.event_format} />
+                    </div>
+                    <h2 className='text-2xl font-bold'>{evt.event_name}</h2>
+                    <p>
+                      {evt.location}, {evt.country}
+                    </p>
+                  </div>
+                  <div>Potential Results</div>
+                </div>
+              ))}
+          </div>
+          <div className='h-[700px] w-full overflow-hidden rounded border-t'>
+            <Map
+              reuseMaps
+              initialViewState={initialView}
+              mapStyle='mapbox://styles/mapbox/standard-satellite' // Use any Mapbox style
+              mapboxAccessToken={MAPBOX_TOKEN}
+              projection={{ name: 'globe' }}
+              onLoad={() => setMapLoading(false)}
+            >
+              {!mapLoading && (
+                <MapContent
+                  selectedEvent={selectedEvent}
+                  onClickAction={setSelectedEvent}
+                />
+              )}
+            </Map>
+            <MapLoader loading={mapLoading} />
+            {/* <WorldMap /> */}
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default WorldMap;
+}
