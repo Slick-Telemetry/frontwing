@@ -27,7 +27,13 @@ export const ServerStatus = () => {
 
   return (
     <div data-cy='server-error' title='Server Error'>
-      <ServerOffIcon stroke='red' />
+      <a
+        href='https://status.slicktelemetry.com/'
+        target='_blank'
+        rel='noreferrer'
+      >
+        <ServerOffIcon stroke='red' />
+      </a>
     </div>
   );
 };

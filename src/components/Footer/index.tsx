@@ -94,6 +94,13 @@ function Footer() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        <a
+          href='https://status.slicktelemetry.com/'
+          target='_blank'
+          rel='noreferrer'
+        >
+          Status
+        </a>
       </div>
     </div>
   );
