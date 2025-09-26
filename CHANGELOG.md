@@ -1,3 +1,14 @@
+## 0.7.0 (2025-09-26)
+
+### Feat
+
+- **analytics**: POSTHOG initial integration FRON-249
+
+### Fix
+
+- duplicate key error
+- small bug fixes
+
 ## 0.6.33 (2025-09-22)
 
 ### Fix
