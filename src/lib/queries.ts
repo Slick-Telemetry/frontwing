@@ -44,39 +44,6 @@ export const GET_SEASONS = graphql(`
   }
 `);
 
-export const GET_MAP_EVENTS = gql`
-  query GetMapEvents($year: Int!) @cached {
-    events(where: { year: { _eq: $year } }) {
-      round_number
-      name
-      location
-
-      sessions(limit: 1, where: { name: { _eq: Race } }) {
-        circuit {
-          latitude
-          longitude
-        }
-        driver_sessions(
-          limit: 3
-          where: { results: { classified_position: { _in: ["1", "2", "3"] } } }
-        ) {
-          results {
-            classified_position
-          }
-          driver {
-            full_name
-            headshot_url
-          }
-          constructorByConstructorId {
-            name
-            color
-          }
-        }
-      }
-    }
-  }
-`;
-
 export const GET_NEXT_EVENT = graphql(`
   query GetNextEvent($today: String!) {
     schedule(

@@ -12139,18 +12139,70 @@ export type GetSeasonEventsQuery = {
   >;
 };
 
-export type GetNextEventCircuitQueryVariables = Exact<{
-  location: Scalars['String']['input'];
-  country: Scalars['String']['input'];
+export type MapHeader_ScheduleFragmentFragment = {
+  __typename?: 'schedule';
+  event_name?: string | null;
+  round_number?: number | null;
+  event_date?: string | null;
+  year?: number | null;
+  location?: string | null;
+  country?: string | null;
+  event_format?: Event_Format_Choices_Enum | null;
+  session1?: Session_Name_Choices_Enum | null;
+  session2?: Session_Name_Choices_Enum | null;
+  session3?: Session_Name_Choices_Enum | null;
+  session4?: Session_Name_Choices_Enum | null;
+  session5?: Session_Name_Choices_Enum | null;
+  session1_date_utc?: string | null;
+  session2_date_utc?: string | null;
+  session3_date_utc?: string | null;
+  session4_date_utc?: string | null;
+  session5_date_utc?: string | null;
+} & { ' $fragmentName'?: 'MapHeader_ScheduleFragmentFragment' };
+
+export type MapEventFragment = {
+  __typename?: 'events';
+  round_number?: number | null;
+  name?: string | null;
+  date?: string | null;
+  location?: string | null;
+  sessions: Array<{
+    __typename?: 'sessions';
+    circuit?: {
+      __typename?: 'circuits';
+      latitude?: number | null;
+      longitude?: number | null;
+    } | null;
+  }>;
+} & { ' $fragmentName'?: 'MapEventFragment' };
+
+export type MapScheduleFragmentFragment = {
+  __typename?: 'schedule';
+  event_name?: string | null;
+  round_number?: number | null;
+  event_date?: string | null;
+  year?: number | null;
+} & { ' $fragmentName'?: 'MapScheduleFragmentFragment' };
+
+export type GetMapScheduleQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
 
-export type GetNextEventCircuitQuery = {
+export type GetMapScheduleQuery = {
   __typename?: 'query_root';
-  circuits: Array<{
-    __typename?: 'circuits';
-    circuit_details?: unknown | null;
-  }>;
+  schedule: Array<
+    { __typename?: 'schedule'; event_name?: string | null } & {
+      ' $fragmentRefs'?: {
+        MapScheduleFragmentFragment: MapScheduleFragmentFragment;
+        MapHeader_ScheduleFragmentFragment: MapHeader_ScheduleFragmentFragment;
+      };
+    }
+  >;
+  events: Array<
+    { __typename?: 'events'; name?: string | null } & {
+      ' $fragmentRefs'?: { MapEventFragment: MapEventFragment };
+    }
+  >;
 };
 
 export type GetNavEventsQueryVariables = Exact<{
@@ -12229,49 +12281,6 @@ export type GetSeasonsQueryVariables = Exact<{ [key: string]: never }>;
 export type GetSeasonsQuery = {
   __typename?: 'query_root';
   events: Array<{ __typename?: 'events'; year?: number | null }>;
-};
-
-export type GetMapEventsQueryVariables = Exact<{
-  year: Scalars['Int']['input'];
-}>;
-
-export type GetMapEventsQuery = {
-  __typename?: 'query_root';
-  events: Array<{
-    __typename?: 'events';
-    round_number?: number | null;
-    name?: string | null;
-    location?: string | null;
-    date?: string | null;
-    country?: string | null;
-    format?: Event_Format_Choices_Enum | null;
-    sessions: Array<{
-      __typename?: 'sessions';
-      circuit?: {
-        __typename?: 'circuits';
-        country?: string | null;
-        latitude?: number | null;
-        longitude?: number | null;
-      } | null;
-      driver_sessions: Array<{
-        __typename?: 'driver_sessions';
-        results: Array<{
-          __typename?: 'results';
-          classified_position?: string | null;
-        }>;
-        driver?: {
-          __typename?: 'drivers';
-          full_name?: string | null;
-          headshot_url?: string | null;
-        } | null;
-        constructorByConstructorId?: {
-          __typename?: 'constructors';
-          name?: string | null;
-          color?: string | null;
-        } | null;
-      }>;
-    }>;
-  }>;
 };
 
 export type GetNextEventQueryVariables = Exact<{
@@ -12720,6 +12729,141 @@ export const Event_ScheduleFragmentFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<Event_ScheduleFragmentFragment, unknown>;
+export const MapHeader_ScheduleFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MapHeader_ScheduleFragment' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'schedule' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_format' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session1_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5_date_utc' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MapHeader_ScheduleFragmentFragment, unknown>;
+export const MapEventFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MapEvent' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'events' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'sessions' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'name' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: '_eq' },
+                            value: { kind: 'EnumValue', value: 'Race' },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'circuit' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'latitude' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'longitude' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MapEventFragment, unknown>;
+export const MapScheduleFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MapScheduleFragment' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'schedule' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MapScheduleFragmentFragment, unknown>;
 export const GetSeasonEventsDocument = {
   kind: 'Document',
   definitions: [
@@ -12834,42 +12978,14 @@ export const GetSeasonEventsDocument = {
   GetSeasonEventsQuery,
   GetSeasonEventsQueryVariables
 >;
-export const GetNextEventCircuitDocument = {
+export const GetMapScheduleDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'GetNextEventCircuit' },
+      name: { kind: 'Name', value: 'GetMapSchedule' },
       variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'location' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'country' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'year' } },
@@ -12879,12 +12995,15 @@ export const GetNextEventCircuitDocument = {
           },
         },
       ],
+      directives: [
+        { kind: 'Directive', name: { kind: 'Name', value: 'cached' } },
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'circuits' },
+            name: { kind: 'Name', value: 'schedule' },
             arguments: [
               {
                 kind: 'Argument',
@@ -12894,59 +13013,16 @@ export const GetNextEventCircuitDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: '_and' },
+                      name: { kind: 'Name', value: 'year' },
                       value: {
                         kind: 'ObjectValue',
                         fields: [
                           {
                             kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'location' },
+                            name: { kind: 'Name', value: '_eq' },
                             value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: '_eq' },
-                                  value: {
-                                    kind: 'Variable',
-                                    name: { kind: 'Name', value: 'location' },
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'country' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: '_eq' },
-                                  value: {
-                                    kind: 'Variable',
-                                    name: { kind: 'Name', value: 'country' },
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'year' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: '_eq' },
-                                  value: {
-                                    kind: 'Variable',
-                                    name: { kind: 'Name', value: 'year' },
-                                  },
-                                },
-                              ],
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'year' },
                             },
                           },
                         ],
@@ -12955,10 +13031,159 @@ export const GetNextEventCircuitDocument = {
                   ],
                 },
               },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MapScheduleFragment' },
+                },
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MapHeader_ScheduleFragment' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'events' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'year' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: '_eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'year' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MapEvent' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MapScheduleFragment' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'schedule' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MapHeader_ScheduleFragment' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'schedule' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_format' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session1_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5_date_utc' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MapEvent' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'events' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'sessions' },
+            arguments: [
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'limit' },
                 value: { kind: 'IntValue', value: '1' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'name' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: '_eq' },
+                            value: { kind: 'EnumValue', value: 'Race' },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
               },
             ],
             selectionSet: {
@@ -12966,7 +13191,20 @@ export const GetNextEventCircuitDocument = {
               selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'circuit_details' },
+                  name: { kind: 'Name', value: 'circuit' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'latitude' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'longitude' },
+                      },
+                    ],
+                  },
                 },
               ],
             },
@@ -12975,10 +13213,7 @@ export const GetNextEventCircuitDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<
-  GetNextEventCircuitQuery,
-  GetNextEventCircuitQueryVariables
->;
+} as unknown as DocumentNode<GetMapScheduleQuery, GetMapScheduleQueryVariables>;
 export const GetNavEventsDocument = {
   kind: 'Document',
   definitions: [
@@ -13465,269 +13700,6 @@ export const GetSeasonsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetSeasonsQuery, GetSeasonsQueryVariables>;
-export const GetMapEventsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetMapEvents' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'year' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-          },
-        },
-      ],
-      directives: [
-        { kind: 'Directive', name: { kind: 'Name', value: 'cached' } },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'events' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'year' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'year' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'round_number' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'date' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'format' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'sessions' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'limit' },
-                      value: { kind: 'IntValue', value: '1' },
-                    },
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'where' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'name' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: '_eq' },
-                                  value: { kind: 'EnumValue', value: 'Race' },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'circuit' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'country' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'latitude' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'longitude' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'driver_sessions' },
-                        arguments: [
-                          {
-                            kind: 'Argument',
-                            name: { kind: 'Name', value: 'limit' },
-                            value: { kind: 'IntValue', value: '3' },
-                          },
-                          {
-                            kind: 'Argument',
-                            name: { kind: 'Name', value: 'where' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: 'results' },
-                                  value: {
-                                    kind: 'ObjectValue',
-                                    fields: [
-                                      {
-                                        kind: 'ObjectField',
-                                        name: {
-                                          kind: 'Name',
-                                          value: 'classified_position',
-                                        },
-                                        value: {
-                                          kind: 'ObjectValue',
-                                          fields: [
-                                            {
-                                              kind: 'ObjectField',
-                                              name: {
-                                                kind: 'Name',
-                                                value: '_in',
-                                              },
-                                              value: {
-                                                kind: 'ListValue',
-                                                values: [
-                                                  {
-                                                    kind: 'StringValue',
-                                                    value: '1',
-                                                    block: false,
-                                                  },
-                                                  {
-                                                    kind: 'StringValue',
-                                                    value: '2',
-                                                    block: false,
-                                                  },
-                                                  {
-                                                    kind: 'StringValue',
-                                                    value: '3',
-                                                    block: false,
-                                                  },
-                                                ],
-                                              },
-                                            },
-                                          ],
-                                        },
-                                      },
-                                    ],
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'results' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'classified_position',
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'driver' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'full_name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'headshot_url',
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'constructorByConstructorId',
-                              },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'color' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetMapEventsQuery, GetMapEventsQueryVariables>;
 export const GetNextEventDocument = {
   kind: 'Document',
   definitions: [

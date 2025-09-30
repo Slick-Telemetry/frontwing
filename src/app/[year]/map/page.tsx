@@ -1,21 +1,30 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
-import Map from 'react-map-gl/mapbox';
 
-import { SprintBadge } from '@/components/sprint-badge';
-import { Separator } from '@/components/ui/separator';
+import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 
-import { GET_SEASON_EVENTS } from '@/app/[year]/_components/schedule';
-import { Legend } from '@/app/[year]/map/_components/legend';
-import { MapContent, MapLoader } from '@/app/[year]/map/_components/map';
+import Header from '@/app/[year]/map/_components/header';
+import { MapContent } from '@/app/[year]/map/_components/map/map';
+import { Schedule } from '@/app/[year]/map/_components/schedule';
 
-const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-const initialView = {
-  longitude: 0,
-  latitude: 20,
-  zoom: 2,
-};
+import { graphql } from '@/types';
+
+const GET_SCHEDULE = graphql(`
+  query GetMapSchedule($year: Int!) @cached {
+    schedule(where: { year: { _eq: $year } }) {
+      event_name
+      ...MapScheduleFragment
+      ...MapHeader_ScheduleFragment
+    }
+    events(where: { year: { _eq: $year } }) {
+      name
+      ...MapEvent
+    }
+  }
+`);
+// ...MapTopRaceDriversFragment
 
 export default function MapPage({
   params,
@@ -23,93 +32,61 @@ export default function MapPage({
   params: Promise<{ year: string }>;
 }) {
   const { year } = use(params);
-  const { loading, error, data } = useQuery(GET_SEASON_EVENTS, {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { loading, error, data } = useQuery(GET_SCHEDULE, {
     variables: { year: parseInt(year) },
   });
-  const [mapLoading, setMapLoading] = useState<boolean>(true);
-  const [selectedEvent, setSelectedEvent] = useState<string | null>(
-    data?.schedule[0]?.event_name || null,
+  const [activeEvent, setActiveEvent] = useState<string | null>(
+    eventLocationDecode(searchParams.get('event') ?? ''),
   );
-
+  // Set focus on first location
   useEffect(() => {
-    if (data?.schedule[0]?.event_name)
-      setSelectedEvent(data.schedule[0]?.event_name);
-  }, [data]);
+    if (!data || searchParams.get('event')) return;
+    setActiveEvent(data.schedule[0]?.event_name ?? null);
+  }, [data, searchParams]);
 
+  const handleNewSelected = (event: string) => {
+    // update url for sharing purposes
+    const params = new URLSearchParams(searchParams);
+    params.set('event', eventLocationEncode(event) ?? '');
+    router.push(`?${params.toString()}`);
+
+    setActiveEvent(event);
+  };
+
+  // TODO: Handle other states
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading map data.</div>;
   if (!data || data?.schedule?.length === 0)
     return <div>No events found for {year}.</div>;
 
-  // Set focus on first locatoin
+  const activeScheduleEvent = data.schedule.find(
+    (evt) => evt.event_name === activeEvent,
+  );
 
   return (
-    <div className='px-4 py-4 lg:px-6'>
-      <div className='flex flex-1 gap-4'>
-        <div className='w-[300px]'>
-          <Legend events={data?.schedule} selectEvent={setSelectedEvent} />
-        </div>
-        <div className='w-full rounded border'>
-          <div className='px-4 py-2'>
-            {data?.schedule
-              .filter((evt) => evt.event_name === selectedEvent)
-              .map((evt) => (
-                <div className='flex justify-between' key={evt.event_name}>
-                  <div>
-                    <div className='flex items-center'>
-                      <p>
-                        {new Date(evt.event_date as string).toLocaleDateString(
-                          undefined,
-                          {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                          },
-                        )}
-                      </p>
+    <div className='flex gap-4 px-4 py-4 lg:px-6'>
+      <Schedule
+        events={data.schedule}
+        activeEvent={activeEvent}
+        selectEvent={handleNewSelected}
+      />
 
-                      <Separator
-                        orientation='vertical'
-                        className='mx-2 data-[orientation=vertical]:h-4'
-                      />
-                      <p>
-                        Round {evt.round_number} of {data.schedule.length}
-                      </p>
-                      <Separator
-                        orientation='vertical'
-                        className='mx-2 data-[orientation=vertical]:h-4'
-                      />
-                      <SprintBadge format={evt.event_format} />
-                    </div>
-                    <h2 className='text-2xl font-bold'>{evt.event_name}</h2>
-                    <p>
-                      {evt.location}, {evt.country}
-                    </p>
-                  </div>
-                  <div>Potential Results</div>
-                </div>
-              ))}
-          </div>
-          <div className='h-[700px] w-full overflow-hidden rounded border-t'>
-            <Map
-              reuseMaps
-              initialViewState={initialView}
-              mapStyle='mapbox://styles/mapbox/standard-satellite' // Use any Mapbox style
-              mapboxAccessToken={MAPBOX_TOKEN}
-              projection={{ name: 'globe' }}
-              onLoad={() => setMapLoading(false)}
-            >
-              {!mapLoading && (
-                <MapContent
-                  selectedEvent={selectedEvent}
-                  onClickAction={setSelectedEvent}
-                />
-              )}
-            </Map>
-            <MapLoader loading={mapLoading} />
-            {/* <WorldMap /> */}
-          </div>
-        </div>
+      <div className='h-fit flex-1 rounded border'>
+        {/* Header */}
+        <Header evt={activeScheduleEvent} maxRounds={data.schedule.length}>
+          {/* <TopThree
+              data={data.events?.find((e) => e.name === selectedEvent) ?? {}}
+            /> */}
+        </Header>
+
+        {/* Map */}
+        <MapContent
+          events={data.events}
+          selectedEvent={activeEvent}
+          onClickAction={handleNewSelected}
+        />
       </div>
     </div>
   );
