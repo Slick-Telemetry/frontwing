@@ -1,3 +1,9 @@
+## 0.8.0 (2025-09-30)
+
+### Feat
+
+- POC vibecode, drag and select for standings table
+
 ## 0.7.0 (2025-09-26)
 
 ### Feat
