@@ -140,7 +140,7 @@ export function Table({
           {item.team && (
             <Badge
               variant='outline'
-              className='inline w-28 truncate text-sm xl:w-20 2xl:w-28'
+              className='inline w-18 truncate text-sm md:w-28 xl:w-20 2xl:w-28'
               style={{ borderColor: item.color }}
             >
               {item.team}

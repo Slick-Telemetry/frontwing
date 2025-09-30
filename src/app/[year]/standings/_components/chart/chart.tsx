@@ -99,7 +99,7 @@ export function StandingsChart({ data, type, hiddenItems }: Props) {
       />
       <div
         ref={chartRef}
-        className='w-full pr-4 pb-2 pl-2 sm:h-[300px] lg:h-[400px] 2xl:h-[500px]'
+        className='h-[300px] w-full pr-4 pb-2 pl-2 lg:h-[400px] 2xl:h-[500px]'
       />
     </>
   );

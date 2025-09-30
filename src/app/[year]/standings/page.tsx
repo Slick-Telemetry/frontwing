@@ -139,7 +139,7 @@ const StandingsContent = () => {
                 href={`?chart=${v}`}
                 className='capitalize hover:underline lg:text-xl'
               >
-                {v} Standings
+                {v}
               </Link>
             </Button>
           ))}

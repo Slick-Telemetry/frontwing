@@ -147,7 +147,7 @@ function StandingRow({
       <p className='text-xl'>{position}</p>
       <div className='flex-1'>
         <h4 className='line-clamp-1 font-semibold'>{name}</h4>
-        {team && <p className='text-sm'>{team}</p>}
+        {team && <p className='line-clamp-1 text-sm'>{team}</p>}
       </div>
       <p>{points}</p>
       <p className='hidden lg:block'>
