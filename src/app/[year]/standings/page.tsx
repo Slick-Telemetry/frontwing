@@ -58,44 +58,29 @@ const StandingsContent = () => {
   const simpleConstructorData = standings.constructors.map(getConstructorData);
   const simpleDriverData = standings.drivers.map(getDriverData);
 
-  const toggleVisibility = (type: 'drivers' | 'constructors', id: string) => {
-    // Get constructor from legendData driver.team or use provided id
-    const constructor = simpleDriverData.find((d) => d.abbr === id)?.team ?? id;
-    // Get Drivers for constructor/team
-    const constructorDrivers = simpleDriverData.filter(
-      (d) => d.team === constructor,
-    );
-
-    setHiddenItems((prev) => {
-      // Create a new object to avoid mutation
-      const newState = { ...prev };
-
-      // Update given item
-      newState[id] = !newState[id];
-
-      // Check related items
-      const allHidden = constructorDrivers.every((d) => newState[d.abbr]);
-
-      if (type === 'constructors') {
-        // Update all drivers
-        constructorDrivers.forEach((d) => (newState[d.abbr] = newState[id]));
-      }
-      if (type === 'drivers') {
-        // Update constructor
-        newState[constructor] = allHidden;
-      }
-      return newState;
-    });
-  };
-
   const batchToggleVisibility = (
-    type: 'drivers' | 'constructors',
-    ids: string[],
+    type: 'drivers' | 'constructors' | 'all' | 'none',
+    ids?: string[],
   ) => {
     setHiddenItems((prev) => {
       const newState = { ...prev };
+      if (type === 'all') {
+        return {};
+      }
 
-      ids.forEach((id) => {
+      if (type === 'none') {
+        ids = [
+          ...simpleConstructorData.map((c) => c.abbr),
+          ...simpleDriverData.map((c) => c.abbr),
+        ];
+      }
+
+      ids?.forEach((id) => {
+        if (type === 'none') {
+          newState[id] = true;
+          return;
+        }
+
         // Get constructor from legendData driver.team or use provided id
         const constructor =
           simpleDriverData.find((d) => d.abbr === id)?.team ?? id;
@@ -145,7 +130,7 @@ const StandingsContent = () => {
           ))}
         </div>
         <div className='rounded border'>
-          <div className='bg-secondary/25 rounded border'>
+          <div className='bg-secondary/25 rounded border-b'>
             <StandingsChart
               data={standings}
               type={chartType}
@@ -154,7 +139,7 @@ const StandingsContent = () => {
           </div>
           <Legend
             standings={simpleDriverData}
-            toggleVisibility={toggleVisibility}
+            toggleVisibility={batchToggleVisibility}
             hiddenItems={hiddenItems}
           />
         </div>
@@ -164,7 +149,7 @@ const StandingsContent = () => {
           items={
             chartType === 'drivers' ? simpleDriverData : simpleConstructorData
           }
-          toggleItem={(item) => toggleVisibility(chartType, item)}
+          toggleItem={(item) => batchToggleVisibility(chartType, [item])}
           batchToggleItem={(items) => batchToggleVisibility(chartType, items)}
           hiddenItems={hiddenItems}
         />

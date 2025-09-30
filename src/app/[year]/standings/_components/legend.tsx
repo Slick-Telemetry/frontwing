@@ -47,7 +47,10 @@ export const Legend = ({
   hiddenItems,
 }: {
   standings: Driver[];
-  toggleVisibility: (type: 'drivers' | 'constructors', id: string) => void;
+  toggleVisibility: (
+    type: 'drivers' | 'constructors' | 'all' | 'none',
+    id?: string[],
+  ) => void;
   hiddenItems: Record<string, boolean>;
 }) => {
   const showDrivers = useSearchParams().get('chart') !== 'constructors';
@@ -58,10 +61,19 @@ export const Legend = ({
       {constructorsWithDrivers.map(({ team, drivers, color }) => (
         <div
           key={team}
-          className='flex cursor-pointer flex-col justify-between gap-1 rounded border p-2'
+          role='button'
+          tabIndex={0}
+          className='focus-visible:border-ring focus-visible:ring-ring/50 flex cursor-pointer flex-col justify-between gap-1 rounded border p-2 py-1 outline-none focus-visible:ring-[3px]'
           style={{ borderColor: color }}
-          onClick={() => toggleVisibility('constructors', team)}
+          onClick={() => toggleVisibility('constructors', [team])}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              toggleVisibility('constructors', [team]);
+            }
+          }}
           aria-label={`Toggle ${team}`}
+          aria-pressed={!hiddenItems[team]}
         >
           {/* **Constructor Name Toggle** */}
           <div
@@ -70,7 +82,7 @@ export const Legend = ({
               hiddenItems[team] ? 'opacity-50' : 'opacity-100',
             )}
           >
-            <Circle fill={color} stroke='none' className='size-4' />
+            <Circle fill={color} stroke='none' className='size-3' />
             <p className='truncate'>{team}</p>
           </div>
 
@@ -83,10 +95,10 @@ export const Legend = ({
                   variant='outline'
                   onClick={(e) => {
                     e.stopPropagation();
-                    toggleVisibility('drivers', driver);
+                    toggleVisibility('drivers', [driver]);
                   }}
                   className={clsx(
-                    'max-w-1/2 flex-1 cursor-pointer px-0 py-1 text-center text-sm select-none',
+                    'h-6 max-w-1/2 flex-1 cursor-pointer px-0 py-1 text-center text-sm select-none',
                     `border-1 border-${['solid', 'dashed', 'dotted', 'double'][idx % 4]}`,
                     hiddenItems[driver] ? 'opacity-50' : 'opacity-100',
                   )}
@@ -99,6 +111,22 @@ export const Legend = ({
           )}
         </div>
       ))}
+      <div className='col-span-full flex gap-2'>
+        <Button
+          variant='outline'
+          size='sm'
+          onClick={() => toggleVisibility('all')}
+        >
+          Select All
+        </Button>
+        <Button
+          variant='outline'
+          size='sm'
+          onClick={() => toggleVisibility('none')}
+        >
+          Clear All
+        </Button>
+      </div>
     </div>
   );
 };
