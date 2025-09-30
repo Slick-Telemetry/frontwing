@@ -3,20 +3,21 @@ import { Marker } from 'react-map-gl/mapbox';
 
 import { eventTiming } from '@/lib/utils';
 
-import { MapEvent } from '@/types/global';
+import { MapEventFragment } from '@/types/graphql';
 
 export const MapMarker = ({
   event,
   color,
   selectEvent,
 }: {
-  event: MapEvent;
+  event: MapEventFragment;
   color: string;
-  selectEvent: (event: string) => void;
+  selectEvent: () => void;
 }) => {
-  const { latitude, longitude } = event.sessions[0].circuit || {
+  const { latitude, longitude } = {
     latitude: null,
     longitude: null,
+    ...event.sessions[0].circuit,
   };
 
   const timing = eventTiming(event.date);
@@ -25,7 +26,7 @@ export const MapMarker = ({
     <Marker
       longitude={longitude as number}
       latitude={latitude as number}
-      onClick={() => selectEvent(event.name as string)}
+      onClick={selectEvent}
     >
       {/* Custom <MapPin /> */}
       <div className='relative flex cursor-pointer items-center justify-center'>

@@ -35,7 +35,7 @@
     "@radix-ui/react-switch": "latest",
     "@radix-ui/react-tooltip": "latest",
     "@tailwindcss/postcss": "latest",
-    "@turf/turf": "latest",
+    "@turf/great-circle": "latest",
     "class-variance-authority": "latest",
     "clsx": "latest",
     "country-flag-icons": "latest",

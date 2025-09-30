@@ -1,26 +1,26 @@
-import { greatCircle } from '@turf/turf';
+import { greatCircle } from '@turf/great-circle';
 import { Layer, Source } from 'react-map-gl/mapbox';
 
-import { MapEvent } from '@/types/global';
+import { MapEventFragment } from '@/types/graphql';
 
 export const ConnectionLine = ({
   event,
-  prevEvent,
+  adjacentEvent,
   color,
 }: {
-  event: MapEvent;
+  event: MapEventFragment;
   color: string;
-  prevEvent?: MapEvent;
+  adjacentEvent?: MapEventFragment;
 }) => {
-  const lineCoordinates = prevEvent
+  const lineCoordinates = adjacentEvent
     ? greatCircle(
         [
           event.sessions[0].circuit?.longitude as number,
           event.sessions[0].circuit?.latitude as number,
         ],
         [
-          prevEvent.sessions[0].circuit?.longitude as number,
-          prevEvent.sessions[0].circuit?.latitude as number,
+          adjacentEvent.sessions[0].circuit?.longitude as number,
+          adjacentEvent.sessions[0].circuit?.latitude as number,
         ],
       ).geometry.coordinates
     : [];
