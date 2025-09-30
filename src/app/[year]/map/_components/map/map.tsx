@@ -47,7 +47,7 @@ export const MapContent = ({
   const [mapLoading, setMapLoading] = useState<boolean>(true);
 
   const index = events.findIndex((e) => e.name === selectedEvent);
-  const { latitude, longitude } = events?.[index].sessions[0]?.circuit ?? {};
+  const { latitude, longitude } = events?.[index]?.sessions[0]?.circuit ?? {};
 
   const zoomOnMap = React.useCallback(
     (zoom?: number) => {
@@ -85,7 +85,7 @@ export const MapContent = ({
   };
 
   return (
-    <div className='h-[666px] w-full overflow-hidden rounded border-t'>
+    <div className='relative h-[666px] w-full overflow-hidden rounded border-t'>
       <Map
         reuseMaps
         ref={mapRef}
@@ -101,26 +101,27 @@ export const MapContent = ({
           selectEvent={onClickAction}
           toggleZoom={toggleZoom}
         />
-        {events.map((event, i) => {
-          const color = getColor(event.date);
-          return (
-            <Fragment key={event.name}>
-              <MapMarker
-                event={event}
-                color={color}
-                selectEvent={() => {
-                  onClickAction(event.name as string);
-                  zoomOnMap(optimalZoom);
-                }}
-              />
-              <ConnectionLine
-                event={event}
-                color={color}
-                adjacentEvent={events[i - 1]}
-              />
-            </Fragment>
-          );
-        })}
+        {!mapLoading &&
+          events.map((event, i) => {
+            const color = getColor(event.date);
+            return (
+              <Fragment key={event.name}>
+                <MapMarker
+                  event={event}
+                  color={color}
+                  selectEvent={() => {
+                    onClickAction(event.name as string);
+                    zoomOnMap(optimalZoom);
+                  }}
+                />
+                <ConnectionLine
+                  event={event}
+                  color={color}
+                  adjacentEvent={events[i - 1]}
+                />
+              </Fragment>
+            );
+          })}
       </Map>
       <MapLoader loading={mapLoading} />
     </div>
