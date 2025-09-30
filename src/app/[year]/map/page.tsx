@@ -10,6 +10,7 @@ import { ServerPageError } from '@/components/ServerError';
 import Header from '@/app/[year]/map/_components/header';
 import { MapLoader } from '@/app/[year]/map/_components/map/loader';
 import { MapContent } from '@/app/[year]/map/_components/map/map';
+import EventResults from '@/app/[year]/map/_components/results';
 import { Schedule } from '@/app/[year]/map/_components/schedule';
 
 import { graphql } from '@/types';
@@ -24,10 +25,10 @@ const GET_SCHEDULE = graphql(`
     events(where: { year: { _eq: $year } }) {
       name
       ...MapEvent
+      ...MapTopRaceDrivers
     }
   }
 `);
-// ...MapTopRaceDriversFragment
 
 export default function MapPage({
   params,
@@ -90,9 +91,9 @@ export default function MapPage({
       <div className='h-fit flex-1 rounded border'>
         {/* Header */}
         <Header evt={activeScheduleEvent} maxRounds={data.schedule.length}>
-          {/* <TopThree
-              data={data.events?.find((e) => e.name === selectedEvent) ?? {}}
-            /> */}
+          <EventResults
+            results={data.events?.find((e) => e.name === activeEvent) ?? {}}
+          />
         </Header>
 
         {/* Map */}

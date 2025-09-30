@@ -49,6 +49,7 @@
     "posthog-node": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-fast-marquee": "^1.6.5",
     "react-map-gl": "latest",
     "rxjs": "latest",
     "tailwind-merge": "latest",
