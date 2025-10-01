@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client/react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
 import { GET_SESSION } from '@/lib/queries';
-import { eventLocationDecode } from '@/lib/utils';
+import { eventLocationDecode, sessionDecode } from '@/lib/utils';
 
 import { Loader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
@@ -30,7 +30,7 @@ export const SessionHeader = () => {
     variables: {
       year: parseInt(year as string),
       event: eventLocationDecode(eventParams as string),
-      session: eventLocationDecode(
+      session: sessionDecode(
         sessionParam as string,
       ) as Session_Name_Choices_Enum,
     },

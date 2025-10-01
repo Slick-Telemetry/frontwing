@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import React, { useEffect, useRef } from 'react';
 
 import { GET_SESSION_STINTS } from '@/lib/queries';
-import { eventLocationDecode } from '@/lib/utils';
+import { eventLocationDecode, sessionDecode } from '@/lib/utils';
 
 import { Loader } from '@/components/Loader';
 import { ServerPageError } from '@/components/ServerError';
@@ -299,9 +299,7 @@ const Stints = () => {
       variables: {
         year: parseInt(year as string),
         event: eventLocationDecode(event as string),
-        session: eventLocationDecode(
-          session as string,
-        ) as Session_Name_Choices_Enum,
+        session: sessionDecode(session as string) as Session_Name_Choices_Enum,
       },
     },
   );

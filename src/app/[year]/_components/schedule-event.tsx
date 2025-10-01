@@ -83,7 +83,7 @@ export function ScheduleEventItem({
   return (
     <li className='flex flex-col overflow-hidden rounded border'>
       <Link
-        href={`${event.year}/${eventLocationEncode(event.location)}`}
+        href={`${event.year}/${eventLocationEncode(event.event_name)}`}
         className='group hover:bg-muted flex flex-1 items-center gap-2 pr-4'
         aria-label={`Round ${event.round_number}: ${event.event_name} in ${event.location}, ${event.country} from ${formatDate(event.session1_date!)} to ${formatDate(event.event_date!)}`}
       >

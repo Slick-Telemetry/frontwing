@@ -47,14 +47,14 @@ export const GET_SEASONS = graphql(`
 export const GET_EVENT_SCHEDULE = gql`
   query GetEventSchedule($year: Int!, $event: String!) @cached {
     dropdown_events: schedule(
-      where: { location: { _neq: $event }, year: { _eq: $year } }
+      where: { event_name: { _neq: $event }, year: { _eq: $year } }
     ) {
       event_name
       round_number
       location
     }
     schedule(
-      where: { year: { _eq: $year }, location: { _eq: $event } }
+      where: { year: { _eq: $year }, event_name: { _eq: $event } }
       limit: 1
     ) {
       year
@@ -80,10 +80,7 @@ export const GET_EVENT_SCHEDULE = gql`
 `;
 export const GET_EVENT_DETAILS = gql`
   query GetEventDetails($year: Int!, $event: String!) @cached {
-    events(
-      where: { location: { _eq: $event }, year: { _eq: $year } }
-      limit: 1
-    ) {
+    events(where: { name: { _eq: $event }, year: { _eq: $year } }, limit: 1) {
       competition: sessions(
         where: { name: { _in: [Sprint, Race] } }
         limit: 2
@@ -275,7 +272,7 @@ export const GET_SESSION = gql`
     sessions(
       limit: 1
       where: {
-        event: { year: { _eq: $year }, location: { _eq: $event } }
+        event: { year: { _eq: $year }, name: { _eq: $event } }
         name: { _eq: $session }
       }
     ) {
@@ -298,7 +295,7 @@ export const GET_SESSION_RESULTS = gql`
     sessions(
       limit: 1
       where: {
-        event: { year: { _eq: $year }, location: { _eq: $event } }
+        event: { year: { _eq: $year }, name: { _eq: $event } }
         name: { _eq: $session }
       }
     ) {
@@ -351,7 +348,7 @@ export const GET_SESSION_FASTEST_TIMES = gql`
     sessions(
       limit: 1
       where: {
-        event: { year: { _eq: $year }, location: { _eq: $event } }
+        event: { year: { _eq: $year }, name: { _eq: $event } }
         name: { _eq: $session }
       }
     ) {
@@ -404,7 +401,7 @@ export const GET_SESSION_STINTS = gql`
     sessions(
       limit: 1
       where: {
-        event: { year: { _eq: $year }, location: { _eq: $event } }
+        event: { year: { _eq: $year }, name: { _eq: $event } }
         name: { _eq: $session }
       }
     ) {
@@ -435,7 +432,7 @@ export const GET_SESSION_LAP_TIMES = gql`
     sessions(
       limit: 1
       where: {
-        event: { year: { _eq: $year }, location: { _eq: $event } }
+        event: { year: { _eq: $year }, name: { _eq: $event } }
         name: { _eq: $session }
       }
     ) {

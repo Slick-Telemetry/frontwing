@@ -111,7 +111,7 @@ export default function NextEvent() {
         <h2 className='text-2xl'>
           <Link
             className='line-clamp-1 text-inherit hover:underline'
-            href={`/${nextEvent.year}/${eventLocationEncode(nextEvent?.location)}`}
+            href={`/${nextEvent.year}/${eventLocationEncode(nextEvent?.event_name)}`}
             data-cy='next-event-name'
           >
             {[nextEvent.round_number, nextEvent.event_name]
