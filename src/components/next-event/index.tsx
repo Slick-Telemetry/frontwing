@@ -92,7 +92,11 @@ export default function NextEvent() {
       </div>
 
       {nextEvent.location && nextEvent.country && (
-        <CircuitMap location={nextEvent.location} country={nextEvent.country} />
+        <CircuitMap
+          location={nextEvent.location}
+          country={nextEvent.country}
+          year={nextEvent.year ? nextEvent.year - 1 : undefined}
+        />
       )}
     </div>
   );

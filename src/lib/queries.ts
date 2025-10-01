@@ -102,26 +102,6 @@ export const GET_NEXT_EVENT = graphql(`
   }
 `);
 
-export const GET_NEXT_EVENT_CIRCUIT = gql`
-  query GetNextEventCircuit(
-    $location: String!
-    $country: String!
-    $year: Int!
-  ) {
-    circuits(
-      where: {
-        _and: {
-          location: { _eq: $location }
-          country: { _eq: $country }
-          year: { _eq: $year }
-        }
-      }
-      limit: 1
-    ) {
-      circuit_details
-    }
-  }
-`;
 export const GET_EVENT_SCHEDULE = gql`
   query GetEventSchedule($year: Int!, $event: String!) @cached {
     dropdown_events: schedule(

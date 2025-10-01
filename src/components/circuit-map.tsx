@@ -1,27 +1,42 @@
 import { useQuery } from '@apollo/client/react';
 import clsx from 'clsx';
 
-import { GET_NEXT_EVENT_CIRCUIT } from '@/lib/queries';
+import { graphql } from '@/types';
 
-import {
-  GetNextEventCircuitQuery,
-  GetNextEventCircuitQueryVariables,
-} from '@/types/graphql';
+export const GET_NEXT_EVENT_CIRCUIT = graphql(`
+  query GetNextEventCircuit(
+    $location: String!
+    $country: String!
+    $year: Int!
+  ) {
+    circuits(
+      where: {
+        _and: {
+          location: { _eq: $location }
+          country: { _eq: $country }
+          year: { _eq: $year }
+        }
+      }
+      limit: 1
+    ) {
+      circuit_details
+    }
+  }
+`);
 
 export const CircuitMap = ({
   location,
   country,
   small = false,
+  year = new Date().getFullYear(),
 }: {
   location: string;
   country: string;
   small?: boolean;
+  year?: number;
 }) => {
-  const { loading, data, error } = useQuery<
-    GetNextEventCircuitQuery,
-    GetNextEventCircuitQueryVariables
-  >(GET_NEXT_EVENT_CIRCUIT, {
-    variables: { location, country, year: new Date().getFullYear() - 1 },
+  const { loading, data, error } = useQuery(GET_NEXT_EVENT_CIRCUIT, {
+    variables: { location, country, year },
   });
 
   if (loading || error || !data?.circuits[0]?.circuit_details) return null;
