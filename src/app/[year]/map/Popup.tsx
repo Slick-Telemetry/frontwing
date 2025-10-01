@@ -32,7 +32,7 @@ export const MapPopup = ({
   const { current: map } = useMap();
   const [prevZoom, setPrevZoom] = useState(2);
 
-  const eventUrl = `${year}/${eventLocationEncode(event?.location)}`;
+  const eventUrl = `${year}/${eventLocationEncode(event?.name)}`;
   const longitude = event.sessions[0].circuit?.longitude as number;
   const latitude = event.sessions[0].circuit?.latitude as number;
 

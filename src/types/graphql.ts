@@ -12161,9 +12161,8 @@ export type GetNavEventsQuery = {
   __typename?: 'query_root';
   schedule: Array<{
     __typename?: 'schedule';
-    event_name?: string | null;
     round_number?: number | null;
-    location?: string | null;
+    event_name?: string | null;
   }>;
 };
 
@@ -13050,12 +13049,11 @@ export const GetNavEventsDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'round_number' },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
               ],
             },
           },
@@ -13108,7 +13106,7 @@ export const GetNavSessionsDocument = {
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'distinct_on' },
-                value: { kind: 'EnumValue', value: 'location' },
+                value: { kind: 'EnumValue', value: 'event_name' },
               },
               {
                 kind: 'Argument',
@@ -13135,7 +13133,7 @@ export const GetNavSessionsDocument = {
                     },
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'location' },
+                      name: { kind: 'Name', value: 'event_name' },
                       value: {
                         kind: 'ObjectValue',
                         fields: [
@@ -13897,7 +13895,7 @@ export const GetEventScheduleDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'location' },
+                      name: { kind: 'Name', value: 'event_name' },
                       value: {
                         kind: 'ObjectValue',
                         fields: [
@@ -13974,7 +13972,7 @@ export const GetEventScheduleDocument = {
                     },
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'location' },
+                      name: { kind: 'Name', value: 'event_name' },
                       value: {
                         kind: 'ObjectValue',
                         fields: [
@@ -14103,7 +14101,7 @@ export const GetEventDetailsDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'location' },
+                      name: { kind: 'Name', value: 'name' },
                       value: {
                         kind: 'ObjectValue',
                         fields: [
@@ -15657,7 +15655,7 @@ export const SessionDocument = {
                           },
                           {
                             kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'location' },
+                            name: { kind: 'Name', value: 'name' },
                             value: {
                               kind: 'ObjectValue',
                               fields: [
@@ -15814,7 +15812,7 @@ export const SessionResultsDocument = {
                           },
                           {
                             kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'location' },
+                            name: { kind: 'Name', value: 'name' },
                             value: {
                               kind: 'ObjectValue',
                               fields: [
@@ -16178,7 +16176,7 @@ export const GetSessionFastestTimesDocument = {
                           },
                           {
                             kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'location' },
+                            name: { kind: 'Name', value: 'name' },
                             value: {
                               kind: 'ObjectValue',
                               fields: [
@@ -16559,7 +16557,7 @@ export const GetSessionStintsDocument = {
                           },
                           {
                             kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'location' },
+                            name: { kind: 'Name', value: 'name' },
                             value: {
                               kind: 'ObjectValue',
                               fields: [
@@ -16763,7 +16761,7 @@ export const GetSessionLapTimesDocument = {
                           },
                           {
                             kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'location' },
+                            name: { kind: 'Name', value: 'name' },
                             value: {
                               kind: 'ObjectValue',
                               fields: [

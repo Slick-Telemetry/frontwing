@@ -8,6 +8,7 @@ import {
   findSessionType,
   formatLapTime,
   positionDisplay,
+  sessionDecode,
   sortFastestLaps,
   sortQuali,
 } from '@/lib/utils';
@@ -33,7 +34,7 @@ export const DriverGrid = () => {
     variables: {
       year: parseInt(year as string),
       event: eventLocationDecode(event as string),
-      session: eventLocationDecode(
+      session: sessionDecode(
         sessionBlob as string,
       ) as Session_Name_Choices_Enum,
     },

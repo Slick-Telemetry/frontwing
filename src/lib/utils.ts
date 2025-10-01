@@ -52,9 +52,9 @@ export const eventTiming = (
 };
 
 const mapColors = {
-  present: '#4264FB',
+  present: '#6c757d',
   past: '#28a745',
-  future: '#FF0000',
+  future: 'var(--accent)',
 };
 /**
  * @description Get designated map color
@@ -112,8 +112,15 @@ export const getCountryFlagByCountryName = (country_code?: string) => {
   return icon || null;
 };
 
+// Migrate to use event name
+// Remove grand prix
+// trim spaces
+// Replace spaces with underscores
+// Lowercase all characters
 export const eventLocationEncode = (location?: string | null) =>
-  !location ? null : location.replace(/ /g, '_').toLowerCase();
+  !location
+    ? null
+    : location.replace('Grand Prix', 'gp').replace(/ /g, '_').toLowerCase();
 
 export const eventLocationDecode = (location?: string) => {
   if (!location) {
@@ -121,6 +128,7 @@ export const eventLocationDecode = (location?: string) => {
   }
 
   const decodedLocation = location
+    .replace('gp', 'Grand Prix')
     .replace(/-|_/g, ' ')
     .replace(/(^|_|\s)\w/g, (match) => match.toUpperCase());
 
@@ -131,6 +139,16 @@ export const eventLocationDecode = (location?: string) => {
   }
 
   return decodedLocation;
+};
+
+export const sessionDecode = (location?: string) => {
+  if (!location) {
+    return '';
+  }
+
+  return location
+    .replace(/-/g, ' ')
+    .replace(/(^|_|\s)\w/g, (match) => match.toUpperCase());
 };
 
 export const fastestLapFinder = (

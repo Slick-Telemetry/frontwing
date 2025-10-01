@@ -17,8 +17,8 @@ import { graphql } from '@/types';
 export const GET_NAV_SESSIONS = graphql(`
   query GetNavSessions($year: Int!, $event: String!) @cached {
     schedule(
-      distinct_on: location
-      where: { year: { _eq: $year }, location: { _eq: $event } }
+      distinct_on: event_name
+      where: { year: { _eq: $year }, event_name: { _eq: $event } }
       limit: 1
     ) {
       session1

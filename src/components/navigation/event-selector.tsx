@@ -17,9 +17,8 @@ import { graphql } from '@/types';
 export const GET_NAV_EVENTS = graphql(`
   query GetNavEvents($year: Int!) @cached {
     schedule(order_by: { round_number: asc }, where: { year: { _eq: $year } }) {
-      event_name
       round_number
-      location
+      event_name
     }
   }
 `);
@@ -38,9 +37,9 @@ export function EventSelector() {
     return <SelectorDisabled placeholder='Event' width='w-48' />;
 
   const items =
-    data.schedule.map(({ round_number, location, event_name }) => ({
+    data.schedule.map(({ round_number, event_name }) => ({
       label: round_number + ' | ' + event_name!,
-      value: location!,
+      value: event_name!,
     })) || [];
 
   return (
