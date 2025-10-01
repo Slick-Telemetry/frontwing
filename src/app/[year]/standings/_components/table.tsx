@@ -24,12 +24,10 @@ const calculateGap = (currentPoints: number, previousPoints: number | null) => {
 export function Table({
   items,
   toggleItem,
-  batchToggleItem,
   hiddenItems,
 }: {
   items: Driver[];
-  toggleItem: (item: string) => void;
-  batchToggleItem?: (items: string[]) => void;
+  toggleItem: (items: string[]) => void;
   hiddenItems: Record<string, boolean>;
 }) {
   const [isDragging, setIsDragging] = useState(false);
@@ -55,7 +53,7 @@ export function Table({
         // Single item click - just toggle that item
         const item = items[dragStartIndex];
         if (item) {
-          toggleItem(item.abbr);
+          toggleItem([item.abbr]);
         }
       } else {
         // Multi-item drag selection
@@ -65,29 +63,14 @@ export function Table({
           .slice(startIndex, endIndex + 1)
           .map((item) => item.abbr);
 
-        if (batchToggleItem && itemsToToggle.length > 1) {
-          // Use batch toggle for multiple items
-          batchToggleItem(itemsToToggle);
-        } else {
-          // Use individual toggle for single item or when batch is not available
-          itemsToToggle.forEach((itemAbbr) => {
-            toggleItem(itemAbbr);
-          });
-        }
+        toggleItem(itemsToToggle);
       }
 
       setIsDragging(false);
       setDragStartIndex(null);
       setDragEndIndex(null);
     }
-  }, [
-    isDragging,
-    dragStartIndex,
-    dragEndIndex,
-    items,
-    toggleItem,
-    batchToggleItem,
-  ]);
+  }, [isDragging, dragStartIndex, dragEndIndex, items, toggleItem]);
 
   // Handle mouse up events outside the component
   useEffect(() => {
@@ -123,10 +106,10 @@ export function Table({
         onMouseEnter={() => handleMouseEnter(idx)}
         onMouseUp={handleMouseUp}
         className={clsx(
-          'flex cursor-pointer flex-wrap items-center divide-x rounded border py-1 select-none',
+          'bg-background flex cursor-pointer flex-wrap items-center divide-x rounded border py-1 select-none',
           {
             'opacity-50': hiddenItems[item.abbr],
-            'bg-blue-100 dark:bg-blue-900': isInDragRange,
+            'dark:bg-accent/50 bg-blue-100': isInDragRange,
           },
         )}
         aria-label={`Toggle ${item.name} from chart`}
@@ -140,7 +123,7 @@ export function Table({
           {item.team && (
             <Badge
               variant='outline'
-              className='inline w-18 truncate text-sm md:w-28 xl:w-20 2xl:w-28'
+              className='inline w-18 truncate text-xs md:w-28 xl:w-20 2xl:w-28 2xl:text-sm'
               style={{ borderColor: item.color }}
             >
               {item.team}

@@ -54,7 +54,7 @@ export default function TopThreeStandings({ year }: { year: string }) {
         <ExternalLink />
       </Link>
 
-      <div className='grid grid-cols-2 gap-2'>
+      <div className='bg-muted/50 grid grid-cols-2 gap-2 rounded p-2'>
         {(['drivers', 'constructors'] as ViewType[]).map((v) => (
           <Button
             key={v}

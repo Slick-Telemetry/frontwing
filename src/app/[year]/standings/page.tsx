@@ -58,7 +58,7 @@ const StandingsContent = () => {
   const simpleConstructorData = standings.constructors.map(getConstructorData);
   const simpleDriverData = standings.drivers.map(getDriverData);
 
-  const batchToggleVisibility = (
+  const toggleVisibility = (
     type: 'drivers' | 'constructors' | 'all' | 'none',
     ids?: string[],
   ) => {
@@ -112,45 +112,41 @@ const StandingsContent = () => {
   return (
     <div className='grid gap-4 p-4 lg:px-6 xl:grid-cols-3'>
       <div className='h-fit xl:order-2 xl:col-span-2'>
-        <div className='grid grid-cols-2 gap-4 pb-4'>
-          {['drivers', 'constructors'].map((v) => (
-            <Button
-              key={v}
-              variant={chartType === v ? 'secondary' : 'outline'}
-              size='lg'
-              asChild
-            >
-              <Link
-                href={`?chart=${v}`}
-                className='capitalize hover:underline lg:text-xl'
-              >
-                {v}
-              </Link>
-            </Button>
-          ))}
-        </div>
         <div className='rounded border'>
           <div className='bg-secondary/25 rounded border-b'>
             <StandingsChart
               data={standings}
               type={chartType}
               hiddenItems={hiddenItems}
+              toggleVisibility={toggleVisibility}
             />
           </div>
           <Legend
             standings={simpleDriverData}
-            toggleVisibility={batchToggleVisibility}
+            toggleVisibility={toggleVisibility}
             hiddenItems={hiddenItems}
           />
         </div>
       </div>
       <div className='w-full xl:order-1'>
+        <div className='bg-muted/50 mb-2 grid grid-cols-2 gap-2 rounded p-2'>
+          {['drivers', 'constructors'].map((v) => (
+            <Button
+              key={v}
+              variant={chartType === v ? 'secondary' : 'outline'}
+              asChild
+            >
+              <Link href={`?chart=${v}`} className='capitalize hover:underline'>
+                {v}
+              </Link>
+            </Button>
+          ))}
+        </div>
         <Table
           items={
             chartType === 'drivers' ? simpleDriverData : simpleConstructorData
           }
-          toggleItem={(item) => batchToggleVisibility(chartType, [item])}
-          batchToggleItem={(items) => batchToggleVisibility(chartType, items)}
+          toggleItem={(items) => toggleVisibility(chartType, items)}
           hiddenItems={hiddenItems}
         />
       </div>

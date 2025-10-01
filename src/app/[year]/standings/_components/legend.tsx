@@ -111,22 +111,6 @@ export const Legend = ({
           )}
         </div>
       ))}
-      <div className='col-span-full flex gap-2'>
-        <Button
-          variant='outline'
-          size='sm'
-          onClick={() => toggleVisibility('all')}
-        >
-          Select All
-        </Button>
-        <Button
-          variant='outline'
-          size='sm'
-          onClick={() => toggleVisibility('none')}
-        >
-          Clear All
-        </Button>
-      </div>
     </div>
   );
 };

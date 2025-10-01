@@ -38,9 +38,15 @@ interface Props {
   data: GetStandingsQuery;
   type: 'drivers' | 'constructors';
   hiddenItems: Record<string, boolean>;
+  toggleVisibility: (string: 'all' | 'none') => void;
 }
 
-export function StandingsChart({ data, type, hiddenItems }: Props) {
+export function StandingsChart({
+  data,
+  type,
+  hiddenItems,
+  toggleVisibility,
+}: Props) {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useECharts(chartRef);
 
@@ -92,6 +98,7 @@ export function StandingsChart({ data, type, hiddenItems }: Props) {
   return (
     <>
       <ChartControls
+        toggleVisibility={toggleVisibility}
         hideTooltip={hideTooltip}
         toggleTooltip={() => setHideTooltip((prev) => !prev)}
         showRoundPoints={showRoundPoints}
