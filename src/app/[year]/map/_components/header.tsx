@@ -58,9 +58,9 @@ export default function Header({ maxRounds = 0, ...props }: HeaderProps) {
 
   return (
     <div className='flex justify-between'>
-      <div className='relative flex flex-1 justify-between gap-4 overflow-hidden px-2'>
+      <div className='relative flex flex-1 justify-between gap-4 overflow-hidden pt-2'>
         {/* Event Details */}
-        <div className='py-2 pb-10'>
+        <div className='pb-10 pl-2'>
           {/* Event Title */}
           <h2 className='pointer-cursor line-clamp-1 text-3xl font-semibold hover:underline'>
             <Link href={`/${evt.year}/${eventLocationEncode(evt.location)}`}>
@@ -107,7 +107,7 @@ export default function Header({ maxRounds = 0, ...props }: HeaderProps) {
       <div className='bg-muted flex flex-col justify-evenly px-3 py-2 md:hidden lg:flex'>
         {sessionKeys.map((session) => (
           <div
-            className='hover:bg-accent flex cursor-pointer items-center justify-between gap-8 rounded px-1'
+            className='hover:bg-accent flex cursor-pointer items-center justify-between gap-4 rounded px-1'
             key={evt[session]}
             onClick={() => {
               router.push(

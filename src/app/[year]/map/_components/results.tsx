@@ -46,7 +46,7 @@ export default function EventResults({ results }: EventResultsProps) {
 
   return (
     <>
-      <div className='grid h-fit divide-y py-2'>
+      <div className='grid h-fit divide-y pr-2'>
         {driverSessions.slice(0, 3).map((d) => (
           <div
             className='flex items-center gap-1 py-0.5'
