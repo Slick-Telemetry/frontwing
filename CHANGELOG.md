@@ -1,3 +1,9 @@
+## 0.8.1 (2025-10-01)
+
+### Refactor
+
+- FRON-255 looked into tabs, not as customizable as desired
+
 ## 0.8.0 (2025-09-30)
 
 ### Feat
