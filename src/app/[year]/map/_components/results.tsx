@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { Circle } from 'lucide-react';
 import Marquee from 'react-fast-marquee';
 
 import { positionDisplay } from '@/lib/utils';
@@ -44,51 +45,83 @@ export default function EventResults({ results }: EventResultsProps) {
   if (!driverSessions.length) return null;
 
   return (
-    <Marquee
-      gradient
-      pauseOnHover
-      gradientWidth={10}
-      gradientColor='var(--background)'
-      speed={30}
-      delay={3}
-      className='bg-muted/50 absolute! bottom-0'
-    >
-      {driverSessions.map(
-        ({ driver, constructorByConstructorId, results }, idx) => {
-          if (!driver || !constructorByConstructorId) return null;
-          const position = results?.[0]?.finishing_position;
-          return (
-            <div className='flex items-center' key={driver.full_name}>
-              <Separator
-                orientation='vertical'
-                className={clsx(
-                  'data-[orientation=vertical]:h-4',
-                  idx === 0 ? 'bg-green-600' : 'bg-foreground/50',
-                )}
-              />
-              <div className='flex items-center gap-2 rounded-lg px-4 py-1'>
-                {position && (
-                  <p className='text-center font-semibold'>
-                    {positionDisplay(position)}
-                  </p>
-                )}
-                <p>{driver.full_name}</p>
-                {constructorByConstructorId.name && (
-                  <Badge
-                    variant='outline'
-                    className='ml-auto inline w-fit truncate text-xs xl:w-20 2xl:w-28'
-                    style={{
-                      borderColor: `#${constructorByConstructorId.color}`,
-                    }}
-                  >
-                    {constructorByConstructorId.name}
-                  </Badge>
-                )}
+    <>
+      <div className='grid h-fit divide-y py-2'>
+        {driverSessions.slice(0, 3).map((d) => (
+          <div
+            className='flex items-center gap-1 py-0.5'
+            key={`top-three-${d.driver?.full_name}`}
+          >
+            <p className='w-6'>
+              {positionDisplay(d.results[0].finishing_position ?? 0)}
+            </p>
+            <p className='text mr-auto line-clamp-1 font-semibold'>
+              {d.driver?.full_name}
+            </p>
+            <Circle
+              fill={`#${d.constructorByConstructorId?.color}`}
+              className='hidden size-4 sm:block xl:hidden'
+            />
+            {d.constructorByConstructorId?.name && (
+              <Badge
+                variant='outline'
+                className='inline w-18 truncate text-xs sm:hidden xl:inline'
+                style={{
+                  borderColor: `#${d.constructorByConstructorId.color}`,
+                }}
+              >
+                {d.constructorByConstructorId.name}
+              </Badge>
+            )}
+          </div>
+        ))}
+      </div>
+      <Marquee
+        gradient
+        pauseOnHover
+        gradientWidth={10}
+        gradientColor='var(--background)'
+        speed={30}
+        delay={3}
+        className='bg-muted/50 absolute! bottom-0'
+      >
+        {driverSessions.map(
+          ({ driver, constructorByConstructorId, results }, idx) => {
+            if (!driver || !constructorByConstructorId) return null;
+            const position = results?.[0]?.finishing_position;
+            return (
+              <div className='flex items-center' key={driver.full_name}>
+                <Separator
+                  orientation='vertical'
+                  className={clsx(
+                    'mx-2 data-[orientation=vertical]:h-4',
+                    idx === 0 ? 'bg-green-600' : 'bg-foreground/50',
+                  )}
+                />
+                <div className='flex items-center gap-2 rounded-lg px-2 py-1'>
+                  {position && (
+                    <p className='text-center font-semibold'>
+                      {positionDisplay(position)}
+                    </p>
+                  )}
+                  <p>{driver.full_name}</p>
+                  {constructorByConstructorId.name && (
+                    <Badge
+                      variant='outline'
+                      className='ml-auto inline w-fit truncate text-xs'
+                      style={{
+                        borderColor: `#${constructorByConstructorId.color}`,
+                      }}
+                    >
+                      {constructorByConstructorId.name}
+                    </Badge>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        },
-      )}
-    </Marquee>
+            );
+          },
+        )}
+      </Marquee>
+    </>
   );
 }

@@ -115,7 +115,7 @@ export function Table({
         aria-label={`Toggle ${item.name} from chart`}
         // style={{ borderColor: item.color }}
       >
-        <p className='w-8 text-center'>{idx + 1}</p>
+        <p className='mr-auto w-8 text-center'>{idx + 1}</p>
         <div className='flex flex-1 items-center justify-between gap-2 px-2'>
           <Circle fill={item.color} stroke='none' className='size-4' />
           <p className='line-clamp-1 flex-1'>{item.name}</p>

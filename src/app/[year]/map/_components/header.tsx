@@ -58,11 +58,11 @@ export default function Header({ maxRounds = 0, ...props }: HeaderProps) {
 
   return (
     <div className='flex justify-between'>
-      <div className='relative flex-1 overflow-hidden'>
+      <div className='relative flex flex-1 justify-between gap-4 overflow-hidden px-2'>
         {/* Event Details */}
-        <div className='px-4 py-2'>
+        <div className='py-2 pb-10'>
           {/* Event Title */}
-          <h2 className='pointer-cursor text-3xl font-semibold hover:underline'>
+          <h2 className='pointer-cursor line-clamp-1 text-3xl font-semibold hover:underline'>
             <Link href={`/${evt.year}/${eventLocationEncode(evt.location)}`}>
               {evt.event_name}
             </Link>
@@ -72,7 +72,7 @@ export default function Header({ maxRounds = 0, ...props }: HeaderProps) {
             {evt.location}, {evt.country}
           </p>
           {/* Attributes */}
-          <div className='flex items-center'>
+          <div className='flex items-center text-xs md:text-sm'>
             <p>
               {new Date(evt.event_date as string).toLocaleDateString(
                 undefined,
@@ -89,7 +89,8 @@ export default function Header({ maxRounds = 0, ...props }: HeaderProps) {
               className='mx-2 data-[orientation=vertical]:h-4'
             />
             <p>
-              Round {evt.round_number} {maxRounds >= 1 ? `of ${maxRounds}` : ''}
+              Round {evt.round_number}
+              {maxRounds >= 1 ? `/${maxRounds}` : ''}
             </p>
             <Separator
               orientation='vertical'
@@ -102,7 +103,8 @@ export default function Header({ maxRounds = 0, ...props }: HeaderProps) {
         {/* Marquee / Top Three goes here */}
         {props.children}
       </div>
-      <div className='bg-muted px-3 py-2'>
+
+      <div className='bg-muted flex flex-col justify-evenly px-3 py-2 md:hidden lg:flex'>
         {sessionKeys.map((session) => (
           <div
             className='hover:bg-accent flex cursor-pointer items-center justify-between gap-8 rounded px-1'

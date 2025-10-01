@@ -45,11 +45,13 @@ const documents: Documents = {
     types.MapHeader_ScheduleFragmentFragmentDoc,
   '\n  fragment MapEvent on events {\n    round_number\n    name\n    date\n    location\n    sessions(limit: 1, where: { name: { _eq: Race } }) {\n      circuit {\n        latitude\n        longitude\n      }\n    }\n  }\n':
     types.MapEventFragmentDoc,
+  '\n  fragment MapTopRaceDrivers on events {\n    eventSessions: sessions(\n      where: { event: { year: { _eq: $year } }, name: { _eq: Race } }\n    ) {\n      driver_sessions(\n        limit: 30\n        order_by: { results_aggregate: { max: { finishing_position: asc } } }\n      ) {\n        results {\n          finishing_position\n        }\n        driver {\n          full_name\n        }\n        constructorByConstructorId {\n          name\n          color\n        }\n      }\n    }\n  }\n':
+    types.MapTopRaceDriversFragmentDoc,
   '\n  fragment MapScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n  }\n':
     types.MapScheduleFragmentFragmentDoc,
-  '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n    }\n  }\n':
+  '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n      ...MapTopRaceDrivers\n    }\n  }\n':
     types.GetMapScheduleDocument,
-  '\n  query GetNavEvents($year: Int!) @cached {\n    schedule(distinct_on: event_name, where: { year: { _eq: $year } }) {\n      event_name\n      location\n    }\n  }\n':
+  '\n  query GetNavEvents($year: Int!) @cached {\n    schedule(order_by: { round_number: asc }, where: { year: { _eq: $year } }) {\n      event_name\n      round_number\n      location\n    }\n  }\n':
     types.GetNavEventsDocument,
   '\n  query GetNavSessions($year: Int!, $event: String!) @cached {\n    schedule(\n      distinct_on: location\n      where: { year: { _eq: $year }, location: { _eq: $event } }\n      limit: 1\n    ) {\n      session1\n      session2\n      session3\n      session4\n      session5\n    }\n  }\n':
     types.GetNavSessionsDocument,
@@ -121,20 +123,26 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n  fragment MapTopRaceDrivers on events {\n    eventSessions: sessions(\n      where: { event: { year: { _eq: $year } }, name: { _eq: Race } }\n    ) {\n      driver_sessions(\n        limit: 30\n        order_by: { results_aggregate: { max: { finishing_position: asc } } }\n      ) {\n        results {\n          finishing_position\n        }\n        driver {\n          full_name\n        }\n        constructorByConstructorId {\n          name\n          color\n        }\n      }\n    }\n  }\n',
+): (typeof documents)['\n  fragment MapTopRaceDrivers on events {\n    eventSessions: sessions(\n      where: { event: { year: { _eq: $year } }, name: { _eq: Race } }\n    ) {\n      driver_sessions(\n        limit: 30\n        order_by: { results_aggregate: { max: { finishing_position: asc } } }\n      ) {\n        results {\n          finishing_position\n        }\n        driver {\n          full_name\n        }\n        constructorByConstructorId {\n          name\n          color\n        }\n      }\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n  fragment MapScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n  }\n',
 ): (typeof documents)['\n  fragment MapScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n    }\n  }\n',
-): (typeof documents)['\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n    }\n  }\n'];
+  source: '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n      ...MapTopRaceDrivers\n    }\n  }\n',
+): (typeof documents)['\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n      ...MapTopRaceDrivers\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GetNavEvents($year: Int!) @cached {\n    schedule(distinct_on: event_name, where: { year: { _eq: $year } }) {\n      event_name\n      location\n    }\n  }\n',
-): (typeof documents)['\n  query GetNavEvents($year: Int!) @cached {\n    schedule(distinct_on: event_name, where: { year: { _eq: $year } }) {\n      event_name\n      location\n    }\n  }\n'];
+  source: '\n  query GetNavEvents($year: Int!) @cached {\n    schedule(order_by: { round_number: asc }, where: { year: { _eq: $year } }) {\n      event_name\n      round_number\n      location\n    }\n  }\n',
+): (typeof documents)['\n  query GetNavEvents($year: Int!) @cached {\n    schedule(order_by: { round_number: asc }, where: { year: { _eq: $year } }) {\n      event_name\n      round_number\n      location\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

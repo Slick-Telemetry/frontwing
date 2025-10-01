@@ -1,6 +1,9 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 
 import { getColor } from '@/lib/utils';
+
+import { Button } from '@/components/ui/button';
 
 import { FragmentType, graphql, useFragment } from '@/types';
 
@@ -29,13 +32,14 @@ export const Schedule = ({
   const { year } = events[0];
 
   return (
-    <div className='h-fit min-w-[250px]'>
-      {/* <Button asChild variant='ghost' className='w-full mb-2' size='sm'>
-          <Link href={`/${year}`} className='text-sm text-muted-foreground'>
-            &larr; Season
-          </Link>
-        </Button> */}
+    <div className='hidden h-fit min-w-[250px] lg:@5xl/sidebar:block'>
+      {/* <div className='flex justify-between gap-2'></div> */}
       <h1 className='py-2 text-center text-xl'>{year} Schedule</h1>
+      <Button asChild variant='ghost' className='mb-2 w-full' size='sm'>
+        <Link href={`/${year}`} className='text-muted-foreground text-sm'>
+          Season &rarr;
+        </Link>
+      </Button>
       <div className='grid divide-y overflow-hidden rounded border'>
         {events?.map((e) => {
           const name = e.event_name ?? '';

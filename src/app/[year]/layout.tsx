@@ -26,7 +26,7 @@ export default async function Layout({
         }
       >
         <AppSidebar />
-        <SidebarInset>
+        <SidebarInset className='@container/sidebar'>
           <Nav />
           {children}
           <Footer />
