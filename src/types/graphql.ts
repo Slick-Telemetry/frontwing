@@ -12148,6 +12148,7 @@ export type GetNavEventsQuery = {
   schedule: Array<{
     __typename?: 'schedule';
     event_name?: string | null;
+    round_number?: number | null;
     location?: string | null;
   }>;
 };
@@ -12862,8 +12863,17 @@ export const GetNavEventsDocument = {
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct_on' },
-                value: { kind: 'EnumValue', value: 'event_name' },
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'round_number' },
+                      value: { kind: 'EnumValue', value: 'asc' },
+                    },
+                  ],
+                },
               },
               {
                 kind: 'Argument',
@@ -12896,6 +12906,10 @@ export const GetNavEventsDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'round_number' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'location' } },
               ],
             },
