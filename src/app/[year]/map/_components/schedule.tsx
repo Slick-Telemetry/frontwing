@@ -1,9 +1,8 @@
 import clsx from 'clsx';
+import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 import { getColor } from '@/lib/utils';
-
-import { Button } from '@/components/ui/button';
 
 import { FragmentType, graphql, useFragment } from '@/types';
 
@@ -33,13 +32,16 @@ export const Schedule = ({
 
   return (
     <div className='hidden h-fit min-w-[250px] lg:@5xl/sidebar:block'>
-      {/* <div className='flex justify-between gap-2'></div> */}
-      <h1 className='py-2 text-center text-xl'>{year} Schedule</h1>
-      <Button asChild variant='ghost' className='mb-2 w-full' size='sm'>
-        <Link href={`/${year}`} className='text-muted-foreground text-sm'>
-          Season &rarr;
-        </Link>
-      </Button>
+      <div className='flex items-center gap-2 py-2 text-lg'>
+        <h1
+          className='text-center hover:underline'
+          aria-label={`${year} Schedule`}
+        >
+          <Link href={`/${year}`}>{year}</Link>
+        </h1>
+        <ChevronRight className='size-4' />
+        <p>Schedule</p>
+      </div>
       <div className='grid divide-y overflow-hidden rounded border'>
         {events?.map((e) => {
           const name = e.event_name ?? '';

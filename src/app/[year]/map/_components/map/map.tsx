@@ -46,7 +46,8 @@ export const MapContent = ({
 
   const [mapLoading, setMapLoading] = useState<boolean>(true);
 
-  const index = events.findIndex((e) => e.name === selectedEvent);
+  let index = events.findIndex((e) => e.name === selectedEvent);
+  if (index === -1) index = events.length - 1; // use last event as default if no match
   const { latitude, longitude } = events?.[index]?.sessions[0]?.circuit ?? {};
 
   const zoomOnMap = React.useCallback(

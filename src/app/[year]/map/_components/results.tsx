@@ -41,7 +41,7 @@ type EventResultsProps = {
 
 export default function EventResults({ results }: EventResultsProps) {
   const { eventSessions } = useFragment(MapTopRaceDrivers, results);
-  const driverSessions = eventSessions[0]?.driver_sessions ?? [];
+  const driverSessions = eventSessions?.[0]?.driver_sessions ?? [];
   if (!driverSessions.length) return null;
 
   return (
@@ -77,6 +77,7 @@ export default function EventResults({ results }: EventResultsProps) {
         ))}
       </div>
       <Marquee
+        key={Date.now()} // Hacky way to trigger fresh mount
         gradient
         pauseOnHover
         gradientWidth={10}
