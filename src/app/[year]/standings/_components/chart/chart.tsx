@@ -10,7 +10,7 @@ import {
 import * as echarts from 'echarts/core';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useECharts } from '@/hooks/use-EChart';
 
@@ -55,10 +55,7 @@ export function StandingsChart({
 
   const { events } = data;
   const maxRound = Math.max(...events.map((e) => e.round_number || 0));
-  const allRounds = useMemo(
-    () => Array.from({ length: maxRound }, (_, i) => i + 1),
-    [maxRound],
-  );
+  const allRounds = Array.from({ length: maxRound }, (_, i) => i + 1);
 
   const { driversSeries, constructorsSeries } = useStandingsSeries({
     data,
