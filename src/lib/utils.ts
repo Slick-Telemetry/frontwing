@@ -1,7 +1,4 @@
 import { type ClassValue, clsx } from 'clsx';
-import getUnicodeFlagIcon from 'country-flag-icons/unicode';
-import { getAlpha2Code, registerLocale } from 'i18n-iso-countries';
-import enLocale from 'i18n-iso-countries/langs/en.json';
 import { twMerge } from 'tailwind-merge';
 
 import { GetEventDetailsQuery, SessionResultsQuery } from '@/types/graphql';
@@ -18,41 +15,12 @@ export const getTodayMidnightUTC = () => {
   return now.toISOString(); // Convert to ISO 8601 format
 };
 
-/**
- * @description Return value for default background gradient
- * @param {string} color
- */
-export const bgGradient = (color: string) =>
-  `linear-gradient(to top left, ${hexToRgba(color, 0.8)}, ${hexToRgba(color, 0)})`;
-
-/**
- * @description resolve if event is past, present, future
- * @param {(string | null)} [date]
- * @return {string}  {('past' | 'present' | 'future')}
- */
-export const eventTiming = (
-  date?: string | null,
-): 'past' | 'present' | 'future' => {
-  if (!date) return 'past';
-
-  const today = new Date();
-  const inputDate = new Date(date);
-
-  if (
-    inputDate.getFullYear() === today.getFullYear() &&
-    inputDate.getMonth() === today.getMonth() &&
-    inputDate.getDate() === today.getDate()
-  ) {
-    return 'present';
-  } else if (inputDate < today) {
-    return 'past';
-  } else {
-    return 'future';
-  }
+export const isFutureDate = (date?: string | null) => {
+  if (!date) return false;
+  return new Date(getTodayMidnightUTC()).getTime() <= new Date(date).getTime();
 };
 
 const mapColors = {
-  present: '#4264FB',
   past: '#28a745',
   future: '#FF0000',
 };
@@ -61,11 +29,9 @@ const mapColors = {
  * @param {(string | null)} [date]
  * @return {string} value of mapColor
  */
-export const getColor = (
-  date?: string | null,
-): (typeof mapColors)[keyof typeof mapColors] => {
-  const timing = eventTiming(date);
-  return mapColors[timing];
+export const getColor = (date?: string | null): string => {
+  const futureDate = isFutureDate(date);
+  return mapColors[futureDate ? 'future' : 'past'];
 };
 
 /**
@@ -84,6 +50,13 @@ export const hexToRgba = (hex: string, opacity: number) => {
 };
 
 /**
+ * @description Return value for default background gradient
+ * @param {string} color
+ */
+export const bgGradient = (color: string) =>
+  `linear-gradient(to top left, ${hexToRgba(color, 0.8)}, ${hexToRgba(color, 0)})`;
+
+/**
  * @description Take a position value and returns position end
  * @param {(number | string)} position
  * @return {('st' | 'nd' | 'rd' | 'th')}
@@ -98,18 +71,21 @@ export const positionEnding = (position: number | string) => {
   else return 'th';
 };
 
-export const getCountryFlagByCountryName = (country_code?: string) => {
-  if (!country_code) return;
-
-  // Register the languages you want to use to minimize the file size
-  registerLocale(enLocale);
-  // Get alpha2 code
-  const alpha2 = getAlpha2Code(country_code, 'en');
-  if (!alpha2) return;
-
-  // Get icon from code
-  const icon = getUnicodeFlagIcon(alpha2);
-  return icon || null;
+export const positionDisplay = (position: string | number) => {
+  const map: Record<string, string> = {
+    R: 'Retired',
+    D: 'Disqualified',
+    E: 'Excluded',
+    W: 'Withdrawn',
+    F: 'Failed to Qualify',
+    N: 'Not Classified',
+  };
+  // If position is a number or a string that can be converted to a number, show the number
+  if (!isNaN(Number(position))) {
+    return position + positionEnding(position);
+  }
+  // Otherwise, show the mapped value or the original string
+  return map[String(position)] || position;
 };
 
 export const eventLocationEncode = (location?: string | null) =>
@@ -246,21 +222,4 @@ export const sortQuali = (
         Number(b.results[0]?.finishing_position || 0)
       );
     });
-};
-
-export const positionDisplay = (position: string | number) => {
-  const map: Record<string, string> = {
-    R: 'Retired',
-    D: 'Disqualified',
-    E: 'Excluded',
-    W: 'Withdrawn',
-    F: 'Failed to Qualify',
-    N: 'Not Classified',
-  };
-  // If position is a number or a string that can be converted to a number, show the number
-  if (!isNaN(Number(position))) {
-    return position + positionEnding(position);
-  }
-  // Otherwise, show the mapped value or the original string
-  return map[String(position)] || position;
 };

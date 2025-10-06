@@ -1,7 +1,4 @@
-import clsx from 'clsx';
 import { Marker } from 'react-map-gl/mapbox';
-
-import { eventTiming } from '@/lib/utils';
 
 import { MapEventFragment } from '@/types/graphql';
 
@@ -20,8 +17,6 @@ export const MapMarker = ({
     ...event.sessions[0].circuit,
   };
 
-  const timing = eventTiming(event.date);
-
   return (
     <Marker
       longitude={longitude as number}
@@ -37,11 +32,7 @@ export const MapMarker = ({
           height='32'
           viewBox='0 0 24 24'
           fill={color}
-          className={clsx(
-            timing === 'present' &&
-              'animate-[ping_1500ms_ease-in-out_infinite]',
-            'lucide-map-pin absolute',
-          )}
+          className='lucide-map-pin absolute'
         >
           <path d='M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0' />
         </svg>

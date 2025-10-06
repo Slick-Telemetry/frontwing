@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 
-import { eventLocationEncode, eventTiming } from '@/lib/utils';
+import { eventLocationEncode, isFutureDate } from '@/lib/utils';
 
 import { CircuitMap } from '@/components/circuit-map';
 
@@ -42,11 +42,11 @@ export function ScheduleEventItem({
   ...props
 }: ScheduleEventItemProps) {
   const event = useFragment(Event_ScheduleFragment, props.event);
-  const timing = eventTiming(event.event_date as string);
+  const futureEvent = isFutureDate(event.event_date);
   const numberClass = clsx({
-    'bg-secondary': timing === 'past',
+    'bg-secondary': !futureEvent,
     'bg-foreground/90 text-background':
-      timing === 'future' && next !== event.round_number,
+      futureEvent && next !== event.round_number,
     'bg-accent text-accent-foreground': next === event.round_number,
   });
 

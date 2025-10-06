@@ -3,11 +3,7 @@ import { useQuery } from '@apollo/client/react';
 import Link from 'next/link';
 
 import { GET_NEXT_EVENT } from '@/lib/queries';
-import {
-  eventLocationEncode,
-  getCountryFlagByCountryName,
-  getTodayMidnightUTC,
-} from '@/lib/utils';
+import { eventLocationEncode, getTodayMidnightUTC } from '@/lib/utils';
 
 import { CircuitMap } from '@/components/circuit-map';
 import { Countdown } from '@/components/countdown';
@@ -71,16 +67,10 @@ export default function NextEvent() {
           </Link>
         </h2>
 
-        {/* Flag && Location */}
-        <div className='flex items-center gap-2'>
-          <div className='border-foreground flex h-4 w-full max-w-7 items-center justify-center overflow-hidden rounded border text-3xl'>
-            {nextEvent.country &&
-              getCountryFlagByCountryName(nextEvent.country)}
-          </div>
-          <p className='line-clamp-1 text-sm'>
-            {nextEvent.location}, {nextEvent.country}
-          </p>
-        </div>
+        {/* Location */}
+        <p className='line-clamp-1 text-sm'>
+          {nextEvent.location}, {nextEvent.country}
+        </p>
 
         {/* Coundown */}
         {lastSession && (
