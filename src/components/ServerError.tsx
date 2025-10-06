@@ -6,7 +6,7 @@ export const ServerPageError = ({ msg }: { msg?: string }) => {
           <h1>Server Error</h1>
           <p className='text-4xl'>{msg || 'Please try again soon'}</p>
         </div>
-        {/* <div className='text-red-500 rounded border border-current p-2 px-3'>
+        {/* <div className='p-2 px-3 text-red-500 border border-current rounded'>
             <p>{error.name}: {error.message}</p>
           </div> */}
         <ul className='ml-4 list-disc'>
@@ -34,8 +34,8 @@ export const ServerPageError = ({ msg }: { msg?: string }) => {
 export const ServerComponentError = () => {
   return (
     <div data-cy='season-selector-error'>
-      <h1 className='text-xl'>Server Error</h1>
-      <p className='text-sm'>Please try again</p>
+      <p className='text-xl'>Server Error</p>
+      <p className='text-sm'>Try again later</p>
     </div>
   );
 };
