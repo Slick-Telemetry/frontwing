@@ -2,8 +2,6 @@ import clsx from 'clsx';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
-import { getColor } from '@/lib/utils';
-
 import { FragmentType, graphql, useFragment } from '@/types';
 
 const MapScheduleFragment = graphql(`
@@ -47,14 +45,13 @@ export const Schedule = ({
           const name = e.event_name ?? '';
           // custom color logic so colors don't overwrite map markers
           const date = e.event_date ? new Date(e.event_date) : now;
-          const color = now >= date ? 'inherit' : getColor(e.event_date);
           return (
             <div
               key={name}
-              style={{ color: color }}
               className={clsx(
-                'hover:bg-accent flex cursor-pointer items-center gap-2 px-2 py-0.5',
-                activeEvent === name && 'bg-accent/50',
+                'hover:bg-accent hover:text-accent-foreground flex cursor-pointer items-center gap-2 px-2 py-0.5',
+                now < date && 'text-accent',
+                activeEvent === name && 'bg-accent/50 text-accent-foreground',
               )}
               onClick={() => selectEvent(name)}
             >

@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-import { MapEventFragment } from '@/types/graphql';
+import { MapScheduleLocationFragment } from '@/types/graphql';
 
 export default function MapNavigation({
   toggleZoom,
@@ -12,17 +12,17 @@ export default function MapNavigation({
 }: {
   toggleZoom: () => void;
   selectEvent: (event: string) => void;
-  prev?: MapEventFragment;
-  next?: MapEventFragment;
+  prev?: MapScheduleLocationFragment;
+  next?: MapScheduleLocationFragment;
 }) {
   return (
-    <div className='absolute inset-0 top-2 mx-auto flex w-96 gap-2'>
+    <div className='absolute inset-0 top-2 mx-auto flex h-fit w-96 gap-2'>
       <Button
         variant='secondary-invert'
         size='sm'
         disabled={!prev}
         className='mr-auto flex w-full max-w-36 cursor-pointer items-center'
-        onClick={() => selectEvent(prev?.name as string)}
+        onClick={() => selectEvent(prev?.event_name as string)}
       >
         <ChevronLeft className='size-4' />
         {prev ? (
@@ -49,7 +49,7 @@ export default function MapNavigation({
         size='sm'
         disabled={!next}
         className='ml-auto flex w-full max-w-36 cursor-pointer items-center'
-        onClick={() => selectEvent(next?.name as string)}
+        onClick={() => selectEvent(next?.event_name as string)}
       >
         {next ? (
           <p className='truncate'>

@@ -22,7 +22,7 @@ export const isFutureDate = (date?: string | null) => {
 
 const mapColors = {
   past: '#28a745',
-  future: '#FF0000',
+  future: '#5279BA',
 };
 /**
  * @description Get designated map color

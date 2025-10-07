@@ -14,23 +14,19 @@ import { FragmentType, graphql, useFragment } from '@/types';
 
 const optimalZoom = 14; // optimal zoom for circuit visibility
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-export const MapEvent = graphql(`
-  fragment MapEvent on events {
+export const MapScheduleLocation = graphql(`
+  fragment MapScheduleLocation on schedule {
     round_number
-    name
-    date
+    event_name
+    event_date
     location
-    sessions(limit: 1, where: { name: { _eq: Race } }) {
-      circuit {
-        latitude
-        longitude
-      }
-    }
+    longitude
+    latitude
   }
 `);
 
 type MapProps = {
-  events: FragmentType<typeof MapEvent>[];
+  events: FragmentType<typeof MapScheduleLocation>[];
 };
 
 export const MapContent = ({
@@ -41,14 +37,14 @@ export const MapContent = ({
   selectedEvent: string | null;
   onClickAction: (event: string) => void;
 }) => {
-  const events = useFragment(MapEvent, props.events);
+  const events = useFragment(MapScheduleLocation, props.events);
   const mapRef = useRef<MapRef>(null);
 
   const [mapLoading, setMapLoading] = useState<boolean>(true);
 
-  let index = events.findIndex((e) => e.name === selectedEvent);
+  let index = events.findIndex((e) => e.event_name === selectedEvent);
   if (index === -1) index = events.length - 1; // use last event as default if no match
-  const { latitude, longitude } = events?.[index]?.sessions[0]?.circuit ?? {};
+  const { latitude, longitude } = events?.[index] ?? {};
 
   const zoomOnMap = React.useCallback(
     (zoom?: number) => {
@@ -104,14 +100,14 @@ export const MapContent = ({
         />
         {!mapLoading &&
           events.map((event, i) => {
-            const color = getColor(event.date);
+            const color = getColor(event.event_date);
             return (
-              <Fragment key={event.name}>
+              <Fragment key={event.event_name}>
                 <MapMarker
                   event={event}
                   color={color}
                   selectEvent={() => {
-                    onClickAction(event.name as string);
+                    onClickAction(event.event_name as string);
                     zoomOnMap(optimalZoom);
                   }}
                 />

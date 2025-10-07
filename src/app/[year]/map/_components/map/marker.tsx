@@ -1,20 +1,20 @@
 import { Marker } from 'react-map-gl/mapbox';
 
-import { MapEventFragment } from '@/types/graphql';
+import { MapScheduleLocationFragment } from '@/types/graphql';
 
 export const MapMarker = ({
   event,
   color,
   selectEvent,
 }: {
-  event: MapEventFragment;
+  event: MapScheduleLocationFragment;
   color: string;
   selectEvent: () => void;
 }) => {
   const { latitude, longitude } = {
     latitude: null,
     longitude: null,
-    ...event.sessions[0].circuit,
+    ...event,
   };
 
   return (

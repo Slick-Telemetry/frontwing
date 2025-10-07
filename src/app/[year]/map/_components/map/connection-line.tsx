@@ -1,27 +1,21 @@
 import { greatCircle } from '@turf/great-circle';
 import { Layer, Source } from 'react-map-gl/mapbox';
 
-import { MapEventFragment } from '@/types/graphql';
+import { MapScheduleLocationFragment } from '@/types/graphql';
 
 export const ConnectionLine = ({
   event,
   adjacentEvent,
   color,
 }: {
-  event: MapEventFragment;
+  event: MapScheduleLocationFragment;
   color: string;
-  adjacentEvent?: MapEventFragment;
+  adjacentEvent?: MapScheduleLocationFragment;
 }) => {
   const lineCoordinates = adjacentEvent
     ? greatCircle(
-        [
-          event.sessions[0].circuit?.longitude as number,
-          event.sessions[0].circuit?.latitude as number,
-        ],
-        [
-          adjacentEvent.sessions[0].circuit?.longitude as number,
-          adjacentEvent.sessions[0].circuit?.latitude as number,
-        ],
+        [event?.longitude as number, event?.latitude as number],
+        [adjacentEvent?.longitude as number, adjacentEvent?.latitude as number],
       ).geometry.coordinates
     : [];
 
@@ -32,7 +26,7 @@ export const ConnectionLine = ({
 
   return (
     <Source
-      id={event.name || event.location || ''}
+      id={event.event_name || event.location || ''}
       type='geojson'
       data={{
         type: 'Feature',
@@ -44,9 +38,9 @@ export const ConnectionLine = ({
       }}
     >
       <Layer
-        id={event.name || 'line'}
+        id={event.event_name || 'line'}
         type='line'
-        source={event.name || 'line-source'}
+        source={event.event_name || 'line-source'}
         paint={{
           'line-color': color,
           'line-width': 2, // Line width

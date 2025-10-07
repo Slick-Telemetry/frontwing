@@ -17,14 +17,14 @@ import { graphql } from '@/types';
 
 const GET_SCHEDULE = graphql(`
   query GetMapSchedule($year: Int!) @cached {
-    schedule(where: { year: { _eq: $year } }) {
+    schedule(where: { year: { _eq: $year } }, order_by: { round_number: asc }) {
       event_name
       ...MapScheduleFragment
       ...MapHeader_ScheduleFragment
+      ...MapScheduleLocation
     }
     events(where: { year: { _eq: $year } }) {
       name
-      ...MapEvent
       ...MapTopRaceDrivers
     }
   }
@@ -98,7 +98,7 @@ export default function MapPage({
 
         {/* Map */}
         <MapContent
-          events={data.events}
+          events={data.schedule}
           selectedEvent={activeEvent}
           onClickAction={handleNewSelected}
         />

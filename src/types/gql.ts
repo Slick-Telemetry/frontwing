@@ -17,10 +17,10 @@ type Documents = {
   '\n  fragment Event_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n    location\n    country\n    session1\n    session1_date\n    session2\n    session2_date\n    session3\n    session3_date\n    session4\n    session4_date\n    session5\n    session5_date\n  }\n': typeof types.Event_ScheduleFragmentFragmentDoc;
   '\n  query GetSeasonEvents($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      event_date\n      year\n      round_number\n      location\n      country\n      event_format\n      ...Event_ScheduleFragment\n    }\n  }\n': typeof types.GetSeasonEventsDocument;
   '\n  fragment MapHeader_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n    location\n    country\n    event_format\n    session1\n    session2\n    session3\n    session4\n    session5\n    session1_date_utc\n    session2_date_utc\n    session3_date_utc\n    session4_date_utc\n    session5_date_utc\n  }\n': typeof types.MapHeader_ScheduleFragmentFragmentDoc;
-  '\n  fragment MapEvent on events {\n    round_number\n    name\n    date\n    location\n    sessions(limit: 1, where: { name: { _eq: Race } }) {\n      circuit {\n        latitude\n        longitude\n      }\n    }\n  }\n': typeof types.MapEventFragmentDoc;
+  '\n  fragment MapScheduleLocation on schedule {\n    round_number\n    event_name\n    event_date\n    location\n    longitude\n    latitude\n  }\n': typeof types.MapScheduleLocationFragmentDoc;
   '\n  fragment MapTopRaceDrivers on events {\n    eventSessions: sessions(\n      where: { event: { year: { _eq: $year } }, name: { _eq: Race } }\n    ) {\n      driver_sessions(\n        limit: 30\n        order_by: { results_aggregate: { max: { finishing_position: asc } } }\n      ) {\n        results {\n          finishing_position\n        }\n        driver {\n          full_name\n        }\n        constructorByConstructorId {\n          name\n          color\n        }\n      }\n    }\n  }\n': typeof types.MapTopRaceDriversFragmentDoc;
   '\n  fragment MapScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n  }\n': typeof types.MapScheduleFragmentFragmentDoc;
-  '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n      ...MapTopRaceDrivers\n    }\n  }\n': typeof types.GetMapScheduleDocument;
+  '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }, order_by: { round_number: asc }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n      ...MapScheduleLocation\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapTopRaceDrivers\n    }\n  }\n': typeof types.GetMapScheduleDocument;
   '\n  query GetNextEventCircuit(\n    $location: String!\n    $country: String!\n    $year: Int!\n  ) {\n    circuits(\n      where: {\n        _and: {\n          location: { _eq: $location }\n          country: { _eq: $country }\n          year: { _eq: $year }\n        }\n      }\n      limit: 1\n    ) {\n      circuit_details\n    }\n  }\n': typeof types.GetNextEventCircuitDocument;
   '\n  query GetNavEvents($year: Int!) @cached {\n    schedule(order_by: { round_number: asc }, where: { year: { _eq: $year } }) {\n      event_name\n      round_number\n      location\n    }\n  }\n': typeof types.GetNavEventsDocument;
   '\n  query GetNavSessions($year: Int!, $event: String!) @cached {\n    schedule(\n      distinct_on: location\n      where: { year: { _eq: $year }, location: { _eq: $event } }\n      limit: 1\n    ) {\n      session1\n      session2\n      session3\n      session4\n      session5\n    }\n  }\n': typeof types.GetNavSessionsDocument;
@@ -44,13 +44,13 @@ const documents: Documents = {
     types.GetSeasonEventsDocument,
   '\n  fragment MapHeader_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n    location\n    country\n    event_format\n    session1\n    session2\n    session3\n    session4\n    session5\n    session1_date_utc\n    session2_date_utc\n    session3_date_utc\n    session4_date_utc\n    session5_date_utc\n  }\n':
     types.MapHeader_ScheduleFragmentFragmentDoc,
-  '\n  fragment MapEvent on events {\n    round_number\n    name\n    date\n    location\n    sessions(limit: 1, where: { name: { _eq: Race } }) {\n      circuit {\n        latitude\n        longitude\n      }\n    }\n  }\n':
-    types.MapEventFragmentDoc,
+  '\n  fragment MapScheduleLocation on schedule {\n    round_number\n    event_name\n    event_date\n    location\n    longitude\n    latitude\n  }\n':
+    types.MapScheduleLocationFragmentDoc,
   '\n  fragment MapTopRaceDrivers on events {\n    eventSessions: sessions(\n      where: { event: { year: { _eq: $year } }, name: { _eq: Race } }\n    ) {\n      driver_sessions(\n        limit: 30\n        order_by: { results_aggregate: { max: { finishing_position: asc } } }\n      ) {\n        results {\n          finishing_position\n        }\n        driver {\n          full_name\n        }\n        constructorByConstructorId {\n          name\n          color\n        }\n      }\n    }\n  }\n':
     types.MapTopRaceDriversFragmentDoc,
   '\n  fragment MapScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n  }\n':
     types.MapScheduleFragmentFragmentDoc,
-  '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n      ...MapTopRaceDrivers\n    }\n  }\n':
+  '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }, order_by: { round_number: asc }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n      ...MapScheduleLocation\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapTopRaceDrivers\n    }\n  }\n':
     types.GetMapScheduleDocument,
   '\n  query GetNextEventCircuit(\n    $location: String!\n    $country: String!\n    $year: Int!\n  ) {\n    circuits(\n      where: {\n        _and: {\n          location: { _eq: $location }\n          country: { _eq: $country }\n          year: { _eq: $year }\n        }\n      }\n      limit: 1\n    ) {\n      circuit_details\n    }\n  }\n':
     types.GetNextEventCircuitDocument,
@@ -120,8 +120,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment MapEvent on events {\n    round_number\n    name\n    date\n    location\n    sessions(limit: 1, where: { name: { _eq: Race } }) {\n      circuit {\n        latitude\n        longitude\n      }\n    }\n  }\n',
-): (typeof documents)['\n  fragment MapEvent on events {\n    round_number\n    name\n    date\n    location\n    sessions(limit: 1, where: { name: { _eq: Race } }) {\n      circuit {\n        latitude\n        longitude\n      }\n    }\n  }\n'];
+  source: '\n  fragment MapScheduleLocation on schedule {\n    round_number\n    event_name\n    event_date\n    location\n    longitude\n    latitude\n  }\n',
+): (typeof documents)['\n  fragment MapScheduleLocation on schedule {\n    round_number\n    event_name\n    event_date\n    location\n    longitude\n    latitude\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -138,8 +138,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n      ...MapTopRaceDrivers\n    }\n  }\n',
-): (typeof documents)['\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapEvent\n      ...MapTopRaceDrivers\n    }\n  }\n'];
+  source: '\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }, order_by: { round_number: asc }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n      ...MapScheduleLocation\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapTopRaceDrivers\n    }\n  }\n',
+): (typeof documents)['\n  query GetMapSchedule($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }, order_by: { round_number: asc }) {\n      event_name\n      ...MapScheduleFragment\n      ...MapHeader_ScheduleFragment\n      ...MapScheduleLocation\n    }\n    events(where: { year: { _eq: $year } }) {\n      name\n      ...MapTopRaceDrivers\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

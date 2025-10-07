@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T | null | undefined;
@@ -29,6 +30,7 @@ export type Scalars = {
   bigint: { input: number; output: number };
   jsonb: { input: unknown; output: unknown };
   numeric: { input: number; output: number };
+  timestamptz: { input: any; output: any };
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -3111,6 +3113,296 @@ export type Events_Variance_Order_By = {
   year?: InputMaybe<Order_By>;
 };
 
+/** columns and relationships of "fia_documents" */
+export type Fia_Documents = {
+  __typename?: 'fia_documents';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  downloaded?: Maybe<Scalars['Boolean']['output']>;
+  event_name?: Maybe<Scalars['String']['output']>;
+  file_path?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  publish_time?: Maybe<Scalars['timestamptz']['output']>;
+  title: Scalars['String']['output'];
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+  year: Scalars['Int']['output'];
+};
+
+/** aggregated selection of "fia_documents" */
+export type Fia_Documents_Aggregate = {
+  __typename?: 'fia_documents_aggregate';
+  aggregate?: Maybe<Fia_Documents_Aggregate_Fields>;
+  nodes: Array<Fia_Documents>;
+};
+
+/** aggregate fields of "fia_documents" */
+export type Fia_Documents_Aggregate_Fields = {
+  __typename?: 'fia_documents_aggregate_fields';
+  avg?: Maybe<Fia_Documents_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Fia_Documents_Max_Fields>;
+  min?: Maybe<Fia_Documents_Min_Fields>;
+  stddev?: Maybe<Fia_Documents_Stddev_Fields>;
+  stddev_pop?: Maybe<Fia_Documents_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Fia_Documents_Stddev_Samp_Fields>;
+  sum?: Maybe<Fia_Documents_Sum_Fields>;
+  var_pop?: Maybe<Fia_Documents_Var_Pop_Fields>;
+  var_samp?: Maybe<Fia_Documents_Var_Samp_Fields>;
+  variance?: Maybe<Fia_Documents_Variance_Fields>;
+};
+
+/** aggregate fields of "fia_documents" */
+export type Fia_Documents_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Fia_Documents_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Fia_Documents_Avg_Fields = {
+  __typename?: 'fia_documents_avg_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "fia_documents". All fields are combined with a logical 'AND'. */
+export type Fia_Documents_Bool_Exp = {
+  _and?: InputMaybe<Array<Fia_Documents_Bool_Exp>>;
+  _not?: InputMaybe<Fia_Documents_Bool_Exp>;
+  _or?: InputMaybe<Array<Fia_Documents_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  downloaded?: InputMaybe<Boolean_Comparison_Exp>;
+  event_name?: InputMaybe<String_Comparison_Exp>;
+  file_path?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  publish_time?: InputMaybe<Timestamptz_Comparison_Exp>;
+  title?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  url?: InputMaybe<String_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "fia_documents" */
+export enum Fia_Documents_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  FiaDocumentsPkey = 'fia_documents_pkey',
+}
+
+/** input type for incrementing numeric columns in table "fia_documents" */
+export type Fia_Documents_Inc_Input = {
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "fia_documents" */
+export type Fia_Documents_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  downloaded?: InputMaybe<Scalars['Boolean']['input']>;
+  event_name?: InputMaybe<Scalars['String']['input']>;
+  file_path?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  publish_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate max on columns */
+export type Fia_Documents_Max_Fields = {
+  __typename?: 'fia_documents_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  event_name?: Maybe<Scalars['String']['output']>;
+  file_path?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  publish_time?: Maybe<Scalars['timestamptz']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** aggregate min on columns */
+export type Fia_Documents_Min_Fields = {
+  __typename?: 'fia_documents_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  event_name?: Maybe<Scalars['String']['output']>;
+  file_path?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  publish_time?: Maybe<Scalars['timestamptz']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** response of any mutation on the table "fia_documents" */
+export type Fia_Documents_Mutation_Response = {
+  __typename?: 'fia_documents_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Fia_Documents>;
+};
+
+/** on_conflict condition type for table "fia_documents" */
+export type Fia_Documents_On_Conflict = {
+  constraint: Fia_Documents_Constraint;
+  update_columns?: Array<Fia_Documents_Update_Column>;
+  where?: InputMaybe<Fia_Documents_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "fia_documents". */
+export type Fia_Documents_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  downloaded?: InputMaybe<Order_By>;
+  event_name?: InputMaybe<Order_By>;
+  file_path?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  publish_time?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: fia_documents */
+export type Fia_Documents_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
+/** select columns of table "fia_documents" */
+export enum Fia_Documents_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Downloaded = 'downloaded',
+  /** column name */
+  EventName = 'event_name',
+  /** column name */
+  FilePath = 'file_path',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PublishTime = 'publish_time',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Url = 'url',
+  /** column name */
+  Year = 'year',
+}
+
+/** input type for updating data in table "fia_documents" */
+export type Fia_Documents_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  downloaded?: InputMaybe<Scalars['Boolean']['input']>;
+  event_name?: InputMaybe<Scalars['String']['input']>;
+  file_path?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  publish_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Fia_Documents_Stddev_Fields = {
+  __typename?: 'fia_documents_stddev_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Fia_Documents_Stddev_Pop_Fields = {
+  __typename?: 'fia_documents_stddev_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Fia_Documents_Stddev_Samp_Fields = {
+  __typename?: 'fia_documents_stddev_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "fia_documents" */
+export type Fia_Documents_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Fia_Documents_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Fia_Documents_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  downloaded?: InputMaybe<Scalars['Boolean']['input']>;
+  event_name?: InputMaybe<Scalars['String']['input']>;
+  file_path?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  publish_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Fia_Documents_Sum_Fields = {
+  __typename?: 'fia_documents_sum_fields';
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "fia_documents" */
+export enum Fia_Documents_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Downloaded = 'downloaded',
+  /** column name */
+  EventName = 'event_name',
+  /** column name */
+  FilePath = 'file_path',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PublishTime = 'publish_time',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Url = 'url',
+  /** column name */
+  Year = 'year',
+}
+
+export type Fia_Documents_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Fia_Documents_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Fia_Documents_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Fia_Documents_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Fia_Documents_Var_Pop_Fields = {
+  __typename?: 'fia_documents_var_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Fia_Documents_Var_Samp_Fields = {
+  __typename?: 'fia_documents_var_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Fia_Documents_Variance_Fields = {
+  __typename?: 'fia_documents_variance_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
 export type Jsonb_Cast_Exp = {
   String?: InputMaybe<String_Comparison_Exp>;
 };
@@ -4183,6 +4475,10 @@ export type Mutation_Root = {
   delete_events?: Maybe<Events_Mutation_Response>;
   /** delete single row from the table: "events" */
   delete_events_by_pk?: Maybe<Events>;
+  /** delete data from the table: "fia_documents" */
+  delete_fia_documents?: Maybe<Fia_Documents_Mutation_Response>;
+  /** delete single row from the table: "fia_documents" */
+  delete_fia_documents_by_pk?: Maybe<Fia_Documents>;
   /** delete data from the table: "laps" */
   delete_laps?: Maybe<Laps_Mutation_Response>;
   /** delete single row from the table: "laps" */
@@ -4275,6 +4571,10 @@ export type Mutation_Root = {
   insert_events?: Maybe<Events_Mutation_Response>;
   /** insert a single row into the table: "events" */
   insert_events_one?: Maybe<Events>;
+  /** insert data into the table: "fia_documents" */
+  insert_fia_documents?: Maybe<Fia_Documents_Mutation_Response>;
+  /** insert a single row into the table: "fia_documents" */
+  insert_fia_documents_one?: Maybe<Fia_Documents>;
   /** insert data into the table: "laps" */
   insert_laps?: Maybe<Laps_Mutation_Response>;
   /** insert a single row into the table: "laps" */
@@ -4393,6 +4693,14 @@ export type Mutation_Root = {
   update_events_by_pk?: Maybe<Events>;
   /** update multiples rows of table: "events" */
   update_events_many?: Maybe<Array<Maybe<Events_Mutation_Response>>>;
+  /** update data of the table: "fia_documents" */
+  update_fia_documents?: Maybe<Fia_Documents_Mutation_Response>;
+  /** update single row of the table: "fia_documents" */
+  update_fia_documents_by_pk?: Maybe<Fia_Documents>;
+  /** update multiples rows of table: "fia_documents" */
+  update_fia_documents_many?: Maybe<
+    Array<Maybe<Fia_Documents_Mutation_Response>>
+  >;
   /** update data of the table: "laps" */
   update_laps?: Maybe<Laps_Mutation_Response>;
   /** update single row of the table: "laps" */
@@ -4582,6 +4890,16 @@ export type Mutation_RootDelete_EventsArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Events_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Fia_DocumentsArgs = {
+  where: Fia_Documents_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Fia_Documents_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -4829,6 +5147,18 @@ export type Mutation_RootInsert_EventsArgs = {
 export type Mutation_RootInsert_Events_OneArgs = {
   object: Events_Insert_Input;
   on_conflict?: InputMaybe<Events_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Fia_DocumentsArgs = {
+  objects: Array<Fia_Documents_Insert_Input>;
+  on_conflict?: InputMaybe<Fia_Documents_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Fia_Documents_OneArgs = {
+  object: Fia_Documents_Insert_Input;
+  on_conflict?: InputMaybe<Fia_Documents_On_Conflict>;
 };
 
 /** mutation root */
@@ -5167,6 +5497,25 @@ export type Mutation_RootUpdate_Events_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Events_ManyArgs = {
   updates: Array<Events_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Fia_DocumentsArgs = {
+  _inc?: InputMaybe<Fia_Documents_Inc_Input>;
+  _set?: InputMaybe<Fia_Documents_Set_Input>;
+  where: Fia_Documents_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Fia_Documents_By_PkArgs = {
+  _inc?: InputMaybe<Fia_Documents_Inc_Input>;
+  _set?: InputMaybe<Fia_Documents_Set_Input>;
+  pk_columns: Fia_Documents_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Fia_Documents_ManyArgs = {
+  updates: Array<Fia_Documents_Updates>;
 };
 
 /** mutation root */
@@ -5519,6 +5868,12 @@ export type Query_Root = {
   events_aggregate: Events_Aggregate;
   /** fetch data from the table: "events" using primary key columns */
   events_by_pk?: Maybe<Events>;
+  /** fetch data from the table: "fia_documents" */
+  fia_documents: Array<Fia_Documents>;
+  /** fetch aggregated fields from the table: "fia_documents" */
+  fia_documents_aggregate: Fia_Documents_Aggregate;
+  /** fetch data from the table: "fia_documents" using primary key columns */
+  fia_documents_by_pk?: Maybe<Fia_Documents>;
   /** An array relationship */
   laps: Array<Laps>;
   /** An aggregate relationship */
@@ -5768,6 +6123,26 @@ export type Query_RootEvents_AggregateArgs = {
 };
 
 export type Query_RootEvents_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+export type Query_RootFia_DocumentsArgs = {
+  distinct_on?: InputMaybe<Array<Fia_Documents_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Fia_Documents_Order_By>>;
+  where?: InputMaybe<Fia_Documents_Bool_Exp>;
+};
+
+export type Query_RootFia_Documents_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Fia_Documents_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Fia_Documents_Order_By>>;
+  where?: InputMaybe<Fia_Documents_Bool_Exp>;
+};
+
+export type Query_RootFia_Documents_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -7634,7 +8009,9 @@ export type Schedule = {
   event_name?: Maybe<Scalars['String']['output']>;
   f1_api_support?: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['String']['output'];
+  latitude?: Maybe<Scalars['numeric']['output']>;
   location?: Maybe<Scalars['String']['output']>;
+  longitude?: Maybe<Scalars['numeric']['output']>;
   official_event_name?: Maybe<Scalars['String']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
   session1?: Maybe<Session_Name_Choices_Enum>;
@@ -7746,12 +8123,16 @@ export type Schedule_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Schedule_Avg_Fields = {
   __typename?: 'schedule_avg_fields';
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "schedule" */
 export type Schedule_Avg_Order_By = {
+  latitude?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
 };
@@ -7768,7 +8149,9 @@ export type Schedule_Bool_Exp = {
   event_name?: InputMaybe<String_Comparison_Exp>;
   f1_api_support?: InputMaybe<Boolean_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
+  latitude?: InputMaybe<Numeric_Comparison_Exp>;
   location?: InputMaybe<String_Comparison_Exp>;
+  longitude?: InputMaybe<Numeric_Comparison_Exp>;
   official_event_name?: InputMaybe<String_Comparison_Exp>;
   round_number?: InputMaybe<Int_Comparison_Exp>;
   session1?: InputMaybe<Session_Name_Choices_Enum_Comparison_Exp>;
@@ -7802,6 +8185,8 @@ export enum Schedule_Constraint {
 
 /** input type for incrementing numeric columns in table "schedule" */
 export type Schedule_Inc_Input = {
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
   round_number?: InputMaybe<Scalars['Int']['input']>;
   year?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -7815,7 +8200,9 @@ export type Schedule_Insert_Input = {
   event_name?: InputMaybe<Scalars['String']['input']>;
   f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
   official_event_name?: InputMaybe<Scalars['String']['input']>;
   round_number?: InputMaybe<Scalars['Int']['input']>;
   session1?: InputMaybe<Session_Name_Choices_Enum>;
@@ -7848,7 +8235,9 @@ export type Schedule_Max_Fields = {
   event_date?: Maybe<Scalars['String']['output']>;
   event_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
+  latitude?: Maybe<Scalars['numeric']['output']>;
   location?: Maybe<Scalars['String']['output']>;
+  longitude?: Maybe<Scalars['numeric']['output']>;
   official_event_name?: Maybe<Scalars['String']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
   session1_date?: Maybe<Scalars['String']['output']>;
@@ -7870,7 +8259,9 @@ export type Schedule_Max_Order_By = {
   event_date?: InputMaybe<Order_By>;
   event_name?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  latitude?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   official_event_name?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   session1_date?: InputMaybe<Order_By>;
@@ -7893,7 +8284,9 @@ export type Schedule_Min_Fields = {
   event_date?: Maybe<Scalars['String']['output']>;
   event_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
+  latitude?: Maybe<Scalars['numeric']['output']>;
   location?: Maybe<Scalars['String']['output']>;
+  longitude?: Maybe<Scalars['numeric']['output']>;
   official_event_name?: Maybe<Scalars['String']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
   session1_date?: Maybe<Scalars['String']['output']>;
@@ -7915,7 +8308,9 @@ export type Schedule_Min_Order_By = {
   event_date?: InputMaybe<Order_By>;
   event_name?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  latitude?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   official_event_name?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   session1_date?: InputMaybe<Order_By>;
@@ -7956,7 +8351,9 @@ export type Schedule_Order_By = {
   event_name?: InputMaybe<Order_By>;
   f1_api_support?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  latitude?: InputMaybe<Order_By>;
   location?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   official_event_name?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   session1?: InputMaybe<Order_By>;
@@ -8002,7 +8399,11 @@ export enum Schedule_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Latitude = 'latitude',
+  /** column name */
   Location = 'location',
+  /** column name */
+  Longitude = 'longitude',
   /** column name */
   OfficialEventName = 'official_event_name',
   /** column name */
@@ -8061,7 +8462,9 @@ export type Schedule_Set_Input = {
   event_name?: InputMaybe<Scalars['String']['input']>;
   f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
   official_event_name?: InputMaybe<Scalars['String']['input']>;
   round_number?: InputMaybe<Scalars['Int']['input']>;
   session1?: InputMaybe<Session_Name_Choices_Enum>;
@@ -8085,12 +8488,16 @@ export type Schedule_Set_Input = {
 /** aggregate stddev on columns */
 export type Schedule_Stddev_Fields = {
   __typename?: 'schedule_stddev_fields';
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "schedule" */
 export type Schedule_Stddev_Order_By = {
+  latitude?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
 };
@@ -8098,12 +8505,16 @@ export type Schedule_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Schedule_Stddev_Pop_Fields = {
   __typename?: 'schedule_stddev_pop_fields';
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "schedule" */
 export type Schedule_Stddev_Pop_Order_By = {
+  latitude?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
 };
@@ -8111,12 +8522,16 @@ export type Schedule_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Schedule_Stddev_Samp_Fields = {
   __typename?: 'schedule_stddev_samp_fields';
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "schedule" */
 export type Schedule_Stddev_Samp_Order_By = {
+  latitude?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
 };
@@ -8137,7 +8552,9 @@ export type Schedule_Stream_Cursor_Value_Input = {
   event_name?: InputMaybe<Scalars['String']['input']>;
   f1_api_support?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['numeric']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['numeric']['input']>;
   official_event_name?: InputMaybe<Scalars['String']['input']>;
   round_number?: InputMaybe<Scalars['Int']['input']>;
   session1?: InputMaybe<Session_Name_Choices_Enum>;
@@ -8161,12 +8578,16 @@ export type Schedule_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Schedule_Sum_Fields = {
   __typename?: 'schedule_sum_fields';
+  latitude?: Maybe<Scalars['numeric']['output']>;
+  longitude?: Maybe<Scalars['numeric']['output']>;
   round_number?: Maybe<Scalars['Int']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "schedule" */
 export type Schedule_Sum_Order_By = {
+  latitude?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
 };
@@ -8186,7 +8607,11 @@ export enum Schedule_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Latitude = 'latitude',
+  /** column name */
   Location = 'location',
+  /** column name */
+  Longitude = 'longitude',
   /** column name */
   OfficialEventName = 'official_event_name',
   /** column name */
@@ -8237,12 +8662,16 @@ export type Schedule_Updates = {
 /** aggregate var_pop on columns */
 export type Schedule_Var_Pop_Fields = {
   __typename?: 'schedule_var_pop_fields';
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "schedule" */
 export type Schedule_Var_Pop_Order_By = {
+  latitude?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
 };
@@ -8250,12 +8679,16 @@ export type Schedule_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Schedule_Var_Samp_Fields = {
   __typename?: 'schedule_var_samp_fields';
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "schedule" */
 export type Schedule_Var_Samp_Order_By = {
+  latitude?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
 };
@@ -8263,12 +8696,16 @@ export type Schedule_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Schedule_Variance_Fields = {
   __typename?: 'schedule_variance_fields';
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   round_number?: Maybe<Scalars['Float']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "schedule" */
 export type Schedule_Variance_Order_By = {
+  latitude?: InputMaybe<Order_By>;
+  longitude?: InputMaybe<Order_By>;
   round_number?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
 };
@@ -9183,6 +9620,14 @@ export type Subscription_Root = {
   events_by_pk?: Maybe<Events>;
   /** fetch data from the table in a streaming manner: "events" */
   events_stream: Array<Events>;
+  /** fetch data from the table: "fia_documents" */
+  fia_documents: Array<Fia_Documents>;
+  /** fetch aggregated fields from the table: "fia_documents" */
+  fia_documents_aggregate: Fia_Documents_Aggregate;
+  /** fetch data from the table: "fia_documents" using primary key columns */
+  fia_documents_by_pk?: Maybe<Fia_Documents>;
+  /** fetch data from the table in a streaming manner: "fia_documents" */
+  fia_documents_stream: Array<Fia_Documents>;
   /** An array relationship */
   laps: Array<Laps>;
   /** An aggregate relationship */
@@ -9511,6 +9956,32 @@ export type Subscription_RootEvents_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Events_Stream_Cursor_Input>>;
   where?: InputMaybe<Events_Bool_Exp>;
+};
+
+export type Subscription_RootFia_DocumentsArgs = {
+  distinct_on?: InputMaybe<Array<Fia_Documents_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Fia_Documents_Order_By>>;
+  where?: InputMaybe<Fia_Documents_Bool_Exp>;
+};
+
+export type Subscription_RootFia_Documents_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Fia_Documents_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Fia_Documents_Order_By>>;
+  where?: InputMaybe<Fia_Documents_Bool_Exp>;
+};
+
+export type Subscription_RootFia_Documents_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+export type Subscription_RootFia_Documents_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Fia_Documents_Stream_Cursor_Input>>;
+  where?: InputMaybe<Fia_Documents_Bool_Exp>;
 };
 
 export type Subscription_RootLapsArgs = {
@@ -11043,6 +11514,19 @@ export type Telemetry_Variance_Order_By = {
   z?: InputMaybe<Order_By>;
 };
 
+/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+export type Timestamptz_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _lte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _neq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+};
+
 /** columns and relationships of "track_status" */
 export type Track_Status = {
   __typename?: 'track_status';
@@ -12160,21 +12644,15 @@ export type MapHeader_ScheduleFragmentFragment = {
   session5_date_utc?: string | null;
 } & { ' $fragmentName'?: 'MapHeader_ScheduleFragmentFragment' };
 
-export type MapEventFragment = {
-  __typename?: 'events';
+export type MapScheduleLocationFragment = {
+  __typename?: 'schedule';
   round_number?: number | null;
-  name?: string | null;
-  date?: string | null;
+  event_name?: string | null;
+  event_date?: string | null;
   location?: string | null;
-  sessions: Array<{
-    __typename?: 'sessions';
-    circuit?: {
-      __typename?: 'circuits';
-      latitude?: number | null;
-      longitude?: number | null;
-    } | null;
-  }>;
-} & { ' $fragmentName'?: 'MapEventFragment' };
+  longitude?: number | null;
+  latitude?: number | null;
+} & { ' $fragmentName'?: 'MapScheduleLocationFragment' };
 
 export type MapTopRaceDriversFragment = {
   __typename?: 'events';
@@ -12215,13 +12693,13 @@ export type GetMapScheduleQuery = {
       ' $fragmentRefs'?: {
         MapScheduleFragmentFragment: MapScheduleFragmentFragment;
         MapHeader_ScheduleFragmentFragment: MapHeader_ScheduleFragmentFragment;
+        MapScheduleLocationFragment: MapScheduleLocationFragment;
       };
     }
   >;
   events: Array<
     { __typename?: 'events'; name?: string | null } & {
       ' $fragmentRefs'?: {
-        MapEventFragment: MapEventFragment;
         MapTopRaceDriversFragment: MapTopRaceDriversFragment;
       };
     }
@@ -12801,84 +13279,30 @@ export const MapHeader_ScheduleFragmentFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<MapHeader_ScheduleFragmentFragment, unknown>;
-export const MapEventFragmentDoc = {
+export const MapScheduleLocationFragmentDoc = {
   kind: 'Document',
   definitions: [
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MapEvent' },
+      name: { kind: 'Name', value: 'MapScheduleLocation' },
       typeCondition: {
         kind: 'NamedType',
-        name: { kind: 'Name', value: 'events' },
+        name: { kind: 'Name', value: 'schedule' },
       },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'sessions' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: { kind: 'IntValue', value: '1' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'name' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: { kind: 'EnumValue', value: 'Race' },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'circuit' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'latitude' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'longitude' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
+          { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
         ],
       },
     },
   ],
-} as unknown as DocumentNode<MapEventFragment, unknown>;
+} as unknown as DocumentNode<MapScheduleLocationFragment, unknown>;
 export const MapTopRaceDriversFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -13250,6 +13674,20 @@ export const GetMapScheduleDocument = {
                   ],
                 },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'round_number' },
+                      value: { kind: 'EnumValue', value: 'asc' },
+                    },
+                  ],
+                },
+              },
             ],
             selectionSet: {
               kind: 'SelectionSet',
@@ -13262,6 +13700,10 @@ export const GetMapScheduleDocument = {
                 {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'MapHeader_ScheduleFragment' },
+                },
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MapScheduleLocation' },
                 },
               ],
             },
@@ -13301,10 +13743,6 @@ export const GetMapScheduleDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'MapEvent' },
-                },
                 {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'MapTopRaceDrivers' },
@@ -13364,74 +13802,20 @@ export const GetMapScheduleDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MapEvent' },
+      name: { kind: 'Name', value: 'MapScheduleLocation' },
       typeCondition: {
         kind: 'NamedType',
-        name: { kind: 'Name', value: 'events' },
+        name: { kind: 'Name', value: 'schedule' },
       },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'sessions' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: { kind: 'IntValue', value: '1' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'name' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: { kind: 'EnumValue', value: 'Race' },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'circuit' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'latitude' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'longitude' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
+          { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
         ],
       },
     },
