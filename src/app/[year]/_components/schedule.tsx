@@ -5,11 +5,9 @@ import { getTodayMidnightUTC } from '@/lib/utils';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 
 import { CheckboxToggle } from '@/components/Checkbox';
-import { FullHeightLoader } from '@/components/Loader';
+import { CircuitMap } from '@/components/circuit-map';
 import { ServerPageError } from '@/components/ServerError';
 import { Separator } from '@/components/ui/separator';
-
-import NotFound from '@/app/not-found';
 
 import { ScheduleEventItem } from './schedule-event';
 
@@ -20,12 +18,15 @@ export const GET_SEASON_EVENTS = graphql(`
     schedule(where: { year: { _eq: $year } }) {
       event_name
       event_date
-      year
       round_number
       location
       country
-      event_format
       ...Event_ScheduleFragment
+    }
+    circuits(where: { year: { _eq: $year } }) {
+      location
+      country
+      ...CircuitDetails
     }
   }
 `);
@@ -41,12 +42,10 @@ export function Schedule({ year }: { year: string }) {
     variables: { year: parseInt(year) },
   });
 
-  if (loading) return <FullHeightLoader />;
   if (error) return <ServerPageError />;
-  if (!data || data?.schedule?.length === 0) return <NotFound />;
 
   const now = getTodayMidnightUTC();
-  const nextEvent = data.schedule.find(
+  const nextEvent = data?.schedule.find(
     (evt) => new Date(evt.event_date as string) > new Date(now),
   );
 
@@ -77,15 +76,40 @@ export function Schedule({ year }: { year: string }) {
       </div>
 
       <ul className='grid gap-4 pt-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
-        {data?.schedule.map((event) => (
-          <ScheduleEventItem
-            key={event.event_name as string}
-            next={nextEvent?.round_number}
-            trackTime={trackTime}
-            details={showSessions}
-            event={event}
-          />
-        ))}
+        {loading &&
+          Array.from(Array(18)).map((_v, idx) => (
+            <li
+              key={`schedule_event_loader_${idx}`}
+              className='flex flex-col overflow-hidden rounded border'
+            >
+              <div className='group hover:bg-muted flex flex-1 items-center gap-2 pr-4'>
+                <div className='bg-secondary border-background flex h-full w-[50px] items-center justify-center border-r text-2xl'>
+                  {idx}
+                </div>
+                <div className='grid flex-1 animate-pulse gap-0.5 py-2'>
+                  <div className='bg-accent/50 h-4 w-1/2 rounded' />
+                  <div className='bg-accent/50 h-7 w-3/4 rounded' />
+                  <div className='bg-accent/50 h-4 w-3/4 rounded' />
+                </div>
+              </div>
+            </li>
+          ))}
+        {data?.schedule.map((event) => {
+          const circuitData = data.circuits.find(
+            (c) => c.country === event.country && c.location === event.location,
+          );
+          return (
+            <ScheduleEventItem
+              key={event.event_name as string}
+              next={event.round_number === nextEvent?.round_number}
+              trackTime={trackTime}
+              details={showSessions}
+              event={event}
+            >
+              <CircuitMap circuitData={circuitData} small />
+            </ScheduleEventItem>
+          );
+        })}
       </ul>
     </>
   );

@@ -2,7 +2,6 @@
 import { useQuery } from '@apollo/client/react';
 import Link from 'next/link';
 
-import { GET_NEXT_EVENT } from '@/lib/queries';
 import { eventLocationEncode, getTodayMidnightUTC } from '@/lib/utils';
 
 import { CircuitMap } from '@/components/circuit-map';
@@ -10,7 +9,51 @@ import { Countdown } from '@/components/countdown';
 import { NextEventSkeleton } from '@/components/next-event/skeleton';
 import { SprintBadge } from '@/components/sprint-badge';
 
+import { graphql } from '@/types';
 import { Event_Format_Choices_Enum } from '@/types/graphql';
+
+const GET_NEXT_EVENT = graphql(`
+  query GetNextEvent($today: String!) {
+    schedule(
+      where: { event_date: { _gte: $today } }
+      order_by: { event_date: asc }
+      limit: 1
+    ) {
+      year
+      event_name
+      round_number
+      location
+      country
+      event_format
+      session1_date_utc
+      session2_date_utc
+      session3_date_utc
+      session4_date_utc
+      session5_date_utc
+    }
+  }
+`);
+
+const GET_NEXT_EVENT_CIRCUIT = graphql(`
+  query GetNextEventCircuit(
+    $location: String!
+    $country: String!
+    $year: Int!
+  ) {
+    circuits(
+      where: {
+        _and: {
+          location: { _eq: $location }
+          country: { _eq: $country }
+          year: { _eq: $year }
+        }
+      }
+      limit: 1
+    ) {
+      ...CircuitDetails
+    }
+  }
+`);
 
 const scheduleSessionKeys = [
   'session5_date_utc',
@@ -22,11 +65,10 @@ const scheduleSessionKeys = [
 
 export default function NextEvent() {
   const midnight = getTodayMidnightUTC();
+
   const { loading, data, error } = useQuery(GET_NEXT_EVENT, {
     variables: { today: midnight },
   });
-
-  if (loading) return <NextEventSkeleton />;
 
   const nextEvent = data?.schedule?.[0];
   const lastSession = scheduleSessionKeys
@@ -39,6 +81,17 @@ export default function NextEvent() {
     lastSession &&
     new Date(lastSession) >= new Date(midnight);
 
+  // Fetch circuit data in parallel if we have a valid event
+  const { data: circuitData } = useQuery(GET_NEXT_EVENT_CIRCUIT, {
+    variables: {
+      location: nextEvent?.location || '',
+      country: nextEvent?.country || '',
+      year: nextEvent?.year ? nextEvent.year - 1 : new Date().getFullYear() - 1,
+    },
+    skip: !isValidEvent || !nextEvent?.location || !nextEvent?.country,
+  });
+
+  if (loading) return <NextEventSkeleton />;
   if (!isValidEvent) return null;
 
   return (
@@ -82,11 +135,7 @@ export default function NextEvent() {
       </div>
 
       {nextEvent.location && nextEvent.country && (
-        <CircuitMap
-          location={nextEvent.location}
-          country={nextEvent.country}
-          year={nextEvent.year ? nextEvent.year - 1 : undefined}
-        />
+        <CircuitMap circuitData={circuitData?.circuits[0]} />
       )}
     </div>
   );

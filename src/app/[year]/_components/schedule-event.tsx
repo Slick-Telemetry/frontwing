@@ -3,8 +3,6 @@ import Link from 'next/link';
 
 import { eventLocationEncode, isFutureDate } from '@/lib/utils';
 
-import { CircuitMap } from '@/components/circuit-map';
-
 import { FragmentType, graphql, useFragment } from '@/types';
 
 const Event_ScheduleFragment = graphql(`
@@ -30,24 +28,25 @@ const Event_ScheduleFragment = graphql(`
 
 type ScheduleEventItemProps = {
   event: FragmentType<typeof Event_ScheduleFragment>;
-  next?: number | null;
+  next: boolean;
   details: boolean;
   trackTime: boolean;
+  children?: React.ReactNode;
 };
 
 export function ScheduleEventItem({
   next,
   details,
   trackTime,
+  children: circuitMap,
   ...props
 }: ScheduleEventItemProps) {
   const event = useFragment(Event_ScheduleFragment, props.event);
   const futureEvent = isFutureDate(event.event_date);
   const numberClass = clsx({
     'bg-secondary': !futureEvent,
-    'bg-foreground/90 text-background':
-      futureEvent && next !== event.round_number,
-    'bg-accent text-accent-foreground': next === event.round_number,
+    'bg-foreground/90 text-background': futureEvent && next,
+    'bg-accent text-accent-foreground': next,
   });
 
   const formatDate = (date?: string | null, withTime = false) => {
@@ -107,11 +106,7 @@ export function ScheduleEventItem({
             {event.location}, {event.country}
           </p>
         </div>
-        <CircuitMap
-          location={event.location as string}
-          country={event.country as string}
-          small
-        />
+        {circuitMap}
       </Link>
 
       {details && (

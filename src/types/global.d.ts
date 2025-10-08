@@ -1,10 +1,7 @@
-import { GetEventScheduleQuery, GetSeasonEventsQuery } from './graphql';
+import { GetEventScheduleQuery } from './graphql';
 
 // *** Require Import
-export type SeasonEvent =
-  | null
-  | GetSeasonEventsQuery['schedule'][number]
-  | GetEventScheduleQuery['schedule'][number];
+export type SeasonEvent = null | GetEventScheduleQuery['schedule'][number];
 
 // *** Helper
 interface XY {

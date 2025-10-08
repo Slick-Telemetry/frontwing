@@ -44,28 +44,6 @@ export const GET_SEASONS = graphql(`
   }
 `);
 
-export const GET_NEXT_EVENT = graphql(`
-  query GetNextEvent($today: String!) {
-    schedule(
-      where: { event_date: { _gte: $today } }
-      order_by: { event_date: asc }
-      limit: 1
-    ) {
-      year
-      event_name
-      round_number
-      location
-      country
-      event_format
-      session1_date_utc
-      session2_date_utc
-      session3_date_utc
-      session4_date_utc
-      session5_date_utc
-    }
-  }
-`);
-
 export const GET_EVENT_SCHEDULE = gql`
   query GetEventSchedule($year: Int!, $event: String!) @cached {
     dropdown_events: schedule(
