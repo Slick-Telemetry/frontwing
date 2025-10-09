@@ -399,7 +399,7 @@ describe('Top Navigation', () => {
       .contains('Server Error');
     cy.get('[data-cy="season-selector-error"]')
       .should('be.visible')
-      .contains('Please try again');
+      .contains('Try again later');
   });
 });
 
