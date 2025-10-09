@@ -1,3 +1,15 @@
+## 0.8.2 (2025-10-09)
+
+### Fix
+
+- bug with error message value,
+
+### Refactor
+
+- get all season circuits in one query instead of individually
+- FRON-260 Update landing nav season dropdown to load on page render
+- clean-up utils and remove flag from next event
+
 ## 0.8.1 (2025-10-01)
 
 ### Refactor
