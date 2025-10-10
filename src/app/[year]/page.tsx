@@ -30,9 +30,7 @@ export default async function SeasonPage({
           </div>
           <QuickLinks year={year} />
         </div>
-        <div className='flex h-full min-h-[296px] flex-col gap-2 rounded border p-4 2xl:col-span-2'>
-          <TopThreeStandings year={year} />
-        </div>
+        <TopThreeStandings year={year} />
       </div>
 
       <div className='pt-6'>

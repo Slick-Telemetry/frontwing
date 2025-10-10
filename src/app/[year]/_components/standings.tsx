@@ -7,12 +7,12 @@ import Link from 'next/link';
 import { GET_TOP_STANDINGS } from '@/lib/queries';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 
-import { Loader } from '@/components/Loader';
 import { Button } from '@/components/ui/button';
 
 type ViewType = 'drivers' | 'constructors';
 type StandingsListProps<T> = {
   items: T[];
+  loading?: boolean;
   getName: (item: T) => string;
   getTeam?: (item: T) => string;
   getStandings: (
@@ -31,7 +31,6 @@ export default function TopThreeStandings({ year }: { year: string }) {
     variables: { season: parseInt(year) },
   });
 
-  if (loading) return <Loader />;
   if (error) return null;
 
   const drivers = sortByLastPoints(
@@ -45,7 +44,7 @@ export default function TopThreeStandings({ year }: { year: string }) {
   );
 
   return (
-    <>
+    <div className='flex h-full min-h-[296px] flex-col gap-2 rounded border p-4 2xl:col-span-2'>
       <Link
         href={`${year}/standings?chart=${view}`}
         className='flex w-full items-center justify-between text-xl font-bold hover:underline'
@@ -54,14 +53,15 @@ export default function TopThreeStandings({ year }: { year: string }) {
         <ExternalLink />
       </Link>
 
-      <div className='bg-muted/50 grid grid-cols-2 gap-2 rounded p-2'>
+      <div className='grid grid-cols-2 gap-2 rounded'>
         {(['drivers', 'constructors'] as ViewType[]).map((v) => (
           <Button
             key={v}
             variant={view === v ? 'secondary' : 'outline'}
             onClick={() => setView(v)}
+            className='block truncate capitalize'
           >
-            {v === 'drivers' ? 'Drivers' : 'Constructors'}
+            {v}
           </Button>
         ))}
       </div>
@@ -75,6 +75,7 @@ export default function TopThreeStandings({ year }: { year: string }) {
         >
           <StandingsList
             items={drivers}
+            loading={loading}
             getName={(d) => d.full_name!}
             getTeam={(d) => d.latest_constructor[0]?.constructor?.name ?? ''}
             getStandings={(d) => d.driver_standings}
@@ -94,18 +95,24 @@ export default function TopThreeStandings({ year }: { year: string }) {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
+// *** Takes functions as props to get values dynamically
 function StandingsList<T>({
   items,
+  loading,
   getName,
   getTeam,
   getStandings,
 }: StandingsListProps<T>) {
   return (
     <div className='bg-muted divide-background flex flex-1 flex-col divide-y overflow-hidden rounded'>
+      {loading &&
+        Array.from(Array(3)).map((_k, i) => (
+          <StandingRowSkeleton key={`standing-row-loader-${i}`} />
+        ))}
       {items.map((item, idx) => {
         const standings = getStandings(item);
         const last = getLast(standings);
@@ -143,7 +150,7 @@ function StandingRow({
   prevPoints?: number;
 }) {
   return (
-    <div className='flex flex-1 items-center gap-4 px-4 py-2'>
+    <div className='flex flex-1 items-center gap-4 px-4 py-1'>
       <p className='text-xl'>{position}</p>
       <div className='flex-1'>
         <h4 className='line-clamp-1 font-semibold'>{name}</h4>
@@ -153,6 +160,20 @@ function StandingRow({
       <p className='hidden lg:block'>
         {prevPoints !== undefined ? points - prevPoints : 'Gap'}
       </p>
+    </div>
+  );
+}
+
+function StandingRowSkeleton() {
+  return (
+    <div className='flex flex-1 animate-pulse items-center gap-4 px-4 py-1'>
+      <p className='bg-background h-8 w-4 rounded' />
+      <div className='h-fit flex-1'>
+        <h4 className='bg-background h-6 w-full rounded' />
+        <p className='bg-background mt-1 h-4 w-full rounded' />
+      </div>
+      <p className='bg-background h-6 w-8 rounded' />
+      <p className='bg-background hidden h-6 w-8 rounded lg:block' />
     </div>
   );
 }
