@@ -1,3 +1,13 @@
+## 0.8.3 (2025-10-10)
+
+### Fix
+
+- resolved new errors from latest eslint-plugin-react-hooks
+
+### Refactor
+
+- static image imports and usage
+
 ## 0.8.2 (2025-10-09)
 
 ### Fix
