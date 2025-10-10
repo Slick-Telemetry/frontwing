@@ -25,8 +25,6 @@ import {
 } from '@/app/[year]/[event]/EventSession';
 import { EventContainer } from '@/app/[year]/EventContainer';
 
-import circuit from '../../../../public/Bahrain_carbon.png';
-
 import {
   GetEventDetailsQuery,
   GetEventDetailsQueryVariables,
@@ -186,7 +184,12 @@ const Sidebar = ({
           </Select>
         </div>
         <div className='bg-muted p-4'>
-          <Image src={circuit} alt={event.official_event_name || ''} />
+          <Image
+            src='/Bahrain_carbon.png'
+            height={250}
+            width={300}
+            alt={event.official_event_name || ''}
+          />
         </div>
       </EventContainer>
     </div>

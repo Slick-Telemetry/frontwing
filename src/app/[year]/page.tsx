@@ -6,8 +6,6 @@ import { QuickLinks } from '@/app/[year]/_components/quick-links';
 import { Schedule } from '@/app/[year]/_components/schedule';
 import TopThreeStandings from '@/app/[year]/_components/standings';
 
-import placeholder from '../../../public/mclaren-mp4.jpg';
-
 export default async function SeasonPage({
   params,
 }: {
@@ -24,7 +22,7 @@ export default async function SeasonPage({
             {!latestYear && (
               <div
                 className='flex flex-1 bg-cover bg-center bg-no-repeat'
-                style={{ backgroundImage: `url(${placeholder.src})` }}
+                style={{ backgroundImage: `url(/mclaren-mp4.jpg)` }}
               ></div>
             )}
           </div>

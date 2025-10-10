@@ -6,14 +6,12 @@ import { Button } from '@/components/ui/button';
 
 import { LandingNav } from '@/app/_components/nav';
 
-import bg from '../../public/slick-telemetry-bg.png';
-
 export default function Home() {
   return (
     <>
       <main
         className='flex flex-1 bg-cover bg-center bg-no-repeat'
-        style={{ backgroundImage: `url(${bg.src})` }}
+        style={{ backgroundImage: `url(/slick-telemetry-bg.png)` }}
       >
         <div className='bg-background/45 flex-1'>
           <div className='container flex h-full flex-col items-center'>
