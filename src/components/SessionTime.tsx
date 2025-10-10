@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { CalendarPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { eventLocationEncode } from '@/lib/utils';
 
@@ -29,7 +30,9 @@ export const SessionTime = ({
   // name?: Session_Name_Choices_Enum | null;
 }) => {
   const router = useRouter();
-  const futureEvent = new Date(time || '').getTime() > Date.now();
+  const [now] = useState(() => Date.now());
+
+  const futureEvent = new Date(time || '').getTime() > now;
   const year = new Date(time || '').getFullYear();
   return (
     <div

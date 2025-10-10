@@ -13,6 +13,7 @@ import { FragmentType, graphql, useFragment } from '@/types';
 
 const MapTopRaceDrivers = graphql(`
   fragment MapTopRaceDrivers on events {
+    name
     eventSessions: sessions(
       where: { event: { year: { _eq: $year } }, name: { _eq: Race } }
     ) {
@@ -40,7 +41,7 @@ type EventResultsProps = {
 };
 
 export default function EventResults({ results }: EventResultsProps) {
-  const { eventSessions } = useFragment(MapTopRaceDrivers, results);
+  const { name, eventSessions } = useFragment(MapTopRaceDrivers, results);
   const driverSessions = eventSessions?.[0]?.driver_sessions ?? [];
   if (!driverSessions.length) return null;
 
@@ -77,7 +78,7 @@ export default function EventResults({ results }: EventResultsProps) {
         ))}
       </div>
       <Marquee
-        key={Date.now()} // Hacky way to trigger fresh mount
+        key={name}
         gradient
         pauseOnHover
         gradientWidth={10}

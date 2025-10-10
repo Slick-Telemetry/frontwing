@@ -2,26 +2,23 @@
 
 import { ServerOffIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { checkServerHealth } from '@/app/api/healthCheck';
+const checkServerHealth = async () => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_HASURA_URL}/healthz`);
+  if (!response.ok) {
+    throw new Error('Server not healthy');
+  }
+  return;
+};
 
 export const ServerStatus = () => {
   const [error, setError] = useState(false);
-  const pathname = usePathname(); // Tracks the current route in the App Router
+  usePathname(); // Tracks the current route in the App Router
 
-  const fetchServerStatus = async () => {
-    setError(false);
-    try {
-      await checkServerHealth();
-    } catch {
-      setError(true);
-    }
-  };
-
-  useEffect(() => {
-    fetchServerStatus(); // Check server status on every route change
-  }, [pathname]); // Runs whenever the route changes
+  checkServerHealth()
+    .then(() => setError(false))
+    .catch(() => setError(true));
 
   if (!error) return null;
 

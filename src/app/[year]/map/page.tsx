@@ -1,7 +1,7 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { use, useEffect, useState } from 'react';
+import { use } from 'react';
 
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 
@@ -41,22 +41,16 @@ export default function MapPage({
   const { loading, error, data } = useQuery(GET_SCHEDULE, {
     variables: { year: parseInt(year) },
   });
-  const [activeEvent, setActiveEvent] = useState<string | null>(
-    eventLocationDecode(searchParams.get('event') ?? ''),
-  );
-  // Set focus on first location
-  useEffect(() => {
-    if (!data || searchParams.get('event')) return;
-    setActiveEvent(data.schedule[0]?.event_name ?? null);
-  }, [data, searchParams]);
+
+  const selection =
+    eventLocationDecode(searchParams.get('event')) ||
+    (data?.schedule[0]?.event_name ?? null);
 
   const handleNewSelected = (event: string) => {
     // update url for sharing purposes
     const params = new URLSearchParams(searchParams);
     params.set('event', eventLocationEncode(event) ?? '');
     router.push(`?${params.toString()}`);
-
-    setActiveEvent(event);
   };
 
   if (loading)
@@ -75,7 +69,7 @@ export default function MapPage({
     );
 
   const activeScheduleEvent = data.schedule.find(
-    (evt) => evt.event_name === activeEvent,
+    (evt) => evt.event_name === selection,
   );
 
   return (
@@ -83,7 +77,7 @@ export default function MapPage({
       {data.schedule && (
         <Schedule
           events={data.schedule}
-          activeEvent={activeEvent}
+          activeEvent={selection}
           selectEvent={handleNewSelected}
         />
       )}
@@ -92,14 +86,14 @@ export default function MapPage({
         {/* Header */}
         <Header evt={activeScheduleEvent} maxRounds={data.schedule.length}>
           <EventResults
-            results={data.events?.find((e) => e.name === activeEvent) ?? {}}
+            results={data.events?.find((e) => e.name === selection) ?? {}}
           />
         </Header>
 
         {/* Map */}
         <MapContent
           events={data.schedule}
-          selectedEvent={activeEvent}
+          selectedEvent={selection}
           onClickAction={handleNewSelected}
         />
       </div>

@@ -12663,6 +12663,7 @@ export type MapScheduleLocationFragment = {
 
 export type MapTopRaceDriversFragment = {
   __typename?: 'events';
+  name?: string | null;
   eventSessions: Array<{
     __typename?: 'sessions';
     driver_sessions: Array<{
@@ -13328,6 +13329,7 @@ export const MapTopRaceDriversFragmentDoc = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           {
             kind: 'Field',
             alias: { kind: 'Name', value: 'eventSessions' },
@@ -13912,6 +13914,7 @@ export const GetMapScheduleDocument = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           {
             kind: 'Field',
             alias: { kind: 'Name', value: 'eventSessions' },

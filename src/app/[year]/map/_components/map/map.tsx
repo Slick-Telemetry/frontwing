@@ -43,6 +43,8 @@ export const MapContent = ({
   onClickAction: (event: string) => void;
 }) => {
   const events = useFragment(MapScheduleLocation, props.events);
+
+  const [mapLoading, setMapLoading] = useState<boolean>(true);
   const mapRef = useRef<MapRef>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -52,8 +54,6 @@ export const MapContent = ({
       mapRef.current?.resize();
     }
   });
-
-  const [mapLoading, setMapLoading] = useState<boolean>(true);
 
   let index = events.findIndex((e) => e.event_name === selectedEvent);
   if (index === -1) index = events.length - 1; // use last event as default if no match

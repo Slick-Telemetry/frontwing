@@ -98,7 +98,7 @@ export const eventLocationEncode = (location?: string | null) =>
     ? null
     : location.replace('Grand Prix', 'gp').replace(/ /g, '_').toLowerCase();
 
-export const eventLocationDecode = (location?: string) => {
+export const eventLocationDecode = (location?: string | null) => {
   if (!location) {
     return '';
   }
