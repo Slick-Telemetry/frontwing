@@ -382,25 +382,6 @@ describe('Top Navigation', () => {
     cy.get('[data-cy="nav-link-map"]').click();
     cy.url().should('include', `/${currentYear}/map`);
   });
-
-  it('shows loading and then error message when network error occurs for seasons', () => {
-    cy.intercept('POST', '**/graphql', (req) => {
-      if (req.body.operationName === 'GetSeasons') {
-        req.reply({
-          forceNetworkError: true,
-        });
-      }
-    }).as('getSeasonsError');
-
-    cy.get('[data-cy="season-selector"]').click();
-    cy.wait('@getSeasonsError');
-    cy.get('[data-cy="season-selector-error"]')
-      .should('be.visible')
-      .contains('Server Error');
-    cy.get('[data-cy="season-selector-error"]')
-      .should('be.visible')
-      .contains('Try again later');
-  });
 });
 
 describe('Footer', () => {

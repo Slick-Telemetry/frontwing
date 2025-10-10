@@ -1,13 +1,11 @@
 'use client';
 
-import { useQuery } from '@apollo/client/react';
 import Link from 'next/link';
 import React from 'react';
 
-import { GET_SEASONS } from '@/lib/queries';
+import { SUPPORTED_SEASONS } from '@/lib/constants';
 
 import { ServerStatus } from '@/components/navigation';
-import { ServerComponentError } from '@/components/ServerError';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -31,11 +29,7 @@ export const LandingNav = () => {
 };
 
 function Nav() {
-  {
-    /* TODO: Get value from lastest year in schedule */
-  }
-  const { data, error } = useQuery(GET_SEASONS);
-  const year = data?.events[0].year ?? new Date().getFullYear();
+  const year = SUPPORTED_SEASONS[0];
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -45,12 +39,7 @@ function Nav() {
           </NavigationMenuTrigger>
           {/* Season dropdown */}
           <NavigationMenuContent>
-            {error && (
-              <div className='w-[120px]'>
-                <ServerComponentError />
-              </div>
-            )}
-            {data?.events?.map(({ year }) => (
+            {SUPPORTED_SEASONS.map((year) => (
               <NavigationMenuLink asChild key={year}>
                 <Link href={'/' + year} className='hover:underline'>
                   <p>{year}</p>

@@ -12826,13 +12826,6 @@ export type GetConstructorQuery = {
   }>;
 };
 
-export type GetSeasonsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetSeasonsQuery = {
-  __typename?: 'query_root';
-  events: Array<{ __typename?: 'events'; year?: number | null }>;
-};
-
 export type GetEventScheduleQueryVariables = Exact<{
   year: Scalars['Int']['input'];
   event: Scalars['String']['input'];
@@ -14798,55 +14791,6 @@ export const GetConstructorDocument = {
     },
   ],
 } as unknown as DocumentNode<GetConstructorQuery, GetConstructorQueryVariables>;
-export const GetSeasonsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetSeasons' },
-      directives: [
-        { kind: 'Directive', name: { kind: 'Name', value: 'cached' } },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'events' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct_on' },
-                value: { kind: 'EnumValue', value: 'year' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'year' },
-                      value: { kind: 'EnumValue', value: 'desc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'year' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetSeasonsQuery, GetSeasonsQueryVariables>;
 export const GetEventScheduleDocument = {
   kind: 'Document',
   definitions: [

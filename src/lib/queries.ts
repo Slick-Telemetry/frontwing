@@ -36,14 +36,6 @@ export const GET_CONSTRUCTOR = gql`
   }
 `;
 
-export const GET_SEASONS = graphql(`
-  query GetSeasons @cached {
-    events(distinct_on: year, order_by: { year: desc }) {
-      year
-    }
-  }
-`);
-
 export const GET_EVENT_SCHEDULE = gql`
   query GetEventSchedule($year: Int!, $event: String!) @cached {
     dropdown_events: schedule(
