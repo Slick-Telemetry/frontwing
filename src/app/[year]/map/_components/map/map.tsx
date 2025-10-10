@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Map, {
   FullscreenControl,
   MapRef,
@@ -10,7 +10,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { getColor } from '@/lib/utils';
 import { useResizeObserver } from '@/hooks/use-resize-observer';
 
-import { ConnectionLine } from '@/app/[year]/map/_components/map/connection-line';
 import { MapLoader } from '@/app/[year]/map/_components/map/loader';
 import { MapMarker } from '@/app/[year]/map/_components/map/marker';
 import MapNavigation from '@/app/[year]/map/_components/map/navigation';
@@ -110,21 +109,17 @@ export const MapContent = ({
           events.map((event, i) => {
             const color = getColor(event.event_date);
             return (
-              <Fragment key={event.event_name}>
-                <MapMarker
-                  event={event}
-                  color={color}
-                  selectEvent={() => {
-                    onClickAction(event.event_name as string);
-                    zoomOnMap(optimalZoom);
-                  }}
-                />
-                <ConnectionLine
-                  event={event}
-                  color={color}
-                  adjacentEvent={events[i - 1]}
-                />
-              </Fragment>
+              <MapMarker
+                key={event.event_name}
+                event={event}
+                nextEvent={events[i + 1]}
+                prevEvent={events[i]}
+                color={color}
+                selectEvent={() => {
+                  onClickAction(event.event_name as string);
+                  zoomOnMap(optimalZoom);
+                }}
+              />
             );
           })}
       </Map>

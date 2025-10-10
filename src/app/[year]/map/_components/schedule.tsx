@@ -38,7 +38,7 @@ export const Schedule = ({
           <Link href={`/${year}`}>{year}</Link>
         </h1>
         <ChevronRight className='size-4' />
-        <p>Schedule</p>
+        <p>Map</p>
       </div>
       <div className='grid divide-y overflow-hidden rounded border'>
         {events?.map((e) => {

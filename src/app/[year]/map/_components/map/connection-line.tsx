@@ -4,10 +4,12 @@ import { Layer, Source } from 'react-map-gl/mapbox';
 import { MapScheduleLocationFragment } from '@/types/graphql';
 
 export const ConnectionLine = ({
+  active,
   event,
   adjacentEvent,
   color,
 }: {
+  active: boolean;
   event: MapScheduleLocationFragment;
   color: string;
   adjacentEvent?: MapScheduleLocationFragment;
@@ -26,7 +28,7 @@ export const ConnectionLine = ({
 
   return (
     <Source
-      id={event.event_name || event.location || ''}
+      id={adjacentEvent?.event_name || event.location || ''}
       type='geojson'
       data={{
         type: 'Feature',
@@ -38,10 +40,11 @@ export const ConnectionLine = ({
       }}
     >
       <Layer
-        id={event.event_name || 'line'}
+        id={adjacentEvent?.event_name || 'line'}
         type='line'
-        source={event.event_name || 'line-source'}
+        source={adjacentEvent?.event_name || 'line-source'}
         paint={{
+          'line-opacity': active ? 1 : 0,
           'line-color': color,
           'line-width': 2, // Line width
         }}
