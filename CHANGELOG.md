@@ -1,3 +1,9 @@
+## 0.8.4 (2025-10-11)
+
+### Refactor
+
+- separate map page components
+
 ## 0.8.3 (2025-10-10)
 
 ### Fix
