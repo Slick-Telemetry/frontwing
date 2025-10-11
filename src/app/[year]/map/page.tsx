@@ -5,13 +5,15 @@ import { use } from 'react';
 
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 
+import { EventDetails } from '@/components/event-details';
+import { ResultsMarquee } from '@/components/results-marquee';
 import { ServerPageError } from '@/components/ServerError';
 
-import Header from '@/app/[year]/map/_components/header';
 import { MapLoader } from '@/app/[year]/map/_components/map/loader';
 import { MapContent } from '@/app/[year]/map/_components/map/map';
-import EventResults from '@/app/[year]/map/_components/results';
 import { Schedule } from '@/app/[year]/map/_components/schedule';
+import { EventSessions } from '@/app/[year]/map/_components/schedule-sessions';
+import { TopThree } from '@/app/[year]/map/_components/top-three';
 
 import { graphql } from '@/types';
 
@@ -20,12 +22,14 @@ const GET_SCHEDULE = graphql(`
     schedule(where: { year: { _eq: $year } }, order_by: { round_number: asc }) {
       event_name
       ...MapScheduleFragment
-      ...MapHeader_ScheduleFragment
       ...MapScheduleLocation
+      ...ScheduleEventDetails
+      ...ScheduleSessions
     }
     events(where: { year: { _eq: $year } }) {
       name
-      ...MapTopRaceDrivers
+      ...RaceResults
+      ...TopThreeRaceResults
     }
   }
 `);
@@ -71,6 +75,7 @@ export default function MapPage({
   const activeScheduleEvent = data.schedule.find(
     (evt) => evt.event_name === selection,
   );
+  const activeEvent = data.events?.find((e) => e.name === selection);
 
   return (
     <div className='flex gap-4 p-4 lg:px-6'>
@@ -84,11 +89,22 @@ export default function MapPage({
 
       <div className='h-fit flex-1 rounded border'>
         {/* Header */}
-        <Header evt={activeScheduleEvent} maxRounds={data.schedule.length}>
-          <EventResults
-            results={data.events?.find((e) => e.name === selection) ?? {}}
-          />
-        </Header>
+        {/* TODO: REFACTOR so that the subcomponets are imported here */}
+        {/* This will help make event details reusable */}
+        <div className='flex justify-between'>
+          <div className='relative flex flex-1 justify-between gap-4 overflow-hidden pt-2 pb-5'>
+            {/* Event Details */}
+            <EventDetails
+              evt={activeScheduleEvent}
+              maxRounds={data.schedule.length}
+            />
+
+            {/* Marquee / Top Three goes here */}
+            <TopThree evt={activeEvent} />
+            <ResultsMarquee evt={activeEvent} />
+          </div>
+          <EventSessions evt={activeScheduleEvent} />
+        </div>
 
         {/* Map */}
         <MapContent

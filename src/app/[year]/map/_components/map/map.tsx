@@ -87,7 +87,7 @@ export const MapContent = ({
   return (
     <div
       ref={containerRef}
-      className='relative h-[666px] w-full overflow-hidden rounded border-t'
+      className='relative h-[666px] w-full overflow-hidden rounded-b border-t'
     >
       <Map
         reuseMaps
