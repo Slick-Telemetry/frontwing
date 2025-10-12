@@ -40,6 +40,10 @@ const sidebarEndpoints: SidebarEndpoint[] = [
     ],
   },
   {
+    title: 'Event',
+    url: '/$year/$event',
+  },
+  {
     title: 'Session',
     url: '/$year/$event/$session',
     items: [

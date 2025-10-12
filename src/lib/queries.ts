@@ -70,7 +70,7 @@ export const GET_EVENT_SCHEDULE = gql`
     }
   }
 `;
-export const GET_EVENT_DETAILS = gql`
+export const GET_EVENT_DETAILS = graphql(`
   query GetEventDetails($year: Int!, $event: String!) @cached {
     events(where: { name: { _eq: $event }, year: { _eq: $year } }, limit: 1) {
       competition: sessions(
@@ -94,6 +94,7 @@ export const GET_EVENT_DETAILS = gql`
             classified_position
             grid_position
             total_race_time
+            laps
           }
           fastest_lap: laps(limit: 1, order_by: { lap_time: asc }) {
             lap_time
@@ -127,7 +128,7 @@ export const GET_EVENT_DETAILS = gql`
           }
         }
       }
-      practices: sessions(
+      practice: sessions(
         limit: 3
         where: { name: { _in: [Practice_1, Practice_2, Practice_3] } }
       ) {
@@ -147,11 +148,64 @@ export const GET_EVENT_DETAILS = gql`
             lap_time
             lap_number
           }
+          laps_aggregate {
+            aggregate {
+              count
+            }
+          }
         }
       }
     }
+
+    circuits(
+      where: {
+        year: { _eq: $year }
+        sessions: { name: { _eq: Race }, event: { name: { _eq: $event } } }
+      }
+      limit: 1
+    ) {
+      ...CircuitDetails
+    }
+
+    schedule(
+      where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
+      order_by: { round_number: asc }
+    ) {
+      location
+      session1
+      session1_date_utc
+      session2
+      session2_date_utc
+      session3
+      session3_date_utc
+      session4
+      session4_date_utc
+      session5
+      session5_date_utc
+      ...ScheduleEventDetails
+    }
+
+    fia_documents(
+      where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
+      order_by: { publish_time: desc }
+    ) {
+      ...FIADocs
+    }
+
+    drivers(
+      distinct_on: year
+      where: {
+        driver_sessions: {
+          session: { event: { name: { _eq: $event } }, name: { _eq: Race } }
+          results: { classified_position: { _eq: "1" } }
+        }
+      }
+      order_by: { year: desc }
+    ) {
+      ...EventWinners
+    }
   }
-`;
+`);
 export const GET_TOP_STANDINGS = graphql(`
   query GetTopStandings($season: Int!, $limit: Int = 3) @cached {
     drivers(

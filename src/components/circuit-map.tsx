@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 
+import { cn } from '@/lib/utils';
+
 import { FragmentType, graphql, useFragment } from '@/types';
 
 export const CircuitDetails = graphql(`
@@ -10,10 +12,12 @@ export const CircuitDetails = graphql(`
 
 export const CircuitMap = ({
   circuitData,
+  className,
   small = false,
 }: {
   circuitData?: FragmentType<typeof CircuitDetails>;
   small?: boolean;
+  className?: string;
 }) => {
   const data = useFragment(CircuitDetails, circuitData);
 
@@ -51,7 +55,7 @@ export const CircuitMap = ({
 
   return (
     <svg
-      className={clsx('aspect-square h-full', sizeClasses)}
+      className={cn('aspect-square h-full', sizeClasses, className)}
       style={{
         transform: `rotate(${rotation}deg) scaleY(-1)`,
       }}

@@ -132,7 +132,7 @@ export const fastestLapFinder = (
   sessions:
     | GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
     | GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
-    | GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'],
+    | GetEventDetailsQuery['events'][number]['practice'][number]['driver_sessions'],
 ) => {
   let driver;
   switch (type) {
@@ -156,11 +156,11 @@ export const fastestLapFinder = (
       };
     default:
       driver = sortFastestLaps(
-        sessions as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'],
-      )[0] as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'][number];
+        sessions as GetEventDetailsQuery['events'][number]['practice'][number]['driver_sessions'],
+      )?.[0] as GetEventDetailsQuery['events'][number]['practice'][number]['driver_sessions'][number];
       return {
-        time: driver.fastest_lap[0].lap_time,
-        driver: driver.driver?.full_name,
+        time: driver?.fastest_lap[0]?.lap_time,
+        driver: driver?.driver?.full_name,
       };
   }
 };
@@ -186,7 +186,9 @@ export const findSessionType = (sessionName: string) => {
   }
 };
 
-export const formatLapTime = (time: number | bigint) => {
+export const formatLapTime = (time?: string | number | bigint | null) => {
+  if (typeof time === 'string') time = parseInt(time);
+  if (!time) return time;
   const date = new Date(Number(time));
   const iso = date.toISOString();
   // Convert to numbers to remove leading zeros, but pad seconds/minutes if needed
@@ -209,14 +211,14 @@ export const formatLapTime = (time: number | bigint) => {
 
 export const sortFastestLaps = (
   sessions:
-    | GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
+    | GetEventDetailsQuery['events'][number]['practice'][number]['driver_sessions']
     | GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
     | SessionResultsQuery['sessions'][number]['driver_sessions'],
 ) => {
   return sessions
-    .filter((driver) => {
+    ?.filter((driver) => {
       return (
-        driver.fastest_lap.length !== 0 && !!driver.fastest_lap[0].lap_time
+        driver?.fastest_lap?.length !== 0 && !!driver.fastest_lap?.[0].lap_time
       );
     })
     .sort((a, b) => {

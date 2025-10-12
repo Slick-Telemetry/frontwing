@@ -27,26 +27,28 @@ export function EventDetails({ maxRounds, ...props }: EventDetailsProps) {
   const evt = useFragment(ScheduleEventDetailFragment, props?.evt);
   if (!evt) return null;
   return (
-    <div className='pb-4 pl-2'>
-      {/* <div className='pb-10 pl-2'> */}
+    <>
       {/* Event Title */}
-      <h2 className='pointer-cursor line-clamp-1 text-3xl font-semibold hover:underline'>
+      <h1 className='pointer-cursor line-clamp-1 scroll-m-20 text-4xl font-semibold tracking-tight text-balance hover:underline'>
         <Link href={`/${evt.year}/${eventLocationEncode(evt.event_name)}`}>
           {evt.event_name}
         </Link>
-      </h2>
+      </h1>
 
-      <p>
+      {/* Attributes */}
+      <p className='text-lg'>
         {evt.location}, {evt.country}
       </p>
-      {/* Attributes */}
       <div className='flex items-center text-xs md:text-sm'>
         <p>
-          {new Date(evt.event_date as string).toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })}
+          {new Date((evt.event_date as string).slice(0, -6)).toLocaleDateString(
+            undefined,
+            {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            },
+          )}
         </p>
 
         <Separator
@@ -63,6 +65,6 @@ export function EventDetails({ maxRounds, ...props }: EventDetailsProps) {
         />
         <SprintBadge format={evt.event_format} />
       </div>
-    </div>
+    </>
   );
 }

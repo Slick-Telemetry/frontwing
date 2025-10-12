@@ -1,7 +1,7 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
 import clsx from 'clsx';
-import { ExternalLink } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
 import { GET_TOP_STANDINGS } from '@/lib/queries';
@@ -50,7 +50,7 @@ export default function TopThreeStandings({ year }: { year: string }) {
         className='flex w-full items-center justify-between text-xl font-bold hover:underline'
       >
         Standings
-        <ExternalLink />
+        <ArrowUpRight />
       </Link>
 
       <div className='grid grid-cols-2 gap-2 rounded'>

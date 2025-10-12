@@ -1,15 +1,13 @@
 'use client';
 
-import Image from 'next/image';
+import { Circle } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import {
   eventLocationEncode,
-  fastestLapFinder,
   findSessionType,
-  formatLapTime,
   sortFastestLaps,
   sortQuali,
 } from '@/lib/utils';
@@ -101,7 +99,7 @@ export const SessionProvisionalGrid = ({
   session: GetEventDetailsQuery['events'][number][
     | 'competition'
     | 'qualifying'
-    | 'practices'][number];
+    | 'practice'][number];
 }) => {
   const sessionType = findSessionType(session?.name || '');
 
@@ -118,32 +116,21 @@ export const SessionProvisionalGrid = ({
     case 'practice': // Sort for practice
       driverSessions = sortFastestLaps([
         ...session.driver_sessions,
-      ] as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']);
+      ] as GetEventDetailsQuery['events'][number]['practice'][number]['driver_sessions']);
       break;
     default:
-      driverSessions = session.driver_sessions;
+      driverSessions = session?.driver_sessions;
   }
 
-  const fastestLap = fastestLapFinder(sessionType, driverSessions);
-
   return (
-    <div className='p-2'>
-      <p className='mb-2 inline-block border px-2 italic'>
-        Fastest Lap: <strong>{formatLapTime(Number(fastestLap.time))}</strong>{' '}
-        by <strong>{fastestLap.driver}</strong>
-        {fastestLap.lap && ` on Lap ${fastestLap.lap}`}
-      </p>
-
-      {/* Driver Grid */}
-      <div className='grid flex-1 grid-cols-2 grid-rows-10 justify-center gap-x-2 md:grid-flow-col md:grid-cols-10 md:grid-rows-2 md:gap-x-0 md:gap-y-2'>
-        {driverSessions.map(({ driver }, index) => (
-          <DriverHeadshot
-            key={driver?.abbreviation || driver?.full_name}
-            driver={driver}
-            position={index + 1}
-          />
-        ))}
-      </div>
+    <div className='grid grid-flow-col grid-cols-2 grid-rows-10 gap-x-4'>
+      {driverSessions.map(({ driver }, index) => (
+        <DriverHeadshot
+          key={driver?.abbreviation || driver?.full_name}
+          driver={driver}
+          position={index + 1}
+        />
+      ))}
     </div>
   );
 };
@@ -152,11 +139,11 @@ export const SkeletonProvisionalGrid = () => {
   return (
     <div className='animate-pulse overflow-hidden p-2'>
       <div className='mb-2 size-6 w-full rounded bg-gray-200'></div>
-      <div className='grid w-full flex-1 grid-flow-col grid-cols-10 grid-rows-2 gap-y-2'>
+      <div className='grid-col-2 grid w-full flex-1 grid-flow-col grid-rows-10 gap-y-2'>
         {Array.from({ length: 20 }).map((_, index) => (
           <div
             key={`placeholder-${index}`}
-            className='rounde w-full pr-4 pl-1 even:ml-4'
+            className='w-full rounded pr-4 pl-1 even:ml-4'
           >
             <div className='size-7 w-full rounded bg-gray-200'></div>
           </div>
@@ -173,24 +160,24 @@ export const DriverHeadshot = ({
   driver: GetEventDetailsQuery['events'][0][
     | 'competition'
     | 'qualifying'
-    | 'practices'][0]['driver_sessions'][0]['driver'];
+    | 'practice'][0]['driver_sessions'][0]['driver'];
   position: number;
 }) => {
-  const { headshot_url, abbreviation } = driver || {};
   return (
-    <div className='w-full items-center text-center even:mt-4 md:flex even:md:mt-0 md:even:ml-auto even:md:justify-end'>
-      <p className='text-sm opacity-50'>{position}</p>
-      <div className='border-muted flex flex-col items-center justify-center border-t-2 pt-1 md:ml-1 md:flex-row md:border-t-0 md:border-l-2 md:pt-0 md:pl-1'>
-        {headshot_url && (
-          <Image
-            src={headshot_url}
-            width={64}
-            height={64}
-            className='h-16 w-16 md:hidden xl:block xl:h-8 xl:w-8'
-            alt={abbreviation || ''}
-          />
-        )}
-        <p className='md:order-first'>{abbreviation}</p>
+    <div className='flex grid-cols-2 items-center justify-between gap-4 border-t py-2'>
+      <div className='flex items-center gap-2'>
+        <p>{position}</p>
+        <p>{driver?.full_name}</p>
+
+        <Circle
+          fill='var(--accent)'
+          className='hidden size-3 sm:block xl:hidden'
+        />
+      </div>
+      <div className='flex items-center gap-2'>
+        {/* {if sessions is race or sprint display points} */}
+        <p className='text-secondary w-fit'>+25</p>
+        <p>FL: 1:23.456</p>
       </div>
     </div>
   );

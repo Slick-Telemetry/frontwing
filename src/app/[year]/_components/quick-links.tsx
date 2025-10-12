@@ -1,4 +1,4 @@
-import { ExternalLink } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
 export function QuickLinks({ year }: { year: string }) {
@@ -24,7 +24,7 @@ export function QuickLinks({ year }: { year: string }) {
           >
             <div className='flex w-full cursor-not-allowed items-center justify-between text-xl font-bold'>
               {name}
-              <ExternalLink />
+              <ArrowUpRight />
             </div>
             {description && <p>{description}</p>}
           </div>
@@ -37,7 +37,7 @@ export function QuickLinks({ year }: { year: string }) {
           >
             <div className='flex w-full items-center justify-between text-xl font-bold group-hover:underline'>
               {name}
-              <ExternalLink />
+              <ArrowUpRight />
             </div>
             {description && <p>{description}</p>}
           </Link>

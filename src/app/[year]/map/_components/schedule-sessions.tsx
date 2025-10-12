@@ -1,23 +1,9 @@
 import { useRouter } from 'next/navigation';
 
+import { SESSION_KEYS } from '@/lib/constants';
 import { eventLocationEncode } from '@/lib/utils';
 
 import { FragmentType, graphql, useFragment } from '@/types';
-
-type SessionKey =
-  | 'session1'
-  | 'session2'
-  | 'session3'
-  | 'session4'
-  | 'session5';
-
-const sessionKeys = [
-  'session1',
-  'session2',
-  'session3',
-  'session4',
-  'session5',
-] as SessionKey[];
 
 const ScheduleSessionsFragment = graphql(`
   fragment ScheduleSessions on schedule {
@@ -46,7 +32,7 @@ export function EventSessions(props: EventSessionProps) {
   if (!evt) return null;
   return (
     <div className='bg-muted flex flex-col justify-evenly px-3 py-2 md:hidden lg:flex'>
-      {sessionKeys.map((session) => (
+      {SESSION_KEYS.map((session) => (
         <div
           className='hover:bg-accent flex cursor-pointer items-center justify-between gap-4 rounded px-1'
           key={evt[session]}
