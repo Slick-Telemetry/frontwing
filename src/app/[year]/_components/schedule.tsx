@@ -51,7 +51,7 @@ export function Schedule({ year }: { year: string }) {
 
   return (
     <>
-      <div className='bg-background sticky top-16 z-20 flex flex-col justify-between gap-2 py-4 md:flex-row md:items-end'>
+      <div className='bg-background/80 sticky top-16 z-20 flex flex-col justify-between gap-2 py-4 md:flex-row md:items-end'>
         <h1 className='text-4xl font-extrabold tracking-tight text-balance'>
           {year} Schedule
         </h1>

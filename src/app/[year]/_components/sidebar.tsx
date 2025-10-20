@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import * as React from 'react';
 
 import {
@@ -78,7 +78,7 @@ const formatLink = (url: string, params: DashParams): string | undefined => {
 export function AppSidebar() {
   const params = useParams<DashParams>();
   return (
-    <Sidebar variant='inset' collapsible='offcanvas'>
+    <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -124,10 +124,11 @@ function SidebarItem({
   item: SidebarEndpoint;
   params: DashParams;
 }) {
+  const pathname = usePathname();
   const url = formatLink(item.url, params);
   return (
     <SidebarMenuItem key={item.title}>
-      <SidebarMenuButton asChild>
+      <SidebarMenuButton asChild isActive={pathname === url}>
         {!url ? (
           <span className='text-muted-foreground cursor-not-allowed font-medium opacity-50'>
             {item.title}
@@ -138,13 +139,13 @@ function SidebarItem({
           </Link>
         )}
       </SidebarMenuButton>
-      {item.items?.length
-        ? item.items.map((item) => (
-            <SidebarMenuSub key={item.title} className='ml-0 border-l-0 px-1.5'>
-              <SidebarSubItem item={item} params={params} />
-            </SidebarMenuSub>
-          ))
-        : null}
+      {item.items?.length ? (
+        <SidebarMenuSub>
+          {item.items.map((item) => (
+            <SidebarSubItem key={item.title} item={item} params={params} />
+          ))}
+        </SidebarMenuSub>
+      ) : null}
     </SidebarMenuItem>
   );
 }
@@ -156,13 +157,11 @@ function SidebarSubItem({
   item: SidebarEndpoint;
   params: DashParams;
 }) {
+  const pathname = usePathname();
   const url = formatLink(item.url, params);
   return (
     <SidebarMenuSubItem key={item.title}>
-      <SidebarMenuSubButton
-        asChild
-        // isActive
-      >
+      <SidebarMenuSubButton asChild isActive={pathname === url}>
         {!url ? (
           <span className='text-muted-foreground cursor-not-allowed opacity-50'>
             {item.title}
