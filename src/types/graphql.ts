@@ -12584,6 +12584,7 @@ export type Event_ScheduleFragmentFragment = {
   event_name?: string | null;
   round_number?: number | null;
   event_date?: string | null;
+  event_format?: Event_Format_Choices_Enum | null;
   year?: number | null;
   location?: string | null;
   country?: string | null;
@@ -13260,6 +13261,7 @@ export const Event_ScheduleFragmentFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
           { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_format' } },
           { kind: 'Field', name: { kind: 'Name', value: 'year' } },
           { kind: 'Field', name: { kind: 'Name', value: 'location' } },
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
@@ -13894,6 +13896,7 @@ export const GetSeasonEventsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
           { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_format' } },
           { kind: 'Field', name: { kind: 'Name', value: 'year' } },
           { kind: 'Field', name: { kind: 'Name', value: 'location' } },
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },

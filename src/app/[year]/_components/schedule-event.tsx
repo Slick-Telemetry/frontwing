@@ -3,6 +3,8 @@ import Link from 'next/link';
 
 import { eventLocationEncode, isFutureDate } from '@/lib/utils';
 
+import { SprintBadge } from '@/components/sprint-badge';
+
 import { FragmentType, graphql, useFragment } from '@/types';
 
 const Event_ScheduleFragment = graphql(`
@@ -10,6 +12,7 @@ const Event_ScheduleFragment = graphql(`
     event_name
     round_number
     event_date
+    event_format
     year
     location
     country
@@ -96,9 +99,13 @@ export function ScheduleEventItem({
           {event.round_number}
         </div>
         <div className='flex-1 py-2'>
-          <p className='text-sm'>
-            {formatDate(event.session1_date)} -{formatDate(event.session5_date)}
-          </p>
+          <div className='flex items-center gap-2'>
+            <p className='text-sm'>
+              {formatDate(event.session1_date)} -
+              {formatDate(event.session5_date)}
+            </p>
+            <SprintBadge format={event.event_format} />
+          </div>
           <p className='line-clamp-1 font-semibold group-hover:underline'>
             {event.event_name}
           </p>

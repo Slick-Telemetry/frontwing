@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-  '\n  fragment Event_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n    location\n    country\n    session1\n    session1_date\n    session2\n    session2_date\n    session3\n    session3_date\n    session4\n    session4_date\n    session5\n    session5_date\n  }\n': typeof types.Event_ScheduleFragmentFragmentDoc;
+  '\n  fragment Event_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    event_format\n    year\n    location\n    country\n    session1\n    session1_date\n    session2\n    session2_date\n    session3\n    session3_date\n    session4\n    session4_date\n    session5\n    session5_date\n  }\n': typeof types.Event_ScheduleFragmentFragmentDoc;
   '\n  query GetSeasonEvents($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      event_date\n      round_number\n      location\n      country\n      ...Event_ScheduleFragment\n    }\n    circuits(where: { year: { _eq: $year } }) {\n      location\n      country\n      ...CircuitDetails\n    }\n  }\n': typeof types.GetSeasonEventsDocument;
   '\n  fragment MapScheduleLocation on schedule {\n    round_number\n    event_name\n    event_date\n    location\n    longitude\n    latitude\n  }\n': typeof types.MapScheduleLocationFragmentDoc;
   '\n  fragment ScheduleSessions on schedule {\n    year\n    event_name\n    session1\n    session2\n    session3\n    session4\n    session5\n    session1_date_utc\n    session2_date_utc\n    session3_date_utc\n    session4_date_utc\n    session5_date_utc\n  }\n': typeof types.ScheduleSessionsFragmentDoc;
@@ -40,7 +40,7 @@ type Documents = {
   '\n  query GetSessionLapTimes(\n    $year: Int!\n    $event: String!\n    $session: session_name_choices_enum!\n  ) @cached {\n    sessions(\n      limit: 1\n      where: {\n        event: { year: { _eq: $year }, name: { _eq: $event } }\n        name: { _eq: $session }\n      }\n    ) {\n      driver_sessions {\n        constructorByConstructorId {\n          name\n          color\n        }\n        driver {\n          abbreviation\n          full_name\n          number\n        }\n        laps(order_by: { lap_number: asc }) {\n          lap_number\n          lap_time\n          compound\n          session_time\n        }\n      }\n    }\n  }\n': typeof types.GetSessionLapTimesDocument;
 };
 const documents: Documents = {
-  '\n  fragment Event_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n    location\n    country\n    session1\n    session1_date\n    session2\n    session2_date\n    session3\n    session3_date\n    session4\n    session4_date\n    session5\n    session5_date\n  }\n':
+  '\n  fragment Event_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    event_format\n    year\n    location\n    country\n    session1\n    session1_date\n    session2\n    session2_date\n    session3\n    session3_date\n    session4\n    session4_date\n    session5\n    session5_date\n  }\n':
     types.Event_ScheduleFragmentFragmentDoc,
   '\n  query GetSeasonEvents($year: Int!) @cached {\n    schedule(where: { year: { _eq: $year } }) {\n      event_name\n      event_date\n      round_number\n      location\n      country\n      ...Event_ScheduleFragment\n    }\n    circuits(where: { year: { _eq: $year } }) {\n      location\n      country\n      ...CircuitDetails\n    }\n  }\n':
     types.GetSeasonEventsDocument,
@@ -108,8 +108,8 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment Event_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n    location\n    country\n    session1\n    session1_date\n    session2\n    session2_date\n    session3\n    session3_date\n    session4\n    session4_date\n    session5\n    session5_date\n  }\n',
-): (typeof documents)['\n  fragment Event_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    year\n    location\n    country\n    session1\n    session1_date\n    session2\n    session2_date\n    session3\n    session3_date\n    session4\n    session4_date\n    session5\n    session5_date\n  }\n'];
+  source: '\n  fragment Event_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    event_format\n    year\n    location\n    country\n    session1\n    session1_date\n    session2\n    session2_date\n    session3\n    session3_date\n    session4\n    session4_date\n    session5\n    session5_date\n  }\n',
+): (typeof documents)['\n  fragment Event_ScheduleFragment on schedule {\n    event_name\n    round_number\n    event_date\n    event_format\n    year\n    location\n    country\n    session1\n    session1_date\n    session2\n    session2_date\n    session3\n    session3_date\n    session4\n    session4_date\n    session5\n    session5_date\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
