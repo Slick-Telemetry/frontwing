@@ -1,22 +1,21 @@
 [![CodeQL](https://github.com/Slick-Telemetry/frontend/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Slick-Telemetry/frontend/actions/workflows/codeql.yml)
 
-# frontend <!-- omit from toc -->
-
-Slick Telemetry frontend written in typescipt with nextjs and vercel.
+# Frontwing (Frontend) <!-- omit from toc -->
 
 Table of Contents:
 
 - [Setting up the project](#setting-up-the-project)
   - [What you'll need](#what-youll-need)
-- [Getting Started](#getting-started)
   - [Install dependencies](#install-dependencies)
-  - [Run the development server](#run-the-development-server)
   - [Connecting to the backend](#connecting-to-the-backend)
-  - [Working with Hasura and GraphQL](#working-with-hasura-and-graphql)
+  - [Run the development server](#run-the-development-server)
+- [Contributions](#contributions)
+  - [Working with GraphQL](#working-with-graphql)
   - [Commit Message Convention](#commit-message-convention)
 - [Tests](#tests)
 - [Deployment](#deployment)
 - [Project Structure](#project-structure)
+  - [Folder Structure](#folder-structure)
 - [Resources](#resources)
 
 ## Setting up the project
@@ -27,12 +26,18 @@ Table of Contents:
 - [Node.js](https://nodejs.org/en) (LTS)
 - [pnpm](https://pnpm.io/)
 
-## Getting Started
-
 ### Install dependencies
 
 ```bash
 pnpm i
+```
+
+### Connecting to the backend
+
+Copy the contents of `.env.example` into `.env` with:
+
+```bash
+cp .env.example .env
 ```
 
 ### Run the development server
@@ -45,31 +50,17 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-### Connecting to the backend
+## Contributions
 
-The backend is running on a remote server. Reach out to Cris or Pratik for credentials. Alternatively, you can run the backend locally. See https://github.com/Slick-Telemetry/pu-es/blob/main/README.md.
+### Working with GraphQL
 
-**To make calls to API you need to:**
+We are utilizing GraphQL fragments, recommended with [Codegen](https://the-guild.dev/graphql/codegen), to keep our data, types and components close together. This allows for stricter typing when fetching data, with [Apollo Client](https://www.apollographql.com/docs/react), in our components.
 
-- Run the docker from the PU-ES project
-- Follow steps to login to the Hasura console
-- Populate your db with data from at least one session, either through the Reflex UI or the CLI tool
-- In this repository, duplicate the `.env.example` file to define a graph parameters
+_Generate graphql types after adding or updating a query_
 
-### Working with Hasura and GraphQL
+- `pnpm generate`
 
-All queries can be found and should be added in [`./src/lib/queries.ts`](./src/lib/queries.ts) to allow all proper typing to be compiled.
-This will prevent typesript errors when using queries.
-
-- **Add Traefik Support (Mac)**
-  To use the local api through Traefik you need to configure hosts for your systen
-  **Mac** - add `127.0.0.1 api.localhost` to your `/etc/hosts` file
-
-- **GraphQL Codegen**
-  To generate proper graphql types run `pnpm generate`
-
-- **Query Support**
-  By running hasura with docker you can access the [hasura console](http://localhost:54323/console) which will help visualize the data you will return without the slowdown of overflowing graphql queries
+> **_NOTE:_** We are still exploring advanced features of GraphQL and Apollo Client to enhance efficiency.
 
 ### Commit Message Convention
 
@@ -82,33 +73,47 @@ pnpm cypress install # if you dont have cypress installed
 pnpm cy:open
 ```
 
-Run `pnpm build:test` to **build for testing**, when trying to test production code we need to omit certain components from vercel
-
 ## Deployment
 
 The site is deployed at https://slicktelemetry.com using Vercel.
 
 ## Project Structure
 
-We are using NextJs [App Router](https://nextjs.org/docs/app) for our project.
+We are...
 
-[In Figma](https://www.figma.com/file/rIYiXNVUyJ6xDo1dhzrnuE/Data-%26-Telemetry-Flow?type=whiteboard&t=3mTQQn5vi5qZrZw3-1), you can view both the data flow as well as the component mapping.
+- Using NextJs [App Router](https://nextjs.org/docs/app)
+- Hosting on [Vercel](https://vercel.com/)
+- Monitoring with [Posthog](https://posthog.com/)
+- Designing in [Figma](https://www.figma.com/design/4OauoAtraVKgcJaeYB6Qjq/Dashboard-Trial?node-id=0-1&t=WlqH6kA06RgqCWcy-1)
+
+### Folder Structure
 
 ```
-`src/`
-├── app/
-    ├── api/ -> hub for api calls
-    ├── dashboard/ -> telemetry home
-    ├── schedule/ -> simple schedule for current/upcoming season
-    └── ...landing page and layout content
+src/
+├── app/ (App Router understanding required)
+    ├── ... (Landing page, Not Found, Root Layout)
+    ├── _components (Page specific components)
+    ├── constructors/ (To Be Removed)
+    ├── countdown/ (countdown to next season)
+    └── [year]/ (Season page)
+        ├── ...
+        ├── map/ (Map of season)
+        ├── standings/ (season standings)
+        └── [event]/ -> (Results, FIA Docs, Event Winners)
+            ├── ...
+            └── [session]/ -> (WIP)
 ├── components
-    ├── Footer/ -> Generic Footer
-    ├── QueryNav/ -> Search param nav
-    ├── SelectionData/ -> Hub for main data view
-    ├── Sidebar/ -> Top level query pages and sub query
-    ├── TopNav/ -> Generic navigation Bar
+    ├── ... (Global components)
     └── ui/ -> Components imported from shadcn
-├── lib/ -> graphql, helpers, constants, & other utils
+├── hooks
+├── lib/ ->
+    ├── client.ts (Apollo Client connection)
+    ├── constants.ts (Global project values)
+    ├── queries.ts (Graphql queries)
+    └── utils.ts (All project utils)
+├── type/
+    ├── global.d.ts (Custom types)
+    └── * (Graphql types generated with Codegen)
 ├── state-mgmt/
 ```
 
