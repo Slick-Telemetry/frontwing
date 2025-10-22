@@ -1,3 +1,9 @@
+## 0.8.5 (2025-10-22)
+
+### Fix
+
+- prevent duplicate health check calls
+
 ## 0.8.4 (2025-10-11)
 
 ### Refactor
