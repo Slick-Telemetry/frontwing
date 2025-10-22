@@ -14,11 +14,16 @@ const checkServerHealth = async () => {
 
 export const ServerStatus = () => {
   const [error, setError] = useState(false);
-  usePathname(); // Tracks the current route in the App Router
+  const [path, setPath] = useState('');
+  const pathName = usePathname(); // Tracks the current route in the App Router
 
-  checkServerHealth()
-    .then(() => setError(false))
-    .catch(() => setError(true));
+  // Check health only pathname has changed
+  if (path !== pathName) {
+    setPath(pathName);
+    checkServerHealth()
+      .then(() => setError(false))
+      .catch(() => setError(true));
+  }
 
   if (!error) return null;
 
