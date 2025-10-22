@@ -47,7 +47,7 @@ function Footer() {
           <GitHubIcon />
         </a>
         <Dialog>
-          <DialogTrigger className='cursor-pointer'>
+          <DialogTrigger className='cursor-pointer hover:underline'>
             Terms of Service
           </DialogTrigger>
           <DialogContent className='max-h-[400px] overflow-scroll py-8 sm:max-h-[600px]'>
@@ -72,7 +72,9 @@ function Footer() {
           </DialogContent>
         </Dialog>
         <Dialog>
-          <DialogTrigger className='cursor-pointer'>About Us</DialogTrigger>
+          <DialogTrigger className='cursor-pointer hover:underline'>
+            About Us
+          </DialogTrigger>
           <DialogContent className='max-h-[400px] overflow-scroll py-8 sm:max-h-[600px]'>
             <DialogHeader className='text-left'>
               <DialogTitle>About Slick Telemetry</DialogTitle>
@@ -95,6 +97,7 @@ function Footer() {
           </DialogContent>
         </Dialog>
         <a
+          className='hover:underline'
           href='https://status.slicktelemetry.com/'
           target='_blank'
           rel='noreferrer'
