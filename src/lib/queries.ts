@@ -151,6 +151,19 @@ export const GET_EVENT_DETAILS = graphql(`
       }
     }
 
+    drivers(
+      distinct_on: year
+      where: {
+        driver_sessions: {
+          session: { event: { name: { _eq: $event } }, name: { _eq: Race } }
+          results: { classified_position: { _eq: "1" } }
+        }
+      }
+      order_by: { year: desc }
+    ) {
+      ...EventWinners
+    }
+
     schedule(
       where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
       order_by: { round_number: asc }

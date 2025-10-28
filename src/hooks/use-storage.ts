@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 export function useLocalStorage<T>(key: string, initial: T) {
-  const [state, setState] = useState<T>(initial);
+  const [state, setState] = useState<T | null>(initial);
 
   useEffect(() => {
     const stored = localStorage.getItem(key);
@@ -10,10 +10,11 @@ export function useLocalStorage<T>(key: string, initial: T) {
   }, [key]);
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(state));
+    if (state != null) localStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 
   function removeState() {
+    setState(null);
     sessionStorage.removeItem(key);
   }
 
@@ -32,7 +33,7 @@ export function useReadLocalStorage(key: string) {
 }
 
 export function useSessionStorage<T>(key: string, initial: T) {
-  const [state, setState] = useState<T>(initial);
+  const [state, setState] = useState<T | null>(initial);
 
   useEffect(() => {
     const stored = sessionStorage.getItem(key);
@@ -40,10 +41,11 @@ export function useSessionStorage<T>(key: string, initial: T) {
   }, [key]);
 
   useEffect(() => {
-    sessionStorage.setItem(key, JSON.stringify(state));
+    if (state != null) sessionStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 
   function removeState() {
+    setState(null);
     sessionStorage.removeItem(key);
   }
 

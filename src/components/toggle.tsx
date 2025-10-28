@@ -34,7 +34,11 @@ export function ToggleLocalStorage({
   const [checked, setChecked] = useLocalStorage(id, initial);
   return (
     <div className='flex cursor-pointer items-center gap-2'>
-      <Switch id={id} onClick={() => setChecked(!checked)} checked={checked} />
+      <Switch
+        id={id}
+        onClick={() => setChecked(!checked)}
+        checked={checked ?? false}
+      />
       <Label htmlFor={id}>{children}</Label>
     </div>
   );
