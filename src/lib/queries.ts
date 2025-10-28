@@ -70,7 +70,7 @@ export const GET_EVENT_SCHEDULE = gql`
     }
   }
 `;
-export const GET_EVENT_DETAILS = gql`
+export const GET_EVENT_DETAILS = graphql(`
   query GetEventDetails($year: Int!, $event: String!) @cached {
     events(where: { name: { _eq: $event }, year: { _eq: $year } }, limit: 1) {
       competition: sessions(
@@ -150,8 +150,16 @@ export const GET_EVENT_DETAILS = gql`
         }
       }
     }
+
+    fia_documents(
+      where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
+      order_by: { publish_time: desc }
+    ) {
+      ...FIADocs
+    }
   }
-`;
+`);
+
 export const GET_TOP_STANDINGS = graphql(`
   query GetTopStandings($season: Int!, $limit: Int = 3) @cached {
     drivers(

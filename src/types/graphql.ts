@@ -12579,6 +12579,13 @@ export type Weather_Data_Variance_Order_By = {
   wind_speed?: InputMaybe<Order_By>;
 };
 
+export type FiaDocsFragment = {
+  __typename?: 'fia_documents';
+  title: string;
+  url?: string | null;
+  publish_time?: any | null;
+} & { ' $fragmentName'?: 'FiaDocsFragment' };
+
 export type Event_ScheduleFragmentFragment = {
   __typename?: 'schedule';
   event_name?: string | null;
@@ -12983,6 +12990,11 @@ export type GetEventDetailsQuery = {
       }>;
     }>;
   }>;
+  fia_documents: Array<
+    { __typename?: 'fia_documents' } & {
+      ' $fragmentRefs'?: { FiaDocsFragment: FiaDocsFragment };
+    }
+  >;
 };
 
 export type GetTopStandingsQueryVariables = Exact<{
@@ -13246,6 +13258,27 @@ export type GetSessionLapTimesQuery = {
   }>;
 };
 
+export const FiaDocsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'FIADocs' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'fia_documents' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'publish_time' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<FiaDocsFragment, unknown>;
 export const Event_ScheduleFragmentFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -16037,6 +16070,103 @@ export const GetEventDetailsDocument = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'fia_documents' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: '_and' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'event_name' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: '_eq' },
+                                  value: {
+                                    kind: 'Variable',
+                                    name: { kind: 'Name', value: 'event' },
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'year' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: '_eq' },
+                                  value: {
+                                    kind: 'Variable',
+                                    name: { kind: 'Name', value: 'year' },
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'publish_time' },
+                      value: { kind: 'EnumValue', value: 'desc' },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'FIADocs' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'FIADocs' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'fia_documents' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'publish_time' } },
         ],
       },
     },
