@@ -10,7 +10,7 @@ import {
 type BaseSelectorProps = {
   value?: string;
   placeholder: string;
-  items: { label: string; value: string }[];
+  items: { label: React.ReactNode; value: string }[];
   onChange: (val: string) => void;
   width: string;
 };
@@ -29,7 +29,7 @@ export function BaseSelector({
       </SelectTrigger>
       <SelectContent>
         {items.map((item) => (
-          <SelectItem key={item.label} value={item.value}>
+          <SelectItem key={item.value} value={item.value}>
             {item.label}
           </SelectItem>
         ))}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@apollo/client/react';
+import { CircleStar } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
@@ -19,6 +20,7 @@ export const GET_NAV_EVENTS = graphql(`
     schedule(order_by: { round_number: asc }, where: { year: { _eq: $year } }) {
       round_number
       event_name
+      event_format
     }
   }
 `);
@@ -37,8 +39,15 @@ export function EventSelector() {
     return <SelectorDisabled placeholder='Event' width='w-48' />;
 
   const items =
-    data.schedule.map(({ round_number, event_name }) => ({
-      label: round_number + ' | ' + event_name!,
+    data.schedule.map(({ round_number, event_name, event_format }) => ({
+      label: (
+        <>
+          {round_number} | {event_name}{' '}
+          {event_format?.includes('sprint') ? (
+            <CircleStar aria-label='Sprint' />
+          ) : null}
+        </>
+      ),
       value: event_name!,
     })) || [];
 

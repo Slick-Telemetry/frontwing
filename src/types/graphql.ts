@@ -12737,6 +12737,7 @@ export type GetNavEventsQuery = {
     __typename?: 'schedule';
     round_number?: number | null;
     event_name?: string | null;
+    event_format?: Event_Format_Choices_Enum | null;
   }>;
 };
 
@@ -14586,6 +14587,10 @@ export const GetNavEventsDocument = {
                   name: { kind: 'Name', value: 'round_number' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'event_format' },
+                },
               ],
             },
           },
