@@ -151,6 +151,14 @@ export const GET_EVENT_DETAILS = graphql(`
       }
     }
 
+    schedule(
+      where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
+      order_by: { round_number: asc }
+    ) {
+      ...EventSessionCards
+      ...ScheduleEventDetails
+    }
+
     fia_documents(
       where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
       order_by: { publish_time: desc }

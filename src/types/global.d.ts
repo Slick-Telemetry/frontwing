@@ -20,4 +20,10 @@ declare global {
     event: string | undefined;
     session: string | undefined;
   };
+  type SessionKey =
+    | 'session1'
+    | 'session2'
+    | 'session3'
+    | 'session4'
+    | 'session5';
 }

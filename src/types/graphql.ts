@@ -12586,6 +12586,20 @@ export type FiaDocsFragment = {
   publish_time?: any | null;
 } & { ' $fragmentName'?: 'FiaDocsFragment' };
 
+export type EventSessionCardsFragment = {
+  __typename?: 'schedule';
+  session1?: Session_Name_Choices_Enum | null;
+  session1_date_utc?: string | null;
+  session2?: Session_Name_Choices_Enum | null;
+  session2_date_utc?: string | null;
+  session3?: Session_Name_Choices_Enum | null;
+  session3_date_utc?: string | null;
+  session4?: Session_Name_Choices_Enum | null;
+  session4_date_utc?: string | null;
+  session5?: Session_Name_Choices_Enum | null;
+  session5_date_utc?: string | null;
+} & { ' $fragmentName'?: 'EventSessionCardsFragment' };
+
 export type Event_ScheduleFragmentFragment = {
   __typename?: 'schedule';
   event_name?: string | null;
@@ -12733,6 +12747,16 @@ export type ScheduleEventDetailsFragment = {
   country?: string | null;
   event_format?: Event_Format_Choices_Enum | null;
 } & { ' $fragmentName'?: 'ScheduleEventDetailsFragment' };
+
+export type GetSeasonEventNamesQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+  event: Scalars['String']['input'];
+}>;
+
+export type GetSeasonEventNamesQuery = {
+  __typename?: 'query_root';
+  schedule: Array<{ __typename?: 'schedule'; event_name?: string | null }>;
+};
 
 export type GetNavEventsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -12990,6 +13014,14 @@ export type GetEventDetailsQuery = {
       }>;
     }>;
   }>;
+  schedule: Array<
+    { __typename?: 'schedule' } & {
+      ' $fragmentRefs'?: {
+        EventSessionCardsFragment: EventSessionCardsFragment;
+        ScheduleEventDetailsFragment: ScheduleEventDetailsFragment;
+      };
+    }
+  >;
   fia_documents: Array<
     { __typename?: 'fia_documents' } & {
       ' $fragmentRefs'?: { FiaDocsFragment: FiaDocsFragment };
@@ -13279,6 +13311,34 @@ export const FiaDocsFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<FiaDocsFragment, unknown>;
+export const EventSessionCardsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventSessionCards' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'schedule' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'session1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session1_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5_date_utc' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventSessionCardsFragment, unknown>;
 export const Event_ScheduleFragmentFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -14544,6 +14604,164 @@ export const GetMapScheduleDocument = {
     },
   ],
 } as unknown as DocumentNode<GetMapScheduleQuery, GetMapScheduleQueryVariables>;
+export const GetSeasonEventNamesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetSeasonEventNames' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'year' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'event' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      directives: [
+        { kind: 'Directive', name: { kind: 'Name', value: 'cached' } },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'schedule' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'year' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: '_eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'year' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: '_or' },
+                      value: {
+                        kind: 'ListValue',
+                        values: [
+                          {
+                            kind: 'ObjectValue',
+                            fields: [
+                              {
+                                kind: 'ObjectField',
+                                name: { kind: 'Name', value: 'event_name' },
+                                value: {
+                                  kind: 'ObjectValue',
+                                  fields: [
+                                    {
+                                      kind: 'ObjectField',
+                                      name: { kind: 'Name', value: '_regex' },
+                                      value: {
+                                        kind: 'Variable',
+                                        name: { kind: 'Name', value: 'event' },
+                                      },
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          {
+                            kind: 'ObjectValue',
+                            fields: [
+                              {
+                                kind: 'ObjectField',
+                                name: { kind: 'Name', value: 'country' },
+                                value: {
+                                  kind: 'ObjectValue',
+                                  fields: [
+                                    {
+                                      kind: 'ObjectField',
+                                      name: { kind: 'Name', value: '_regex' },
+                                      value: {
+                                        kind: 'Variable',
+                                        name: { kind: 'Name', value: 'event' },
+                                      },
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          {
+                            kind: 'ObjectValue',
+                            fields: [
+                              {
+                                kind: 'ObjectField',
+                                name: { kind: 'Name', value: 'location' },
+                                value: {
+                                  kind: 'ObjectValue',
+                                  fields: [
+                                    {
+                                      kind: 'ObjectField',
+                                      name: { kind: 'Name', value: '_regex' },
+                                      value: {
+                                        kind: 'Variable',
+                                        name: { kind: 'Name', value: 'event' },
+                                      },
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetSeasonEventNamesQuery,
+  GetSeasonEventNamesQueryVariables
+>;
 export const GetNavEventsDocument = {
   kind: 'Document',
   definitions: [
@@ -16072,6 +16290,91 @@ export const GetEventDetailsDocument = {
           },
           {
             kind: 'Field',
+            name: { kind: 'Name', value: 'schedule' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: '_and' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'event_name' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: '_eq' },
+                                  value: {
+                                    kind: 'Variable',
+                                    name: { kind: 'Name', value: 'event' },
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'year' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: '_eq' },
+                                  value: {
+                                    kind: 'Variable',
+                                    name: { kind: 'Name', value: 'year' },
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'round_number' },
+                      value: { kind: 'EnumValue', value: 'asc' },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'EventSessionCards' },
+                },
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'ScheduleEventDetails' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
             name: { kind: 'Name', value: 'fia_documents' },
             arguments: [
               {
@@ -16151,6 +16454,49 @@ export const GetEventDetailsDocument = {
               ],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventSessionCards' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'schedule' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'session1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session1_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5_date_utc' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ScheduleEventDetails' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'schedule' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'event_format' } },
         ],
       },
     },
