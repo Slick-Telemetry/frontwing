@@ -2,11 +2,10 @@
 import { useQuery } from '@apollo/client/react';
 
 import { getTodayMidnightUTC } from '@/lib/utils';
-import { useLocalStorage } from '@/hooks/use-local-storage';
 
-import { CheckboxToggle } from '@/components/Checkbox';
 import { CircuitMap } from '@/components/circuit-map';
 import { ServerPageError } from '@/components/ServerError';
+import { ToggleLocalStorage } from '@/components/toggle';
 import { Separator } from '@/components/ui/separator';
 
 import { ScheduleEventItem } from './schedule-event';
@@ -32,12 +31,6 @@ export const GET_SEASON_EVENTS = graphql(`
 `);
 
 export function Schedule({ year }: { year: string }) {
-  const [trackTime, setTrackTime] = useLocalStorage('trackTime', false);
-  const [showSessions, setShowSessions] = useLocalStorage(
-    'showSessions',
-    false,
-  );
-
   const { loading, error, data } = useQuery(GET_SEASON_EVENTS, {
     variables: { year: parseInt(year) },
   });
@@ -56,22 +49,16 @@ export function Schedule({ year }: { year: string }) {
           {year} Schedule
         </h1>
         <div className='flex items-center gap-2'>
-          <CheckboxToggle
-            toggle={() => setShowSessions((v) => !v)}
-            checked={showSessions}
-          >
+          <ToggleLocalStorage id='show-sessions' initial={false}>
             Show Sessions
-          </CheckboxToggle>
+          </ToggleLocalStorage>
           <Separator
             orientation='vertical'
             className='mx-2 data-[orientation=vertical]:h-4'
           />
-          <CheckboxToggle
-            toggle={() => setTrackTime((v) => !v)}
-            checked={trackTime}
-          >
+          <ToggleLocalStorage id='track-time' initial={false}>
             Track Time
-          </CheckboxToggle>
+          </ToggleLocalStorage>
         </div>
       </div>
 
@@ -102,8 +89,6 @@ export function Schedule({ year }: { year: string }) {
             <ScheduleEventItem
               key={event.event_name as string}
               next={event.round_number === nextEvent?.round_number}
-              trackTime={trackTime}
-              details={showSessions}
               event={event}
             >
               <CircuitMap circuitData={circuitData} small />

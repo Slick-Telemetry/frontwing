@@ -14,7 +14,7 @@ import {
   sortQuali,
 } from '@/lib/utils';
 
-import { CheckboxToggle } from '@/components/Checkbox';
+import { Toggle } from '@/components/toggle';
 
 import { GetEventDetailsQuery } from '@/types/graphql';
 
@@ -29,7 +29,7 @@ export const EventSession = ({
 }) => {
   const [showGrid, setShowGrid] = useState(() => {
     if (typeof window !== 'undefined') {
-      const storedValue = localStorage.getItem(`showGrid-${name}`);
+      const storedValue = localStorage.getItem(`showGrid-${time}`);
       return storedValue === 'true';
     }
     return false;
@@ -37,9 +37,9 @@ export const EventSession = ({
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem(`showGrid-${name}`, String(showGrid));
+      localStorage.setItem(`showGrid-${time}`, String(showGrid));
     }
-  }, [showGrid, name]);
+  }, [showGrid, time]);
   const pathname = usePathname();
 
   const url = `${pathname}/${eventLocationEncode(name)}`;
@@ -80,12 +80,13 @@ export const EventSession = ({
       {time && new Date(time) < new Date() && (
         <div className='m-2'>
           <label className='flex items-center gap-2'>
-            <CheckboxToggle
+            <Toggle
+              id='show-grid'
               toggle={() => setShowGrid((prev) => !prev)}
               checked={showGrid}
             >
               Show Provisional Results
-            </CheckboxToggle>
+            </Toggle>
           </label>
         </div>
       )}

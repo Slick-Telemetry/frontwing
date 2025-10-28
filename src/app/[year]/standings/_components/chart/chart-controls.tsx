@@ -1,4 +1,4 @@
-import { CheckboxToggle } from '@/components/Checkbox';
+import { Toggle } from '@/components/toggle';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
@@ -33,21 +33,17 @@ export const ChartControls = ({
       Clear All
     </Button>
     <div className='ml-auto flex w-fit items-center gap-4'>
-      <CheckboxToggle id='htt' toggle={toggleTooltip} checked={hideTooltip}>
+      <Toggle id='htt' toggle={toggleTooltip} checked={hideTooltip}>
         Hide Tooltip
-      </CheckboxToggle>
+      </Toggle>
 
       <Separator
         orientation='vertical'
         className='data-[orientation=vertical]:h-4'
       />
-      <CheckboxToggle
-        id='ppr'
-        toggle={toggleRoundPoints}
-        checked={showRoundPoints}
-      >
+      <Toggle id='ppr' toggle={toggleRoundPoints} checked={showRoundPoints}>
         Points Per Round
-      </CheckboxToggle>
+      </Toggle>
       {/* <CheckboxToggle
             toggle={() => setItemTooltip((prev) => !prev)}
             checked={itemTooltip}

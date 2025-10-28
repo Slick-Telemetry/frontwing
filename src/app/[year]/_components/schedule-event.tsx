@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import { eventLocationEncode, isFutureDate } from '@/lib/utils';
+import { useReadLocalStorage } from '@/hooks/use-storage';
 
 import { SprintBadge } from '@/components/sprint-badge';
 
@@ -32,19 +33,17 @@ const Event_ScheduleFragment = graphql(`
 type ScheduleEventItemProps = {
   event: FragmentType<typeof Event_ScheduleFragment>;
   next: boolean;
-  details: boolean;
-  trackTime: boolean;
   children?: React.ReactNode;
 };
 
 export function ScheduleEventItem({
   next,
-  details,
-  trackTime,
   children: circuitMap,
   ...props
 }: ScheduleEventItemProps) {
   const event = useFragment(Event_ScheduleFragment, props.event);
+  const trackTime = useReadLocalStorage('trackTime');
+  const details = useReadLocalStorage('showSessions');
   const futureEvent = isFutureDate(event.event_date);
   const numberClass = clsx({
     'bg-secondary': !futureEvent,
