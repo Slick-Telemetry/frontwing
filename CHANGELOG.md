@@ -1,3 +1,9 @@
+## 0.8.6 (2025-10-28)
+
+### Refactor
+
+- implement need hook pattern for local storage and update existing components
+
 ## 0.8.5 (2025-10-22)
 
 ### Fix
