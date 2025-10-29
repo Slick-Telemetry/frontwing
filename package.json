@@ -34,6 +34,7 @@
     "@radix-ui/react-separator": "latest",
     "@radix-ui/react-slot": "latest",
     "@radix-ui/react-switch": "latest",
+    "@radix-ui/react-tabs": "latest",
     "@radix-ui/react-tooltip": "latest",
     "@tailwindcss/postcss": "latest",
     "@turf/great-circle": "latest",

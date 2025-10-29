@@ -70,9 +70,11 @@ export const GET_EVENT_SCHEDULE = gql`
     }
   }
 `;
+
 export const GET_EVENT_DETAILS = graphql(`
   query GetEventDetails($year: Int!, $event: String!) @cached {
     events(where: { name: { _eq: $event }, year: { _eq: $year } }, limit: 1) {
+      ...EventSessionResults
       competition: sessions(
         where: { name: { _in: [Sprint, Race] } }
         limit: 2
@@ -151,6 +153,23 @@ export const GET_EVENT_DETAILS = graphql(`
       }
     }
 
+    circuits(
+      where: {
+        year: { _eq: $year }
+        sessions: { name: { _eq: Race }, event: { name: { _eq: $event } } }
+      }
+      limit: 1
+    ) {
+      ...CircuitDetails
+    }
+
+    fia_documents(
+      where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
+      order_by: { publish_time: desc }
+    ) {
+      ...FIADocs
+    }
+
     drivers(
       distinct_on: year
       where: {
@@ -171,16 +190,8 @@ export const GET_EVENT_DETAILS = graphql(`
       ...EventSessionCards
       ...ScheduleEventDetails
     }
-
-    fia_documents(
-      where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
-      order_by: { publish_time: desc }
-    ) {
-      ...FIADocs
-    }
   }
 `);
-
 export const GET_TOP_STANDINGS = graphql(`
   query GetTopStandings($season: Int!, $limit: Int = 3) @cached {
     drivers(

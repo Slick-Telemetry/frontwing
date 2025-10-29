@@ -1,7 +1,17 @@
-import { GetEventScheduleQuery } from './graphql';
+import {
+  EventCompetitionResultsFragment,
+  EventPracticeResultsFragment,
+  EventQualifyingResultsFragment,
+  GetEventScheduleQuery,
+} from './graphql';
 
 // *** Require Import
 export type SeasonEvent = null | GetEventScheduleQuery['schedule'][number];
+
+export type EventSessionResults =
+  | EventCompetitionResultsFragment['driver_sessions'][number]
+  | EventQualifyingResultsFragment['driver_sessions'][number]
+  | EventPracticeResultsFragment['driver_sessions'][number];
 
 // *** Helper
 interface XY {

@@ -1,7 +1,11 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { GetEventDetailsQuery, SessionResultsQuery } from '@/types/graphql';
+import {
+  EventCompetitionResultsFragment,
+  EventPracticeResultsFragment,
+  EventQualifyingResultsFragment,
+} from '@/types/graphql';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -127,44 +131,6 @@ export const sessionDecode = (location?: string) => {
     .replace(/(^|_|\s)\w/g, (match) => match.toUpperCase());
 };
 
-export const fastestLapFinder = (
-  type: string,
-  sessions:
-    | GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
-    | GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
-    | GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'],
-) => {
-  let driver;
-  switch (type) {
-    // rely on the fastest lap for competition, race or sprint
-    case 'competition':
-      driver = sortFastestLaps([
-        ...(sessions as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']),
-      ])[0] as GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions'][number];
-      return {
-        time: driver.fastest_lap[0].lap_time,
-        driver: driver.driver?.full_name,
-        lap: driver.fastest_lap[0].lap_number,
-      };
-    case 'qualifying':
-      driver = sortQuali(
-        sessions as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions'],
-      )[0] as GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions'][number];
-      return {
-        time: driver.results[0].q3_time,
-        driver: driver.driver?.full_name,
-      };
-    default:
-      driver = sortFastestLaps(
-        sessions as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'],
-      )[0] as GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions'][number];
-      return {
-        time: driver.fastest_lap[0].lap_time,
-        driver: driver.driver?.full_name,
-      };
-  }
-};
-
 export const findSessionType = (sessionName: string) => {
   switch (sessionName) {
     case 'Sprint_Shootout':
@@ -186,7 +152,9 @@ export const findSessionType = (sessionName: string) => {
   }
 };
 
-export const formatLapTime = (time: number | bigint) => {
+export const formatLapTime = (time?: string | number | bigint | null) => {
+  if (typeof time === 'string') time = parseInt(time);
+  if (!time) return time;
   const date = new Date(Number(time));
   const iso = date.toISOString();
   // Convert to numbers to remove leading zeros, but pad seconds/minutes if needed
@@ -209,14 +177,13 @@ export const formatLapTime = (time: number | bigint) => {
 
 export const sortFastestLaps = (
   sessions:
-    | GetEventDetailsQuery['events'][number]['practices'][number]['driver_sessions']
-    | GetEventDetailsQuery['events'][number]['competition'][number]['driver_sessions']
-    | SessionResultsQuery['sessions'][number]['driver_sessions'],
+    | EventCompetitionResultsFragment['driver_sessions']
+    | EventPracticeResultsFragment['driver_sessions'],
 ) => {
   return sessions
-    .filter((driver) => {
+    ?.filter((driver) => {
       return (
-        driver.fastest_lap.length !== 0 && !!driver.fastest_lap[0].lap_time
+        driver?.fastest_lap?.length !== 0 && !!driver.fastest_lap?.[0].lap_time
       );
     })
     .sort((a, b) => {
@@ -228,9 +195,7 @@ export const sortFastestLaps = (
 };
 
 export const sortQuali = (
-  sessions:
-    | GetEventDetailsQuery['events'][number]['qualifying'][number]['driver_sessions']
-    | SessionResultsQuery['sessions'][number]['driver_sessions'],
+  sessions: EventQualifyingResultsFragment['driver_sessions'],
 ) => {
   return sessions
     .filter((driver) => !!driver.results[0].finishing_position)
