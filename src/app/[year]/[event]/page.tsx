@@ -1,29 +1,43 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { use } from 'react';
+import { use, useEffect } from 'react';
 
-import { GET_EVENT_SCHEDULE } from '@/lib/queries';
+import { GET_EVENT_DETAILS } from '@/lib/queries';
 import { eventLocationDecode } from '@/lib/utils';
 
-import { FullHeightLoader } from '@/components/Loader';
-import { SeasonSelector } from '@/components/navigation';
+import { CircuitMap } from '@/components/circuit-map';
+import { EventDetails } from '@/components/event-details';
 import { ServerPageError } from '@/components/ServerError';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-} from '@/components/ui/select';
-
-import { EventContainer } from '@/app/[year]/EventContainer';
 
 import {
-  GetEventScheduleQuery,
-  GetEventScheduleQueryVariables,
-} from '@/types/graphql';
+  EventResultsContainer,
+  EventWinners,
+  FIADocs,
+  SessionCards,
+  SessionCardSkeletons,
+} from '@/app/[year]/[event]/_components';
+
+const defaultData = {
+  schedule: [],
+  events: [
+    {
+      competition: [],
+      qualifying: [],
+      practice: [],
+    },
+  ],
+  circuits: [],
+  drivers: [],
+  fia_documents: [],
+};
+
+const adjustRightColumnHeight = () => {
+  const mainCol = document.getElementById('event-col-left');
+  const rightCol = document.getElementById('event-col-right');
+  if (mainCol && rightCol && mainCol.offsetHeight > window.innerHeight) {
+    rightCol.style.maxHeight = `${mainCol.offsetHeight}px`;
+  }
+};
 
 const EventPage = ({
   params,
@@ -31,97 +45,73 @@ const EventPage = ({
   params: Promise<{ year: string; event: string }>;
 }) => {
   const { year, event: eventLoc } = use(params);
-
-  const { loading, data, error } = useQuery<
-    GetEventScheduleQuery,
-    GetEventScheduleQueryVariables
-  >(GET_EVENT_SCHEDULE, {
+  const {
+    loading,
+    data: dataSrc,
+    error,
+  } = useQuery(GET_EVENT_DETAILS, {
     variables: {
       year: parseInt(year),
       event: eventLocationDecode(eventLoc),
     },
   });
 
-  if (loading) return <FullHeightLoader />;
+  useEffect(() => {
+    adjustRightColumnHeight();
+  }, [dataSrc]);
+
+  const data = dataSrc ?? defaultData;
+
   if (error) return <ServerPageError msg='Failed to load event details.' />;
-  if (!data?.schedule || data?.schedule.length <= 0) {
-    // TODO: return to season page
-    return <ServerPageError msg={`Event, ${eventLoc}, not found`} />;
-  }
 
   return (
-    <main className='container my-4 flex grid-cols-4 flex-col gap-4 lg:grid'>
-      {/* Sidebar  */}
-      <Sidebar
-        allEvents={data?.dropdown_events}
-        event={data.schedule[0]}
-        year={year}
-      >
-        <div className='mb-2 flex items-center gap-2 md:order-first md:mr-auto'>
-          <h1 className='text-2xl font-black'>Season</h1>
-          <SeasonSelector />
+    <div className='flex grid-cols-3 flex-col gap-8 p-4 lg:grid lg:px-6'>
+      <div id='event-col-left' className='col-span-2 h-fit'>
+        <div className='flex justify-between gap-4'>
+          <div className='grid gap-1'>
+            {loading ? (
+              <>
+                <div className='bg-accent/50 h-9 w-72 animate-pulse rounded'></div>
+                <div className='bg-accent/50 h-7 w-36 animate-pulse rounded'></div>
+                <div className='bg-accent/50 h-7 w-56 animate-pulse rounded'></div>
+              </>
+            ) : (
+              <EventDetails evt={data.schedule[0]} />
+            )}
+          </div>
+          <div className='flex items-center justify-center px-8'>
+            <CircuitMap
+              circuitData={data.circuits[0]}
+              className='max-h-[90px]'
+            />
+          </div>
         </div>
-      </Sidebar>
 
-      <div className='col-span-3'>
-        <div className='grid gap-4'>{/* Sessions */}</div>
+        <div className='relative grid gap-2 pt-4 pb-8 md:grid-cols-5'>
+          {loading ? (
+            <SessionCardSkeletons />
+          ) : (
+            <SessionCards schedule={data.schedule[0]} eventLoc={eventLoc} />
+          )}
+        </div>
+        <EventResultsContainer
+          loading={loading}
+          sessions={dataSrc?.events ?? []}
+          session1_date_utc={data.schedule[0]?.session1_date_utc}
+          session5_date_utc={data.schedule[0]?.session5_date_utc}
+        />
       </div>
-    </main>
-  );
-};
-
-const Sidebar = ({
-  allEvents,
-  event,
-  year,
-  children,
-}: {
-  year: string;
-  event: GetEventScheduleQuery['schedule'][number];
-  children?: React.ReactNode;
-  allEvents?: GetEventScheduleQuery['dropdown_events'];
-}) => {
-  const router = useRouter();
-
-  // derive link through alternative means
-  return (
-    <div>
-      <EventContainer event={{ ...event, event_name: '' }} clickable={false}>
-        <div className='p-4'>
-          {children}
-          <Select
-            onValueChange={(loc) =>
-              router.push(`/${year}/${loc.toLowerCase().replace(/ /g, '-')}`)
-            }
-          >
-            <SelectTrigger className='h-fit w-full overflow-hidden bg-inherit p-2 text-left text-lg font-black text-ellipsis whitespace-nowrap outline-0 outline-offset-4'>
-              {event.event_name}
-            </SelectTrigger>
-            <SelectContent align='center'>
-              <SelectGroup>
-                {allEvents?.map((event) => (
-                  <SelectItem
-                    className='px-1'
-                    key={event.event_name}
-                    value={event.location || ''}
-                  >
-                    {event.round_number}{' '}
-                    {event.event_name?.replace(/Grand Prix/g, 'GP')}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+      <div id='event-col-right' className='flex flex-1 flex-col'>
+        <EventWinners
+          drivers={data.drivers}
+          loading={loading}
+          location={data.schedule[0]?.location}
+          name={eventLoc}
+        />
+        <div className='flex flex-1 flex-col overflow-hidden pt-8'>
+          <FIADocs documents={data.fia_documents} loading={loading} />
         </div>
-        <div className='bg-muted p-4'>
-          <Image
-            src='/Bahrain_carbon.png'
-            height={250}
-            width={300}
-            alt={event.official_event_name || ''}
-          />
-        </div>
-      </EventContainer>
+      </div>
     </div>
   );
 };

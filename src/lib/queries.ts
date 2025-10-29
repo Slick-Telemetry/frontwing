@@ -36,41 +36,6 @@ export const GET_CONSTRUCTOR = gql`
   }
 `;
 
-export const GET_EVENT_SCHEDULE = gql`
-  query GetEventSchedule($year: Int!, $event: String!) @cached {
-    dropdown_events: schedule(
-      where: { event_name: { _neq: $event }, year: { _eq: $year } }
-    ) {
-      event_name
-      round_number
-      location
-    }
-    schedule(
-      where: { year: { _eq: $year }, event_name: { _eq: $event } }
-      limit: 1
-    ) {
-      year
-      round_number
-      event_date
-      official_event_name
-      event_name
-      event_format
-      location
-      country
-      session1
-      session1_date_utc
-      session2
-      session2_date_utc
-      session3
-      session3_date_utc
-      session4
-      session4_date_utc
-      session5
-      session5_date_utc
-    }
-  }
-`;
-
 export const GET_EVENT_DETAILS = graphql(`
   query GetEventDetails($year: Int!, $event: String!) @cached {
     events(where: { name: { _eq: $event }, year: { _eq: $year } }, limit: 1) {
@@ -111,11 +76,15 @@ export const GET_EVENT_DETAILS = graphql(`
       where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
       order_by: { round_number: asc }
     ) {
+      session1_date_utc
+      session5_date_utc
+      location
       ...EventSessionCards
       ...ScheduleEventDetails
     }
   }
 `);
+
 export const GET_TOP_STANDINGS = graphql(`
   query GetTopStandings($season: Int!, $limit: Int = 3) @cached {
     drivers(

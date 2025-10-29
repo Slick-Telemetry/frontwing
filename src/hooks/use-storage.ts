@@ -1,5 +1,8 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+// Create a custom event bus for synchronizing state
+const eventBus = new EventTarget();
 
 export function useLocalStorage<T>(key: string, initial: T) {
   const [state, setState] = useState<T | null>(initial);
@@ -7,18 +10,36 @@ export function useLocalStorage<T>(key: string, initial: T) {
   useEffect(() => {
     const stored = localStorage.getItem(key);
     if (stored != null) setState(JSON.parse(stored));
+
+    const handleStorageChange = (e: Event) => {
+      const customEvent = e as CustomEvent<T>;
+      setState(customEvent.detail);
+    };
+
+    eventBus.addEventListener(`local-storage-${key}`, handleStorageChange);
+    return () =>
+      eventBus.removeEventListener(`local-storage-${key}`, handleStorageChange);
   }, [key]);
 
   useEffect(() => {
     if (state != null) localStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 
+  // Wrap setState to dispatch custom event when value changes
+  const updateState = useCallback(
+    (value: T) => {
+      setState(value);
+      const event = new CustomEvent(`local-storage-${key}`, { detail: value });
+      eventBus.dispatchEvent(event);
+    },
+    [key],
+  );
+
   function removeState() {
     setState(null);
     sessionStorage.removeItem(key);
   }
-
-  return [state, setState, removeState] as const;
+  return [state, updateState, removeState] as const;
 }
 
 export function useReadLocalStorage(key: string) {
@@ -27,6 +48,15 @@ export function useReadLocalStorage(key: string) {
   useEffect(() => {
     const stored = localStorage.getItem(key);
     if (stored != null) setValue(JSON.parse(stored));
+
+    const handleStorageChange = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      setValue(customEvent.detail);
+    };
+
+    eventBus.addEventListener(`local-storage-${key}`, handleStorageChange);
+    return () =>
+      eventBus.removeEventListener(`local-storage-${key}`, handleStorageChange);
   }, [key]);
 
   return value;
@@ -38,18 +68,40 @@ export function useSessionStorage<T>(key: string, initial: T) {
   useEffect(() => {
     const stored = sessionStorage.getItem(key);
     if (stored != null) setState(JSON.parse(stored));
+
+    const handleStorageChange = (e: Event) => {
+      const customEvent = e as CustomEvent<T>;
+      setState(customEvent.detail);
+    };
+
+    eventBus.addEventListener(`session-storage-${key}`, handleStorageChange);
+    return () =>
+      eventBus.removeEventListener(
+        `session-storage-${key}`,
+        handleStorageChange,
+      );
   }, [key]);
 
   useEffect(() => {
     if (state != null) sessionStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 
+  // Wrap setState to dispatch custom event when value changes
+  const updateState = useCallback(
+    (value: T) => {
+      setState(value);
+      const event = new CustomEvent(`storage-${key}`, { detail: value });
+      eventBus.dispatchEvent(event);
+    },
+    [key],
+  );
+
   function removeState() {
     setState(null);
     sessionStorage.removeItem(key);
   }
 
-  return [state, setState, removeState] as const;
+  return [state, updateState, removeState] as const;
 }
 
 export function useReadSessionStorage(key: string) {
@@ -58,6 +110,18 @@ export function useReadSessionStorage(key: string) {
   useEffect(() => {
     const stored = sessionStorage.getItem(key);
     if (stored != null) setValue(JSON.parse(stored));
+
+    const handleStorageChange = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      setValue(customEvent.detail);
+    };
+
+    eventBus.addEventListener(`session-storage-${key}`, handleStorageChange);
+    return () =>
+      eventBus.removeEventListener(
+        `session-storage-${key}`,
+        handleStorageChange,
+      );
   }, [key]);
 
   return value;

@@ -249,12 +249,12 @@ const ResultsTableOverlay = ({
 }: {
   year: string;
   event: string;
-  s5Date?: string | null;
-  s1Date?: string | null;
+  s5Date: string;
+  s1Date: string;
 }) => {
   // TODO: Handle calc in parent or util?
-  const session5Time = new Date(s5Date ?? '').getTime();
-  const session1Time = new Date(s1Date ?? '').getTime();
+  const session5Time = new Date(s5Date).getTime();
+  const session1Time = new Date(s1Date).getTime();
   const thresholdTime = 1.2 * (session5Time - session1Time) + session5Time;
 
   const alwaysShowResults = useReadLocalStorage('always-show-results');
@@ -273,7 +273,9 @@ const ResultsTableOverlay = ({
 
   // Try to remove item if no longer in threshold timeframe
   if (thresholdTime < new Date().getTime()) {
-    removeHidden();
+    if (hidden) {
+      removeHidden();
+    }
   }
 
   if (!hidden) return;
