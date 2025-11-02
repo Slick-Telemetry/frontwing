@@ -2,7 +2,7 @@ import { Circle } from 'lucide-react';
 
 import { positionEnding } from '@/lib/utils';
 
-import { Badge } from '@/components/ui/badge';
+import { ConstructorBadge } from '@/components/constructor-badge';
 import { Separator } from '@/components/ui/separator';
 
 import { FragmentType, graphql, useFragment } from '@/types';
@@ -64,15 +64,11 @@ export function TopThree(props: TopThreeProps) {
             className='hidden size-3 sm:block xl:hidden'
           />
           {d.constructorByConstructorId?.name && (
-            <Badge
-              variant='outline'
-              className='inline w-18 truncate text-xs sm:hidden xl:inline'
-              style={{
-                borderColor: `#${d.constructorByConstructorId.color}`,
-              }}
-            >
-              {d.constructorByConstructorId.name}
-            </Badge>
+            <ConstructorBadge
+              className='sm:hidden xl:inline'
+              color={d.constructorByConstructorId.color}
+              name={d.constructorByConstructorId.name}
+            />
           )}
         </div>
       ))}

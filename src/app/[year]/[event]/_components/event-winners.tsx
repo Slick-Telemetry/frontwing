@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { useSessionStorage } from '@/hooks/use-storage';
 
-import { Badge } from '@/components/ui/badge';
+import { ConstructorBadge } from '@/components/constructor-badge';
 
 import { FragmentType, graphql, useFragment } from '@/types';
 import type { EventWinnersFragment as EventWinnersFragmentType } from '@/types/graphql';
@@ -94,15 +94,11 @@ function EventWinner({
       <p className='w-10'>{year}</p>
       <p className='line-clamp-1 font-medium'>{full_name}</p>
       {team?.name && (
-        <Badge
-          variant='outline'
-          className='ml-auto inline w-fit truncate text-xs'
-          style={{
-            borderColor: `#${team.color}`,
-          }}
-        >
-          {team.name}
-        </Badge>
+        <ConstructorBadge
+          className='ml-auto'
+          color={team.color}
+          name={team.name}
+        />
       )}
     </li>
   );

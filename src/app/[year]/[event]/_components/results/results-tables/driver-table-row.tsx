@@ -2,6 +2,7 @@ import React from 'react';
 
 import { formatLapTime } from '@/lib/utils';
 
+import { ConstructorBadge } from '@/components/constructor-badge';
 import { Badge } from '@/components/ui/badge';
 import {
   TableCell,
@@ -31,12 +32,18 @@ export function DriverRow({
       <TableCell className='font-medium'>
         {s.driver?.full_name}
         <br className='md:hidden' />
-        <span className='border-t text-sm text-gray-500 md:hidden'>
-          {s.constructorByConstructorId?.name ?? 'Unknown'}
-        </span>
+        <ConstructorBadge
+          className='md:hidden'
+          color={s.constructorByConstructorId?.color}
+          name={s.constructorByConstructorId?.name}
+        />
       </TableCell>
       <TableCell className='hidden md:table-cell'>
-        {s.constructorByConstructorId?.name ?? 'Unknown'}
+        <ConstructorBadge
+          className='block w-full text-center'
+          color={s.constructorByConstructorId?.color}
+          name={s.constructorByConstructorId?.name}
+        />
       </TableCell>
       {children}
     </TableRow>
@@ -72,7 +79,7 @@ export function HeaderRow({ children }: { children?: React.ReactNode }) {
       <TableRow>
         <TableHead className='w-12 text-center'>Pos.</TableHead>
         <TableHead>Driver</TableHead>
-        <TableHead className='hidden md:table-cell'>Constructor</TableHead>
+        <TableHead className='hidden w-28 md:table-cell'>Constructor</TableHead>
         {children}
       </TableRow>
     </TableHeader>

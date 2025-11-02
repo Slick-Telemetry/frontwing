@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { Circle } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
-import { Badge } from '@/components/ui/badge';
+import { ConstructorBadge } from '@/components/constructor-badge';
 
 // TODO duplicate from legend
 type Driver = {
@@ -121,13 +121,11 @@ export function Table({
           <p className='line-clamp-1 flex-1'>{item.name}</p>
 
           {item.team && (
-            <Badge
-              variant='outline'
-              className='inline w-18 truncate text-xs md:w-28 xl:w-20 2xl:w-28 2xl:text-sm'
-              style={{ borderColor: item.color }}
-            >
-              {item.team}
-            </Badge>
+            <ConstructorBadge
+              className='md:w-28 xl:w-20 2xl:w-28 2xl:text-sm'
+              color={item.color.slice(1)} //remove #
+              name={item.team}
+            />
           )}
         </div>
         <p className='w-10 text-center'>{item.totalPoints}</p>

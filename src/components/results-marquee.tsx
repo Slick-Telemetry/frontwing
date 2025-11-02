@@ -3,7 +3,7 @@ import Marquee from 'react-fast-marquee';
 
 import { positionDisplay } from '@/lib/utils';
 
-import { Badge } from '@/components/ui/badge';
+import { ConstructorBadge } from '@/components/constructor-badge';
 import { Separator } from '@/components/ui/separator';
 
 import { FragmentType, graphql, useFragment } from '@/types';
@@ -74,15 +74,11 @@ export function ResultsMarquee(props: ResultsMarqueeProps) {
                 )}
                 <p>{driver.full_name}</p>
                 {constructorByConstructorId.name && (
-                  <Badge
-                    variant='outline'
-                    className='ml-auto inline w-fit truncate text-xs'
-                    style={{
-                      borderColor: `#${constructorByConstructorId.color}`,
-                    }}
-                  >
-                    {constructorByConstructorId.name}
-                  </Badge>
+                  <ConstructorBadge
+                    className='ml-auto'
+                    color={constructorByConstructorId.color}
+                    name={constructorByConstructorId.name}
+                  />
                 )}
               </div>
             </div>
