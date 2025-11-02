@@ -92,12 +92,14 @@ export default function MapPage({
         {/* TODO: REFACTOR so that the subcomponets are imported here */}
         {/* This will help make event details reusable */}
         <div className='flex justify-between'>
-          <div className='relative flex flex-1 justify-between gap-4 overflow-hidden pt-2 pb-5'>
+          <div className='relative flex flex-1 justify-between gap-4 overflow-hidden pt-2 pb-8'>
             {/* Event Details */}
-            <EventDetails
-              evt={activeScheduleEvent}
-              maxRounds={data.schedule.length}
-            />
+            <div className='pl-4'>
+              <EventDetails
+                evt={activeScheduleEvent}
+                maxRounds={data.schedule.length}
+              />
+            </div>
 
             {/* Marquee / Top Three goes here */}
             <TopThree evt={activeEvent} />
