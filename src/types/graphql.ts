@@ -13851,6 +13851,20 @@ export const EventSessionResultsFragmentDoc = {
             arguments: [
               {
                 kind: 'Argument',
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'scheduled_start_time_utc' },
+                      value: { kind: 'EnumValue', value: 'asc' },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
                 name: { kind: 'Name', value: 'where' },
                 value: {
                   kind: 'ObjectValue',
@@ -13904,6 +13918,20 @@ export const EventSessionResultsFragmentDoc = {
             alias: { kind: 'Name', value: 'qualifying' },
             name: { kind: 'Name', value: 'sessions' },
             arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'scheduled_start_time_utc' },
+                      value: { kind: 'EnumValue', value: 'asc' },
+                    },
+                  ],
+                },
+              },
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'where' },
@@ -13965,8 +13993,17 @@ export const EventSessionResultsFragmentDoc = {
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: { kind: 'IntValue', value: '3' },
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'scheduled_start_time_utc' },
+                      value: { kind: 'EnumValue', value: 'asc' },
+                    },
+                  ],
+                },
               },
               {
                 kind: 'Argument',
@@ -13997,6 +14034,11 @@ export const EventSessionResultsFragmentDoc = {
                     },
                   ],
                 },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'IntValue', value: '3' },
               },
             ],
             selectionSet: {
@@ -17379,6 +17421,20 @@ export const GetEventDetailsDocument = {
             arguments: [
               {
                 kind: 'Argument',
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'scheduled_start_time_utc' },
+                      value: { kind: 'EnumValue', value: 'asc' },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
                 name: { kind: 'Name', value: 'where' },
                 value: {
                   kind: 'ObjectValue',
@@ -17432,6 +17488,20 @@ export const GetEventDetailsDocument = {
             alias: { kind: 'Name', value: 'qualifying' },
             name: { kind: 'Name', value: 'sessions' },
             arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'scheduled_start_time_utc' },
+                      value: { kind: 'EnumValue', value: 'asc' },
+                    },
+                  ],
+                },
+              },
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'where' },
@@ -17493,8 +17563,17 @@ export const GetEventDetailsDocument = {
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: { kind: 'IntValue', value: '3' },
+                name: { kind: 'Name', value: 'order_by' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'scheduled_start_time_utc' },
+                      value: { kind: 'EnumValue', value: 'asc' },
+                    },
+                  ],
+                },
               },
               {
                 kind: 'Argument',
@@ -17525,6 +17604,11 @@ export const GetEventDetailsDocument = {
                     },
                   ],
                 },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'IntValue', value: '3' },
               },
             ],
             selectionSet: {

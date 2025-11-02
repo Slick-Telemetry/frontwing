@@ -46,12 +46,17 @@ import { Session_Name_Choices_Enum } from '@/types/graphql';
 
 const EventSessionResults = graphql(`
   fragment EventSessionResults on events {
-    competition: sessions(where: { name: { _in: [Sprint, Race] } }, limit: 2) {
+    competition: sessions(
+      order_by: { scheduled_start_time_utc: asc }
+      where: { name: { _in: [Sprint, Race] } }
+      limit: 2
+    ) {
       scheduled_start_time_utc
       name
       ...EventCompetitionResults
     }
     qualifying: sessions(
+      order_by: { scheduled_start_time_utc: asc }
       where: { name: { _in: [Sprint_Shootout, Sprint_Qualifying, Qualifying] } }
       limit: 2
     ) {
@@ -60,8 +65,9 @@ const EventSessionResults = graphql(`
       ...EventQualifyingResults
     }
     practice: sessions(
-      limit: 3
+      order_by: { scheduled_start_time_utc: asc }
       where: { name: { _in: [Practice_1, Practice_2, Practice_3] } }
+      limit: 3
     ) {
       scheduled_start_time_utc
       name
@@ -84,9 +90,9 @@ export default function EventResultsContainer({
   const { year, event } = useParams();
   const [data] = useFragment(EventSessionResults, props?.sessions);
   const sessions = [
-    ...(data?.competition ?? []),
-    ...(data?.qualifying ?? []),
     ...(data?.practice ?? []),
+    ...(data?.qualifying ?? []),
+    ...(data?.competition ?? []),
   ];
 
   if (!loading && 0 >= sessions?.length) return;
@@ -100,7 +106,7 @@ export default function EventResultsContainer({
           <TabsList>
             <ResultsTabList
               loading={loading}
-              sessions={sessions.map((s) => s.name ?? '').reverse()}
+              sessions={sessions.map((s) => s.name ?? '')}
             />
           </TabsList>
           <ResultsSettingsDropdown />
