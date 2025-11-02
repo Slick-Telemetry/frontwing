@@ -24,6 +24,14 @@ export const isFutureDate = (date?: string | null) => {
   return new Date(getTodayMidnightUTC()).getTime() <= new Date(date).getTime();
 };
 
+export function shouldHideResults(date?: string | null): boolean {
+  if (!date) return false;
+  const eventDate = new Date(date);
+  const timeThreshold = new Date(eventDate.getTime() + 2 * 24 * 60 * 60 * 1000);
+
+  return new Date() < timeThreshold;
+}
+
 const mapColors = {
   past: '#28a745',
   future: '#5279BA',

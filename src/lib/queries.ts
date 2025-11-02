@@ -76,8 +76,6 @@ export const GET_EVENT_DETAILS = graphql(`
       where: { _and: { event_name: { _eq: $event }, year: { _eq: $year } } }
       order_by: { round_number: asc }
     ) {
-      session1_date_utc
-      session5_date_utc
       location
       ...EventSessionCards
       ...ScheduleEventDetails

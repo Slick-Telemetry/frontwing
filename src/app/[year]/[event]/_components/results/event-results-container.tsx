@@ -9,6 +9,7 @@ import {
   QUALIFYING_SESSIONS,
   SESSION_KEYS,
 } from '@/lib/constants';
+import { shouldHideResults } from '@/lib/utils';
 import {
   useLocalStorage,
   useReadLocalStorage,
@@ -78,14 +79,10 @@ const EventSessionResults = graphql(`
 
 export default function EventResultsContainer({
   loading,
-  session1_date_utc,
-  session5_date_utc,
   ...props
 }: {
   loading: boolean;
   sessions: FragmentType<typeof EventSessionResults>[];
-  session1_date_utc?: string | null;
-  session5_date_utc?: string | null;
 }) {
   const { year, event } = useParams();
   const [data] = useFragment(EventSessionResults, props?.sessions);
@@ -141,12 +138,10 @@ export default function EventResultsContainer({
                 )}
                 {loading && <ResultsTableBodySkeleton />}
               </Table>
-
               <ResultsTableOverlay
                 year={year as string}
                 event={event as string}
-                s5Date={session5_date_utc ?? ''}
-                s1Date={session1_date_utc ?? ''}
+                latestSession={sessions.at(-1)?.scheduled_start_time_utc}
               />
             </TabsContent>
           );
@@ -250,38 +245,28 @@ export function ResultsTableBodySkeleton() {
 const ResultsTableOverlay = ({
   year,
   event,
-  s5Date,
-  s1Date,
+  latestSession,
 }: {
   year: string;
   event: string;
-  s5Date: string;
-  s1Date: string;
+  latestSession?: string | null;
 }) => {
-  // TODO: Handle calc in parent or util?
-  const session5Time = new Date(s5Date).getTime();
-  const session1Time = new Date(s1Date).getTime();
-  const thresholdTime = 1.2 * (session5Time - session1Time) + session5Time;
-
+  const hideResults = shouldHideResults(latestSession);
   const alwaysShowResults = useReadLocalStorage('always-show-results');
-  // const [hidden, setHidden] = useState(false);
   const [hidden, setHidden, removeHidden] = useSessionStorage(
     `results-hidden-${year}-${event}`,
-    new Date().getTime() < thresholdTime,
+    hideResults,
   );
 
   useEffect(() => {
     if (alwaysShowResults) {
       setHidden(false);
-      return;
     }
   }, [alwaysShowResults, setHidden]);
 
   // Try to remove item if no longer in threshold timeframe
-  if (thresholdTime < new Date().getTime()) {
-    if (hidden) {
-      removeHidden();
-    }
+  if (!hideResults && hidden) {
+    removeHidden();
   }
 
   if (!hidden) return;

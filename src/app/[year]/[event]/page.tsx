@@ -97,16 +97,14 @@ const EventPage = ({
         <EventResultsContainer
           loading={loading}
           sessions={dataSrc?.events ?? []}
-          session1_date_utc={data.schedule[0]?.session1_date_utc}
-          session5_date_utc={data.schedule[0]?.session5_date_utc}
         />
       </div>
       <div id='event-col-right' className='flex flex-1 flex-col'>
         <EventWinners
           drivers={data.drivers}
           loading={loading}
-          location={data.schedule[0]?.location}
           name={eventLoc}
+          location={data.schedule[0]?.location}
         />
         <div className='flex flex-1 flex-col overflow-hidden pt-8'>
           <FIADocs documents={data.fia_documents} loading={loading} />

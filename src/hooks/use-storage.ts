@@ -5,11 +5,12 @@ import { useCallback, useEffect, useState } from 'react';
 const eventBus = new EventTarget();
 
 export function useLocalStorage<T>(key: string, initial: T) {
-  const [state, setState] = useState<T | null>(initial);
+  const [state, setState] = useState<T | null>();
 
   useEffect(() => {
     const stored = localStorage.getItem(key);
     if (stored != null) setState(JSON.parse(stored));
+    else setState(initial);
 
     const handleStorageChange = (e: Event) => {
       const customEvent = e as CustomEvent<T>;
@@ -19,7 +20,7 @@ export function useLocalStorage<T>(key: string, initial: T) {
     eventBus.addEventListener(`local-storage-${key}`, handleStorageChange);
     return () =>
       eventBus.removeEventListener(`local-storage-${key}`, handleStorageChange);
-  }, [key]);
+  }, [initial, key]);
 
   useEffect(() => {
     if (state != null) localStorage.setItem(key, JSON.stringify(state));
@@ -28,7 +29,6 @@ export function useLocalStorage<T>(key: string, initial: T) {
   // Wrap setState to dispatch custom event when value changes
   const updateState = useCallback(
     (value: T) => {
-      setState(value);
       const event = new CustomEvent(`local-storage-${key}`, { detail: value });
       eventBus.dispatchEvent(event);
     },
@@ -63,11 +63,15 @@ export function useReadLocalStorage(key: string) {
 }
 
 export function useSessionStorage<T>(key: string, initial: T) {
-  const [state, setState] = useState<T | null>(initial);
+  const [state, setState] = useState<T | null>();
 
   useEffect(() => {
     const stored = sessionStorage.getItem(key);
-    if (stored != null) setState(JSON.parse(stored));
+    if (stored != null) {
+      setState(JSON.parse(stored));
+    } else {
+      setState(initial);
+    }
 
     const handleStorageChange = (e: Event) => {
       const customEvent = e as CustomEvent<T>;
@@ -80,7 +84,7 @@ export function useSessionStorage<T>(key: string, initial: T) {
         `session-storage-${key}`,
         handleStorageChange,
       );
-  }, [key]);
+  }, [initial, key]);
 
   useEffect(() => {
     if (state != null) sessionStorage.setItem(key, JSON.stringify(state));
@@ -89,8 +93,9 @@ export function useSessionStorage<T>(key: string, initial: T) {
   // Wrap setState to dispatch custom event when value changes
   const updateState = useCallback(
     (value: T) => {
-      setState(value);
-      const event = new CustomEvent(`storage-${key}`, { detail: value });
+      const event = new CustomEvent(`session-storage-${key}`, {
+        detail: value,
+      });
       eventBus.dispatchEvent(event);
     },
     [key],

@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
 
-import { useSessionStorage } from '@/hooks/use-storage';
+import { shouldHideResults } from '@/lib/utils';
+import { useReadLocalStorage, useSessionStorage } from '@/hooks/use-storage';
 
 import { ConstructorBadge } from '@/components/constructor-badge';
 
@@ -31,6 +32,7 @@ type EventWinnersProps = {
   drivers: FragmentType<typeof EventWinnersFragment>[];
   location?: string | null;
   name?: string | null;
+  session5_date_utc?: string | null;
 };
 
 export function EventWinners({
@@ -38,6 +40,7 @@ export function EventWinners({
   drivers: driverFragments,
   location,
   name,
+  session5_date_utc,
 }: EventWinnersProps) {
   const drivers = useFragment(EventWinnersFragment, driverFragments);
 
@@ -53,8 +56,9 @@ export function EventWinners({
           drivers.map((driver) => (
             <EventWinner
               key={`${driver.year}_${driver.full_name}`}
-              eventName={name}
               {...driver}
+              eventName={name}
+              session5_date_utc={session5_date_utc}
             />
           ))
         )}
@@ -73,19 +77,31 @@ function EventWinner({
   full_name,
   driver_sessions,
   eventName,
-}: EventWinnersFragmentType & { eventName?: string | null }) {
+  session5_date_utc,
+}: EventWinnersFragmentType & {
+  eventName?: string | null;
+  session5_date_utc?: string | null;
+}) {
   const team = driver_sessions?.[0]?.constructorByConstructorId;
   const key = `results-hidden-${year}-${eventName}`;
-  const [hidden, setHidden, removeHidden] = useSessionStorage(key, true);
+  const alwaysShowResults = useReadLocalStorage('always-show-results');
+
+  const hideResults =
+    shouldHideResults(session5_date_utc) && new Date().getFullYear() === year;
+  const [hidden, setHidden, removeHidden] = useSessionStorage(key, hideResults);
 
   useEffect(() => {
+    if (alwaysShowResults) {
+      setHidden(false);
+      return;
+    }
     // Remove outdated states
-    if (new Date().getFullYear() !== year) removeHidden();
-  }, [removeHidden, year]);
+    if (!hideResults) removeHidden();
+  }, [removeHidden, hideResults, alwaysShowResults, setHidden]);
 
   return (
     <li
-      onClick={() => setHidden(!hidden)}
+      onClick={() => setHidden(false)}
       className={clsx(
         'flex items-center gap-2 py-1 last:pb-0',
         hidden && 'cursor-pointer blur',
