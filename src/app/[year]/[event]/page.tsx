@@ -1,13 +1,17 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
 import { use, useEffect } from 'react';
 
 import { GET_EVENT_DETAILS } from '@/lib/queries';
-import { eventLocationDecode } from '@/lib/utils';
+import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 
 import { CircuitMap } from '@/components/circuit-map';
 import { EventDetails } from '@/components/event-details';
+import { GET_NAV_EVENTS } from '@/components/navigation/event-selector';
 import { ServerPageError } from '@/components/ServerError';
+import { Button } from '@/components/ui/button';
 
 import {
   EventResultsContainer,
@@ -61,11 +65,15 @@ const EventPage = ({
   }, [dataSrc]);
 
   const data = dataSrc ?? defaultData;
+  const eventName = data.schedule[0]?.event_name;
 
   if (error) return <ServerPageError msg='Failed to load event details.' />;
 
   return (
     <div className='flex grid-cols-3 flex-col gap-x-8 gap-y-4 p-4 lg:grid lg:px-6'>
+      <div className='col-span-full grid items-center justify-between gap-4 md:flex'>
+        <PrevNextEventButtons eventName={eventName} />
+      </div>
       <div id='event-col-left' className='col-span-2 grid h-fit gap-8'>
         <div className='grid gap-1'>
           {loading ? (
@@ -116,3 +124,63 @@ const EventPage = ({
 };
 
 export default EventPage;
+
+const PrevNextEventButtons = ({ eventName }: { eventName?: string | null }) => {
+  const { year } = useParams<{ year: string }>();
+  const router = useRouter();
+  const { data } = useQuery(GET_NAV_EVENTS, {
+    variables: {
+      year: parseInt(year),
+    },
+    skip: !eventName,
+  });
+
+  if (!data || !eventName) return;
+  const currEvtIdx = data?.schedule.findIndex(
+    (evt) => eventName === evt?.event_name,
+  );
+
+  if (currEvtIdx < 0) return;
+
+  return (
+    <div className='flex justify-between gap-4'>
+      {currEvtIdx > 0 && data.schedule.at(currEvtIdx - 1) && (
+        <Button
+          variant='link'
+          className='truncate'
+          onClick={() =>
+            router.push(
+              `/${year}/${eventLocationEncode(data.schedule.at(currEvtIdx - 1)?.event_name)}`,
+            )
+          }
+        >
+          <ChevronLeft />
+          {/* <p> */}
+          {currEvtIdx} |{' '}
+          {data.schedule
+            .at(currEvtIdx - 1)
+            ?.event_name?.replace('Grand Prix', 'GP')}
+          {/* </p> */}
+        </Button>
+      )}
+      {data.schedule.at(currEvtIdx + 1) && (
+        <Button
+          variant='link'
+          onClick={() =>
+            router.push(
+              `/${year}/${eventLocationEncode(data.schedule.at(currEvtIdx + 1)?.event_name)}`,
+            )
+          }
+        >
+          <p className='max-w-40 truncate'>
+            {currEvtIdx + 2} |{' '}
+            {data.schedule
+              .at(currEvtIdx + 1)
+              ?.event_name?.replace('Grand Prix', 'GP')}
+          </p>
+          <ChevronRight />
+        </Button>
+      )}
+    </div>
+  );
+};

@@ -13058,7 +13058,11 @@ export type GetEventDetailsQuery = {
     }
   >;
   schedule: Array<
-    { __typename?: 'schedule'; location?: string | null } & {
+    {
+      __typename?: 'schedule';
+      location?: string | null;
+      event_name?: string | null;
+    } & {
       ' $fragmentRefs'?: {
         EventSessionCardsFragment: EventSessionCardsFragment;
         ScheduleEventDetailsFragment: ScheduleEventDetailsFragment;
@@ -17048,6 +17052,7 @@ export const GetEventDetailsDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
                 {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'EventSessionCards' },

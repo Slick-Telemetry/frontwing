@@ -77,6 +77,7 @@ export const GET_EVENT_DETAILS = graphql(`
       order_by: { round_number: asc }
     ) {
       location
+      event_name
       ...EventSessionCards
       ...ScheduleEventDetails
     }
