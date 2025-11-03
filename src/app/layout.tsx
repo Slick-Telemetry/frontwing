@@ -1,16 +1,11 @@
 import clsx from 'clsx';
 import type { Metadata } from 'next';
-import { Rubik, Space_Grotesk } from 'next/font/google';
+import { Rubik } from 'next/font/google';
 
 import './globals.css';
 
 import { ApolloProvider } from '@/app/apollo-provider';
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-space-grotesk',
-});
 const rubik = Rubik({ subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
@@ -28,7 +23,6 @@ export default async function RootLayout({
       <body
         className={clsx(
           'flex min-h-screen flex-col antialiased',
-          spaceGrotesk.variable,
           rubik.className,
         )}
       >

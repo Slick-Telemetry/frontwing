@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { Footer } from '@/components/Footer';
@@ -11,13 +12,19 @@ export default function Home() {
     <>
       <main
         className='flex flex-1 bg-cover bg-center bg-no-repeat'
-        style={{ backgroundImage: `url(/slick-telemetry-bg.png)` }}
+        // style={{ backgroundImage: `url(/slick-telemetry-bg.png)` }}
       >
         <div className='bg-background/45 flex-1'>
           <div className='container flex h-full flex-col items-center'>
             <LandingNav />
 
             <div className='flex flex-1 flex-col items-center justify-center gap-2 text-center'>
+              <Image
+                src='/slick-telemetry.png'
+                width={64}
+                height={64}
+                alt='Slick Telemetry Logo'
+              />
               <h1 className='scroll-m-20 text-center text-8xl font-extrabold tracking-tight text-balance uppercase'>
                 Slick Telemetry
               </h1>

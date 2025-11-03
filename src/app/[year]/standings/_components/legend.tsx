@@ -99,7 +99,7 @@ export const Legend = ({
                   }}
                   className={clsx(
                     'h-6 max-w-1/2 flex-1 cursor-pointer px-0 py-1 text-center text-sm select-none',
-                    `border-1 border-${['solid', 'dashed', 'dotted', 'double'][idx % 4]}`,
+                    `border border-${['solid', 'dashed', 'dotted', 'double'][idx % 4]}`,
                     hiddenItems[driver] ? 'opacity-50' : 'opacity-100',
                   )}
                   style={{ borderColor: color }}

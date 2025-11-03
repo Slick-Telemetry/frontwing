@@ -28,7 +28,7 @@ const Digit = ({
   name: string;
   'data-cy'?: string;
 }) => (
-  <div className='flex w-[64px] flex-col text-center' data-cy={dataCy}>
+  <div className='flex w-16 flex-col text-center' data-cy={dataCy}>
     <p className='text-2xl leading-5' data-cy='countdown-value'>
       {time}
     </p>

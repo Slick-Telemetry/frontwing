@@ -51,7 +51,7 @@ export function EventDetails({ maxRounds, ...props }: EventDetailsProps) {
   return (
     <>
       {/* Event Title */}
-      <h1 className='pointer-cursor line-clamp-1 scroll-m-20 text-4xl font-semibold tracking-tight text-balance'>
+      <h1 className='pointer-cursor line-clamp-1 scroll-m-20 text-5xl font-semibold tracking-tight text-balance'>
         <Link
           className='hover:underline focus:underline'
           href={`/${evt.year}/${eventLocationEncode(evt.event_name)}`}
@@ -84,10 +84,12 @@ export function EventDetails({ maxRounds, ...props }: EventDetailsProps) {
           Round {evt.round_number}
           {maxRounds && maxRounds >= 1 ? `/${maxRounds}` : ''}
         </p>
-        <Separator
-          orientation='vertical'
-          className='mx-2 data-[orientation=vertical]:h-4'
-        />
+        {evt.event_format !== 'conventional' && (
+          <Separator
+            orientation='vertical'
+            className='mx-2 data-[orientation=vertical]:h-4'
+          />
+        )}
         <SprintBadge format={evt.event_format} />
       </div>
     </>
