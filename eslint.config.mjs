@@ -1,56 +1,38 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import { defineConfig, globalIgnores } from 'eslint/config';
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTs from 'eslint-config-next/typescript';
+import prettier from 'eslint-config-prettier/flat';
 import cypress from 'eslint-plugin-cypress';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
 import globals from 'globals';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
+export default defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  prettier,
 
-const eslintConfig = [
-  {
-    ignores: ['!**/.prettierrc.js', '.next', 'next-env.d.ts'],
-  },
-  ...compat.extends(
-    'eslint:recommended',
-    'next',
-    'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-  ),
+  globalIgnores([
+    'node_modules/**',
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+    '!**/.prettierrc.js',
+  ]),
   {
     plugins: {
-      '@typescript-eslint': typescriptEslint,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
-      cypress,
     },
-
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        React: true,
-        JSX: true,
-      },
-    },
-
     rules: {
       'no-unused-vars': 'off',
       'no-console': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       'react/no-unescaped-entities': 'off',
       'react/display-name': 'off',
-
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
       'react/jsx-curly-brace-presence': [
         'warn',
         {
@@ -58,10 +40,8 @@ const eslintConfig = [
           children: 'never',
         },
       ],
-
       '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'warn',
-
       'unused-imports/no-unused-vars': [
         'warn',
         {
@@ -71,9 +51,7 @@ const eslintConfig = [
           argsIgnorePattern: '^_',
         },
       ],
-
       'simple-import-sort/exports': 'warn',
-
       'simple-import-sort/imports': [
         'warn',
         {
@@ -100,14 +78,38 @@ const eslintConfig = [
           ],
         },
       ],
-
       '@typescript-eslint/no-namespace': [
         'error',
         {
           allowDeclarations: true,
         },
       ],
+      // Next.js rules
+      '@next/next/no-html-link-for-pages': 'error',
+      '@next/next/no-img-element': 'warn',
     },
   },
-];
-export default eslintConfig;
+  {
+    plugins: {
+      cypress: cypress,
+    },
+    files: ['cypress/**/*.{js,jsx,ts}'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        cy: 'readonly',
+        Cypress: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        before: 'readonly',
+        after: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+      },
+    },
+    rules: {
+      ...cypress.configs.recommended.rules,
+    },
+  },
+]);
