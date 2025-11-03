@@ -1,6 +1,12 @@
 import { SUPPORTED_SEASONS } from '@/lib/constants';
 
 import NextEvent from '@/components/next-event';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from '@/components/ui/breadcrumb';
 
 import { QuickLinks } from '@/app/[year]/_components/quick-links';
 import { Schedule } from '@/app/[year]/_components/schedule';
@@ -16,6 +22,15 @@ export default async function SeasonPage({
   return (
     <div className='p-4 lg:p-6'>
       <div className='grid gap-4 md:grid-cols-3 2xl:grid-cols-4'>
+        <div className='col-span-full'>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>{year}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
         <div className='flex flex-col gap-4 md:col-span-2'>
           <div className='flex h-full min-h-48 justify-center overflow-hidden rounded border'>
             {latestYear && <NextEvent />}

@@ -1,5 +1,6 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { use } from 'react';
 
@@ -8,6 +9,14 @@ import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 import { EventDetails } from '@/components/event-details';
 import { ResultsMarquee } from '@/components/results-marquee';
 import { ServerPageError } from '@/components/ServerError';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 import { MapLoader } from '@/app/[year]/map/_components/map/loader';
 import { MapContent } from '@/app/[year]/map/_components/map/map';
@@ -79,13 +88,29 @@ export default function MapPage({
 
   return (
     <div className='flex gap-4 p-4 lg:px-6'>
-      {data.schedule && (
-        <Schedule
-          events={data.schedule}
-          activeEvent={selection}
-          selectEvent={handleNewSelected}
-        />
-      )}
+      <div>
+        <Breadcrumb className='py-2'>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={`/${year}`}>{year}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Map</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        {data.schedule && (
+          <Schedule
+            events={data.schedule}
+            activeEvent={selection}
+            selectEvent={handleNewSelected}
+          />
+        )}
+      </div>
 
       <div className='h-fit flex-1 rounded border'>
         {/* Header */}

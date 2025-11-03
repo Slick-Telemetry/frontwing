@@ -7,6 +7,14 @@ import { useState } from 'react';
 import { GET_STANDINGS } from '@/lib/queries';
 
 import { ApolloErrorBoundary } from '@/components/ApolloErrorBoundary';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 
 import { StandingsChart } from '@/app/[year]/standings/_components/chart';
@@ -111,6 +119,21 @@ const StandingsContent = () => {
 
   return (
     <div className='grid gap-4 p-4 lg:px-6 xl:grid-cols-3'>
+      <div className='col-span-full'>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={`/${season}`}>{season}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Standings</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
       <div className='h-fit xl:order-2 xl:col-span-2'>
         <div className='rounded border'>
           <div className='bg-secondary/25 rounded border-b'>

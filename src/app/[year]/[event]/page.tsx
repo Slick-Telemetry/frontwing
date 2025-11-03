@@ -1,6 +1,7 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { use, useEffect } from 'react';
 
@@ -11,6 +12,14 @@ import { CircuitMap } from '@/components/circuit-map';
 import { EventDetails } from '@/components/event-details';
 import { GET_NAV_EVENTS } from '@/components/navigation/event-selector';
 import { ServerPageError } from '@/components/ServerError';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 
 import {
@@ -72,6 +81,19 @@ const EventPage = ({
   return (
     <div className='flex grid-cols-3 flex-col gap-x-8 gap-y-4 p-4 lg:grid lg:px-6'>
       <div className='col-span-full grid items-center justify-between gap-4 md:flex'>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={`/${year}`}>{year}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{eventName}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         <PrevNextEventButtons eventName={eventName} />
       </div>
       <div id='event-col-left' className='col-span-2 grid h-fit gap-8'>
