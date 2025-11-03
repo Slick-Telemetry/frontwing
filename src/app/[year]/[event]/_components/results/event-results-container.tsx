@@ -27,6 +27,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Table,
   TableBody,
   TableCell,
@@ -98,9 +105,16 @@ export default function EventResultsContainer({
       <h2 className='scroll-m-20 text-3xl font-semibold tracking-tight'>
         Results
       </h2>
-      <Tabs defaultValue={SESSION_KEYS[0]}>
+      <Tabs
+        defaultValue={SESSION_KEYS[0]}
+        className='max-w-svw overflow-x-scroll'
+      >
         <div className='flex items-center gap-4'>
           <TabsList>
+            <SelectTabList
+              loading={loading}
+              sessions={sessions.map((s) => s.name ?? '')}
+            />
             <ResultsTabList
               loading={loading}
               sessions={sessions.map((s) => s.name ?? '')}
@@ -191,7 +205,7 @@ function ResultsTabList({
       disabled={loading}
       className={clsx(
         'w-24 truncate',
-        sessions[i] && 'inline md:inline-flex md:w-auto',
+        sessions[i] && 'hidden md:inline-flex md:w-auto',
         !loading && !sessions[i] && 'hidden',
       )}
       key={key}
@@ -203,6 +217,31 @@ function ResultsTabList({
       {sessions[i]?.replace('_', ' ')}
     </TabsTrigger>
   ));
+}
+
+function SelectTabList({
+  loading,
+  sessions,
+}: {
+  loading: boolean;
+  sessions: string[];
+}) {
+  return (
+    <Select disabled={loading}>
+      <SelectTrigger className='w-fit md:hidden'>
+        <SelectValue placeholder='Practice 1' />
+      </SelectTrigger>
+      <SelectContent>
+        {SESSION_KEYS.map((key, i) => (
+          <TabsTrigger className='block p-0' value={key} key={key}>
+            <SelectItem value={key}>
+              {sessions[i]?.replace('_', ' ')}
+            </SelectItem>
+          </TabsTrigger>
+        ))}
+      </SelectContent>
+    </Select>
+  );
 }
 
 export function ResultsTableBodySkeleton() {

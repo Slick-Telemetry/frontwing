@@ -1,5 +1,11 @@
 'use client';
-import { FileText, Loader2, Search } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronUp,
+  FileText,
+  Loader2,
+  Search,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -79,10 +85,18 @@ export function FIADocs({ loading, ...props }: FIADocsProps) {
         </InputGroup>
         <Button
           variant='outline'
-          className='mx-[3px] min-w-[120px] whitespace-nowrap'
+          className='mx-[3px] min-w-[110px] whitespace-nowrap'
           onClick={() => handleOrderChange(!ascending)}
         >
-          {ascending ? 'Oldest First' : 'Newest First'}
+          {ascending ? (
+            <>
+              <ChevronUp /> Oldest
+            </>
+          ) : (
+            <>
+              <ChevronDown /> Newest
+            </>
+          )}
         </Button>
       </div>
 

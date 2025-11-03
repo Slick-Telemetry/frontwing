@@ -37,7 +37,7 @@ export function PracticeResults(props: {
   return (
     <>
       <HeaderRow>
-        <TableHead>Fastest Lap</TableHead>
+        <TableHead>Fastest&nbsp;Lap</TableHead>
         <TableHead className='text-center'>Laps</TableHead>
       </HeaderRow>
       <TableBody>

@@ -65,29 +65,20 @@ const EventPage = ({
   if (error) return <ServerPageError msg='Failed to load event details.' />;
 
   return (
-    <div className='flex grid-cols-3 flex-col gap-8 p-4 lg:grid lg:px-6'>
-      <div id='event-col-left' className='col-span-2 h-fit'>
-        <div className='flex justify-between gap-4'>
-          <div className='grid gap-1'>
-            {loading ? (
-              <>
-                <div className='bg-accent/50 h-9 w-72 animate-pulse rounded'></div>
-                <div className='bg-accent/50 h-7 w-36 animate-pulse rounded'></div>
-                <div className='bg-accent/50 h-7 w-56 animate-pulse rounded'></div>
-              </>
-            ) : (
-              <EventDetails evt={data.schedule[0]} />
-            )}
-          </div>
-          <div className='flex items-center justify-center px-8'>
-            <CircuitMap
-              circuitData={data.circuits[0]}
-              className='max-h-[90px]'
-            />
-          </div>
+    <div className='flex grid-cols-3 flex-col gap-x-8 gap-y-4 p-4 lg:grid lg:px-6'>
+      <div id='event-col-left' className='col-span-2 grid h-fit gap-8'>
+        <div className='grid gap-1'>
+          {loading ? (
+            <>
+              <div className='bg-accent/50 h-9 w-72 animate-pulse rounded'></div>
+              <div className='bg-accent/50 h-7 w-36 animate-pulse rounded'></div>
+              <div className='bg-accent/50 h-7 w-56 animate-pulse rounded'></div>
+            </>
+          ) : (
+            <EventDetails evt={data.schedule[0]} />
+          )}
         </div>
-
-        <div className='relative grid gap-2 pt-4 pb-8 md:grid-cols-5'>
+        <div className='grid gap-2'>
           {loading ? (
             <SessionCardSkeletons />
           ) : (
@@ -99,14 +90,24 @@ const EventPage = ({
           sessions={dataSrc?.events ?? []}
         />
       </div>
-      <div id='event-col-right' className='flex flex-1 flex-col'>
-        <EventWinners
-          drivers={data.drivers}
-          loading={loading}
-          name={eventLoc}
-          location={data.schedule[0]?.location}
-        />
-        <div className='flex flex-1 flex-col overflow-hidden pt-8'>
+      <div
+        id='event-col-right'
+        className='flex flex-1 flex-col gap-8 overflow-hidden'
+      >
+        <div>
+          {loading && (
+            <div className='bg-muted/50 h-[175px] w-full animate-pulse rounded'></div>
+          )}
+          <CircuitMap circuitData={data.circuits[0]} className='w-full py-0' />
+
+          <EventWinners
+            drivers={data.drivers}
+            loading={loading}
+            name={eventLoc}
+            location={data.schedule[0]?.location}
+          />
+        </div>
+        <div className='flex flex-1 flex-col gap-2 overflow-hidden'>
           <FIADocs documents={data.fia_documents} loading={loading} />
         </div>
       </div>

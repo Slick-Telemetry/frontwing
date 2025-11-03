@@ -45,9 +45,9 @@ export function EventWinners({
   const drivers = useFragment(EventWinnersFragment, driverFragments);
 
   return (
-    <div className='rounded border p-4'>
-      <h2 className='scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight'>
-        Winners at {location?.replace('-', '\u2011')}
+    <div>
+      <h2 className='scroll-m-20 border-b py-2 text-3xl font-semibold tracking-tight'>
+        {location?.replace('-', '\u2011')} Winners
       </h2>
       <ul className='grid divide-y'>
         {loading ? (

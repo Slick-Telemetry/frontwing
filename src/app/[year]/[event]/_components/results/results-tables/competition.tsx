@@ -48,7 +48,7 @@ export function CompetitionResults({
     <>
       <HeaderRow>
         <TableHead>Time</TableHead>
-        <TableHead>Fastest Lap</TableHead>
+        <TableHead>Fastest&nbsp;Lap</TableHead>
         <TableHead className='w-12 text-center'>Points</TableHead>
       </HeaderRow>
       <TableBody>
