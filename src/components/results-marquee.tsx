@@ -51,7 +51,7 @@ export function ResultsMarquee(props: ResultsMarqueeProps) {
       gradientColor='var(--background)'
       speed={30}
       delay={3}
-      className='bg-muted/50 absolute! bottom-0'
+      className='bg-muted/50 w-full'
     >
       {driverSessions.map(
         ({ driver, constructorByConstructorId, results }, idx) => {

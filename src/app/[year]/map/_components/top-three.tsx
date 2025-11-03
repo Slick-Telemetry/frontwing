@@ -1,5 +1,3 @@
-import { Circle } from 'lucide-react';
-
 import { positionEnding } from '@/lib/utils';
 
 import { ConstructorBadge } from '@/components/constructor-badge';
@@ -56,16 +54,16 @@ export function TopThree(props: TopThreeProps) {
             orientation='vertical'
             className='mx-0.5 data-[orientation=vertical]:h-4'
           />
-          <p className='mr-auto line-clamp-1 font-medium'>
+          <p className='mr-auto line-clamp-1 pr-2 font-medium'>
             {d.driver?.full_name}
           </p>
-          <Circle
+          {/* <Circle
             fill={`#${d.constructorByConstructorId?.color}`}
             className='hidden size-3 sm:block xl:hidden'
-          />
+          /> */}
           {d.constructorByConstructorId?.name && (
             <ConstructorBadge
-              className='sm:hidden xl:inline'
+              // className='sm:hidden xl:inline'
               color={d.constructorByConstructorId.color}
               name={d.constructorByConstructorId.name}
             />

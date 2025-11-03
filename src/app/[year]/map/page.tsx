@@ -21,7 +21,6 @@ import {
 import { MapLoader } from '@/app/[year]/map/_components/map/loader';
 import { MapContent } from '@/app/[year]/map/_components/map/map';
 import { Schedule } from '@/app/[year]/map/_components/schedule';
-import { EventSessions } from '@/app/[year]/map/_components/schedule-sessions';
 import { TopThree } from '@/app/[year]/map/_components/top-three';
 
 import { graphql } from '@/types';
@@ -112,25 +111,19 @@ export default function MapPage({
         )}
       </div>
 
-      <div className='h-fit flex-1 rounded border'>
-        {/* Header */}
-        {/* TODO: REFACTOR so that the subcomponets are imported here */}
-        {/* This will help make event details reusable */}
+      <div className='h-fit flex-1 overflow-hidden rounded border'>
         <div className='flex justify-between'>
-          <div className='relative flex flex-1 justify-between gap-4 overflow-hidden pt-2 pb-8'>
+          <div className='relative flex flex-1 items-center justify-between gap-4 overflow-hidden px-4 py-2'>
             {/* Event Details */}
-            <div className='pl-4'>
+            <div className='flex-1'>
               <EventDetails
                 evt={activeScheduleEvent}
                 maxRounds={data.schedule.length}
               />
             </div>
-
-            {/* Marquee / Top Three goes here */}
             <TopThree evt={activeEvent} />
-            <ResultsMarquee evt={activeEvent} />
+            {/* <EventSessions evt={activeScheduleEvent} /> */}
           </div>
-          <EventSessions evt={activeScheduleEvent} />
         </div>
 
         {/* Map */}
@@ -139,6 +132,8 @@ export default function MapPage({
           selectedEvent={selection}
           onClickAction={handleNewSelected}
         />
+        {/* Marquee / Top Three goes here */}
+        <ResultsMarquee evt={activeEvent} />
       </div>
     </div>
   );
