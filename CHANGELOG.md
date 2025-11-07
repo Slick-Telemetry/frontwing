@@ -1,3 +1,14 @@
+## 0.8.7 (2025-11-07)
+
+### Fix
+
+- order of session for results tables
+- event page usage of event details
+
+### Refactor
+
+- simplify map page by removing session times
+
 ## 0.8.6 (2025-10-28)
 
 ### Refactor
