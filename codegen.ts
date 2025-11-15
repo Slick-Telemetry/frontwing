@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config: CodegenConfig = {
+  hooks: { afterAllFileWrite: ['prettier --write'] },
   schema: [
     {
       [process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL as string]: {
