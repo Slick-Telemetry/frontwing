@@ -48,7 +48,7 @@ export function ScheduleEventItem({
   const numberClass = clsx({
     'bg-secondary': !futureEvent,
     'bg-foreground/90 text-background': futureEvent && next,
-    'bg-accent text-accent-foreground': next,
+    'bg-accent text-accent-foreground': futureEvent && !next,
   });
 
   const formatDate = (date?: string | null, withTime = false) => {
