@@ -8,7 +8,9 @@ import { FragmentType, graphql, useFragment } from '@/types';
 
 const EventQualifyingResults = graphql(`
   fragment EventQualifyingResults on sessions {
-    driver_sessions {
+    driver_sessions(
+      order_by: { results_aggregate: { min: { finishing_position: asc } } }
+    ) {
       driver {
         abbreviation
         full_name
