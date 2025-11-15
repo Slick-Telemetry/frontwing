@@ -38,7 +38,7 @@ export function PracticeResults(props: {
     <>
       <HeaderRow>
         <TableHead>Fastest&nbsp;Lap</TableHead>
-        <TableHead className='text-center'>Laps</TableHead>
+        <TableHead className='w-12 text-center'>Laps</TableHead>
       </HeaderRow>
       <TableBody>
         {session.driver_sessions.map((s, idx) => {

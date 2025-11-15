@@ -32,7 +32,7 @@ export function DriverRow({
       <TableCell className='font-medium'>{s.driver?.full_name}</TableCell>
       <TableCell>
         <ConstructorBadge
-          className='block xl:w-full'
+          className='block text-center xl:w-full'
           color={s.constructorByConstructorId?.color}
           name={s.constructorByConstructorId?.name}
         />
