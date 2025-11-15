@@ -206,7 +206,7 @@ export const sortQuali = (
   sessions: EventQualifyingResultsFragment['driver_sessions'],
 ) => {
   return sessions
-    .filter((driver) => !!driver.results[0].finishing_position)
+    .filter((driver) => !!driver.results[0]?.finishing_position)
     .sort((a, b) => {
       return (
         Number(a.results[0]?.finishing_position || 0) -
