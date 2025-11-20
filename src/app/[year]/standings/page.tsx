@@ -1,12 +1,12 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
 import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
+import { notFound, useParams, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { GET_STANDINGS } from '@/lib/queries';
+import { isAllEmptyArrays } from '@/lib/utils';
 
-import { ApolloErrorBoundary } from '@/components/ApolloErrorBoundary';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -62,6 +62,10 @@ const StandingsContent = () => {
   });
 
   if (!standings) return null;
+
+  if (standings && isAllEmptyArrays(standings)) {
+    return notFound();
+  }
 
   const simpleConstructorData = standings.constructors.map(getConstructorData);
   const simpleDriverData = standings.drivers.map(getDriverData);
@@ -178,11 +182,7 @@ const StandingsContent = () => {
 };
 
 const Standings = () => {
-  return (
-    <ApolloErrorBoundary>
-      <StandingsContent />
-    </ApolloErrorBoundary>
-  );
+  return <StandingsContent />;
 };
 
 export default Standings;
