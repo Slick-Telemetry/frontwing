@@ -6,7 +6,6 @@ import { SUPPORTED_SEASONS } from '@/lib/constants';
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 
 import { SprintBadge } from '@/components/sprint-badge';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 import { FragmentType, graphql, useFragment } from '@/types';
@@ -96,7 +95,7 @@ export function EventDetails({ maxRounds, ...props }: EventDetailsProps) {
   );
 }
 
-function PossibleEvents() {
+export function PossibleEvents() {
   const { year, event } = useParams<{ year: string; event?: string }>();
   const supportedYear = SUPPORTED_SEASONS.includes(parseInt(year));
   const { data } = useQuery(
@@ -127,21 +126,20 @@ function PossibleEvents() {
 
   if (!supportedYear || !data || data.schedule.length <= 0) return null;
   return (
-    <div className='flex items-center gap-2'>
+    <>
       <p>Did you mean...</p>
-      {data.schedule.map(({ event_name }) => (
-        <Button
-          key={event_name}
-          variant='link'
-          className='px-2'
-          size='sm'
-          asChild
-        >
-          <Link href={`/${year || '2025'}/${eventLocationEncode(event_name)}`}>
-            {event_name}
-          </Link>
-        </Button>
-      ))}
-    </div>
+      <ul className='list-inside list-disc py-2'>
+        {data.schedule.map(({ event_name }) => (
+          <li key={event_name}>
+            <Link
+              className='font-semibold hover:underline'
+              href={`/${year || '2025'}/${eventLocationEncode(event_name)}`}
+            >
+              {event_name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }

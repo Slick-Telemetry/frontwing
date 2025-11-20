@@ -68,6 +68,10 @@ export const hexToRgba = (hex: string, opacity: number) => {
 export const bgGradient = (color: string) =>
   `linear-gradient(to top left, ${hexToRgba(color, 0.8)}, ${hexToRgba(color, 0)})`;
 
+export function isAllEmptyArrays(o: { [key: string]: unknown }) {
+  return Object.values(o).every((v) => Array.isArray(v) && v.length === 0);
+}
+
 /**
  * @description Take a position value and returns position end
  * @param {(number | string)} position

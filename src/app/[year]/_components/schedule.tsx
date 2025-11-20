@@ -1,44 +1,50 @@
 'use client';
-import { useQuery } from '@apollo/client/react';
+
+import { useParams } from 'next/navigation';
 
 import { getTodayMidnightUTC } from '@/lib/utils';
 
 import { CircuitMap } from '@/components/circuit-map';
-import { ServerPageError } from '@/components/ServerError';
 import { ToggleLocalStorage } from '@/components/toggle';
 import { Separator } from '@/components/ui/separator';
 
 import { ScheduleEventItem } from './schedule-event';
 
-import { graphql } from '@/types';
+import { FragmentType, graphql, useFragment } from '@/types';
 
-export const GET_SEASON_EVENTS = graphql(`
-  query GetSeasonEvents($year: Int!) @cached {
-    schedule(where: { year: { _eq: $year } }) {
-      event_name
-      event_date
-      round_number
-      location
-      country
-      ...Event_ScheduleFragment
-    }
-    circuits(where: { year: { _eq: $year } }) {
-      location
-      country
-      ...CircuitDetails
-    }
+export const SeasonSchedule = graphql(`
+  fragment SeasonSchedule on schedule {
+    event_name
+    event_date
+    round_number
+    location
+    country
+    ...Event_ScheduleFragment
   }
 `);
 
-export function Schedule({ year }: { year: string }) {
-  const { loading, error, data } = useQuery(GET_SEASON_EVENTS, {
-    variables: { year: parseInt(year) },
-  });
+export const SeasonCircuits = graphql(`
+  fragment SeasonCircuits on circuits {
+    location
+    country
+    ...CircuitDetails
+  }
+`);
 
-  if (error) return <ServerPageError />;
+export function Schedule(props: {
+  loading?: boolean;
+  schedule?: FragmentType<typeof SeasonSchedule>[];
+  circuits?: FragmentType<typeof SeasonCircuits>[];
+}) {
+  const { year } = useParams();
+
+  const schedule = useFragment(SeasonSchedule, props.schedule);
+  const circuits = useFragment(SeasonCircuits, props.circuits);
+
+  if (!props?.loading && !schedule?.length && !circuits?.length) return null;
 
   const now = getTodayMidnightUTC();
-  const nextEvent = data?.schedule.find(
+  const nextEvent = schedule?.find(
     (evt) => new Date(evt.event_date as string) > new Date(now),
   );
 
@@ -63,26 +69,9 @@ export function Schedule({ year }: { year: string }) {
       </div>
 
       <ul className='grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
-        {loading &&
-          Array.from(Array(18)).map((_v, idx) => (
-            <li
-              key={`schedule_event_loader_${idx}`}
-              className='flex flex-col overflow-hidden rounded border'
-            >
-              <div className='group hover:bg-muted flex flex-1 items-center gap-2 pr-4'>
-                <div className='bg-secondary border-background flex h-full w-[50px] items-center justify-center border-r text-2xl'>
-                  {idx}
-                </div>
-                <div className='grid flex-1 animate-pulse gap-0.5 py-2'>
-                  <div className='bg-accent/50 h-4 w-1/2 rounded' />
-                  <div className='bg-accent/50 h-7 w-3/4 rounded' />
-                  <div className='bg-accent/50 h-4 w-3/4 rounded' />
-                </div>
-              </div>
-            </li>
-          ))}
-        {data?.schedule.map((event) => {
-          const circuitData = data.circuits.find(
+        {props.loading && <ScheduleSkeleton />}
+        {schedule?.map((event) => {
+          const circuitData = circuits?.find(
             (c) => c.country === event.country && c.location === event.location,
           );
           return (
@@ -98,4 +87,24 @@ export function Schedule({ year }: { year: string }) {
       </ul>
     </>
   );
+}
+
+function ScheduleSkeleton() {
+  return Array.from(Array(18)).map((_v, idx) => (
+    <li
+      key={`schedule_event_loader_${idx}`}
+      className='flex flex-col overflow-hidden rounded border'
+    >
+      <div className='group hover:bg-muted flex flex-1 items-center gap-2 pr-4'>
+        <div className='bg-secondary border-background flex h-full w-[50px] items-center justify-center border-r text-2xl'>
+          {idx + 1}
+        </div>
+        <div className='grid flex-1 animate-pulse gap-0.5 py-2'>
+          <div className='bg-accent/50 h-4 w-1/2 rounded' />
+          <div className='bg-accent/50 h-7 w-3/4 rounded' />
+          <div className='bg-accent/50 h-4 w-3/4 rounded' />
+        </div>
+      </div>
+    </li>
+  ));
 }

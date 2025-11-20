@@ -1,6 +1,13 @@
+'use client';
+import { useQuery } from '@apollo/client/react';
+import { notFound } from 'next/navigation';
+import { use } from 'react';
+
 import { SUPPORTED_SEASONS } from '@/lib/constants';
+import { isAllEmptyArrays } from '@/lib/utils';
 
 import NextEvent from '@/components/next-event';
+import { ServerPageError } from '@/components/ServerError';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,16 +15,56 @@ import {
   BreadcrumbPage,
 } from '@/components/ui/breadcrumb';
 
-import { QuickLinks } from '@/app/[year]/_components/quick-links';
+import {
+  SeasonQuickLinks,
+  SeasonQuickLinksSkeleton,
+} from '@/app/[year]/_components/quick-links';
 import { Schedule } from '@/app/[year]/_components/schedule';
 import TopThreeStandings from '@/app/[year]/_components/standings';
 
-export default async function SeasonPage({
+import { graphql } from '@/types';
+
+const GET_SEASON_PAGE = graphql(`
+  query GetSeasonPage($year: Int!, $limit: Int = 3) @cached {
+    drivers(
+      where: { driver_standings: { season: { _eq: $year } } }
+      order_by: { driver_standings_aggregate: { max: { points: desc } } }
+      limit: $limit
+    ) {
+      ...DriverStandings
+    }
+    constructors(
+      where: { constructor_standings: { season: { _eq: $year } } }
+      order_by: { constructor_standings_aggregate: { max: { points: desc } } }
+      limit: $limit
+    ) {
+      ...ConstructorStandings
+    }
+    schedule(where: { year: { _eq: $year } }) {
+      ...SeasonSchedule
+    }
+    circuits(where: { year: { _eq: $year } }) {
+      ...SeasonCircuits
+    }
+  }
+`);
+
+export default function SeasonPage({
   params,
 }: {
   params: Promise<{ year: string }>;
 }) {
-  const { year } = await params;
+  const { year } = use(params);
+  const { data, loading, error } = useQuery(GET_SEASON_PAGE, {
+    variables: { year: parseInt(year) },
+  });
+
+  if (error) return <ServerPageError msg='Failed to load season data.' />;
+
+  if (!loading && data && isAllEmptyArrays(data)) {
+    notFound();
+  }
+
   const latestYear = parseInt(year) === SUPPORTED_SEASONS[0];
   return (
     <div className='p-4 lg:p-6'>
@@ -41,13 +88,21 @@ export default async function SeasonPage({
               ></div>
             )}
           </div>
-          <QuickLinks year={year} />
+          {loading ? <SeasonQuickLinksSkeleton /> : <SeasonQuickLinks />}
         </div>
-        <TopThreeStandings year={year} />
+        <TopThreeStandings
+          loading={loading}
+          drivers={data?.drivers}
+          constructors={data?.constructors}
+        />
       </div>
 
       <div className='pt-6'>
-        <Schedule year={year} />
+        <Schedule
+          loading={loading}
+          schedule={data?.schedule}
+          circuits={data?.circuits}
+        />
       </div>
     </div>
   );

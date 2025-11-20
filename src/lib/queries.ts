@@ -84,54 +84,6 @@ export const GET_EVENT_DETAILS = graphql(`
   }
 `);
 
-export const GET_TOP_STANDINGS = graphql(`
-  query GetTopStandings($season: Int!, $limit: Int = 3) @cached {
-    drivers(
-      where: { driver_standings: { season: { _eq: $season } } }
-      order_by: { driver_standings_aggregate: { max: { points: desc } } }
-      limit: $limit
-    ) {
-      abbreviation
-      full_name
-      latest_constructor: driver_sessions(
-        limit: 1
-        order_by: { session: { date: desc } }
-      ) {
-        constructor: constructorByConstructorId {
-          name
-          color
-        }
-      }
-      driver_standings(
-        where: { season: { _eq: $season } }
-        order_by: { round: desc }
-        limit: 1
-      ) {
-        round
-        points
-        position
-      }
-    }
-    constructors(
-      where: { constructor_standings: { season: { _eq: $season } } }
-      order_by: { constructor_standings_aggregate: { max: { points: desc } } }
-      limit: $limit
-    ) {
-      name
-      color
-      constructor_standings(
-        where: { season: { _eq: $season } }
-        order_by: { round: desc }
-        limit: 1
-      ) {
-        round
-        points
-        position
-      }
-    }
-  }
-`);
-
 export const GET_STANDINGS = graphql(`
   query GetStandings($season: Int!) @cached {
     events(where: { year: { _eq: $season } }) {
