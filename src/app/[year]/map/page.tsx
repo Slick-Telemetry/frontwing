@@ -1,7 +1,7 @@
 'use client';
 import { useQuery } from '@apollo/client/react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { notFound, useRouter, useSearchParams } from 'next/navigation';
 import { use } from 'react';
 
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
@@ -71,7 +71,8 @@ export default function MapPage({
         <MapLoader loading />
       </MapPageLoader>
     );
-  if (error || !data || data?.events?.length === 0)
+
+  if (error)
     return (
       <MapPageLoader year={year}>
         <div className='flex h-full items-center justify-center'>
@@ -79,6 +80,10 @@ export default function MapPage({
         </div>
       </MapPageLoader>
     );
+
+  if (!data || data?.events?.length === 0) {
+    notFound();
+  }
 
   const activeScheduleEvent = data.schedule.find(
     (evt) => evt.event_name === selection,
