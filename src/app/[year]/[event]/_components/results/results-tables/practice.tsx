@@ -6,7 +6,7 @@ import { FragmentType, graphql, useFragment } from '@/types';
 
 const EventPracticeResults = graphql(`
   fragment EventPracticeResults on sessions {
-    driver_sessions {
+    driver_sessions(order_by: { laps_aggregate: { min: { lap_time: asc } } }) {
       driver {
         abbreviation
         full_name
