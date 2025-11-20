@@ -29,7 +29,7 @@ const EventWinnersFragment = graphql(`
 
 type EventWinnersProps = {
   loading: boolean;
-  drivers: FragmentType<typeof EventWinnersFragment>[];
+  drivers?: FragmentType<typeof EventWinnersFragment>[];
   location?: string | null;
   name?: string | null;
   session5_date_utc?: string | null;
@@ -53,7 +53,7 @@ export function EventWinners({
         {loading ? (
           <EventWinnerSkeleton />
         ) : (
-          drivers.map((driver) => (
+          drivers?.map((driver) => (
             <EventWinner
               key={`${driver.year}_${driver.full_name}`}
               {...driver}
@@ -62,7 +62,7 @@ export function EventWinners({
             />
           ))
         )}
-        {drivers.length === 0 && !loading && (
+        {drivers?.length === 0 && !loading && (
           <li className='py-4 text-center text-sm text-gray-500'>
             No winners data available.
           </li>

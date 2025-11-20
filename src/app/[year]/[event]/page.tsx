@@ -2,11 +2,15 @@
 import { useQuery } from '@apollo/client/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { notFound, useParams, useRouter } from 'next/navigation';
 import { use, useEffect } from 'react';
 
 import { GET_EVENT_DETAILS } from '@/lib/queries';
-import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
+import {
+  eventLocationDecode,
+  eventLocationEncode,
+  isAllEmptyArrays,
+} from '@/lib/utils';
 
 import { CircuitMap } from '@/components/circuit-map';
 import { EventDetails } from '@/components/event-details';
@@ -29,20 +33,6 @@ import {
   SessionCards,
   SessionCardSkeletons,
 } from '@/app/[year]/[event]/_components';
-
-const defaultData = {
-  schedule: [],
-  events: [
-    {
-      competition: [],
-      qualifying: [],
-      practice: [],
-    },
-  ],
-  circuits: [],
-  drivers: [],
-  fia_documents: [],
-};
 
 const adjustRightColumnHeight = () => {
   const mainCol = document.getElementById('event-col-left');
@@ -73,10 +63,14 @@ const EventPage = ({
     adjustRightColumnHeight();
   }, [dataSrc]);
 
-  const data = dataSrc ?? defaultData;
-  const eventName = data.schedule[0]?.event_name;
+  const data = dataSrc;
+  const eventName = data?.schedule[0]?.event_name;
 
   if (error) return <ServerPageError msg='Failed to load event details.' />;
+
+  if (!loading && data && isAllEmptyArrays(data)) {
+    notFound();
+  }
 
   return (
     <div className='flex grid-cols-3 flex-col gap-x-8 gap-y-4 p-4 lg:grid lg:px-6'>
@@ -105,14 +99,14 @@ const EventPage = ({
               <div className='bg-accent/50 h-7 w-56 animate-pulse rounded'></div>
             </>
           ) : (
-            <EventDetails evt={data.schedule[0]} />
+            <EventDetails evt={data?.schedule[0]} />
           )}
         </div>
         <div className='grid gap-2'>
           {loading ? (
             <SessionCardSkeletons />
           ) : (
-            <SessionCards schedule={data.schedule[0]} eventLoc={eventLoc} />
+            <SessionCards schedule={data?.schedule[0]} eventLoc={eventLoc} />
           )}
         </div>
         <EventResultsContainer
@@ -128,17 +122,17 @@ const EventPage = ({
           {loading && (
             <div className='bg-muted/50 h-[175px] w-full animate-pulse rounded'></div>
           )}
-          <CircuitMap circuitData={data.circuits[0]} className='w-full py-0' />
+          <CircuitMap circuitData={data?.circuits[0]} className='w-full py-0' />
 
           <EventWinners
-            drivers={data.drivers}
+            drivers={data?.drivers}
             loading={loading}
             name={eventLoc}
-            location={data.schedule[0]?.location}
+            location={data?.schedule[0]?.location}
           />
         </div>
         <div className='flex flex-1 flex-col gap-2 overflow-hidden'>
-          <FIADocs documents={data.fia_documents} loading={loading} />
+          <FIADocs documents={data?.fia_documents} loading={loading} />
         </div>
       </div>
     </div>

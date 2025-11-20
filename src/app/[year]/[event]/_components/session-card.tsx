@@ -27,7 +27,7 @@ export function SessionCards({
   eventLoc,
   ...props
 }: {
-  schedule: FragmentType<typeof EventSessionCards>;
+  schedule?: FragmentType<typeof EventSessionCards>;
   eventLoc: string;
 }) {
   const schedule = useFragment(EventSessionCards, props?.schedule);

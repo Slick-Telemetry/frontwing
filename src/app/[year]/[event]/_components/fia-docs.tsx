@@ -1,17 +1,12 @@
 'use client';
-import {
-  ChevronDown,
-  ChevronUp,
-  FileText,
-  Loader2,
-  Search,
-} from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { ArrowUpDown, FileText, Loader2, Search } from 'lucide-react';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
 } from '@/components/ui/input-group';
 
@@ -27,37 +22,25 @@ const FIADocsFragment = graphql(`
 `);
 
 type FIADocsProps = {
-  documents: FragmentType<typeof FIADocsFragment>[];
+  documents?: FragmentType<typeof FIADocsFragment>[];
   loading?: boolean;
 };
 
 export function FIADocs({ loading, ...props }: FIADocsProps) {
-  const documents = useFragment(FIADocsFragment, props?.documents);
-  const [viewingDocs, setViewingDocs] = useState<FiaDocsFragment[]>(documents);
+  const documents = useFragment(FIADocsFragment, props?.documents) ?? [];
   const [ascending, setAscending] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
 
-  useEffect(() => {
-    setViewingDocs(documents);
-  }, [documents]);
-
-  const handleOrderChange = (asc: boolean) => {
-    const sortedDocs = [...viewingDocs].sort((a, b) =>
-      asc
+  // TODO: Contemplate if should separate filtering and sorting logic
+  const viewingDocs = [...documents]
+    .filter((d) => d.title.toLowerCase().includes(searchInput.toLowerCase()))
+    .sort((a, b) =>
+      ascending
         ? new Date(a.publish_time).getTime() -
           new Date(b.publish_time).getTime()
         : new Date(b.publish_time).getTime() -
           new Date(a.publish_time).getTime(),
     );
-    setViewingDocs(sortedDocs);
-    setAscending(asc);
-  };
-
-  const handleSearchChange = (searchInput: string) => {
-    const filteredDocs = documents.filter((d) =>
-      d.title.toLowerCase().includes(searchInput.toLowerCase()),
-    );
-    setViewingDocs(filteredDocs);
-  };
 
   return (
     <>
@@ -68,8 +51,8 @@ export function FIADocs({ loading, ...props }: FIADocsProps) {
         <InputGroup>
           <InputGroupInput
             disabled={loading}
-            onPaste={(e) => handleSearchChange(e.clipboardData.getData('text'))}
-            onChange={(e) => handleSearchChange(e.target.value)}
+            onPaste={(e) => setSearchInput(e.clipboardData.getData('text'))}
+            onChange={(e) => setSearchInput(e.target.value)}
             placeholder='Search...'
           />
           <InputGroupAddon>
@@ -82,22 +65,12 @@ export function FIADocs({ loading, ...props }: FIADocsProps) {
               `${viewingDocs.length} docs`
             )}
           </InputGroupAddon>
+          <InputGroupAddon align='inline-end'>
+            <InputGroupButton onClick={() => setAscending(!ascending)}>
+              <ArrowUpDown />
+            </InputGroupButton>
+          </InputGroupAddon>
         </InputGroup>
-        <Button
-          variant='outline'
-          className='mx-[3px] min-w-[110px] whitespace-nowrap'
-          onClick={() => handleOrderChange(!ascending)}
-        >
-          {ascending ? (
-            <>
-              <ChevronUp /> Oldest
-            </>
-          ) : (
-            <>
-              <ChevronDown /> Newest
-            </>
-          )}
-        </Button>
       </div>
 
       <div className='relative flex-1 overflow-y-scroll'>
