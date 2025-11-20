@@ -1,3 +1,13 @@
+## 0.8.8 (2025-11-20)
+
+### Fix
+
+- sorting practice results appropriately
+- FRON-273 2025 Sao Paulo Quali loading properly
+- FRON-272 Qualifying and Race drivers sorted by results for event results tables
+- FRON-266 clean-up table column sizes
+- FRON-269 season schedule label colors fixed to differentiate next and future events
+
 ## 0.8.7 (2025-11-07)
 
 ### Fix
