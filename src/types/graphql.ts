@@ -12730,15 +12730,15 @@ export type EventQualifyingResultsFragment = {
 export type EventSessionCardsFragment = {
   __typename?: 'schedule';
   session1?: Session_Name_Choices_Enum | null;
-  session1_date_utc?: string | null;
+  session1_date?: string | null;
   session2?: Session_Name_Choices_Enum | null;
-  session2_date_utc?: string | null;
+  session2_date?: string | null;
   session3?: Session_Name_Choices_Enum | null;
-  session3_date_utc?: string | null;
+  session3_date?: string | null;
   session4?: Session_Name_Choices_Enum | null;
-  session4_date_utc?: string | null;
+  session4_date?: string | null;
   session5?: Session_Name_Choices_Enum | null;
-  session5_date_utc?: string | null;
+  session5_date?: string | null;
 } & { ' $fragmentName'?: 'EventSessionCardsFragment' };
 
 export type Event_ScheduleFragmentFragment = {
@@ -14634,15 +14634,15 @@ export const EventSessionCardsFragmentDoc = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'session1' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session1_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session1_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'session2' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session2_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'session3' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session3_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'session4' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session4_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'session5' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session5_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5_date' } },
         ],
       },
     },
@@ -18857,15 +18857,15 @@ export const GetEventDetailsDocument = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'session1' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session1_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session1_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'session2' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session2_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session2_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'session3' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session3_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session3_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'session4' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session4_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session4_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'session5' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'session5_date_utc' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5_date' } },
         ],
       },
     },

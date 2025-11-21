@@ -42,8 +42,8 @@ export function ScheduleEventItem({
   ...props
 }: ScheduleEventItemProps) {
   const event = useFragment(Event_ScheduleFragment, props.event);
-  const trackTime = useReadLocalStorage('trackTime');
-  const details = useReadLocalStorage('showSessions');
+  const trackTime = useReadLocalStorage('track-time');
+  const details = useReadLocalStorage('show-sessions');
   const futureEvent = isFutureDate(event.event_date);
   const numberClass = clsx({
     'bg-secondary': !futureEvent,
