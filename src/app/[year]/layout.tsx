@@ -14,7 +14,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const year = (await params).year;
   return {
-    title: `${year} Season`,
+    title: `${year} Season - Slick Telemetry`,
+    description: `See the schedule, standings and explore deeper insights to the ${year} F1 season.`,
   };
 }
 

@@ -9,7 +9,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { year, event } = await params;
   return {
-    title: `${eventLocationDecode(event)} ${year}`,
+    title: `${year} ${eventLocationDecode(event).replace('Grand Prix', 'GP')} - Slick Telemetry`,
+    description: `See the results for ${eventLocationDecode(event)} in the ${year} F1 season`,
   };
 }
 
