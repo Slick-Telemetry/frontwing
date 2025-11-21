@@ -18,10 +18,10 @@ import { useECharts } from '@/hooks/use-EChart';
 import {
   baseOptions,
   ChartControls,
+  generatePerRoundAvailablePoints,
   useStandingsSeries,
   useTooltipFormatter,
 } from '@/app/[year]/standings/_components/chart';
-import { generatePerRoundAvailablePoints } from '@/app/[year]/standings/_components/chart/utils';
 
 import {
   Event_Format_Choices_Enum,
@@ -61,13 +61,17 @@ export function StandingsChart({
   const [showPointsPerRound, setShowRoundPoints] = useState(false);
   const [showAvailablePoints, setShowAvailablePoints] = useState(false);
 
+  const driverWithMostRounds = Math.max(
+    ...data.drivers.map((d) => d.driver_standings.length),
+  );
+  const allRounds = Array.from(
+    { length: driverWithMostRounds },
+    (_, i) => i + 1,
+  );
   const allRoundFormats = data.events.map(
     (e) => e.format ?? Event_Format_Choices_Enum.Conventional,
   );
-  const allRounds = Array.from(
-    { length: allRoundFormats.length },
-    (_, i) => i + 1,
-  );
+
   const perRoundAvailablePoints = generatePerRoundAvailablePoints({
     year: parseInt(year),
     allRoundFormats,

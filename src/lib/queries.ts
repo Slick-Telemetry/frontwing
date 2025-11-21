@@ -100,6 +100,7 @@ export const GET_STANDINGS = graphql(`
       latest_constructor: driver_sessions(
         limit: 1
         order_by: { session: { date: desc } }
+        where: { constructorByConstructorId: { name: { _is_null: false } } }
       ) {
         constructor: constructorByConstructorId {
           name
