@@ -16,6 +16,7 @@ import { CircuitMap } from '@/components/circuit-map';
 import { EventDetails } from '@/components/event-details';
 import { GET_NAV_EVENTS } from '@/components/navigation/event-selector';
 import { ServerPageError } from '@/components/ServerError';
+import { ToggleLocalStorage } from '@/components/toggle';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -103,6 +104,11 @@ const EventPage = ({
           )}
         </div>
         <div className='grid gap-2'>
+          <div className='grid-cols-full'>
+            <ToggleLocalStorage id='track-time' initial={false}>
+              Track Time
+            </ToggleLocalStorage>
+          </div>
           {loading ? (
             <SessionCardSkeletons />
           ) : (

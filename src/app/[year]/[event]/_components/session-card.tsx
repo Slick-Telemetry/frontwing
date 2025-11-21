@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 
 import { SESSION_KEYS } from '@/lib/constants';
 import { eventLocationEncode } from '@/lib/utils';
+import { useReadLocalStorage } from '@/hooks/use-storage';
 
 import { Button } from '@/components/ui/button';
 
@@ -11,15 +12,15 @@ import { FragmentType, graphql, useFragment } from '@/types';
 const EventSessionCards = graphql(`
   fragment EventSessionCards on schedule {
     session1
-    session1_date_utc
+    session1_date
     session2
-    session2_date_utc
+    session2_date
     session3
-    session3_date_utc
+    session3_date
     session4
-    session4_date_utc
+    session4_date
     session5
-    session5_date_utc
+    session5_date
   }
 `);
 
@@ -31,11 +32,12 @@ export function SessionCards({
   eventLoc: string;
 }) {
   const schedule = useFragment(EventSessionCards, props?.schedule);
+  const trackTime = useReadLocalStorage('track-time');
 
   const router = useRouter();
   return SESSION_KEYS.map((sessId) => {
     const name = schedule?.[sessId];
-    const date = schedule?.[`${sessId}_date_utc`];
+    const date = schedule?.[`${sessId}_date`] ?? '';
     return (
       <Button
         variant='outline'
@@ -49,12 +51,19 @@ export function SessionCards({
       >
         <div className='text-left'>
           <p className='text-sm lg:text-base'>
-            {new Date(date as string).toLocaleString(undefined, {
-              month: 'numeric',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: '2-digit',
-            })}
+            {trackTime
+              ? new Date(date.slice(0, -6)).toLocaleString(undefined, {
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })
+              : new Date(date).toLocaleDateString(undefined, {
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
           </p>
           <h3 className='truncate text-3xl tracking-tight'>
             {name?.replace('_', ' ')}
