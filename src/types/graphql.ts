@@ -13134,6 +13134,7 @@ export type GetStandingsQuery = {
     __typename?: 'events';
     round_number?: number | null;
     name?: string | null;
+    format?: Event_Format_Choices_Enum | null;
   }>;
   drivers: Array<{
     __typename?: 'drivers';
@@ -18958,6 +18959,7 @@ export const GetStandingsDocument = {
                   name: { kind: 'Name', value: 'round_number' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'format' } },
               ],
             },
           },

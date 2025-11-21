@@ -89,6 +89,7 @@ export const GET_STANDINGS = graphql(`
     events(where: { year: { _eq: $season } }) {
       round_number
       name
+      format
     }
     drivers(
       where: { driver_standings: { season: { _eq: $season } } }
