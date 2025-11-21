@@ -107,7 +107,7 @@ export default function EventResultsContainer({
       </h2>
       <Tabs
         defaultValue={SESSION_KEYS[0]}
-        className='max-w-svw overflow-x-scroll'
+        className='max-w-svw overflow-x-scroll md:overflow-x-visible'
       >
         <div className='flex items-center gap-4'>
           <TabsList>
@@ -321,8 +321,9 @@ const ResultsTableOverlay = ({
           Results are hidden
         </Badge>
         <p>
-          Click to show <b>all results</b> for this event
+          Click to show <b>available results</b> for this event
         </p>
+        <p className='text-sm'>*Close this tab to hide results again</p>
       </div>
     </div>
   );
