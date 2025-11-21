@@ -25,6 +25,9 @@ declare global {
     xy_values: XY[];
     rotation: number;
   }
+
+  type ViewType = 'drivers' | 'constructors';
+
   type DashParams = {
     year: string;
     event: string | undefined;
@@ -36,4 +39,25 @@ declare global {
     | 'session3'
     | 'session4'
     | 'session5';
+
+  type FinishingClassificationCode = 'R' | 'D' | 'E' | 'W' | 'F' | 'N';
+
+  type FinishingClassification =
+    | 'Retired'
+    | 'Disqualified'
+    | 'Excluded'
+    | 'Withdrawn'
+    | 'Failed to qualify'
+    | 'Not classified';
+
+  type AvailablePointsConfig = {
+    drivers: {
+      sprint: number;
+      normal: number;
+    };
+    constructors: {
+      sprint: number;
+      normal: number;
+    };
+  };
 }

@@ -10,7 +10,8 @@ import {
 import * as echarts from 'echarts/core';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 import { useECharts } from '@/hooks/use-EChart';
 
@@ -20,8 +21,12 @@ import {
   useStandingsSeries,
   useTooltipFormatter,
 } from '@/app/[year]/standings/_components/chart';
+import { generatePerRoundAvailablePoints } from '@/app/[year]/standings/_components/chart/utils';
 
-import type { GetStandingsQuery } from '@/types/graphql';
+import {
+  Event_Format_Choices_Enum,
+  type GetStandingsQuery,
+} from '@/types/graphql';
 
 // Register ECharts pieces globally once
 echarts.use([
@@ -36,7 +41,7 @@ echarts.use([
 
 interface Props {
   data: GetStandingsQuery;
-  type: 'drivers' | 'constructors';
+  type: ViewType;
   hiddenItems: Record<string, boolean>;
   toggleVisibility: (string: 'all' | 'none') => void;
 }
@@ -47,59 +52,83 @@ export function StandingsChart({
   hiddenItems,
   toggleVisibility,
 }: Props) {
+  const { year } = useParams<{ year: string }>();
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useECharts(chartRef);
 
-  const [hideTooltip, setHideTooltip] = useState(false);
-  const [showRoundPoints, setShowRoundPoints] = useState(false);
+  // Chart Settings
+  const [showTooltip, setShowTooltip] = useState(true);
+  const [showPointsPerRound, setShowRoundPoints] = useState(false);
+  const [showAvailablePoints, setShowAvailablePoints] = useState(false);
 
-  const { events } = data;
-  const maxRound = Math.max(...events.map((e) => e.round_number || 0));
-  const allRounds = Array.from({ length: maxRound }, (_, i) => i + 1);
-
-  const { driversSeries, constructorsSeries } = useStandingsSeries({
-    data,
-    allRounds,
-    showRoundPoints,
+  const allRoundFormats = data.events.map(
+    (e) => e.format ?? Event_Format_Choices_Enum.Conventional,
+  );
+  const allRounds = Array.from(
+    { length: allRoundFormats.length },
+    (_, i) => i + 1,
+  );
+  const perRoundAvailablePoints = generatePerRoundAvailablePoints({
+    year: parseInt(year),
+    allRoundFormats,
+    type,
   });
-  const formatTooltip = useTooltipFormatter({ events, allRounds, hideTooltip });
+
+  const formatTooltip = useTooltipFormatter({
+    events: data.events,
+  });
+
+  const { driversSeries, constructorsSeries, availablePointsSeries } =
+    useStandingsSeries({
+      data,
+      allRounds,
+      showPointsPerRound,
+      perRoundAvailablePoints,
+    });
+
+  const baseSeries = type === 'drivers' ? driversSeries : constructorsSeries;
+  const filtered = baseSeries.filter((s) => !hiddenItems[s.name]);
 
   // update chart
   useEffect(() => {
     if (!chartInstance.current) return;
-    const filtered =
-      type === 'drivers'
-        ? driversSeries.filter((s) => !hiddenItems[s.name])
-        : constructorsSeries.filter((s) => !hiddenItems[s.name]);
+    const activeSeries = [
+      showAvailablePoints ? availablePointsSeries : null,
+      ...filtered,
+    ];
 
     chartInstance.current.setOption(
       {
         ...baseOptions,
         xAxis: { ...baseOptions.xAxis, data: allRounds },
-        tooltip: { ...baseOptions.tooltip, formatter: formatTooltip },
-        series: filtered,
+        tooltip: {
+          ...baseOptions.tooltip,
+          formatter: showTooltip ? formatTooltip : () => {},
+        },
+        series: activeSeries,
       },
       { notMerge: true, lazyUpdate: true },
     );
   }, [
     chartInstance,
-    type,
-    hideTooltip,
-    driversSeries,
-    constructorsSeries,
-    hiddenItems,
     allRounds,
+    showTooltip,
     formatTooltip,
+    showAvailablePoints,
+    availablePointsSeries,
+    filtered,
   ]);
 
   return (
     <>
       <ChartControls
         toggleVisibility={toggleVisibility}
-        hideTooltip={hideTooltip}
-        toggleTooltip={() => setHideTooltip((prev) => !prev)}
-        showRoundPoints={showRoundPoints}
-        toggleRoundPoints={() => setShowRoundPoints((prev) => !prev)}
+        showTooltip={showTooltip}
+        toggleTooltip={() => setShowTooltip((prev) => !prev)}
+        showPointsPerRound={showPointsPerRound}
+        togglePointsPerRound={() => setShowRoundPoints((prev) => !prev)}
+        showAvailablePoints={showAvailablePoints}
+        toggleAvailablePoints={() => setShowAvailablePoints((prev) => !prev)}
       />
       <div
         ref={chartRef}

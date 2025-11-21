@@ -2,26 +2,27 @@ import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { useCallback } from 'react';
 
 interface UseTooltipFormatterProps {
-  events: { round_number?: number | null; name?: string | null }[];
-  allRounds: number[];
-  hideTooltip?: boolean;
+  events: {
+    round_number?: number | null;
+    name?: string | null;
+  }[];
 }
 
-export function useTooltipFormatter({
-  events,
-  allRounds,
-  hideTooltip = false,
-}: UseTooltipFormatterProps) {
+export function useTooltipFormatter({ events }: UseTooltipFormatterProps) {
   return useCallback(
     (params: CallbackDataParams[]) => {
-      if (hideTooltip || !params?.length) return '';
+      if (!params?.length) return '';
+      const eventIndex = params[0].dataIndex;
 
-      const round = allRounds[params[0].dataIndex];
-      const event = events.find((e) => e.round_number === round);
+      const event = events[eventIndex];
+      const round = eventIndex + 1;
+
+      // Header with round and event name
       const header = `<div class='font-bold text-white w-24 truncate'>${round} ${
         event?.name?.replace('Grand Prix', '') || `Round: ${round}`
       }</div>`;
 
+      // Body with series names and points
       const body = params
         .sort((a, b) => (b.value as number) - (a.value as number))
         .map(
@@ -38,6 +39,6 @@ export function useTooltipFormatter({
 
       return header + body;
     },
-    [events, allRounds, hideTooltip],
+    [events],
   );
 }
