@@ -12765,10 +12765,10 @@ export type Event_ScheduleFragmentFragment = {
 export type SeasonScheduleFragment = ({
   __typename?: 'schedule';
   event_name?: string | null;
-  event_date?: string | null;
   round_number?: number | null;
   location?: string | null;
   country?: string | null;
+  session5_date_utc?: string | null;
 } & {
   ' $fragmentRefs'?: {
     Event_ScheduleFragmentFragment: Event_ScheduleFragmentFragment;
@@ -14697,10 +14697,10 @@ export const SeasonScheduleFragmentDoc = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
           { kind: 'Field', name: { kind: 'Name', value: 'location' } },
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5_date_utc' } },
           {
             kind: 'FragmentSpread',
             name: { kind: 'Name', value: 'Event_ScheduleFragment' },
@@ -16609,10 +16609,10 @@ export const GetSeasonPageDocument = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'event_name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'event_date' } },
           { kind: 'Field', name: { kind: 'Name', value: 'round_number' } },
           { kind: 'Field', name: { kind: 'Name', value: 'location' } },
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'session5_date_utc' } },
           {
             kind: 'FragmentSpread',
             name: { kind: 'Name', value: 'Event_ScheduleFragment' },
@@ -17036,7 +17036,7 @@ export const GetNextEventDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'event_date' },
+                      name: { kind: 'Name', value: 'session5_date_utc' },
                       value: {
                         kind: 'ObjectValue',
                         fields: [
