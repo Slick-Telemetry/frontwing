@@ -15,7 +15,7 @@ import { Event_Format_Choices_Enum } from '@/types/graphql';
 const GET_NEXT_EVENT = graphql(`
   query GetNextEvent($today: String!) {
     schedule(
-      where: { event_date: { _gte: $today } }
+      where: { session5_date_utc: { _gte: $today } }
       order_by: { event_date: asc }
       limit: 1
     ) {

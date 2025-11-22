@@ -15,10 +15,10 @@ import { FragmentType, graphql, useFragment } from '@/types';
 export const SeasonSchedule = graphql(`
   fragment SeasonSchedule on schedule {
     event_name
-    event_date
     round_number
     location
     country
+    session5_date_utc
     ...Event_ScheduleFragment
   }
 `);
@@ -45,7 +45,7 @@ export function Schedule(props: {
 
   const now = getTodayMidnightUTC();
   const nextEvent = schedule?.find(
-    (evt) => new Date(evt.event_date as string) > new Date(now),
+    (evt) => new Date(evt.session5_date_utc as string) > new Date(now),
   );
 
   return (
