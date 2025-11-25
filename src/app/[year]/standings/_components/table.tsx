@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { ConstructorBadge } from '@/components/constructor-badge';
 
+import { DriverBadges } from './driver-badges';
+
 // TODO duplicate from legend
 type Driver = {
   name: string;
@@ -25,10 +27,12 @@ export function Table({
   items,
   toggleItem,
   hiddenItems,
+  driversByConstructor,
 }: {
   items: Driver[];
   toggleItem: (items: string[]) => void;
   hiddenItems: Record<string, boolean>;
+  driversByConstructor?: Map<string, string[]>;
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartIndex, setDragStartIndex] = useState<number | null>(null);
@@ -118,7 +122,15 @@ export function Table({
         <p className='mr-auto w-8 text-center'>{idx + 1}</p>
         <div className='flex flex-1 items-center justify-between gap-2 px-2'>
           <Circle fill={item.color} stroke='none' className='size-4' />
-          <p className='line-clamp-1 flex-1'>{item.name}</p>
+          <div className='flex flex-1 items-center gap-2'>
+            <p className='line-clamp-1 flex-1'>{item.name}</p>
+            {driversByConstructor && driversByConstructor.has(item.name) && (
+              <DriverBadges
+                drivers={driversByConstructor.get(item.name) || []}
+                color={item.color}
+              />
+            )}
+          </div>
 
           {item.team && (
             <ConstructorBadge

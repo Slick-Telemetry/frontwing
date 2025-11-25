@@ -70,6 +70,16 @@ const StandingsContent = () => {
   const simpleConstructorData = standings.constructors.map(getConstructorData);
   const simpleDriverData = standings.drivers.map(getDriverData);
 
+  // Group drivers by constructor for displaying in constructor standings
+  const driversByConstructor = new Map<string, string[]>();
+  simpleDriverData.forEach((driver) => {
+    if (driver.team) {
+      const existing = driversByConstructor.get(driver.team) || [];
+      existing.push(driver.abbr);
+      driversByConstructor.set(driver.team, existing);
+    }
+  });
+
   const toggleVisibility = (
     type: 'drivers' | 'constructors' | 'all' | 'none',
     ids?: string[],
@@ -175,6 +185,9 @@ const StandingsContent = () => {
           }
           toggleItem={(items) => toggleVisibility(chartType, items)}
           hiddenItems={hiddenItems}
+          driversByConstructor={
+            chartType === 'constructors' ? driversByConstructor : undefined
+          }
         />
       </div>
     </div>
