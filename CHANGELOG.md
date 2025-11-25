@@ -1,3 +1,15 @@
+## 0.9.0 (2025-11-25)
+
+### Feat
+
+- **standings**: display available points for a round with utils and constants
+
+### Fix
+
+- **FRON-269**: Use last schedule session to determine next event
+- spoiler mode overlay positioning and copy
+- FRON-276 FRON-277 Use latest available constructor and only show rounds with results
+
 ## 0.8.9 (2025-11-25)
 
 ### Fix
