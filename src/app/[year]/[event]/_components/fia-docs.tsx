@@ -32,15 +32,29 @@ export function FIADocs({ loading, ...props }: FIADocsProps) {
   const [searchInput, setSearchInput] = useState('');
 
   // TODO: Contemplate if should separate filtering and sorting logic
+  const getDocNumber = (title: string): number | null => {
+    const match = title.match(/^Doc\s+(\d+)\s*-/i);
+    return match ? parseInt(match[1], 10) : null;
+  };
+
   const viewingDocs = [...documents]
     .filter((d) => d.title.toLowerCase().includes(searchInput.toLowerCase()))
-    .sort((a, b) =>
-      ascending
+    .sort((a, b) => {
+      const aDocNum = getDocNumber(a.title);
+      const bDocNum = getDocNumber(b.title);
+
+      // If both have doc numbers, sort by doc number
+      if (aDocNum !== null && bDocNum !== null) {
+        return ascending ? aDocNum - bDocNum : bDocNum - aDocNum;
+      }
+
+      // If neither has doc number, fall back to publish_time
+      return ascending
         ? new Date(a.publish_time).getTime() -
-          new Date(b.publish_time).getTime()
+            new Date(b.publish_time).getTime()
         : new Date(b.publish_time).getTime() -
-          new Date(a.publish_time).getTime(),
-    );
+            new Date(a.publish_time).getTime();
+    });
 
   return (
     <>
