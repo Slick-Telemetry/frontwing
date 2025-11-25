@@ -122,7 +122,7 @@ export function Table({
 
           {item.team && (
             <ConstructorBadge
-              className='md:w-28 xl:w-20 2xl:w-28 2xl:text-sm'
+              className='2xl:text-sm'
               color={item.color.slice(1)} //remove #
               name={item.team}
             />
