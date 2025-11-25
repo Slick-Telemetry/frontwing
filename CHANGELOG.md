@@ -1,3 +1,9 @@
+## 0.8.9 (2025-11-25)
+
+### Fix
+
+- **fia-docs**: FRON-267 better strategy for ordering/sorting docs
+
 ## 0.8.8 (2025-11-20)
 
 ### Fix
