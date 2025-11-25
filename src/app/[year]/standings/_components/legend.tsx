@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { Circle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 
-import { Button } from '@/components/ui/button';
+import { DriverBadges } from './driver-badges';
 
 type Driver = {
   abbr: string;
@@ -87,27 +87,16 @@ export const Legend = ({
           </div>
 
           {showDrivers && (
-            <div className='flex gap-x-2'>
-              {drivers.map((driver, idx) => (
-                <Button
-                  key={driver}
-                  size='sm'
-                  variant='outline'
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleVisibility('drivers', [driver]);
-                  }}
-                  className={clsx(
-                    'h-6 max-w-1/2 flex-1 cursor-pointer px-0 py-1 text-center text-sm select-none',
-                    `border border-${['solid', 'dashed', 'dotted', 'double'][idx % 4]}`,
-                    hiddenItems[driver] ? 'opacity-50' : 'opacity-100',
-                  )}
-                  style={{ borderColor: color }}
-                >
-                  {driver}
-                </Button>
-              ))}
-            </div>
+            <DriverBadges
+              drivers={drivers}
+              color={color}
+              onDriverClick={(driver, e) => {
+                e.stopPropagation();
+                toggleVisibility('drivers', [driver]);
+              }}
+              hiddenItems={hiddenItems}
+              fullWidth
+            />
           )}
         </div>
       ))}
