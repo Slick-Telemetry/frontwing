@@ -1,3 +1,9 @@
+## 0.9.1 (2025-11-26)
+
+### Fix
+
+- FRON-186 Spoiler mode will NOT resets when changing tabs
+
 ## 0.9.0 (2025-11-25)
 
 ### Feat
