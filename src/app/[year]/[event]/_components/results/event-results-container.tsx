@@ -122,44 +122,45 @@ export default function EventResultsContainer({
           </TabsList>
           <ResultsSettingsDropdown />
         </div>
-
-        {SESSION_KEYS.map((key, i) => {
-          if (!sessions[i]) return;
-          const sessionName = sessions[i]?.name as Session_Name_Choices_Enum;
-          return (
-            <TabsContent key={key} value={key} className='relative'>
-              <Table>
-                {COMPETITION_SESSIONS.includes(sessionName) && (
-                  <CompetitionResults
-                    session={data.competition.filter(
-                      (s) => s?.name === sessionName,
-                    )}
-                  />
-                )}
-                {QUALIFYING_SESSIONS.includes(sessionName) && (
-                  <QualifyingResults
-                    session={data.qualifying.filter(
-                      (s) => s?.name === sessionName,
-                    )}
-                  />
-                )}
-                {PRACTICE_SESSIONS.includes(sessionName) && (
-                  <PracticeResults
-                    session={data.practice.filter(
-                      (s) => s?.name === sessionName,
-                    )}
-                  />
-                )}
-                {loading && <ResultsTableBodySkeleton />}
-              </Table>
-              <ResultsTableOverlay
-                year={year as string}
-                event={event as string}
-                latestSession={sessions.at(-1)?.scheduled_start_time_utc}
-              />
-            </TabsContent>
-          );
-        })}
+        <div className='relative'>
+          {SESSION_KEYS.map((key, i) => {
+            if (!sessions[i]) return;
+            const sessionName = sessions[i]?.name as Session_Name_Choices_Enum;
+            return (
+              <TabsContent key={key} value={key}>
+                <Table>
+                  {COMPETITION_SESSIONS.includes(sessionName) && (
+                    <CompetitionResults
+                      session={data.competition.filter(
+                        (s) => s?.name === sessionName,
+                      )}
+                    />
+                  )}
+                  {QUALIFYING_SESSIONS.includes(sessionName) && (
+                    <QualifyingResults
+                      session={data.qualifying.filter(
+                        (s) => s?.name === sessionName,
+                      )}
+                    />
+                  )}
+                  {PRACTICE_SESSIONS.includes(sessionName) && (
+                    <PracticeResults
+                      session={data.practice.filter(
+                        (s) => s?.name === sessionName,
+                      )}
+                    />
+                  )}
+                  {loading && <ResultsTableBodySkeleton />}
+                </Table>
+              </TabsContent>
+            );
+          })}
+          <ResultsTableOverlay
+            year={year as string}
+            event={event as string}
+            latestSession={sessions.at(-1)?.scheduled_start_time_utc}
+          />
+        </div>
       </Tabs>
     </div>
   );
