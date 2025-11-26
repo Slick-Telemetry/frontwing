@@ -42,14 +42,6 @@ declare global {
 
   type FinishingClassificationCode = 'R' | 'D' | 'E' | 'W' | 'F' | 'N';
 
-  type FinishingClassification =
-    | 'Retired'
-    | 'Disqualified'
-    | 'Excluded'
-    | 'Withdrawn'
-    | 'Failed to qualify'
-    | 'Not classified';
-
   type AvailablePointsConfig = {
     drivers: {
       sprint: number;

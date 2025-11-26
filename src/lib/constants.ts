@@ -31,7 +31,7 @@ export const COMPETITION_SESSIONS = [
 
 export const FINISHING_CLASSIFICATIONS: Record<
   FinishingClassificationCode,
-  FinishingClassification
+  string
 > = {
   R: 'Retired',
   D: 'Disqualified',

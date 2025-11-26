@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 
 import { FragmentType, graphql, useFragment } from '@/types';
 
-type ViewType = 'drivers' | 'constructors';
 type StandingsListProps<T> = {
   active?: boolean;
   items: T[];

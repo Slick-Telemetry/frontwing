@@ -62,7 +62,7 @@ export function CompetitionResults({
               <TableCell>
                 {classifiedPos in FINISHING_CLASSIFICATIONS ? (
                   FINISHING_CLASSIFICATIONS[
-                    classifiedPos as keyof typeof FINISHING_CLASSIFICATIONS
+                    classifiedPos as FinishingClassificationCode
                   ]
                 ) : (
                   <>

@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/input-group';
 
 import { FragmentType, graphql, useFragment } from '@/types';
-import { FiaDocsFragment } from '@/types/graphql';
+import { FiaDocsFragment as FIADocsFragmentType } from '@/types/graphql';
 
 const FIADocsFragment = graphql(`
   fragment FIADocs on fia_documents {
@@ -111,7 +111,7 @@ export function FIADocs({ loading, ...props }: FIADocsProps) {
   );
 }
 
-function FIADocButton(doc: FiaDocsFragment) {
+function FIADocButton(doc: FIADocsFragmentType) {
   return (
     <Button
       variant='outline'
