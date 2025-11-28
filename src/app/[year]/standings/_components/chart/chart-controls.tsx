@@ -10,6 +10,7 @@ export const ChartControls = ({
   showAvailablePoints,
   toggleAvailablePoints,
   toggleVisibility,
+  resetZoom,
 }: {
   showTooltip: boolean;
   toggleTooltip: () => void;
@@ -18,6 +19,7 @@ export const ChartControls = ({
   showAvailablePoints: boolean;
   toggleAvailablePoints: () => void;
   toggleVisibility: (string: 'all' | 'none') => void;
+  resetZoom: () => void;
 }) => (
   <div className='flex items-center gap-4 p-4'>
     <Button variant='outline' size='sm' onClick={() => toggleVisibility('all')}>
@@ -29,6 +31,9 @@ export const ChartControls = ({
       onClick={() => toggleVisibility('none')}
     >
       Clear All
+    </Button>
+    <Button variant='outline' size='sm' onClick={resetZoom} className='gap-2'>
+      Reset Zoom
     </Button>
 
     <div className='ml-auto flex w-fit items-center gap-4'>
