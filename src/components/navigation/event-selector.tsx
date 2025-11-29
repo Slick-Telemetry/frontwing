@@ -34,9 +34,9 @@ export function EventSelector() {
     skip: !year,
   });
 
-  if (loading) return <SelectorSkeleton width='w-48' />;
+  if (loading) return <SelectorSkeleton width='min-w-48' />;
   if (error || !data?.schedule?.length)
-    return <SelectorDisabled placeholder='Event' width='w-48' />;
+    return <SelectorDisabled placeholder='Event' width='min-w-48' />;
 
   const items =
     data.schedule.map(({ round_number, event_name, event_format }) => ({
@@ -66,7 +66,7 @@ export function EventSelector() {
       placeholder='Event'
       items={items}
       onChange={(val) => updateUrl('event', eventLocationEncode(val) as string)}
-      width='w-48'
+      width='min-w-48'
     />
   );
 }
