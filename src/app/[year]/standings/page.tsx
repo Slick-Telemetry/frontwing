@@ -27,25 +27,123 @@ import type { GetStandingsQuery } from '@/types/graphql';
 const resolveColor = (color?: string | null) =>
   color ? `#${color}` : 'var(--foreground)';
 
+// Countback logic: Count finishing positions (1st, 2nd, 3rd, etc.)
+// classified_position is a string that can be "1", "2", "3", etc. or "R", "D", "E", "W", "F", "N"
+const parsePosition = (position: string | null | undefined): number | null => {
+  if (!position) return null;
+  const parsed = parseInt(position, 10);
+  return isNaN(parsed) ? null : parsed;
+};
+
+// Count finishing positions for a driver
+const countDriverPositions = (
+  driverAbbr: string,
+  events: GetStandingsQuery['events'],
+): number[] => {
+  const positionCounts: number[] = [];
+
+  events.forEach((event) => {
+    event.race_sessions?.forEach((session) => {
+      session.driver_sessions?.forEach((driverSession) => {
+        if (driverSession.driver?.abbreviation === driverAbbr) {
+          driverSession.results?.forEach((result) => {
+            const position = parsePosition(result?.classified_position);
+            if (position !== null && position > 0) {
+              // Ensure array is large enough
+              while (positionCounts.length < position) {
+                positionCounts.push(0);
+              }
+              positionCounts[position - 1] =
+                (positionCounts[position - 1] || 0) + 1;
+            }
+          });
+        }
+      });
+    });
+  });
+
+  return positionCounts;
+};
+
+// Count finishing positions for a constructor (all drivers on that team)
+const countConstructorPositions = (
+  constructorName: string,
+  events: GetStandingsQuery['events'],
+): number[] => {
+  const positionCounts: number[] = [];
+
+  events.forEach((event) => {
+    event.race_sessions?.forEach((session) => {
+      session.driver_sessions?.forEach((driverSession) => {
+        if (
+          driverSession.constructorByConstructorId?.name === constructorName
+        ) {
+          driverSession.results?.forEach((result) => {
+            const position = parsePosition(result?.classified_position);
+            if (position !== null && position > 0) {
+              // Ensure array is large enough
+              while (positionCounts.length < position) {
+                positionCounts.push(0);
+              }
+              positionCounts[position - 1] =
+                (positionCounts[position - 1] || 0) + 1;
+            }
+          });
+        }
+      });
+    });
+  });
+
+  return positionCounts;
+};
+
+// Compare two position count arrays for countback sorting
+// Returns: negative if a < b, positive if a > b, 0 if equal
+const compareCountback = (a: number[], b: number[]): number => {
+  const maxLength = Math.max(a.length, b.length);
+  for (let i = 0; i < maxLength; i++) {
+    const aCount = a[i] || 0;
+    const bCount = b[i] || 0;
+    if (aCount !== bCount) {
+      return bCount - aCount; // Higher count is better (descending)
+    }
+  }
+  return 0; // Equal countback
+};
+
 const getConstructorData = (
   constructor: NonNullable<GetStandingsQuery['constructors'][0]>,
-) => ({
-  name: constructor?.name ?? 'Unknown',
-  abbr: constructor?.name ?? 'Unknown',
-  color: resolveColor(constructor?.color),
-  totalPoints: constructor?.lastRoundPoints?.[0]?.points ?? 0,
-});
+  events: GetStandingsQuery['events'],
+) => {
+  const positionCounts = countConstructorPositions(
+    constructor.name ?? '',
+    events,
+  );
+  return {
+    name: constructor?.name ?? 'Unknown',
+    abbr: constructor?.name ?? 'Unknown',
+    color: resolveColor(constructor?.color),
+    totalPoints: constructor?.lastRoundPoints?.[0]?.points ?? 0,
+    positionCounts,
+  };
+};
 
 const getDriverData = (
   driver: NonNullable<GetStandingsQuery['drivers'][0]>,
+  events: GetStandingsQuery['events'],
 ) => {
   const constructor = driver.latest_constructor?.[0]?.constructor;
+  const positionCounts = countDriverPositions(
+    driver.abbreviation ?? '',
+    events,
+  );
   return {
     abbr: driver.abbreviation ?? '',
     name: driver.full_name ?? '',
     totalPoints: driver.driver_standings?.at(-1)?.points ?? 0,
     team: constructor?.name ?? 'Unknown',
     color: resolveColor(constructor?.color),
+    positionCounts,
   };
 };
 
@@ -67,8 +165,27 @@ const StandingsContent = () => {
     return notFound();
   }
 
-  const simpleConstructorData = standings.constructors.map(getConstructorData);
-  const simpleDriverData = standings.drivers.map(getDriverData);
+  const simpleConstructorData = standings.constructors
+    .map((c) => getConstructorData(c, standings.events))
+    .sort((a, b) => {
+      // First sort by points (descending)
+      if (b.totalPoints !== a.totalPoints) {
+        return b.totalPoints - a.totalPoints;
+      }
+      // If points are equal, use countback
+      return compareCountback(a.positionCounts, b.positionCounts);
+    });
+
+  const simpleDriverData = standings.drivers
+    .map((d) => getDriverData(d, standings.events))
+    .sort((a, b) => {
+      // First sort by points (descending)
+      if (b.totalPoints !== a.totalPoints) {
+        return b.totalPoints - a.totalPoints;
+      }
+      // If points are equal, use countback
+      return compareCountback(a.positionCounts, b.positionCounts);
+    });
 
   // Group drivers by constructor for displaying in constructor standings
   const driversByConstructor = new Map<string, string[]>();

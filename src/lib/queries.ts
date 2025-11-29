@@ -90,6 +90,19 @@ export const GET_STANDINGS = graphql(`
       round_number
       name
       format
+      race_sessions: sessions(where: { name: { _eq: Race } }) {
+        driver_sessions {
+          driver {
+            abbreviation
+          }
+          constructorByConstructorId {
+            name
+          }
+          results {
+            classified_position
+          }
+        }
+      }
     }
     drivers(
       where: { driver_standings: { season: { _eq: $season } } }

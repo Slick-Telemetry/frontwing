@@ -13135,6 +13135,24 @@ export type GetStandingsQuery = {
     round_number?: number | null;
     name?: string | null;
     format?: Event_Format_Choices_Enum | null;
+    race_sessions: Array<{
+      __typename?: 'sessions';
+      driver_sessions: Array<{
+        __typename?: 'driver_sessions';
+        driver?: {
+          __typename?: 'drivers';
+          abbreviation?: string | null;
+        } | null;
+        constructorByConstructorId?: {
+          __typename?: 'constructors';
+          name?: string | null;
+        } | null;
+        results: Array<{
+          __typename?: 'results';
+          classified_position?: string | null;
+        }>;
+      }>;
+    }>;
   }>;
   drivers: Array<{
     __typename?: 'drivers';
@@ -18960,6 +18978,98 @@ export const GetStandingsDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'format' } },
+                {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'race_sessions' },
+                  name: { kind: 'Name', value: 'sessions' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'where' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'name' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: '_eq' },
+                                  value: { kind: 'EnumValue', value: 'Race' },
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'driver_sessions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'driver' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'abbreviation',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'constructorByConstructorId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'results' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'classified_position',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
