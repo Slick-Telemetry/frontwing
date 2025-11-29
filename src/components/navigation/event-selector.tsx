@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery } from '@apollo/client/react';
-import { CircleStar } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
@@ -14,6 +13,7 @@ import {
 } from '@/components/navigation/selector';
 
 import { graphql } from '@/types';
+import { Event_Format_Choices_Enum } from '@/types/graphql';
 
 export const GET_NAV_EVENTS = graphql(`
   query GetNavEvents($year: Int!) @cached {
@@ -41,12 +41,21 @@ export function EventSelector() {
   const items =
     data.schedule.map(({ round_number, event_name, event_format }) => ({
       label: (
-        <>
-          {round_number} | {event_name}{' '}
-          {event_format?.includes('sprint') ? (
-            <CircleStar aria-label='Sprint' />
+        <span className='flex items-center gap-1'>
+          <span>
+            {round_number} | {event_name}
+          </span>
+          {event_format &&
+          [
+            Event_Format_Choices_Enum.Sprint,
+            Event_Format_Choices_Enum.SprintShootout,
+            Event_Format_Choices_Enum.SprintQualifying,
+          ].includes(event_format as Event_Format_Choices_Enum) ? (
+            <span className='inline-flex h-4 w-4 items-center justify-center rounded border border-yellow-400 text-[0.65rem] leading-none'>
+              S
+            </span>
           ) : null}
-        </>
+        </span>
       ),
       value: event_name!,
     })) || [];
