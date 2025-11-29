@@ -179,8 +179,8 @@ export function Table({
             />
           )}
         </div>
-        <p className='w-10 text-center'>{item.totalPoints}</p>
-        <p className='w-10 text-center'>{gap ?? 'Gap'}</p>
+        <p className='min-w-16 text-center'>{item.totalPoints}</p>
+        <p className='min-w-16 text-center'>{gap ?? 'Gap'}</p>
       </div>
     );
   });
