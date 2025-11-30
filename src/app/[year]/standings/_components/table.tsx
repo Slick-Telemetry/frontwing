@@ -3,6 +3,11 @@ import { Circle, Crown, Tally2, Tally3 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
 import { ConstructorBadge } from '@/components/constructor-badge';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { DriverBadges } from './driver-badges';
 
@@ -129,37 +134,58 @@ export function Table({
             {item.positionCounts && (
               <div className='flex items-center gap-1'>
                 {item.positionCounts[0] > 0 && (
-                  <div
-                    className='flex items-center gap-0.5 rounded border px-1.5 py-0.5'
-                    title={`${item.positionCounts[0]} first place${item.positionCounts[0] > 1 ? 's' : ''}`}
-                  >
-                    <Crown className='size-3.5 text-yellow-500' />
-                    <span className='text-xs font-medium'>
-                      {item.positionCounts[0]}
-                    </span>
-                  </div>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className='flex items-center gap-0.5 rounded border px-1.5 py-0.5'>
+                        <Crown className='size-3.5 text-yellow-500' />
+                        <span className='text-xs font-medium'>
+                          {item.positionCounts[0]}
+                        </span>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>
+                        {item.positionCounts[0]} Win
+                        {item.positionCounts[0] > 1 ? 's' : ''}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
                 )}
                 {item.positionCounts[1] > 0 && (
-                  <div
-                    className='flex items-center gap-0.5 rounded border px-1.5 py-0.5'
-                    title={`${item.positionCounts[1]} second place${item.positionCounts[1] > 1 ? 's' : ''}`}
-                  >
-                    <Tally2 className='size-3.5 text-gray-400' />
-                    <span className='text-xs font-medium'>
-                      {item.positionCounts[1]}
-                    </span>
-                  </div>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className='flex items-center gap-0.5 rounded border px-1.5 py-0.5'>
+                        <Tally2 className='size-3.5 text-gray-400' />
+                        <span className='text-xs font-medium'>
+                          {item.positionCounts[1]}
+                        </span>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>
+                        {item.positionCounts[1]} P2
+                        {item.positionCounts[1] > 1 ? 's' : ''}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
                 )}
                 {item.positionCounts[2] > 0 && (
-                  <div
-                    className='flex items-center gap-0.5 rounded border px-1.5 py-0.5'
-                    title={`${item.positionCounts[2]} third place${item.positionCounts[2] > 1 ? 's' : ''}`}
-                  >
-                    <Tally3 className='size-3.5 text-amber-600' />
-                    <span className='text-xs font-medium'>
-                      {item.positionCounts[2]}
-                    </span>
-                  </div>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className='flex items-center gap-0.5 rounded border px-1.5 py-0.5'>
+                        <Tally3 className='size-3.5 text-amber-600' />
+                        <span className='text-xs font-medium'>
+                          {item.positionCounts[2]}
+                        </span>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>
+                        {item.positionCounts[2]} P3
+                        {item.positionCounts[2] > 1 ? 's' : ''}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
                 )}
               </div>
             )}
