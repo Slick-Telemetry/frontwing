@@ -38,7 +38,7 @@ export function TopThree(props: TopThreeProps) {
   if (!evt) return null;
   return (
     <div className='grid h-fit divide-y pr-2'>
-      {evt.topThreeRace[0].driver_sessions.slice(0, 3).map((d) => (
+      {evt.topThreeRace[0]?.driver_sessions.slice(0, 3).map((d) => (
         <div
           className='flex items-center gap-1 py-0.5'
           key={`top-three-${d.driver?.full_name}`}
