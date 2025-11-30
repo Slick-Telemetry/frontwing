@@ -1,3 +1,9 @@
+## 0.9.2 (2025-11-30)
+
+### Fix
+
+- **FRON-278**: map page fixed when loading event without top three results
+
 ## 0.9.1 (2025-11-26)
 
 ### Fix
