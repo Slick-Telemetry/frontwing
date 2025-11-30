@@ -25,7 +25,8 @@ export const isFutureDate = (date?: string | null) => {
 };
 
 export function shouldHideResults(date?: string | null): boolean {
-  if (!date) return false;
+  // Default to hiding results better safe than spoiled
+  if (!date) return true;
   const eventDate = new Date(date);
   const timeThreshold = new Date(eventDate.getTime() + 2 * 24 * 60 * 60 * 1000);
 

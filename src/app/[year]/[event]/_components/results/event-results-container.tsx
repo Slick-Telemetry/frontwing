@@ -299,7 +299,7 @@ const ResultsTableOverlay = ({
   );
 
   useEffect(() => {
-    if (alwaysShowResults) {
+    if (alwaysShowResults === 'true') {
       setHidden(false);
     }
   }, [alwaysShowResults, setHidden]);
@@ -316,7 +316,7 @@ const ResultsTableOverlay = ({
       onClick={() => setHidden(false)}
       className='absolute inset-0 cursor-pointer rounded border backdrop-blur'
     >
-      <div className='sticky top-1/2 flex flex-col items-center gap-2 py-12'>
+      <div className='sticky top-1/4 flex flex-col items-center gap-2 py-12'>
         <Badge variant='secondary' className='gap-2 text-base'>
           <EyeOff className='size-4' />
           Results are hidden
