@@ -1,3 +1,9 @@
+## 0.9.3 (2025-11-30)
+
+### Fix
+
+- **FRON-186**: Spoiler overlay displayed when date is slow to load
+
 ## 0.9.2 (2025-11-30)
 
 ### Fix
