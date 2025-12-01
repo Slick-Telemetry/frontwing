@@ -41,6 +41,8 @@ type SidebarContextProps = {
   setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
+  cancelHoverTimeout: () => void;
+  scheduleHoverClose: () => void;
 };
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
@@ -76,6 +78,7 @@ const SidebarProvider = React.forwardRef<
   ) => {
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
+    const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -103,6 +106,24 @@ const SidebarProvider = React.forwardRef<
         : setOpen((open) => !open);
     }, [isMobile, setOpen, setOpenMobile]);
 
+    // Cancel hover timeout
+    const cancelHoverTimeout = React.useCallback(() => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+        hoverTimeoutRef.current = null;
+      }
+    }, []);
+
+    // Schedule hover close
+    const scheduleHoverClose = React.useCallback(() => {
+      cancelHoverTimeout();
+      hoverTimeoutRef.current = setTimeout(() => {
+        if (open && !isMobile) {
+          setOpen(false);
+        }
+      }, 300);
+    }, [open, isMobile, setOpen, cancelHoverTimeout]);
+
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
@@ -123,6 +144,15 @@ const SidebarProvider = React.forwardRef<
     // This makes it easier to style the sidebar with Tailwind classes.
     const state = open ? 'expanded' : 'collapsed';
 
+    // Cleanup timeout on unmount
+    React.useEffect(() => {
+      return () => {
+        if (hoverTimeoutRef.current) {
+          clearTimeout(hoverTimeoutRef.current);
+        }
+      };
+    }, []);
+
     const contextValue = React.useMemo<SidebarContextProps>(
       () => ({
         state,
@@ -132,6 +162,8 @@ const SidebarProvider = React.forwardRef<
         openMobile,
         setOpenMobile,
         toggleSidebar,
+        cancelHoverTimeout,
+        scheduleHoverClose,
       }),
       [
         state,
@@ -141,6 +173,8 @@ const SidebarProvider = React.forwardRef<
         openMobile,
         setOpenMobile,
         toggleSidebar,
+        cancelHoverTimeout,
+        scheduleHoverClose,
       ],
     );
 
@@ -156,7 +190,7 @@ const SidebarProvider = React.forwardRef<
               } as React.CSSProperties
             }
             className={cn(
-              'group/sidebar-wrapper has-[[data-variant=inset]]:bg-sidebar flex min-h-svh w-full',
+              'group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full',
               className,
             )}
             ref={ref}
@@ -190,7 +224,15 @@ const Sidebar = React.forwardRef<
     },
     ref,
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+    const {
+      isMobile,
+      state,
+      openMobile,
+      setOpenMobile,
+      setOpen,
+      cancelHoverTimeout,
+      scheduleHoverClose,
+    } = useSidebar();
 
     if (collapsible === 'none') {
       return (
@@ -232,47 +274,68 @@ const Sidebar = React.forwardRef<
     }
 
     return (
-      <div
-        ref={ref}
-        className='group peer text-sidebar-foreground hidden md:block'
-        data-state={state}
-        data-collapsible={state === 'collapsed' ? collapsible : ''}
-        data-variant={variant}
-        data-side={side}
-      >
-        {/* This is what handles the sidebar gap on desktop */}
-        <div
-          className={cn(
-            'relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear',
-            'group-data-[collapsible=offcanvas]:w-0',
-            'group-data-[side=right]:rotate-180',
-            variant === 'floating' || variant === 'inset'
-              ? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]'
-              : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon)',
-          )}
-        />
-        <div
-          className={cn(
-            'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
-            side === 'left'
-              ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
-              : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
-            // Adjust the padding for floating and inset variants.
-            variant === 'floating' || variant === 'inset'
-              ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]'
-              : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l',
-            className,
-          )}
-          {...props}
-        >
+      <>
+        {/* Backdrop overlay when sidebar is open in offcanvas mode */}
+        {collapsible === 'offcanvas' && state === 'expanded' && (
           <div
-            data-sidebar='sidebar'
-            className='bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow'
+            className='fixed inset-0 z-40 hidden bg-black/50 transition-opacity duration-200 md:block'
+            onClick={() => setOpen(false)}
+            aria-hidden='true'
+          />
+        )}
+        <div
+          ref={ref}
+          className='group peer text-sidebar-foreground hidden md:block'
+          data-state={state}
+          data-collapsible={state === 'collapsed' ? collapsible : ''}
+          data-variant={variant}
+          data-side={side}
+        >
+          {/* This is what handles the sidebar gap on desktop - always 0 for overlay mode */}
+          <div
+            className={cn(
+              'relative w-0 bg-transparent transition-[width] duration-200 ease-linear',
+              'group-data-[side=right]:rotate-180',
+              variant === 'floating' || variant === 'inset'
+                ? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]'
+                : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon)',
+            )}
+          />
+          <div
+            className={cn(
+              'fixed inset-y-0 z-50 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
+              side === 'left'
+                ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
+                : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
+              // Adjust the padding for floating and inset variants.
+              variant === 'floating' || variant === 'inset'
+                ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]'
+                : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l',
+              className,
+            )}
+            onMouseEnter={() => {
+              // Keep sidebar open when hovering over it - cancel any pending close
+              if (collapsible === 'offcanvas') {
+                cancelHoverTimeout();
+              }
+            }}
+            onMouseLeave={() => {
+              // Schedule close when mouse leaves sidebar
+              if (collapsible === 'offcanvas' && state === 'expanded') {
+                scheduleHoverClose();
+              }
+            }}
+            {...props}
           >
-            {children}
+            <div
+              data-sidebar='sidebar'
+              className='bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow'
+            >
+              {children}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   },
 );
@@ -281,8 +344,30 @@ Sidebar.displayName = 'Sidebar';
 const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
->(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar();
+>(({ className, onClick, onMouseEnter, onMouseLeave, ...props }, ref) => {
+  const {
+    toggleSidebar,
+    open,
+    setOpen,
+    cancelHoverTimeout,
+    scheduleHoverClose,
+  } = useSidebar();
+
+  const handleMouseEnter = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onMouseEnter?.(event);
+    // Clear any pending close timeout
+    cancelHoverTimeout();
+    // Open sidebar on hover
+    if (!open) {
+      setOpen(true);
+    }
+  };
+
+  const handleMouseLeave = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onMouseLeave?.(event);
+    // Schedule close after delay
+    scheduleHoverClose();
+  };
 
   return (
     <Button
@@ -293,8 +378,11 @@ const SidebarTrigger = React.forwardRef<
       className={cn('h-7 w-7', className)}
       onClick={(event) => {
         onClick?.(event);
+        // Keep click functionality as fallback
         toggleSidebar();
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       {...props}
     >
       <PanelLeft />
@@ -320,7 +408,7 @@ const SidebarRail = React.forwardRef<
       title='Toggle Sidebar'
       className={cn(
         'hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] sm:flex',
-        '[[data-side=left]_&]:cursor-w-resize [[data-side=right]_&]:cursor-e-resize',
+        'in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize',
         '[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize',
         'group-data-[collapsible=offcanvas]:hover:bg-sidebar group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full',
         '[[data-side=left][data-collapsible=offcanvas]_&]:-right-2',
