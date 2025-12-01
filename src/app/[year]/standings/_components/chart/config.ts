@@ -6,7 +6,7 @@ export const chartConfig = {
     top: '0%',
     left: '0%',
     right: '0%',
-    bottom: '20%',
+    bottom: 100,
   },
   tooltip: {
     trigger: 'axis',
@@ -27,7 +27,7 @@ export const chartConfig = {
       xAxisIndex: 0,
       start: 0,
       end: 100,
-      bottom: '2%',
+      bottom: 5,
     },
   ],
   xAxis: {
