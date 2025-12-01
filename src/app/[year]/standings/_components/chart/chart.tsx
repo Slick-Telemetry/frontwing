@@ -12,7 +12,7 @@ import * as echarts from 'echarts/core';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useECharts } from '@/hooks/use-EChart';
 
@@ -23,6 +23,10 @@ import {
   useStandingsSeries,
   useTooltipFormatter,
 } from '@/app/[year]/standings/_components/chart';
+import {
+  buildConstructorPositionCountsTimeline,
+  buildDriverPositionCountsTimeline,
+} from '@/app/[year]/standings/_components/countback';
 
 import {
   Event_Format_Choices_Enum,
@@ -84,8 +88,39 @@ export function StandingsChart({
     type,
   });
 
+  // Precompute countback position counts for each series after every event so
+  // the tooltip can apply per-round countback identical to the standings table
+  // but scoped to the rounds completed so far.
+  const driverPositionCountsTimeline = useMemo(
+    () =>
+      buildDriverPositionCountsTimeline(
+        data.drivers
+          .map((driver) => driver.abbreviation ?? '')
+          .filter((abbr): abbr is string => Boolean(abbr)),
+        data.events,
+      ),
+    [data.drivers, data.events],
+  );
+
+  const constructorPositionCountsTimeline = useMemo(
+    () =>
+      buildConstructorPositionCountsTimeline(
+        data.constructors
+          .map((constructor) => constructor.name ?? '')
+          .filter((name): name is string => Boolean(name)),
+        data.events,
+      ),
+    [data.constructors, data.events],
+  );
+
+  const positionCountsTimeline =
+    type === 'drivers'
+      ? driverPositionCountsTimeline
+      : constructorPositionCountsTimeline;
+
   const formatTooltip = useTooltipFormatter({
     events: data.events,
+    positionCountsTimeline,
   });
 
   const { driversSeries, constructorsSeries, availablePointsSeries } =
