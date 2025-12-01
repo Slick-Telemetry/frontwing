@@ -2,7 +2,7 @@ import React from 'react';
 
 import { formatLapTime } from '@/lib/utils';
 
-import { ConstructorBadge } from '@/components/constructor-badge';
+import { ConstructorBadge } from '@/components/badges/constructor-badge';
 import { Badge } from '@/components/ui/badge';
 import {
   TableCell,

@@ -75,3 +75,9 @@ export const AVAILABLE_POINTS_BY_YEAR: Record<number, AvailablePointsConfig> = {
     constructors: { sprint: 43, normal: 43 },
   },
 };
+
+// Tooltip width in "ch" units, chosen based on the longest expected header
+// text (e.g. "R22 - Some Long Grand Prix Name S") so the container stays
+// stable as you move between points. If future calendars introduce noticeably
+// longer names, this value can be bumped slightly.
+export const FIXED_STANDINGS_CHART_TOOLTIP_WIDTH_CH = 25;

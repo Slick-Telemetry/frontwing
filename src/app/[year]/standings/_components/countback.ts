@@ -1,16 +1,5 @@
 import type { GetStandingsQuery } from '@/types/graphql';
 
-// Helper functions for countback logic shared between table and chart tooltip
-
-// classified_position is a string that can be "1", "2", "3", etc. or "R", "D", "E", "W", "F", "N"
-export const parsePosition = (
-  position: string | null | undefined,
-): number | null => {
-  if (!position) return null;
-  const parsed = parseInt(position, 10);
-  return Number.isNaN(parsed) ? null : parsed;
-};
-
 // Count finishing positions for a driver
 export const countDriverPositions = (
   driverAbbr: string,
@@ -23,7 +12,7 @@ export const countDriverPositions = (
       session.driver_sessions?.forEach((driverSession) => {
         if (driverSession.driver?.abbreviation === driverAbbr) {
           driverSession.results?.forEach((result) => {
-            const position = parsePosition(result?.classified_position);
+            const position = parseInt(result?.classified_position ?? '0', 10);
             if (position !== null && position > 0) {
               // Ensure array is large enough
               while (positionCounts.length < position) {
@@ -55,7 +44,7 @@ export const countConstructorPositions = (
           driverSession.constructorByConstructorId?.name === constructorName
         ) {
           driverSession.results?.forEach((result) => {
-            const position = parsePosition(result?.classified_position);
+            const position = parseInt(result?.classified_position ?? '0', 10);
             if (position !== null && position > 0) {
               // Ensure array is large enough
               while (positionCounts.length < position) {
@@ -74,7 +63,7 @@ export const countConstructorPositions = (
 };
 
 // Compare two position count arrays for countback sorting
-// Returns: negative if a < b, positive if a > b, 0 if equal
+// Returns: negative if a should be ranked above b, positive if b should be ranked above a, 0 if equal
 export const compareCountback = (a: number[], b: number[]): number => {
   const maxLength = Math.max(a.length, b.length);
   for (let i = 0; i < maxLength; i++) {
@@ -122,7 +111,7 @@ export const buildDriverPositionCountsTimeline = (
         if (!abbr) return;
         const counts = cumulative[abbr] || (cumulative[abbr] = []);
         driverSession.results?.forEach((result) => {
-          const position = parsePosition(result?.classified_position);
+          const position = parseInt(result?.classified_position ?? '0', 10);
           updateCountsFromResult(counts, position);
         });
       });
@@ -160,7 +149,7 @@ export const buildConstructorPositionCountsTimeline = (
         const counts =
           cumulative[constructorName] || (cumulative[constructorName] = []);
         driverSession.results?.forEach((result) => {
-          const position = parsePosition(result?.classified_position);
+          const position = parseInt(result?.classified_position ?? '0', 10);
           updateCountsFromResult(counts, position);
         });
       });

@@ -1,6 +1,8 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { useCallback } from 'react';
 
+import { FIXED_STANDINGS_CHART_TOOLTIP_WIDTH_CH } from '@/lib/constants';
+
 import { compareCountback } from '@/app/[year]/standings/_components/countback';
 
 import { Event_Format_Choices_Enum } from '@/types/graphql';
@@ -23,25 +25,6 @@ export function useTooltipFormatter({
   events,
   positionCountsTimeline,
 }: UseTooltipFormatterProps) {
-  // Precompute the longest header text across all events so the tooltip width
-  // stays stable as you move between data points.
-  const hasSprintEvent = events.some((event) => isSprintFormat(event?.format));
-
-  const baseMaxHeaderLength = events.reduce((max, event, index) => {
-    const round = index + 1;
-    const sprint = isSprintFormat(event?.format);
-    // Use a simple text marker for width calculations so we don't depend on HTML length
-    const sprintSuffix = sprint ? ' S' : '';
-    const headerText = `R${round} ${
-      event?.name?.replace('Grand Prix', 'GP') || `Round: ${round}`
-    }${sprintSuffix}`;
-    return Math.max(max, headerText.length);
-  }, 0);
-
-  // Add a small buffer when any sprint badge is present so the visual box
-  // fits without forcing the event name to wrap to a second line.
-  const maxHeaderLength = baseMaxHeaderLength + (hasSprintEvent ? 1 : 0);
-
   return useCallback(
     (params: CallbackDataParams[]) => {
       if (!params?.length) return '';
@@ -56,9 +39,10 @@ export function useTooltipFormatter({
         : '';
 
       // Header with round and event name
-      const headerText = `R${round} - ${
-        event?.name?.replace('Grand Prix', 'GP') || `Round: ${round}`
-      }`;
+      const headerText = `R${round} - ${event?.name?.replace(
+        'Grand Prix',
+        'GP',
+      )}`;
       const header = `<div class='font-bold text-white mb-1 flex items-center'>${headerText}${sprintBadge}</div>`;
 
       const getCountsThroughRound = (seriesName: string) => {
@@ -103,11 +87,11 @@ export function useTooltipFormatter({
       // Wrap header + body in a fixed-width container so tooltip width doesn't
       // change between events. Width is based on the longest header text.
       return `
-        <div style="width:${maxHeaderLength}ch; white-space: normal; word-break: break-word;">
+        <div style="width:${FIXED_STANDINGS_CHART_TOOLTIP_WIDTH_CH}ch; white-space: normal; word-break: break-word;">
           ${header}${body}
         </div>
       `;
     },
-    [events, maxHeaderLength, positionCountsTimeline],
+    [events, positionCountsTimeline],
   );
 }

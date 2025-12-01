@@ -52,6 +52,13 @@ interface Props {
   toggleVisibility: (string: 'all' | 'none') => void;
 }
 
+type EChartsOption = {
+  dataZoom?: Array<{
+    start?: number;
+    end?: number;
+  }>;
+};
+
 export function StandingsChart({
   data,
   type,
@@ -134,69 +141,6 @@ export function StandingsChart({
   const baseSeries = type === 'drivers' ? driversSeries : constructorsSeries;
   const filtered = baseSeries.filter((s) => !hiddenItems[s.name]);
 
-  // Track zoom changes using ECharts datazoom event
-  // API Reference: https://echarts.apache.org/en/api.html#events.datazoom
-  useEffect(() => {
-    if (!chartInstance.current) return;
-
-    const chart = chartInstance.current;
-
-    // Event params include: start, end, dataZoomIndex, and batch (for multiple components)
-    type DataZoomEventParams = {
-      start?: number; // start percentage (0-100)
-      end?: number; // end percentage (0-100)
-      dataZoomIndex?: number; // 0 = inside zoom, 1 = slider zoom
-      batch?: Array<{
-        start?: number;
-        end?: number;
-        dataZoomIndex?: number;
-      }>;
-    };
-
-    const handleDataZoom = (...args: unknown[]) => {
-      const params = args[0] as DataZoomEventParams;
-
-      // Always save the latest zoom state from events
-      // This captures both user interactions and programmatic changes
-      // We always update the ref - if it's a programmatic restore, it's the same value anyway
-      if (params.batch) {
-        // Handle multiple dataZoom components (both inside and slider fire together)
-        // Prefer slider (index 1) as it's the visible control
-        const sliderZoom = params.batch.find((p) => p.dataZoomIndex === 1);
-        const insideZoom = params.batch.find((p) => p.dataZoomIndex === 0);
-        const zoomSource = sliderZoom || insideZoom;
-        if (
-          zoomSource &&
-          zoomSource.start !== undefined &&
-          zoomSource.end !== undefined
-        ) {
-          zoomStateRef.current = {
-            start: zoomSource.start,
-            end: zoomSource.end,
-          };
-        }
-      } else {
-        // Handle single dataZoom event (either inside or slider)
-        if (
-          (params.dataZoomIndex === 0 || params.dataZoomIndex === 1) &&
-          params.start !== undefined &&
-          params.end !== undefined
-        ) {
-          zoomStateRef.current = {
-            start: params.start,
-            end: params.end,
-          };
-        }
-      }
-    };
-
-    chart.on('datazoom', handleDataZoom);
-
-    return () => {
-      chart.off('datazoom', handleDataZoom);
-    };
-  }, [chartInstance]);
-
   // update chart
   useEffect(() => {
     if (!chartInstance.current) return;
@@ -205,12 +149,7 @@ export function StandingsChart({
     // Always read current zoom state before updating as a fallback
     // This ensures we have the absolute latest state even if event handler missed something
     const currentOption = chart.getOption();
-    type EChartsOption = {
-      dataZoom?: Array<{
-        start?: number;
-        end?: number;
-      }>;
-    };
+
     // Safely access dataZoom with proper null checks
     if (
       currentOption &&
