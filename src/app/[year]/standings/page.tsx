@@ -282,7 +282,7 @@ const StandingsContent = () => {
           />
         </div>
       </div>
-      <div className='w-full xl:order-1'>
+      <div className='w-full min-w-0 xl:order-1'>
         <div className='bg-muted/50 mb-2 grid grid-cols-2 gap-2 rounded p-2'>
           {['drivers', 'constructors'].map((v) => (
             <Button
@@ -296,16 +296,18 @@ const StandingsContent = () => {
             </Button>
           ))}
         </div>
-        <Table
-          items={
-            chartType === 'drivers' ? simpleDriverData : simpleConstructorData
-          }
-          toggleItem={(items) => toggleVisibility(chartType, items)}
-          hiddenItems={hiddenItems}
-          driversByConstructor={
-            chartType === 'constructors' ? driversByConstructor : undefined
-          }
-        />
+        <div className='@container min-w-0 overflow-hidden'>
+          <Table
+            items={
+              chartType === 'drivers' ? simpleDriverData : simpleConstructorData
+            }
+            toggleItem={(items) => toggleVisibility(chartType, items)}
+            hiddenItems={hiddenItems}
+            driversByConstructor={
+              chartType === 'constructors' ? driversByConstructor : undefined
+            }
+          />
+        </div>
       </div>
     </div>
   );
