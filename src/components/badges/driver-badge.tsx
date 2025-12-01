@@ -1,4 +1,17 @@
-import clsx from 'clsx';
+import { cn } from '@/lib/utils';
+
+import { Badge } from '@/components/ui/badge';
+
+const getBorderStyle = (idx: number) => {
+  // Cycle through border styles: solid, dashed, dotted, double
+  const borderStyles = [
+    'border-solid',
+    'border-dashed',
+    'border-dotted',
+    'border-double',
+  ];
+  return borderStyles[idx % 4];
+};
 
 export function DriverBadges({
   drivers,
@@ -15,27 +28,16 @@ export function DriverBadges({
 }) {
   if (!drivers || drivers.length === 0) return null;
 
-  const getBorderStyle = (idx: number) => {
-    // Cycle through border styles: solid, dashed, dotted, double
-    const borderStyles = [
-      'border-solid',
-      'border-dashed',
-      'border-dotted',
-      'border-double',
-    ];
-    return borderStyles[idx % 4];
-  };
-
   return (
-    <div className={clsx('flex gap-x-2', fullWidth && 'w-full')}>
+    <div className={cn('flex gap-x-2', fullWidth && 'w-full')}>
       {drivers.map((driver, idx) => (
-        <div
+        <Badge
           key={driver}
+          variant='outline'
           onClick={onDriverClick ? (e) => onDriverClick(driver, e) : undefined}
-          className={clsx(
-            'flex h-6 items-center justify-center rounded-md px-2 text-xs font-semibold uppercase',
+          className={cn(
+            'flex h-6 items-center justify-center px-2 text-xs font-semibold uppercase',
             getBorderStyle(idx),
-            'border',
             fullWidth ? 'flex-1' : 'min-w-12',
             onDriverClick && 'cursor-pointer select-none',
             hiddenItems?.[driver] ? 'opacity-50' : 'opacity-100',
@@ -43,7 +45,7 @@ export function DriverBadges({
           style={{ borderColor: color }}
         >
           {driver}
-        </div>
+        </Badge>
       ))}
     </div>
   );

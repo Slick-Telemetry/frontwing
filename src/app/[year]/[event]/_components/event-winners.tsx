@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { shouldHideResults } from '@/lib/utils';
 import { useReadLocalStorage, useSessionStorage } from '@/hooks/use-storage';
 
-import { ConstructorBadge } from '@/components/constructor-badge';
+import { ConstructorBadge } from '@/components/badges/constructor-badge';
 
 import { FragmentType, graphql, useFragment } from '@/types';
 import type { EventWinnersFragment as EventWinnersFragmentType } from '@/types/graphql';

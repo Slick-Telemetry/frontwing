@@ -3,7 +3,7 @@ import Marquee from 'react-fast-marquee';
 
 import { positionDisplay } from '@/lib/utils';
 
-import { ConstructorBadge } from '@/components/constructor-badge';
+import { ConstructorBadge } from '@/components/badges/constructor-badge';
 import { Separator } from '@/components/ui/separator';
 
 import { FragmentType, graphql, useFragment } from '@/types';

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { Circle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 
-import { DriverBadges } from './driver-badges';
+import { DriverBadges } from '@/components/badges/driver-badge';
 
 type Driver = {
   abbr: string;
