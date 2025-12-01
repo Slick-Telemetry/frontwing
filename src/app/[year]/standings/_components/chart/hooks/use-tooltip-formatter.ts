@@ -1,6 +1,8 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { useCallback } from 'react';
 
+import { compareCountback } from '@/app/[year]/standings/_components/countback';
+
 import { Event_Format_Choices_Enum } from '@/types/graphql';
 
 interface UseTooltipFormatterProps {
@@ -9,6 +11,7 @@ interface UseTooltipFormatterProps {
     name?: string | null;
     format?: Event_Format_Choices_Enum | null;
   }[];
+  positionCountsTimeline: Record<string, number[][]>;
 }
 
 const isSprintFormat = (format?: Event_Format_Choices_Enum | null) =>
@@ -16,7 +19,10 @@ const isSprintFormat = (format?: Event_Format_Choices_Enum | null) =>
   format === Event_Format_Choices_Enum.SprintQualifying ||
   format === Event_Format_Choices_Enum.SprintShootout;
 
-export function useTooltipFormatter({ events }: UseTooltipFormatterProps) {
+export function useTooltipFormatter({
+  events,
+  positionCountsTimeline,
+}: UseTooltipFormatterProps) {
   // Precompute the longest header text across all events so the tooltip width
   // stays stable as you move between data points.
   const hasSprintEvent = events.some((event) => isSprintFormat(event?.format));
@@ -55,9 +61,32 @@ export function useTooltipFormatter({ events }: UseTooltipFormatterProps) {
       }`;
       const header = `<div class='font-bold text-white mb-1 flex items-center'>${headerText}${sprintBadge}</div>`;
 
-      // Body with series names and points
+      const getCountsThroughRound = (seriesName: string) => {
+        const timeline = positionCountsTimeline[seriesName];
+        if (!timeline?.length) return [];
+        if (eventIndex < timeline.length) {
+          return timeline[eventIndex] ?? [];
+        }
+        return timeline[timeline.length - 1] ?? [];
+      };
+
+      // Body with series names and points, sorted by:
+      // 1) Points (descending)
+      // 2) Countback (finishing positions), to break ties
       const body = params
-        .sort((a, b) => (b.value as number) - (a.value as number))
+        .sort((a, b) => {
+          const aValue = (a.value as number) ?? 0;
+          const bValue = (b.value as number) ?? 0;
+
+          if (bValue !== aValue) {
+            return bValue - aValue;
+          }
+
+          const aCounts = getCountsThroughRound(String(a.seriesName));
+          const bCounts = getCountsThroughRound(String(b.seriesName));
+
+          return compareCountback(aCounts, bCounts);
+        })
         .map(
           (p, index) => `
           <div class='flex items-center justify-between gap-2 border-t'>
@@ -79,6 +108,6 @@ export function useTooltipFormatter({ events }: UseTooltipFormatterProps) {
         </div>
       `;
     },
-    [events, maxHeaderLength],
+    [events, maxHeaderLength, positionCountsTimeline],
   );
 }
