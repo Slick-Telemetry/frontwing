@@ -109,6 +109,8 @@ export function Table({
       idx >= Math.min(dragStartIndex, dragEndIndex) &&
       idx <= Math.max(dragStartIndex, dragEndIndex);
 
+    const isConstructorView = !!driversByConstructor;
+
     return (
       <div
         key={item.name}
@@ -116,7 +118,7 @@ export function Table({
         onMouseEnter={() => handleMouseEnter(idx)}
         onMouseUp={handleMouseUp}
         className={clsx(
-          'bg-background flex cursor-pointer flex-wrap items-center divide-x rounded border py-1 select-none',
+          'bg-background flex min-w-0 cursor-pointer flex-nowrap items-center divide-x rounded border py-1 select-none',
           {
             'opacity-50': hiddenItems[item.abbr],
             'dark:bg-accent/50 bg-blue-100': isInDragRange,
@@ -125,14 +127,14 @@ export function Table({
         aria-label={`Toggle ${item.name} from chart`}
         // style={{ borderColor: item.color }}
       >
-        <p className='mr-auto w-8 text-center'>{idx + 1}</p>
-        <div className='flex flex-1 items-center justify-between gap-2 px-2'>
-          <Circle fill={item.color} stroke='none' className='size-4' />
-          <div className='flex flex-1 items-center gap-2'>
-            <p className='line-clamp-1 flex-1'>{item.name}</p>
-            {/* Position icons and counts */}
+        <p className='w-8 shrink-0 text-center'>{idx + 1}</p>
+        <div className='flex min-w-0 flex-1 items-center gap-2 px-2'>
+          <Circle fill={item.color} stroke='none' className='size-4 shrink-0' />
+          <div className='flex min-w-0 flex-1 items-center gap-2 overflow-hidden'>
+            <p className='min-w-[120px] flex-1 truncate'>{item.name}</p>
+            {/* Position icons and counts - hide after badges are hidden */}
             {item.positionCounts && (
-              <div className='flex items-center gap-1'>
+              <div className='hidden shrink-0 items-center gap-1 @[500px]:flex'>
                 {item.positionCounts[0] > 0 && (
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -189,24 +191,29 @@ export function Table({
                 )}
               </div>
             )}
+            {/* Driver badges for constructor view - hide first when space is limited */}
             {driversByConstructor && driversByConstructor.has(item.name) && (
-              <DriverBadges
-                drivers={driversByConstructor.get(item.name) || []}
-                color={item.color}
-              />
+              <div className='hidden shrink-0 overflow-visible @[600px]:flex'>
+                <DriverBadges
+                  drivers={driversByConstructor.get(item.name) || []}
+                  color={item.color}
+                />
+              </div>
+            )}
+            {/* Constructor badge for driver view - hide first when space is limited */}
+            {item.team && !isConstructorView && (
+              <div className='hidden min-w-[120px] shrink-0 @[600px]:flex'>
+                <ConstructorBadge
+                  className='2xl:text-sm'
+                  color={item.color.slice(1)} //remove #
+                  name={item.team}
+                />
+              </div>
             )}
           </div>
-
-          {item.team && (
-            <ConstructorBadge
-              className='2xl:text-sm'
-              color={item.color.slice(1)} //remove #
-              name={item.team}
-            />
-          )}
         </div>
-        <p className='min-w-16 text-center'>{item.totalPoints}</p>
-        <p className='min-w-16 text-center'>{gap ?? 'Gap'}</p>
+        <p className='min-w-16 shrink-0 text-center'>{item.totalPoints}</p>
+        <p className='min-w-16 shrink-0 text-center'>{gap ?? 'Gap'}</p>
       </div>
     );
   });
