@@ -1,7 +1,10 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { useCallback } from 'react';
 
-import { FIXED_STANDINGS_CHART_TOOLTIP_WIDTH_CH } from '@/lib/constants';
+import {
+  FIXED_STANDINGS_CHART_TOOLTIP_WIDTH_CH,
+  SPRINT_EVENT_FORMATS,
+} from '@/lib/constants';
 
 import { compareCountback } from '@/app/[year]/standings/_components/countback';
 
@@ -17,9 +20,7 @@ interface UseTooltipFormatterProps {
 }
 
 const isSprintFormat = (format?: Event_Format_Choices_Enum | null) =>
-  format === Event_Format_Choices_Enum.Sprint ||
-  format === Event_Format_Choices_Enum.SprintQualifying ||
-  format === Event_Format_Choices_Enum.SprintShootout;
+  format != null && SPRINT_EVENT_FORMATS.includes(format);
 
 export function useTooltipFormatter({
   events,
