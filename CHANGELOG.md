@@ -1,3 +1,9 @@
+## 0.9.4 (2025-12-02)
+
+### Fix
+
+- **FRON-282**: Sort session tabs by scheduled start time
+
 ## 0.9.3 (2025-11-30)
 
 ### Fix
