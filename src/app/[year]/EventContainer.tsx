@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { SprintBadge } from '@/components/sprint-badge';
+import { SprintBadge } from '@/components/badges/sprint-badge';
 
 import { SeasonEvent } from '@/types/global';
 

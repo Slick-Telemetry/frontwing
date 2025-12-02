@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { eventLocationEncode, isFutureDate } from '@/lib/utils';
 import { useReadLocalStorage } from '@/hooks/use-storage';
 
-import { SprintBadge } from '@/components/sprint-badge';
+import { SprintBadge } from '@/components/badges/sprint-badge';
 
 import { FragmentType, graphql, useFragment } from '@/types';
 

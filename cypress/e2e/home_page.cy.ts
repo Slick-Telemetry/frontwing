@@ -103,7 +103,7 @@ describe('Next Event', () => {
 
     cy.visit('/');
     cy.wait('@getNextEventSprint');
-    cy.get('[data-cy="event-badge"]').should('be.visible');
+    cy.get('[data-cy="sprint-badge-long"]').should('be.visible');
   });
 
   it('shows event badge for sprint qualifying sessions', () => {
@@ -131,7 +131,7 @@ describe('Next Event', () => {
 
     cy.visit('/');
     cy.wait('@getNextEventSprint');
-    cy.get('[data-cy="event-badge"]').should('be.visible');
+    cy.get('[data-cy="sprint-badge-long"]').should('be.visible');
   });
 
   it('shows event badge for sprint shootout sessions', () => {
@@ -159,7 +159,7 @@ describe('Next Event', () => {
 
     cy.visit('/');
     cy.wait('@getNextEventSprint');
-    cy.get('[data-cy="event-badge"]').should('be.visible');
+    cy.get('[data-cy="sprint-badge-long"]').should('be.visible');
   });
 
   it('does not show event badge for race or qualifying sessions', () => {
@@ -187,7 +187,7 @@ describe('Next Event', () => {
 
     cy.visit('/');
     cy.wait('@getNextEventRace');
-    cy.get('[data-cy="event-badge"]').should('not.exist');
+    cy.get('[data-cy="sprint-badge-long"]').should('not.exist');
   });
 
   it('does not show event badge for test sessions', () => {
@@ -215,7 +215,7 @@ describe('Next Event', () => {
 
     cy.visit('/');
     cy.wait('@getNextEventRace');
-    cy.get('[data-cy="event-badge"]').should('not.exist');
+    cy.get('[data-cy="sprint-badge-long"]').should('not.exist');
   });
 
   it('does not show next event component when event is in the past', () => {

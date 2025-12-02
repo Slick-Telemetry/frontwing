@@ -4,10 +4,10 @@ import Link from 'next/link';
 
 import { eventLocationEncode, getTodayMidnightUTC } from '@/lib/utils';
 
+import { SprintBadge } from '@/components/badges/sprint-badge';
 import { CircuitMap } from '@/components/circuit-map';
 import { Countdown } from '@/components/countdown';
 import { NextEventSkeleton } from '@/components/next-event/skeleton';
-import { SprintBadge } from '@/components/sprint-badge';
 
 import { graphql } from '@/types';
 import { Event_Format_Choices_Enum } from '@/types/graphql';

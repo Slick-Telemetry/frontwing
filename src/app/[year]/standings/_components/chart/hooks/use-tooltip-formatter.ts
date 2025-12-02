@@ -1,10 +1,12 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { useCallback } from 'react';
 
+import { FIXED_STANDINGS_CHART_TOOLTIP_WIDTH_CH } from '@/lib/constants';
+
 import {
-  FIXED_STANDINGS_CHART_TOOLTIP_WIDTH_CH,
-  SPRINT_EVENT_FORMATS,
-} from '@/lib/constants';
+  getSprintBadgeHtml,
+  isSprintFormat,
+} from '@/components/badges/sprint-badge';
 
 import { compareCountback } from '@/app/[year]/standings/_components/countback';
 
@@ -19,9 +21,6 @@ interface UseTooltipFormatterProps {
   positionCountsTimeline: Record<string, number[][]>;
 }
 
-const isSprintFormat = (format?: Event_Format_Choices_Enum | null) =>
-  format != null && SPRINT_EVENT_FORMATS.includes(format);
-
 export function useTooltipFormatter({
   events,
   positionCountsTimeline,
@@ -35,9 +34,7 @@ export function useTooltipFormatter({
       const round = eventIndex + 1;
 
       const sprint = isSprintFormat(event?.format);
-      const sprintBadge = sprint
-        ? "<span class='ml-1 inline-flex items-center justify-center rounded border border-yellow-400 px-1 py-px text-[0.65rem] leading-none align-middle'>S</span>"
-        : '';
+      const sprintBadge = sprint ? getSprintBadgeHtml('ml-1') : '';
 
       // Header with round and event name
       const headerText = `R${round} - ${event?.name?.replace(

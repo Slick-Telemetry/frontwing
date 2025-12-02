@@ -1,7 +1,10 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+import { SPRINT_EVENT_FORMATS } from '@/lib/constants';
+
 import {
+  Event_Format_Choices_Enum,
   EventCompetitionResultsFragment,
   EventPracticeResultsFragment,
   EventQualifyingResultsFragment,
@@ -218,4 +221,11 @@ export const sortQuali = (
         Number(b.results[0]?.finishing_position || 0)
       );
     });
+};
+
+export const isSprintFormat = (
+  format?: Event_Format_Choices_Enum | null,
+): boolean => {
+  if (!format) return false;
+  return SPRINT_EVENT_FORMATS.includes(format);
 };
