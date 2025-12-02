@@ -88,7 +88,7 @@ export function useTooltipFormatter({
       // Wrap header + body in a fixed-width container so tooltip width doesn't
       // change between events. Width is based on the longest header text.
       return `
-        <div style="width:${FIXED_STANDINGS_CHART_TOOLTIP_WIDTH_CH}ch; white-space: normal; word-break: break-word;">
+        <div class="whitespace-normal wrap-break-word" style="width:${FIXED_STANDINGS_CHART_TOOLTIP_WIDTH_CH}ch;">
           ${header}${body}
         </div>
       `;
