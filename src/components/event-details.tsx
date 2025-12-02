@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { SUPPORTED_SEASONS } from '@/lib/constants';
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 
-import { SprintBadge } from '@/components/sprint-badge';
+import { SprintBadge } from '@/components/badges/sprint-badge';
 import { Separator } from '@/components/ui/separator';
 
 import { FragmentType, graphql, useFragment } from '@/types';
