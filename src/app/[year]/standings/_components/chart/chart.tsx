@@ -11,7 +11,7 @@ import * as echarts from 'echarts/core';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useParams } from 'next/navigation';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useECharts } from '@/hooks/use-EChart';
 
@@ -85,27 +85,20 @@ export function StandingsChart({
   // Precompute countback position counts for each series after every event so
   // the tooltip can apply per-round countback identical to the standings table
   // but scoped to the rounds completed so far.
-  const driverPositionCountsTimeline = useMemo(
-    () =>
-      buildDriverPositionCountsTimeline(
-        data.drivers
-          .map((driver) => driver.abbreviation ?? '')
-          .filter((abbr): abbr is string => Boolean(abbr)),
-        data.events,
-      ),
-    [data.drivers, data.events],
+  const driverPositionCountsTimeline = buildDriverPositionCountsTimeline(
+    data.drivers
+      .map((driver) => driver.abbreviation ?? '')
+      .filter((abbr): abbr is string => Boolean(abbr)),
+    data.events,
   );
 
-  const constructorPositionCountsTimeline = useMemo(
-    () =>
-      buildConstructorPositionCountsTimeline(
-        data.constructors
-          .map((constructor) => constructor.name ?? '')
-          .filter((name): name is string => Boolean(name)),
-        data.events,
-      ),
-    [data.constructors, data.events],
-  );
+  const constructorPositionCountsTimeline =
+    buildConstructorPositionCountsTimeline(
+      data.constructors
+        .map((constructor) => constructor.name ?? '')
+        .filter((name): name is string => Boolean(name)),
+      data.events,
+    );
 
   const positionCountsTimeline =
     type === 'drivers'
