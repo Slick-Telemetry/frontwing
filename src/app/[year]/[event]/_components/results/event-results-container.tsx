@@ -93,11 +93,13 @@ export default function EventResultsContainer({
 }) {
   const { year, event } = useParams();
   const [data] = useFragment(EventSessionResults, props?.sessions);
-  const sessions = [
-    ...(data?.practice ?? []),
-    ...(data?.qualifying ?? []),
-    ...(data?.competition ?? []),
-  ];
+  const sessions = data
+    ? [...data.practice, ...data.qualifying, ...data.competition].sort(
+        (a, b) =>
+          new Date(a.scheduled_start_time_utc!).getTime() -
+          new Date(b.scheduled_start_time_utc!).getTime(),
+      )
+    : [];
 
   if (!loading && 0 >= sessions?.length) return;
   return (
