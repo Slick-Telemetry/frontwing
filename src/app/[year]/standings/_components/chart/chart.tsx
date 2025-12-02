@@ -3,7 +3,6 @@
 import { LineChart } from 'echarts/charts';
 import {
   DatasetComponent,
-  DataZoomComponent,
   GridComponent,
   LegendComponent,
   TooltipComponent,
@@ -35,7 +34,6 @@ import {
 
 // Register ECharts pieces globally once
 echarts.use([
-  DataZoomComponent,
   DatasetComponent,
   GridComponent,
   LegendComponent,
@@ -52,13 +50,6 @@ interface Props {
   toggleVisibility: (string: 'all' | 'none') => void;
 }
 
-type EChartsOption = {
-  dataZoom?: Array<{
-    start?: number;
-    end?: number;
-  }>;
-};
-
 export function StandingsChart({
   data,
   type,
@@ -68,10 +59,6 @@ export function StandingsChart({
   const { year } = useParams<{ year: string }>();
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useECharts(chartRef);
-
-  // Store zoom state to preserve it across updates
-  // This is updated automatically by the datazoom event listener
-  const zoomStateRef = useRef<{ start: number; end: number } | null>(null);
 
   // Chart Settings
   const [showTooltip, setShowTooltip] = useState(true);
@@ -144,71 +131,23 @@ export function StandingsChart({
   // update chart
   useEffect(() => {
     if (!chartInstance.current) return;
-    const chart = chartInstance.current;
-
-    // Always read current zoom state before updating as a fallback
-    // This ensures we have the absolute latest state even if event handler missed something
-    const currentOption = chart.getOption();
-
-    // Safely access dataZoom with proper null checks
-    if (
-      currentOption &&
-      typeof currentOption === 'object' &&
-      !Array.isArray(currentOption)
-    ) {
-      const option = currentOption as EChartsOption;
-      const dataZoom = option.dataZoom;
-      if (dataZoom && Array.isArray(dataZoom) && dataZoom[1]) {
-        const currentStart = dataZoom[1].start;
-        const currentEnd = dataZoom[1].end;
-        if (currentStart !== undefined && currentEnd !== undefined) {
-          // Always update to the current zoom state from the chart
-          // This ensures we restore to the actual current zoom, not a stale value
-          zoomStateRef.current = {
-            start: currentStart,
-            end: currentEnd,
-          };
-        }
-      }
-    }
-
     const activeSeries = [
       showAvailablePoints ? availablePointsSeries : null,
       ...filtered,
     ];
 
-    // Prepare the option without zoom (we'll restore it after)
-    const option = {
-      ...baseOptions,
-      xAxis: { ...baseOptions.xAxis, data: allRounds },
-      tooltip: {
-        ...baseOptions.tooltip,
-        formatter: showTooltip ? formatTooltip : () => {},
+    chartInstance.current.setOption(
+      {
+        ...baseOptions,
+        xAxis: { ...baseOptions.xAxis, data: allRounds },
+        tooltip: {
+          ...baseOptions.tooltip,
+          formatter: showTooltip ? formatTooltip : () => {},
+        },
+        series: activeSeries,
       },
-      series: activeSeries,
-    };
-
-    // Set the option first
-    chart.setOption(option, { notMerge: true, lazyUpdate: true });
-
-    // Restore zoom state after option is set using dispatchAction
-    // The datazoom event will fire and update zoomStateRef, which is fine
-    if (zoomStateRef.current) {
-      // Use dispatchAction to restore zoom for both inside and slider
-      // This will trigger datazoom events, which will update zoomStateRef with the same values
-      chart.dispatchAction({
-        type: 'dataZoom',
-        dataZoomIndex: 0, // inside zoom
-        start: zoomStateRef.current.start,
-        end: zoomStateRef.current.end,
-      });
-      chart.dispatchAction({
-        type: 'dataZoom',
-        dataZoomIndex: 1, // slider zoom
-        start: zoomStateRef.current.start,
-        end: zoomStateRef.current.end,
-      });
-    }
+      { notMerge: true, lazyUpdate: true },
+    );
   }, [
     chartInstance,
     allRounds,
@@ -218,28 +157,6 @@ export function StandingsChart({
     availablePointsSeries,
     filtered,
   ]);
-
-  const resetZoom = () => {
-    if (!chartInstance.current) return;
-    const chart = chartInstance.current;
-
-    // Reset zoom state to default (0-100)
-    zoomStateRef.current = { start: 0, end: 100 };
-
-    // Reset zoom for both inside and slider using dispatchAction
-    chart.dispatchAction({
-      type: 'dataZoom',
-      dataZoomIndex: 0, // inside zoom
-      start: 0,
-      end: 100,
-    });
-    chart.dispatchAction({
-      type: 'dataZoom',
-      dataZoomIndex: 1, // slider zoom
-      start: 0,
-      end: 100,
-    });
-  };
 
   return (
     <>
@@ -251,7 +168,6 @@ export function StandingsChart({
         togglePointsPerRound={() => setShowRoundPoints((prev) => !prev)}
         showAvailablePoints={showAvailablePoints}
         toggleAvailablePoints={() => setShowAvailablePoints((prev) => !prev)}
-        resetZoom={resetZoom}
       />
       <div
         ref={chartRef}
