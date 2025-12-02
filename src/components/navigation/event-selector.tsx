@@ -3,6 +3,7 @@
 import { useQuery } from '@apollo/client/react';
 import { useParams } from 'next/navigation';
 
+import { SPRINT_EVENT_FORMATS } from '@/lib/constants';
 import { eventLocationDecode, eventLocationEncode } from '@/lib/utils';
 import useUrlUpdater from '@/hooks/use-url-updater';
 
@@ -13,7 +14,6 @@ import {
 } from '@/components/navigation/selector';
 
 import { graphql } from '@/types';
-import { Event_Format_Choices_Enum } from '@/types/graphql';
 
 export const GET_NAV_EVENTS = graphql(`
   query GetNavEvents($year: Int!) @cached {
@@ -45,12 +45,7 @@ export function EventSelector() {
           <span>
             {round_number} | {event_name}
           </span>
-          {event_format &&
-          [
-            Event_Format_Choices_Enum.Sprint,
-            Event_Format_Choices_Enum.SprintShootout,
-            Event_Format_Choices_Enum.SprintQualifying,
-          ].includes(event_format as Event_Format_Choices_Enum) ? (
+          {event_format && SPRINT_EVENT_FORMATS.includes(event_format) ? (
             <span className='inline-flex h-4 w-4 items-center justify-center rounded border border-yellow-400 text-[0.65rem] leading-none'>
               S
             </span>

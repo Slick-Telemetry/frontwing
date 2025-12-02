@@ -1,4 +1,7 @@
-import { Session_Name_Choices_Enum } from '@/types/graphql';
+import {
+  Event_Format_Choices_Enum,
+  Session_Name_Choices_Enum,
+} from '@/types/graphql';
 
 export const SUPPORTED_SEASONS = [
   2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018,
@@ -27,6 +30,12 @@ export const QUALIFYING_SESSIONS = [
 export const COMPETITION_SESSIONS = [
   Session_Name_Choices_Enum['Race'],
   Session_Name_Choices_Enum['Sprint'],
+];
+
+export const SPRINT_EVENT_FORMATS = [
+  Event_Format_Choices_Enum.Sprint,
+  Event_Format_Choices_Enum.SprintShootout,
+  Event_Format_Choices_Enum.SprintQualifying,
 ];
 
 export const FINISHING_CLASSIFICATIONS: Record<
