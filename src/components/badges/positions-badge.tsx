@@ -1,4 +1,4 @@
-import { Crown, Tally2, Tally3 } from 'lucide-react';
+import { Crown, LucideIcon, Tally2, Tally3 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import {
@@ -6,6 +6,57 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+
+type PositionType = 'win' | 'p2' | 'p3';
+
+const positionConfig: Record<
+  PositionType,
+  {
+    icon: LucideIcon;
+    color: string;
+    label: string;
+  }
+> = {
+  win: {
+    icon: Crown,
+    color: 'text-yellow-500',
+    label: 'Win',
+  },
+  p2: {
+    icon: Tally2,
+    color: 'text-gray-400',
+    label: 'P2',
+  },
+  p3: {
+    icon: Tally3,
+    color: 'text-amber-600',
+    label: 'P3',
+  },
+};
+
+function PositionBadge({ count, type }: { count: number; type: PositionType }) {
+  const { icon: Icon, color, label } = positionConfig[type];
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Badge
+          variant='outline'
+          className='flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium'
+        >
+          <Icon className={`size-3.5 ${color}`} />
+          <span>{count}</span>
+        </Badge>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>
+          {count} {label}
+          {count > 1 ? 's' : ''}
+        </p>
+      </TooltipContent>
+    </Tooltip>
+  );
+}
 
 export function PositionsBadge({
   positionCounts,
@@ -20,65 +71,9 @@ export function PositionsBadge({
 
   return (
     <div className='hidden shrink-0 items-center gap-1 @[500px]:flex'>
-      {wins > 0 && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Badge
-              variant='outline'
-              className='flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium'
-            >
-              <Crown className='size-3.5 text-yellow-500' />
-              <span>{wins}</span>
-            </Badge>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>
-              {wins} Win
-              {wins > 1 ? 's' : ''}
-            </p>
-          </TooltipContent>
-        </Tooltip>
-      )}
-
-      {p2s > 0 && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Badge
-              variant='outline'
-              className='flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium'
-            >
-              <Tally2 className='size-3.5 text-gray-400' />
-              <span>{p2s}</span>
-            </Badge>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>
-              {p2s} P2
-              {p2s > 1 ? 's' : ''}
-            </p>
-          </TooltipContent>
-        </Tooltip>
-      )}
-
-      {p3s > 0 && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Badge
-              variant='outline'
-              className='flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium'
-            >
-              <Tally3 className='size-3.5 text-amber-600' />
-              <span>{p3s}</span>
-            </Badge>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>
-              {p3s} P3
-              {p3s > 1 ? 's' : ''}
-            </p>
-          </TooltipContent>
-        </Tooltip>
-      )}
+      {wins > 0 && <PositionBadge count={wins} type='win' />}
+      {p2s > 0 && <PositionBadge count={p2s} type='p2' />}
+      {p3s > 0 && <PositionBadge count={p3s} type='p3' />}
     </div>
   );
 }
