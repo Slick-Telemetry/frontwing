@@ -36,7 +36,6 @@ export function DriverBadges({
           variant='outline'
           onClick={onDriverClick ? (e) => onDriverClick(driver, e) : undefined}
           className={cn(
-            'flex h-6 items-center justify-center px-2 text-xs font-semibold uppercase',
             getBorderStyle(idx),
             fullWidth ? 'flex-1' : 'min-w-12',
             onDriverClick && 'cursor-pointer select-none',
