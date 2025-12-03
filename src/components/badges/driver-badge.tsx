@@ -35,12 +35,14 @@ export function DriverBadges({
           key={driver}
           variant='outline'
           onClick={onDriverClick ? (e) => onDriverClick(driver, e) : undefined}
-          className={cn(
+          className={[
             getBorderStyle(idx),
             fullWidth ? 'flex-1' : 'min-w-12',
             onDriverClick && 'cursor-pointer select-none',
             hiddenItems?.[driver] ? 'opacity-50' : 'opacity-100',
-          )}
+          ]
+            .filter(Boolean)
+            .join(' ')}
           style={{ borderColor: color }}
         >
           {driver}
