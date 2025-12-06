@@ -1,3 +1,16 @@
+## 0.10.0 (2025-12-06)
+
+### Feat
+
+- FRON-281 add countback system for equal points
+
+### Fix
+
+- **standings**: FRON-267 fix zoom slider overlap with X axis label
+- **standings**: FRON-281 countback in tooltip restricted up to the round
+- **standings**: clipping of points when >= 4 digits (eg 2021)
+- event selector truncating event name when selected
+
 ## 0.9.4 (2025-12-02)
 
 ### Fix
